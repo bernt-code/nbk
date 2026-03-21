@@ -1,0 +1,50 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# API redirects — clean URLs for functions
+[[redirects]]
+  from = "/api/sail-numbers/*"
+  to = "/.netlify/functions/sail-numbers/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/api/vipps/webhook"
+  to = "/.netlify/functions/vipps-webhook"
+  status = 200
+
+[[redirects]]
+  from = "/api/vipps/callback"
+  to = "/.netlify/functions/vipps-callback"
+  status = 200
+
+[[redirects]]
+  from = "/api/shop/products"
+  to = "/.netlify/functions/shop-products"
+  status = 200
+
+[[redirects]]
+  from = "/api/shop/order"
+  to = "/.netlify/functions/shop-order"
+  status = 200
+
+[[redirects]]
+  from = "/api/pod/webhook"
+  to = "/.netlify/functions/pod-webhook"
+  status = 200
+
+[[redirects]]
+  from = "/api/feeds"
+  to = "/.netlify/functions/feeds"
+  status = 200
+
+# CORS headers for API
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"

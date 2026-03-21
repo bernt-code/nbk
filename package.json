@@ -1,0 +1,24 @@
+{
+  "name": "nbk",
+  "version": "1.0.0",
+  "description": "Norsk Brettseilerklubb — website backend",
+  "type": "module",
+  "scripts": {
+    "dev": "netlify dev",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": [
+    "windsurfing",
+    "nbk",
+    "norway"
+  ],
+  "author": "Norsk Brettseilerklubb",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@netlify/blobs": "^10.7.4",
+    "@netlify/functions": "^5.1.5",
+    "@vippsmobilepay/sdk": "^2.4.2",
+    "rss-parser": "^3.13.0"
+  }
+}

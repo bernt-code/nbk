@@ -1,0 +1,2477 @@
+{
+  "description": "NBK Sail Number Registry — NOR sail numbers for windsurfing",
+  "note": "Some numbers owned by NBK honorary members are not listed here.",
+  "lastUpdated": "2026-03-22",
+  "numbers": [
+    {
+      "number": 0,
+      "owner": "Johnny Nord Jensen",
+      "status": "taken"
+    },
+    {
+      "number": 2,
+      "owner": "Einar Bleikvin",
+      "status": "taken"
+    },
+    {
+      "number": 4,
+      "owner": "Magne Frønsdal",
+      "status": "taken"
+    },
+    {
+      "number": 5,
+      "owner": "Markus Allen",
+      "status": "taken"
+    },
+    {
+      "number": 7,
+      "owner": "Sebastian Wang-Hansen",
+      "status": "taken"
+    },
+    {
+      "number": 8,
+      "owner": "Stein Anders Sundbye",
+      "status": "taken"
+    },
+    {
+      "number": 9,
+      "owner": "Ole Lossius",
+      "status": "taken"
+    },
+    {
+      "number": 11,
+      "owner": "Ronny Notøy",
+      "status": "taken"
+    },
+    {
+      "number": 12,
+      "owner": "Anders Løken",
+      "status": "taken"
+    },
+    {
+      "number": 13,
+      "owner": "Mateo Henriksen",
+      "status": "taken"
+    },
+    {
+      "number": 14,
+      "owner": "Marius Andresen",
+      "status": "taken"
+    },
+    {
+      "number": 16,
+      "owner": "Stig Johansen",
+      "status": "taken"
+    },
+    {
+      "number": 17,
+      "owner": "Karl Inge Tangen",
+      "status": "taken"
+    },
+    {
+      "number": 18,
+      "owner": "Jakob Schjerven",
+      "status": "taken"
+    },
+    {
+      "number": 19,
+      "owner": "Terje Nordal",
+      "status": "taken"
+    },
+    {
+      "number": 21,
+      "owner": "Maya Gysler",
+      "status": "taken"
+    },
+    {
+      "number": 22,
+      "owner": "Alexander Buch",
+      "status": "taken"
+    },
+    {
+      "number": 23,
+      "owner": "Maria Mollestad",
+      "status": "taken"
+    },
+    {
+      "number": 24,
+      "owner": "Jonas Dahlstrup Jensen",
+      "status": "taken"
+    },
+    {
+      "number": 25,
+      "owner": "Ole Laurits Lønnum",
+      "status": "taken"
+    },
+    {
+      "number": 27,
+      "owner": "Christoffer Agasøster Gangdal",
+      "status": "taken"
+    },
+    {
+      "number": 28,
+      "owner": "Terje granli Gangdal",
+      "status": "taken"
+    },
+    {
+      "number": 30,
+      "owner": "Morten Knutsen",
+      "status": "taken"
+    },
+    {
+      "number": 31,
+      "owner": "Karl Inge Tangen",
+      "status": "taken"
+    },
+    {
+      "number": 33,
+      "owner": "Inen Linhave",
+      "status": "taken"
+    },
+    {
+      "number": 34,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 35,
+      "owner": "Rudi Fjellanger",
+      "status": "taken"
+    },
+    {
+      "number": 36,
+      "owner": "Anders Lillemork",
+      "status": "taken"
+    },
+    {
+      "number": 37,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 38,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 39,
+      "owner": "Kristian oppedal",
+      "status": "taken"
+    },
+    {
+      "number": 40,
+      "owner": "Ivi Lien",
+      "status": "taken"
+    },
+    {
+      "number": 41,
+      "owner": "Martin Møller Hovda",
+      "status": "taken"
+    },
+    {
+      "number": 42,
+      "owner": "Einar Bleikvin",
+      "status": "taken"
+    },
+    {
+      "number": 43,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 46,
+      "owner": "Christoffer Sundby",
+      "status": "taken"
+    },
+    {
+      "number": 47,
+      "owner": "Jon Eriksen",
+      "status": "taken"
+    },
+    {
+      "number": 48,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 49,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 50,
+      "owner": "Karl Aksel Aubert",
+      "status": "taken"
+    },
+    {
+      "number": 51,
+      "owner": "Sturla Owren Solheim",
+      "status": "taken"
+    },
+    {
+      "number": 52,
+      "owner": "Erik Rondeel",
+      "status": "taken"
+    },
+    {
+      "number": 53,
+      "owner": "Erik Rondeel",
+      "status": "taken"
+    },
+    {
+      "number": 54,
+      "owner": "Erik Rondeel",
+      "status": "taken"
+    },
+    {
+      "number": 55,
+      "owner": "Alf Skaar",
+      "status": "taken"
+    },
+    {
+      "number": 56,
+      "owner": "Erik Rondeel",
+      "status": "taken"
+    },
+    {
+      "number": 57,
+      "owner": "Ella Viola Sternell",
+      "status": "taken"
+    },
+    {
+      "number": 58,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 59,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 60,
+      "owner": "Arne Nervik",
+      "status": "taken"
+    },
+    {
+      "number": 61,
+      "owner": "geir mjøen",
+      "status": "taken"
+    },
+    {
+      "number": 62,
+      "owner": "geir mjøen",
+      "status": "taken"
+    },
+    {
+      "number": 63,
+      "owner": "Carl Peter Aaser",
+      "status": "taken"
+    },
+    {
+      "number": 64,
+      "owner": "Henrik Halvorsen",
+      "status": "taken"
+    },
+    {
+      "number": 65,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 67,
+      "owner": "Espen Stensland",
+      "status": "taken"
+    },
+    {
+      "number": 68,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 69,
+      "owner": "Eivinf Feragen",
+      "status": "taken"
+    },
+    {
+      "number": 70,
+      "owner": "Steffen Brakestad",
+      "status": "taken"
+    },
+    {
+      "number": 71,
+      "owner": "Geir Thorstensen",
+      "status": "taken"
+    },
+    {
+      "number": 72,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 73,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 75,
+      "owner": "Sondre Krey",
+      "status": "taken"
+    },
+    {
+      "number": 76,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 77,
+      "owner": "Christian A. Staubo",
+      "status": "taken"
+    },
+    {
+      "number": 78,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 79,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 81,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 82,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 84,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 85,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 86,
+      "owner": "Maya Gysler",
+      "status": "taken"
+    },
+    {
+      "number": 90,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 91,
+      "owner": "Svein Rudihaugen",
+      "status": "taken"
+    },
+    {
+      "number": 92,
+      "owner": "Asgeir Ohr",
+      "status": "taken"
+    },
+    {
+      "number": 93,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 94,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 95,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 96,
+      "owner": "Karl Thomas Karterud",
+      "status": "taken"
+    },
+    {
+      "number": 97,
+      "owner": "Marius Andresen",
+      "status": "taken"
+    },
+    {
+      "number": 99,
+      "owner": "Mads Kopperud Eie",
+      "status": "taken"
+    },
+    {
+      "number": 100,
+      "owner": "Frithjof Foss",
+      "status": "taken"
+    },
+    {
+      "number": 101,
+      "owner": "Ivi Lien",
+      "status": "taken"
+    },
+    {
+      "number": 103,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 104,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 105,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 106,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 107,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 108,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 109,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 110,
+      "owner": "Mateo Henriksen",
+      "status": "taken"
+    },
+    {
+      "number": 111,
+      "owner": "Remi Henriksen",
+      "status": "taken"
+    },
+    {
+      "number": 112,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 113,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 114,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 115,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 116,
+      "owner": "Christian Langlo",
+      "status": "taken"
+    },
+    {
+      "number": 117,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 118,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 119,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 120,
+      "owner": "Dag Hansen",
+      "status": "taken"
+    },
+    {
+      "number": 122,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 124,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 125,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 126,
+      "owner": "Oda Sverre",
+      "status": "taken"
+    },
+    {
+      "number": 127,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 128,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 129,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 130,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 131,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 132,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 133,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 134,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 135,
+      "owner": "Glenny cecilie Alfsen",
+      "status": "taken"
+    },
+    {
+      "number": 136,
+      "owner": "Oluf Ulseth",
+      "status": "taken"
+    },
+    {
+      "number": 137,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 138,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 139,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 140,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 141,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 142,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 143,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 144,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 145,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 146,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 147,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 148,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 149,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 150,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 151,
+      "owner": "Eline Schulstock",
+      "status": "taken"
+    },
+    {
+      "number": 152,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 153,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 154,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 155,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 156,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 157,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 158,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 159,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 160,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 161,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 162,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 163,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 164,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 165,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 166,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 167,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 168,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 169,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 170,
+      "owner": "Christian Hilmersen",
+      "status": "taken"
+    },
+    {
+      "number": 172,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 173,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 174,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 175,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 176,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 177,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 178,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 179,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 180,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 181,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 182,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 183,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 184,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 185,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 186,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 187,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 188,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 189,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 190,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 191,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 192,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 193,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 194,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 195,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 196,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 197,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 198,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 199,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 200,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 201,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 202,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 203,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 204,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 205,
+      "owner": "sigurd skaug",
+      "status": "taken"
+    },
+    {
+      "number": 206,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 207,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 208,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 209,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 210,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 211,
+      "owner": "Ben Werner Johansen",
+      "status": "taken"
+    },
+    {
+      "number": 212,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 213,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 214,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 215,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 216,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 217,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 218,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 219,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 220,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 221,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 222,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 223,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 224,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 225,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 226,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 227,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 228,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 229,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 230,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 231,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 232,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 233,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 234,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 236,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 237,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 238,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 239,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 240,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 241,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 242,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 243,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 244,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 245,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 246,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 247,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 248,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 249,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 250,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 251,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 252,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 253,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 254,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 255,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 256,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 257,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 258,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 259,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 260,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 261,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 262,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 263,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 264,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 265,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 266,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 267,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 268,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 269,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 270,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 271,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 272,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 273,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 274,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 275,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 276,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 277,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 278,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 279,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 280,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 281,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 282,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 283,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 284,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 285,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 286,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 287,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 288,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 289,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 290,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 291,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 292,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 293,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 294,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 295,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 296,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 297,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 298,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 299,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 300,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 301,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 302,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 303,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 304,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 305,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 306,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 307,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 308,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 309,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 310,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 311,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 312,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 313,
+      "owner": "Leif Holst-Larsen",
+      "status": "taken"
+    },
+    {
+      "number": 314,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 315,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 316,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 317,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 318,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 319,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 320,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 321,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 322,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 323,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 324,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 325,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 326,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 327,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 328,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 329,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 330,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 331,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 332,
+      "owner": "Mina Mobekk",
+      "status": "taken"
+    },
+    {
+      "number": 333,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 334,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 335,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 336,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 337,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 338,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 339,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 340,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 341,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 342,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 343,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 344,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 345,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 346,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 347,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 348,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 349,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 350,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 351,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 352,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 353,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 354,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 355,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 356,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 357,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 358,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 359,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 360,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 361,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 362,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 363,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 364,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 365,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 366,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 367,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 368,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 369,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 370,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 371,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 372,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 374,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 375,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 376,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 377,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 378,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 379,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 380,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 381,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 382,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 383,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 384,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 385,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 386,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 387,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 388,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 389,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 390,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 391,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 392,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 393,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 394,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 395,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 396,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 397,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 398,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 399,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 400,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 401,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 402,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 403,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 404,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 405,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 406,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 407,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 408,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 409,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 410,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 411,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 412,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 413,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 414,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 415,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 416,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 417,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 418,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 419,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 420,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 421,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 422,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 423,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 424,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 425,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 426,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 427,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 428,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 429,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 430,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 431,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 432,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 433,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 434,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 435,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 436,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 437,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 438,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 439,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 440,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 441,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 442,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 443,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 444,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 445,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 446,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 447,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 448,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 449,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 450,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 451,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 452,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 453,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 454,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 455,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 456,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 457,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 458,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 459,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 460,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 461,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 462,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 463,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 464,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 465,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 466,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 467,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 468,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 469,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 470,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 471,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 472,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 473,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 474,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 475,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 476,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 477,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 478,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 479,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 480,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 481,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 482,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 483,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 484,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 485,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 486,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 487,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 488,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 489,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 490,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 491,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 492,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 493,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 494,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 495,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 496,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 497,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 498,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 499,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 500,
+      "owner": "Birger Kristoffer Lie",
+      "status": "taken"
+    },
+    {
+      "number": 501,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 502,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 555,
+      "owner": "Christian Middelthon",
+      "status": "taken"
+    },
+    {
+      "number": 631,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 700,
+      "owner": "Vegard Knudsen",
+      "status": "taken"
+    },
+    {
+      "number": 1000,
+      "owner": "Sjur Klafstad",
+      "status": "taken"
+    },
+    {
+      "number": 1001,
+      "owner": "Gunnar Lindstøl",
+      "status": "taken"
+    },
+    {
+      "number": 1003,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 1090,
+      "owner": "Anna Bielec",
+      "status": "taken"
+    },
+    {
+      "number": 1111,
+      "owner": "Mads Kopperud Eie",
+      "status": "taken"
+    },
+    {
+      "number": 1206,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 1501,
+      "owner": "Dag M. Dybdahl",
+      "status": "taken"
+    },
+    {
+      "number": 2005,
+      "owner": "Oline Lønnum",
+      "status": "taken"
+    },
+    {
+      "number": 2006,
+      "owner": "Jesper Schultz",
+      "status": "taken"
+    },
+    {
+      "number": 2804,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 3333,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 6500,
+      "owner": null,
+      "status": "available"
+    },
+    {
+      "number": 6969,
+      "owner": "Lars Due-Tønnessen",
+      "status": "taken"
+    }
+  ]
+}
