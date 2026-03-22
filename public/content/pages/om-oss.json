@@ -1,20 +1,45 @@
 {
-  "badge": "Siden 1978",
-  "title": "Drevet av Vind og Vann.",
-  "subtitle": "Norsk Brettseilerklubb (NBK) er hjemmet for alle som elsker følelsen av å fly over vannet. Fra de dypeste fjordene til det åpne havet, forener vi pionerer og nybegynnere.",
-  "hero_image": "",
-  "history_text": "Det var her det startet. Windsurfing eksploderte langs norskekysten, og NBK ble grunnlagt for å organisere den voksende interessen. Vi har siden den gang vært ryggraden i norsk brettsport.",
-  "stats": [
-    { "number": "45+", "label": "År med erfaring" },
-    { "number": "12", "label": "Lokale klubber" },
-    { "number": "2.5k", "label": "Aktive medlemmer" }
-  ],
   "board_members": [
-    { "name": "Erik Sørli", "role": "Styreleder", "image": "" },
-    { "name": "Morten Gran", "role": "Nestleder", "image": "" },
-    { "name": "Ingrid Moe", "role": "Økonomiansvarlig", "image": "" },
-    { "name": "Anders Lie", "role": "Sportslig leder", "image": "" }
+    {
+      "name": "Bernt Blankholm",
+      "role": "President",
+      "image": "/img/uploads/dsc_2635.nef"
+    },
+    {
+      "name": "Geir Mjøen",
+      "role": "Visepresident",
+      "image": ""
+    },
+    {
+      "name": "Einar Bleikvin ",
+      "role": "Vise Vise President ",
+      "image": ""
+    },
+    {
+      "name": "Ben Fra Sandefjord ",
+      "role": "Hvalfanger ",
+      "image": ""
+    }
   ],
+  "badge": "Siden 1978",
+  "contact_address": "0250 Oslo, Norge",
+  "hero_image": "",
+  "subtitle": "Norsk Brettseilerklubb (NBK) er hjemmet for alle som elsker følelsen av å fly over vannet. Fra de dypeste fjordene til det åpne havet, forener vi pionerer og nybegynnere.",
+  "history_text": "Det var her det startet. Windsurfing eksploderte langs norskekysten, og NBK ble grunnlagt for å organisere den voksende interessen. Vi har siden den gang vært ryggraden i norsk brettsport.",
+  "title": "Drevet av Vind og Vann.",
   "contact_email": "hei@brettseiling.no",
-  "contact_address": "0250 Oslo, Norge"
+  "stats": [
+    {
+      "number": "45+",
+      "label": "År med erfaring"
+    },
+    {
+      "number": "12",
+      "label": "Lokale klubber"
+    },
+    {
+      "number": "2.5k",
+      "label": "Aktive medlemmer"
+    }
+  ]
 }
