@@ -219,7 +219,7 @@
 <h2 id="pricing-title" class="font-headline font-black text-5xl md:text-6xl text-primary tracking-tighter uppercase italic">Velg Ditt Medlemskap</h2>
 <p class="text-on-surface-variant mt-4 font-body text-lg">Enkel prising, ingen skjulte kostnader.</p>
 </div>
-<div id="pricing-cards" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div id="pricing-cards" class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
 <!-- Junior -->
 <div class="bg-surface-container-lowest rounded-3xl p-10 border-2 border-surface-container-high hover:border-primary/30 transition-colors">
@@ -279,6 +279,35 @@
 </ul>
 <a href="#" class="block w-full text-center px-8 py-4 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-[1.02] transition-all shadow-lg shadow-secondary/20">
                         Velg Senior
+                    </a>
+</div>
+
+<!-- Støttemedlem -->
+<div class="bg-surface-container-lowest rounded-3xl p-10 border-2 border-tertiary/30 hover:border-tertiary transition-colors">
+<div class="w-14 h-14 rounded-2xl bg-tertiary/10 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-tertiary text-3xl">volunteer_activism</span>
+</div>
+<h3 class="font-headline font-bold text-2xl uppercase mb-2">Støttemedlem</h3>
+<p class="text-on-surface-variant mb-6">Støtt norsk brettseiling</p>
+<div class="flex items-baseline gap-1 mb-8">
+<span class="font-headline font-black text-5xl text-on-surface">Valgfritt</span>
+</div>
+<ul class="space-y-4 mb-10">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary text-xl">check_circle</span>
+<span>Du velger beløp selv</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary text-xl">check_circle</span>
+<span>Støtter unge seilere</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary text-xl">check_circle</span>
+<span>Bidrar til utvikling av sporten</span>
+</li>
+</ul>
+<a href="#" onclick="openVippsSupport(); return false;" class="block w-full text-center px-8 py-4 rounded-full bg-tertiary text-on-tertiary font-headline font-bold uppercase tracking-tight hover:scale-[1.02] transition-all">
+                        Støtt med Vipps
                     </a>
 </div>
 
@@ -370,6 +399,30 @@ async function loadFooter() {
   } catch (e) {}
 }
 loadFooter();
+
+// Vipps support — open amount payment
+function openVippsSupport() {
+  const amount = prompt('Hvor mye vil du støtte med? (NOK)');
+  if (!amount || isNaN(amount) || Number(amount) < 10) {
+    if (amount !== null) alert('Minimum 10 kr');
+    return;
+  }
+  // POST to shop-order with custom amount
+  fetch('/api/shop/order', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      productId: 'support-donation',
+      sailNumber: 'NOR 0',
+      buyerName: 'Støttemedlem',
+      buyerEmail: prompt('Din e-post:') || 'anonym@nbk.no',
+      shippingAddress: { name: 'Støttemedlem', street: '-', city: '-', postalCode: '0000', country: 'NO' }
+    })
+  }).then(r => r.json()).then(data => {
+    if (data.redirectUrl) window.location.href = data.redirectUrl;
+    else alert('Takk for din støtte! Vipps-betaling er ikke konfigurert ennå.');
+  }).catch(() => alert('Noe gikk galt. Prøv igjen.'));
+}
 </script>
 
 </body></html>
