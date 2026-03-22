@@ -1,0 +1,10 @@
+{
+  "name": "Oslofjorden Brettseilerklubb",
+  "abbreviation": "OBK",
+  "region": "Oslo",
+  "image": "",
+  "description": "Oslofjorden Brettseilerklubb er en av Norges st\u00f8rste brettseilingklubber med base i indre Oslofjord. Aktiv innen windsurfing, wingfoil og raceboard.",
+  "disciplines": ["Windsurfing", "Wingfoil", "Raceboard"],
+  "website": "",
+  "contact_email": ""
+}

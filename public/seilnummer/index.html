@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html class="light" lang="no"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Seilnummer | Norsk Brettseilerklubb</title>
+<meta name="description" content="Offisielt register for NOR-seilnumre. Søk, filtrer og registrer ditt seilnummer for regattaer."/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "primary-container":"#3c73aa","secondary":"#ab3600","outline-variant":"#c1c7d1","on-secondary":"#ffffff","primary":"#1d5a90","on-primary":"#ffffff","on-surface-variant":"#42474f","outline":"#727780","surface":"#f9f9ff","surface-container-high":"#e3e8f9","secondary-container":"#ff6e39","surface-container-low":"#f1f3ff","primary-fixed":"#d1e4ff","background":"#f9f9ff","surface-dim":"#d4daea","on-secondary-container":"#611b00","surface-container":"#e8eeff","on-surface":"#161c27","on-primary-container":"#f0f5ff","surface-container-highest":"#dde2f3","surface-container-lowest":"#ffffff","surface-variant":"#dde2f3","inverse-surface":"#2a303d","surface-tint":"#276197","tertiary":"#62554a"
+      },
+      fontFamily: { "headline":["Space Grotesk"],"body":["Plus Jakarta Sans"],"label":["Lexend"] },
+    },
+  },
+}
+</script>
+<style>
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;}
+.hero-bg{background-image:url('https://lh3.googleusercontent.com/aida-public/AB6AXuANs9lrpYk1DgmTtycbq_iIbbpkxEcpT9O2UXOKmAGzJM-hHtwz78YKJHzrMV14_N3ny1y72dLCXIu7s6q3qEP_ksyE1_NWWX3lbM4SqEvFsNMYgtZNdEXDctDzdcz96il12cPkTCiaH8KT9DTS6e_j5slQsbDqbtloryjmzS_ojMJ8-RWr5EpW3T_7sUvdypLbBfP1n-M1IHdF-Odsyf9EmBC5IgwFQZu0iGGfU5CVSRyjpwuFs-_7qYnI9OJDTpD1VFJMNYA74RE');background-size:cover;background-position:center;}
+</style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+
+<!-- Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-md shadow-sm">
+<div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+<a href="../" class="text-2xl font-black text-blue-900 italic font-headline uppercase tracking-tight">NBK</a>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-700 font-headline font-bold uppercase tracking-tight hover:text-blue-600 transition-colors" href="../">Nyheter</a>
+<a class="text-slate-700 font-headline font-bold uppercase tracking-tight hover:text-blue-600 transition-colors" href="../grener/">Grener</a>
+<a class="text-slate-700 font-headline font-bold uppercase tracking-tight hover:text-blue-600 transition-colors" href="../events/">Events</a>
+<a class="text-slate-700 font-headline font-bold uppercase tracking-tight hover:text-blue-600 transition-colors" href="../medlemskap/">Medlemskap</a>
+<a class="text-slate-700 font-headline font-bold uppercase tracking-tight hover:text-blue-600 transition-colors" href="../om-oss/">Om Oss</a>
+</div>
+<button class="hidden md:block px-6 py-2 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-105 transition-all shadow-lg shadow-secondary/20">Bli Medlem</button>
+<!-- Mobile menu button -->
+<button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden">
+<span class="material-symbols-outlined text-on-surface">menu</span>
+</button>
+</div>
+<!-- Mobile menu -->
+<div id="mobile-menu" class="hidden md:hidden bg-surface/95 backdrop-blur-md px-8 pb-6">
+<a class="block py-3 text-slate-700 font-headline font-bold uppercase tracking-tight" href="../">Nyheter</a>
+<a class="block py-3 text-slate-700 font-headline font-bold uppercase tracking-tight" href="../grener/">Grener</a>
+<a class="block py-3 text-slate-700 font-headline font-bold uppercase tracking-tight" href="../events/">Events</a>
+<a class="block py-3 text-slate-700 font-headline font-bold uppercase tracking-tight" href="../medlemskap/">Medlemskap</a>
+<a class="block py-3 text-slate-700 font-headline font-bold uppercase tracking-tight" href="../om-oss/">Om Oss</a>
+<a class="block mt-3 text-center py-3 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight" href="../medlemskap/">Bli Medlem</a>
+</div>
+</nav>
+
+<main>
+
+<!-- Hero Section -->
+<section class="relative min-h-[70vh] flex items-center overflow-hidden pt-20 hero-bg">
+<div class="absolute inset-0 bg-gradient-to-br from-primary-fixed/95 via-primary-fixed/80 to-primary-fixed/60"></div>
+<div class="relative z-10 w-full max-w-7xl mx-auto px-8 py-20 grid md:grid-cols-2 gap-12 items-center">
+<div>
+<span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-label text-xs font-bold uppercase tracking-widest mb-6">
+<span class="material-symbols-outlined text-sm">verified</span>
+Offisielt register
+</span>
+<h1 class="font-headline font-black text-6xl md:text-8xl text-on-surface tracking-tighter uppercase italic mb-6">Seilnummer</h1>
+<p class="text-on-surface-variant text-xl max-w-xl mb-4 leading-relaxed">Alle norske brettseilere som deltar i regattaer m&aring; ha et registrert NOR-seilnummer. Her kan du s&oslash;ke i registeret og reservere ditt nummer.</p>
+<p id="sail-count" class="text-outline font-label text-sm font-bold uppercase tracking-wider"></p>
+</div>
+<div class="hidden md:flex justify-center">
+<img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3ISGYtaQfN0f1gLhv5-3byizBAapV_Bn9ScK4NvBFq_2kz1_1vAjK5LHf-YB32ImtFC7moi3qqwFTjeTOgKgG5ppWYqDWwE_T2aYzYbDD7RITH0i1jADjKad6lRgbPv2AG7Tz5ZQ-Lh0mXqFHqaHkWHUy-HdFZmuL164jr2hOAw3-Dz7Hm2j92GXREU_ZfONnNq-NkUqLQynIEjubVdBpKZ7WVS6EhiYrV7RIdw8oizl0OmXde7fe9xYS-a9xcBbbqmxanXmuX5I" alt="Seilnummer" class="w-80 h-80 object-cover rounded-3xl shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500"/>
+</div>
+</div>
+</section>
+
+<!-- Search & Filter Section -->
+<section class="relative -mt-10 z-20 px-8 max-w-5xl mx-auto">
+<div class="bg-surface-container-lowest rounded-3xl shadow-xl p-8 md:p-10 border border-outline-variant/20">
+<div class="flex flex-col md:flex-row gap-4 items-stretch">
+<!-- Search input -->
+<div class="flex-1 relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input id="search-input" type="text" placeholder="S&oslash;k p&aring; nummer eller navn..." oninput="searchNumbers()" class="w-full pl-12 pr-4 py-4 rounded-2xl bg-surface-container-low border border-outline-variant/30 focus:border-primary focus:ring-2 focus:ring-primary/20 font-body text-on-surface placeholder:text-outline transition-all outline-none"/>
+</div>
+<!-- CTA button -->
+<button onclick="reserveNumber()" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-105 transition-all shadow-lg shadow-secondary/20 whitespace-nowrap">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined">add_circle</span>
+S&oslash;k om seilnummer
+</span>
+</button>
+</div>
+
+<!-- Filter buttons -->
+<div class="flex flex-wrap gap-3 mt-6">
+<button data-filter="all" onclick="filterNumbers('all')" class="px-5 py-3 rounded-full bg-secondary-container text-on-secondary-container font-label text-xs font-bold transition-all">Alle</button>
+<button data-filter="taken" onclick="filterNumbers('taken')" class="px-5 py-3 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-variant font-label text-xs font-bold transition-all">iQFOiL</button>
+<button data-filter="available" onclick="filterNumbers('available')" class="px-5 py-3 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-variant font-label text-xs font-bold transition-all">Windsurf</button>
+<button data-filter="all" onclick="filterNumbers('all')" class="px-5 py-3 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-variant font-label text-xs font-bold transition-all">Raceboard</button>
+</div>
+</div>
+</section>
+
+<!-- Sail Number List -->
+<section class="py-16 px-8 max-w-5xl mx-auto">
+<div id="sail-list" class="flex flex-col gap-3">
+<!-- Loading state -->
+<div class="flex flex-col items-center py-16">
+<div class="animate-spin rounded-full h-10 w-10 border-4 border-primary border-t-transparent mb-4"></div>
+<p class="text-on-surface-variant font-body">Laster seilnumre...</p>
+</div>
+</div>
+
+<!-- Load more -->
+<div class="text-center mt-8">
+<button onclick="loadMore()" class="px-8 py-3 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-variant font-label text-sm font-bold transition-all">
+Vis flere numre
+</button>
+</div>
+</section>
+
+<!-- Rules Section -->
+<section class="py-20 px-8 bg-surface-container-low">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-16">
+<span class="font-label text-secondary font-bold uppercase tracking-[0.3em] text-sm mb-4 block">Regelverk</span>
+<h2 class="font-headline font-black text-4xl md:text-5xl text-on-surface tracking-tighter uppercase italic">Alt du trenger &aring; vite</h2>
+</div>
+
+<div class="grid md:grid-cols-3 gap-8">
+<!-- Placement Rules -->
+<div class="bg-primary rounded-3xl p-8 text-white shadow-xl">
+<div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-white text-3xl">straighten</span>
+</div>
+<h3 class="font-headline font-bold text-2xl mb-4 uppercase tracking-tight">Plassering</h3>
+<p class="text-white/80 font-body leading-relaxed mb-4">Seilnummeret skal v&aelig;re plassert p&aring; begge sider av seilet i henhold til ISAF-reglene.</p>
+<ul class="space-y-2 text-white/70 font-body text-sm">
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-secondary-container text-base mt-0.5">check_circle</span> Minimum 23 cm h&oslash;yde</li>
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-secondary-container text-base mt-0.5">check_circle</span> Helvetica eller tilsvarende font</li>
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-secondary-container text-base mt-0.5">check_circle</span> NOR-prefiks etterfulgt av nummer</li>
+</ul>
+</div>
+
+<!-- Renewal -->
+<div class="bg-surface-container-lowest rounded-3xl p-8 shadow-xl border border-outline-variant/20">
+<div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-3xl">autorenew</span>
+</div>
+<h3 class="font-headline font-bold text-2xl mb-4 uppercase tracking-tight text-on-surface">Fornyelse</h3>
+<p class="text-on-surface-variant font-body leading-relaxed mb-4">Seilnumre m&aring; fornyes &aring;rlig for &aring; forbli aktive i registeret.</p>
+<ul class="space-y-2 text-on-surface-variant font-body text-sm">
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5">check_circle</span> Fornyes via NBK-medlemskap</li>
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5">check_circle</span> Inaktive numre frigis etter 2 &aring;r</li>
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5">check_circle</span> Varsel sendes f&oslash;r utl&oslash;p</li>
+</ul>
+</div>
+
+<!-- International -->
+<div class="bg-surface-container-lowest rounded-3xl p-8 shadow-xl border border-outline-variant/20">
+<div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-3xl">public</span>
+</div>
+<h3 class="font-headline font-bold text-2xl mb-4 uppercase tracking-tight text-on-surface">Internasjonalt</h3>
+<p class="text-on-surface-variant font-body leading-relaxed mb-4">NOR-nummeret ditt gjelder i alle internasjonale regattaer godkjent av World Sailing.</p>
+<ul class="space-y-2 text-on-surface-variant font-body text-sm">
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5">check_circle</span> Gyldig i alle World Sailing-regattaer</li>
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5">check_circle</span> Nasjonal identifikasjon (NOR)</li>
+<li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5">check_circle</span> Registrert via nasjonalforbundet</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-24 px-8">
+<div class="max-w-4xl mx-auto text-center">
+<span class="font-label text-secondary font-bold uppercase tracking-[0.3em] text-sm mb-4 block">Klar for vannet?</span>
+<h2 class="font-headline font-black text-5xl md:text-6xl text-on-surface tracking-tighter uppercase italic mb-6">F&aring; ditt seilnummer</h2>
+<p class="text-on-surface-variant text-xl max-w-2xl mx-auto mb-10 leading-relaxed">Registrer deg som brettseilmedlem og f&aring; ditt offisielle NOR-seilnummer for &aring; delta i regattaer.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button onclick="reserveNumber()" class="px-10 py-5 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold text-lg uppercase tracking-tight hover:scale-105 transition-all shadow-xl shadow-secondary/20">
+Registrer mitt nummer
+</button>
+<a href="../medlemskap/" class="px-10 py-5 rounded-full border-2 border-outline-variant text-on-surface font-headline font-bold text-lg uppercase tracking-tight hover:bg-surface-container-high transition-all">
+Bli medlem f&oslash;rst
+</a>
+</div>
+</div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-inverse-surface w-full py-16 px-8">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-start gap-12 mb-12">
+<div>
+<a href="../" class="font-headline font-bold text-white text-3xl uppercase italic">NBK</a>
+<p class="text-white/50 font-body text-sm mt-2 max-w-xs">Norsk Brettseilerklubb &mdash; Norges organisasjon for windsurfing og brettseilsport.</p>
+</div>
+<div class="flex flex-wrap gap-x-12 gap-y-4">
+<a class="text-white/60 hover:text-white font-body text-sm transition-colors" href="../grener/">Grener</a>
+<a class="text-white/60 hover:text-white font-body text-sm transition-colors" href="../events/">Events</a>
+<a class="text-white/60 hover:text-white font-body text-sm transition-colors" href="../seilnummer/">Seilnummer</a>
+<a class="text-white/60 hover:text-white font-body text-sm transition-colors" href="../klubber/">Klubber</a>
+<a class="text-white/60 hover:text-white font-body text-sm transition-colors" href="../medlemskap/">Medlemskap</a>
+<a class="text-white/60 hover:text-white font-body text-sm transition-colors" href="../om-oss/">Om Oss</a>
+</div>
+</div>
+<div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-white/40 font-body text-sm">&copy; 2025 Norsk Brettseilerklubb. Alle rettigheter reservert.</p>
+</div>
+</div>
+</footer>
+
+<!-- Sail Number JavaScript -->
+<script>
+let allNumbers = [];
+
+async function loadSailNumbers() {
+  try {
+    const res = await fetch('/api/sail-numbers');
+    const data = await res.json();
+    allNumbers = data.numbers || [];
+    renderNumbers(allNumbers);
+    updateCount();
+  } catch (e) {
+    console.error('Failed to load sail numbers:', e);
+    document.getElementById('sail-list').innerHTML = '<p class="text-center py-8 text-on-surface-variant">Kunne ikke laste seilnumre.</p>';
+  }
+}
+
+function renderNumbers(numbers) {
+  const list = document.getElementById('sail-list');
+  const filtered = numbers.slice(0, 50);
+
+  let html = `<div class="hidden md:grid grid-cols-12 px-8 py-4 text-xs font-label font-black text-outline uppercase tracking-widest">
+    <div class="col-span-3">Nummer</div>
+    <div class="col-span-5">Eier</div>
+    <div class="col-span-2 text-center">Status</div>
+    <div class="col-span-2"></div>
+  </div>`;
+
+  filtered.forEach(n => {
+    if (n.status === 'available') {
+      html += `<div class="grid grid-cols-1 md:grid-cols-12 items-center bg-surface-container-low/50 border-2 border-dashed border-outline-variant/30 p-6 md:px-8 md:py-6 rounded-2xl opacity-80">
+        <div class="col-span-3"><span class="text-3xl font-headline font-bold text-outline">NOR ${n.number}</span></div>
+        <div class="col-span-5 italic text-outline font-body">Ledig for registrering</div>
+        <div class="col-span-2 flex justify-center"><span class="px-4 py-1.5 rounded-full bg-surface-container-highest text-on-surface-variant text-[10px] font-bold uppercase tracking-wider">Ledig</span></div>
+        <div class="col-span-2 flex justify-end"><button onclick="reserveNumber(${n.number})" class="text-primary font-label text-sm font-bold underline underline-offset-4">Reserver</button></div>
+      </div>`;
+    } else {
+      html += `<div class="grid grid-cols-1 md:grid-cols-12 items-center bg-surface-container-lowest hover:bg-white p-6 md:px-8 md:py-6 rounded-2xl shadow-sm hover:shadow-md transition-all">
+        <div class="col-span-3"><span class="text-3xl font-headline font-bold text-primary">NOR ${n.number}</span></div>
+        <div class="col-span-5"><span class="block font-headline text-lg font-bold text-on-surface">${n.owner}</span></div>
+        <div class="col-span-2 flex justify-center"><span class="px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider">Aktiv</span></div>
+        <div class="col-span-2"></div>
+      </div>`;
+    }
+  });
+
+  list.innerHTML = html;
+}
+
+function filterNumbers(status) {
+  document.querySelectorAll('[data-filter]').forEach(btn => {
+    btn.className = btn.dataset.filter === status
+      ? 'px-5 py-3 rounded-full bg-secondary-container text-on-secondary-container font-label text-xs font-bold transition-all'
+      : 'px-5 py-3 rounded-full bg-surface-container-high text-on-surface-variant hover:bg-surface-variant font-label text-xs font-bold transition-all';
+  });
+
+  const filtered = status === 'all' ? allNumbers : allNumbers.filter(n => n.status === status);
+  renderNumbers(filtered);
+  updateCount();
+}
+
+function searchNumbers() {
+  const query = document.getElementById('search-input').value.toLowerCase();
+  const filtered = allNumbers.filter(n =>
+    `NOR ${n.number}`.toLowerCase().includes(query) ||
+    (n.owner && n.owner.toLowerCase().includes(query))
+  );
+  renderNumbers(filtered);
+}
+
+function updateCount() {
+  const taken = allNumbers.filter(n => n.status === 'taken').length;
+  const available = allNumbers.filter(n => n.status === 'available').length;
+  const countEl = document.getElementById('sail-count');
+  if (countEl) countEl.textContent = `${taken} registrerte seilere, ${available} ledige numre`;
+}
+
+async function reserveNumber(number) {
+  const name = prompt('Ditt navn:');
+  if (!name) return;
+  const email = prompt('Din e-post:');
+  if (!email) return;
+
+  try {
+    const res = await fetch('/api/sail-numbers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ number, buyerName: name, buyerEmail: email })
+    });
+    const data = await res.json();
+
+    if (data.redirectUrl) {
+      window.location.href = data.redirectUrl;
+    } else if (data.success) {
+      alert(data.message);
+      loadSailNumbers();
+    } else {
+      alert(data.error || 'Noe gikk galt');
+    }
+  } catch (e) {
+    alert('Feil ved reservasjon: ' + e.message);
+  }
+}
+
+let showAll = false;
+function loadMore() {
+  showAll = !showAll;
+  const filtered = showAll ? allNumbers : allNumbers;
+  renderNumbers(showAll ? filtered : filtered.slice(0, 50));
+}
+
+loadSailNumbers();
+</script>
+
+</body></html>

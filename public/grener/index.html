@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html class="light" lang="no"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NBK | Grener - Mestre Elementene</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-container": "#3c73aa",
+              "secondary": "#ab3600",
+              "outline-variant": "#c1c7d1",
+              "on-secondary-fixed": "#390c00",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#ffb59c",
+              "on-secondary": "#ffffff",
+              "on-tertiary-fixed-variant": "#51453a",
+              "primary-fixed-dim": "#9ecaff",
+              "inverse-primary": "#9ecaff",
+              "tertiary-container": "#7b6d61",
+              "on-primary-fixed-variant": "#00497c",
+              "tertiary-fixed-dim": "#d5c3b5",
+              "primary": "#1d5a90",
+              "on-tertiary-fixed": "#231a11",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed-variant": "#832700",
+              "on-surface-variant": "#42474f",
+              "outline": "#727780",
+              "surface-variant": "#dde2f3",
+              "tertiary-fixed": "#f2dfd0",
+              "on-primary-fixed": "#001d36",
+              "on-tertiary-container": "#fff2ea",
+              "on-background": "#161c27",
+              "surface-container-highest": "#dde2f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "inverse-on-surface": "#ecf0ff",
+              "surface": "#f9f9ff",
+              "surface-container-high": "#e3e8f9",
+              "surface-bright": "#f9f9ff",
+              "secondary-container": "#ff6e39",
+              "surface-container-low": "#f1f3ff",
+              "primary-fixed": "#d1e4ff",
+              "background": "#f9f9ff",
+              "surface-dim": "#d4daea",
+              "on-secondary-container": "#611b00",
+              "surface-container": "#e8eeff",
+              "on-surface": "#161c27",
+              "on-tertiary": "#ffffff",
+              "on-primary-container": "#f0f5ff",
+              "inverse-surface": "#2a303d",
+              "surface-tint": "#276197",
+              "secondary-fixed": "#ffdbcf",
+              "surface-container-lowest": "#ffffff",
+              "error": "#ba1a1a",
+              "tertiary": "#62554a"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Lexend"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-md shadow-sm">
+<div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+<a href="../" class="text-2xl font-black text-blue-900 italic font-headline uppercase tracking-tight">NBK</a>
+<!-- Desktop Navigation -->
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../">Nyheter</a>
+<a class="text-blue-600 border-b-2 border-orange-500 pb-1 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="#">Grener</a>
+<a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../events/">Events</a>
+<a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../medlemskap/">Medlemskap</a>
+<a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../om-oss/">Om Oss</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:block px-6 py-2 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-105 transition-all active:scale-95 shadow-lg shadow-secondary/20">
+                    Bli Medlem
+                </button>
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</nav>
+
+<main>
+<!-- Hero Section -->
+<section class="pt-32 pb-20 px-8 max-w-7xl mx-auto">
+<div class="flex flex-col lg:flex-row items-center gap-12">
+<div class="flex-1">
+<span class="inline-block bg-primary-fixed text-primary font-label text-xs uppercase tracking-widest px-4 py-1 rounded-full mb-6">V&#229;re Disipliner</span>
+<h1 class="font-headline font-black text-5xl md:text-7xl tracking-tighter uppercase italic leading-none mb-6">
+                        Mestre <span class="text-primary">Element</span><span class="text-secondary-container">ene</span>
+                    </h1>
+<p class="text-on-surface-variant text-lg font-body max-w-lg leading-relaxed">
+                        Fra klassisk brettseiling til moderne wingfoil &#8212; utforsk disiplinene som definerer v&#229;r sport og finn din plass p&#229; vannet.
+                    </p>
+</div>
+<div class="flex-1 relative">
+<div class="absolute inset-0 bg-primary/20 rounded-3xl blur-3xl scale-90"></div>
+<img alt="Windsurfing action" class="relative rounded-3xl w-full h-[400px] object-cover shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMepCxpQaq28YFu4WgrTyw7uGJ_VDM8B6oXlmfR4MQs_svUdMb4t3YL2SzB10mb-ymemENIkLLfaptipFrnsK1jVa5JvSINGtlLgiQRnfRkX8swltMWVYogmPZ8zj6QJSU1LU7wBVIeAcMvyl3ah6_wZKE7fYUyWJj3T2tfyRbhextCqD5lteEJ5GIYmihMHjNlYBWDrKV0umb_zNzZhZiXmlP2V9CKfKXE5nnVWzKU05lPDkw7byFbfMh40Lw9UX3QlgGwxrlRY4"/>
+</div>
+</div>
+</section>
+
+<!-- Filter Buttons -->
+<section class="px-8 max-w-7xl mx-auto mb-12">
+<div class="flex flex-wrap gap-3">
+<button class="px-6 py-2.5 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold text-sm uppercase tracking-tight shadow-md">Alle Grener</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-headline font-bold text-sm uppercase tracking-tight hover:bg-primary hover:text-on-primary transition-all">Windsurfing</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-headline font-bold text-sm uppercase tracking-tight hover:bg-primary hover:text-on-primary transition-all">Wingfoil</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-headline font-bold text-sm uppercase tracking-tight hover:bg-primary hover:text-on-primary transition-all">Raceboard</button>
+</div>
+</section>
+
+<!-- Masonry Grid -->
+<section class="px-8 max-w-7xl mx-auto pb-28">
+<div class="grid grid-cols-1 md:grid-cols-10 gap-6">
+<!-- Windsurfing - Featured Large -->
+<div class="md:col-span-6 relative group h-[500px] overflow-hidden rounded-xl bg-on-surface">
+<img alt="Windsurfing" class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-1000 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiTOyAznWaRa_lJNEo731XQ9_BkL6PKZqiVdULfq8Qmg2MnQTNpOsLroSe-fQiOq9vp0OOlvtRx385y8ZfH12uXV2c0igtOf89ucdiK4B3zAWyAWO0eWE3N4QTxF_QaAJ0i9z25GUjOGBUdXbp4ruaivlk0eGcHN2C85pEHAyD4AWYLGHgPxDO6GDPKVRv0pNJjwpJOgYB32UivG-NbCy5BxhtqhRfBUs0JCZmup5xAJfCLee_fGj3WD59W5K5uPL2NVmaQpHV7hQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+<div class="absolute bottom-10 left-10 right-10">
+<span class="font-label text-secondary-container font-bold uppercase tracking-[0.2em] mb-3 block">Originalen</span>
+<h3 class="font-headline font-bold text-4xl text-white mb-4 uppercase italic">Windsurfing</h3>
+<p class="text-white/80 max-w-md mb-6 leading-relaxed">Fra den r&#229; kraften i b&#248;lgene til lynraske dragrace p&#229; flatt vann. Windsurfing er sjelen i NBK.</p>
+<a class="flex items-center gap-2 text-white font-headline font-bold uppercase tracking-tight group/btn" href="#">
+                            Les Mer
+                            <span class="material-symbols-outlined transition-transform group-hover/btn:translate-x-2">arrow_forward</span>
+</a>
+</div>
+</div>
+
+<!-- Wingfoil - Staggered Right -->
+<div class="md:col-span-4 relative group h-[500px] overflow-hidden rounded-xl bg-on-surface md:mt-16">
+<img alt="Wingfoil" class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-1000 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnZlREhxUQsFTkd2yPrNBHCYS9u9VjKmrb7Hau95uwzkgJqiNwbMNs69i6xmSICs6bb04Clxo6Hgm-wg4dUJOTfcNhnRcNoQBiCpwofLEK1R5UokIBBgJJ9eHybfNh3Hwi5CB0f3tYD-JeitjavTKfr6RxGEBSOy1w_yAFwgsMbiyCUNhRGAWpFaxaap72PcyRnj_HURFfhil68ZaMXMag1xmMbFLWz9vfO6lctnWBp_CQK3kvhGLqiR3R7NDFlMxxWSSfT66jteI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-secondary-fixed-variant/80 to-transparent"></div>
+<div class="absolute bottom-10 left-8 right-8">
+<span class="font-label text-secondary-container font-bold uppercase tracking-[0.2em] mb-3 block">Fremtiden</span>
+<h3 class="font-headline font-bold text-3xl text-white mb-4 uppercase italic">Wingfoil</h3>
+<p class="text-white/80 mb-6 leading-relaxed">Lydl&#248;s flukt over vannoverflaten. Den raskest voksende brettsporten i verden.</p>
+<a class="flex items-center gap-2 text-white font-headline font-bold uppercase tracking-tight group/btn" href="#">
+                            Les Mer
+                            <span class="material-symbols-outlined transition-transform group-hover/btn:translate-x-2">arrow_forward</span>
+</a>
+</div>
+</div>
+
+<!-- Raceboard -->
+<div class="md:col-span-4 relative group h-[450px] overflow-hidden rounded-xl bg-on-surface">
+<img alt="Raceboard" class="absolute inset-0 w-full h-full object-cover opacity-70 transition-transform duration-1000 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSZ8Jg2Yjsivd_Cv6phGV9S_OXOsXO6_YmRGYQsLIzRk5o9eUCJpcv9mtMTNkYHF6f3BcbJowy5lSsd2KCqyPdJnmSTAXGeeMD-PTeWmkr61OSpOOJZxPSle934pQwS_CkX319aqv9JFsiBcwXN8Ms0bvWeIoE92EsQl_3_XZYR4p3KfEbpN3MmB43QT2n5UMAbr-cMcprLZ8mU21b8YsfWDXhhqibZf1slG1XGL06aqxRb1-otWyCNNLnSE6CNc1dxmEIJzMNB0c"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+<div class="absolute bottom-10 left-8 right-8">
+<span class="font-label text-white/70 font-bold uppercase tracking-[0.2em] mb-3 block">Strategi &amp; Presisjon</span>
+<h3 class="font-headline font-bold text-3xl text-white mb-4 uppercase italic">Raceboard</h3>
+<p class="text-white/80 mb-6 leading-relaxed">Taktisk seiling i alle vindforhold. Fra klubbregattaer til internasjonale mesterskap.</p>
+<a class="flex items-center gap-2 text-white font-headline font-bold uppercase tracking-tight group/btn" href="#">
+                            Les Mer
+                            <span class="material-symbols-outlined transition-transform group-hover/btn:translate-x-2">arrow_forward</span>
+</a>
+</div>
+</div>
+
+<!-- iQFOiL - Editorial Style with Blue BG -->
+<div class="md:col-span-6 relative overflow-hidden rounded-xl bg-primary h-[450px]">
+<div class="absolute top-0 right-0 w-72 h-72 bg-secondary/10 rounded-full blur-3xl -mr-20 -mt-20"></div>
+<div class="grid grid-cols-1 lg:grid-cols-2 h-full">
+<div class="relative z-10 flex flex-col justify-center p-10">
+<span class="font-label text-primary-fixed-dim font-bold uppercase tracking-[0.2em] mb-4 block">Olympisk Gren</span>
+<h3 class="font-headline font-bold text-4xl text-white mb-4 uppercase italic">iQFOiL</h3>
+<p class="text-white/80 mb-8 leading-relaxed">Den offisielle olympiske windsurfing-disiplinen. Kombiner fart, foiling og taktisk seiling p&#229; h&#248;yeste niv&#229;.</p>
+<div class="flex flex-col sm:flex-row gap-3">
+<a class="px-6 py-3 bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold rounded-full uppercase tracking-tight text-sm hover:scale-105 transition-all text-center" href="#">Ut&#248;vere</a>
+<a class="px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 text-white font-headline font-bold rounded-full uppercase tracking-tight text-sm hover:bg-white/20 transition-all text-center" href="#">Om iQFOiL</a>
+</div>
+</div>
+<div class="relative hidden lg:block">
+<img alt="iQFOiL" class="absolute inset-0 w-full h-full object-cover opacity-40 rounded-r-xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCU3QuvzOfaSTr6xvgnWt9N8e56nUOXvwkt5e34fA_6oINJ3JsJBw-87P8AATUbq3d6S1G1sM_8qY9MZzRmPHiGrVsUidnQEVeeOedp5ZhppkhcGYFLnvd7dkuaA1Mla2tZvR_8MDQ8PR5Uh10GARuVy1aR-gRYH5fOheFuWWvTRQWgHn5Do6YmImjh7hVCnceWJHXsTsY5Rnqc0GEfNw09xavW9pvvM4fwXU9WVGDrrzgNLOQv6v7oxwvGkPCgnqYFyprENAYf-88"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Community Section -->
+<section class="bg-surface-container-low py-28 px-8">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+<!-- Images Grid -->
+<div class="relative">
+<div class="grid grid-cols-2 gap-4">
+<div class="relative rounded-xl overflow-hidden h-[350px]">
+<img alt="Community" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqJxhv5s07WEfcRjDQxVHpzWi7qoW4h8SyVS_LqrpZgQWvT6iz_chvuRquqECxYZZMke-aZKMaNmIfVfJSFnHv_6HH4g5a0SE22P4pkh4AnfuOrKejiZhR1h5gB9CIOhL-Y8u5hwGPnYDmLd4W3y6wPF0k8OJKQGcN5d5uWVeQwkJJ-yUNBzUxwyhU1f6ZuONCRYowXUyYNUQ8rUCV2Qe4XTaJdU2sBBHq1pn3pKplxVdYoa2tl_cyaNrN-fAbfVKn5YLkhXchVWE"/>
+</div>
+<div class="relative rounded-xl overflow-hidden h-[350px] mt-8">
+<img alt="Community" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiJnkmumsHm9cRI7FfnBTsPZ6M1l3OrDsDMQpn3iqj8cX1nHgeA9vQxtQqAhBo1GHfRHwwHcMxeKupRYsZl5cHHSg-FLm4LdVrCITwX7JX9pVkTlFmIOktKxnNhZXiF0vmas0e1FtRGmIBaRdfORQvLtx72pTIFSy4R29PVlKNbVdaB5_du_uLn73F8Yzl6a1Sxk2Y0-YKRZhI1fYSjdHpHyxbA8MW0lCODrAAaxK-YTH96GwI43seiN6N32sqVN0gNa-er1dRIaw"/>
+</div>
+</div>
+<!-- Overlay badge -->
+<div class="absolute bottom-4 left-4 bg-primary text-on-primary px-5 py-3 rounded-xl shadow-xl">
+<span class="font-headline font-bold text-2xl">50+</span>
+<span class="font-body text-sm ml-1">Lokale klubber</span>
+</div>
+</div>
+<!-- Text Content -->
+<div>
+<h2 class="font-headline font-black text-4xl md:text-5xl text-primary tracking-tighter uppercase italic leading-tight mb-6">
+                        Uansett niv&#229; har vi en plass til deg
+                    </h2>
+<p class="text-on-surface-variant text-lg font-body mb-8 leading-relaxed">
+                        V&#229;rt fellesskap bygger p&#229; inkludering, l&#230;ring og lidenskap for vannet. Fra nybegynner til landslagsut&#248;ver.
+                    </p>
+<ul class="space-y-4 mb-10">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span class="font-body text-on-surface">Instrukt&#248;rutdanning</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span class="font-body text-on-surface">Utstyrspool for nybegynnere</span>
+</li>
+</ul>
+<a class="px-8 py-4 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-105 transition-all shadow-lg shadow-secondary/20 inline-block" href="../medlemskap/">
+                        Se medlemsfordeler
+                    </a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="py-32 px-8 bg-surface">
+<div class="max-w-5xl mx-auto rounded-3xl bg-primary overflow-hidden relative">
+<div class="absolute top-0 right-0 w-64 h-64 bg-secondary/20 rounded-full blur-3xl -mr-32 -mt-32"></div>
+<div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary-container/20 rounded-full blur-3xl -ml-32 -mb-32"></div>
+<div class="relative z-10 px-12 py-20 text-center">
+<h2 class="font-headline font-black text-4xl md:text-6xl text-white mb-6 uppercase italic leading-tight">Klar for vannet?</h2>
+<p class="text-on-primary-container text-xl max-w-2xl mx-auto mb-10">Finn din gren, bli med i et fellesskap, og opplev friheten p&#229; vannet.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<a class="px-10 py-5 bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold text-lg uppercase tracking-tight rounded-full hover:scale-105 transition-all shadow-xl shadow-secondary/30" href="../klubber/">
+                            Finn din klubb
+                        </a>
+<a class="px-10 py-5 bg-white/10 backdrop-blur-md border border-white/20 text-white font-headline font-bold text-lg uppercase tracking-tight rounded-full hover:bg-white/20 transition-all" href="#">
+                            Kontakt oss
+                        </a>
+</div>
+</div>
+</div>
+</section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-slate-50 w-full py-12 px-8">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6 max-w-7xl mx-auto">
+<a href="../" class="font-headline font-bold text-blue-900 text-2xl uppercase italic">NBK</a>
+<div class="flex items-center gap-6">
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../">Nyheter</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="#">Grener</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../events/">Events</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../medlemskap/">Medlemskap</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../om-oss/">Om Oss</a>
+</div>
+<p class="text-slate-500 font-body text-sm">&copy; 2025 Norsk Brettseilerklubb. All rights reserved.</p>
+</div>
+</footer>
+</body></html>

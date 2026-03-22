@@ -41,6 +41,11 @@
   to = "/.netlify/functions/feeds"
   status = 200
 
+[[redirects]]
+  from = "/api/register-webhook"
+  to = "/.netlify/functions/register-webhook"
+  status = 200
+
 # CORS headers for API
 [[headers]]
   for = "/api/*"

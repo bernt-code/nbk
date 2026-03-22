@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html class="light" lang="no"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NBK | Events &amp; Regattaer</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-container": "#3c73aa",
+              "secondary": "#ab3600",
+              "outline-variant": "#c1c7d1",
+              "on-secondary-fixed": "#390c00",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#ffb59c",
+              "on-secondary": "#ffffff",
+              "on-tertiary-fixed-variant": "#51453a",
+              "primary-fixed-dim": "#9ecaff",
+              "inverse-primary": "#9ecaff",
+              "tertiary-container": "#7b6d61",
+              "on-primary-fixed-variant": "#00497c",
+              "tertiary-fixed-dim": "#d5c3b5",
+              "primary": "#1d5a90",
+              "on-tertiary-fixed": "#231a11",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed-variant": "#832700",
+              "on-surface-variant": "#42474f",
+              "outline": "#727780",
+              "surface-variant": "#dde2f3",
+              "tertiary-fixed": "#f2dfd0",
+              "on-primary-fixed": "#001d36",
+              "on-tertiary-container": "#fff2ea",
+              "on-background": "#161c27",
+              "surface-container-highest": "#dde2f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "inverse-on-surface": "#ecf0ff",
+              "surface": "#f9f9ff",
+              "surface-container-high": "#e3e8f9",
+              "surface-bright": "#f9f9ff",
+              "secondary-container": "#ff6e39",
+              "surface-container-low": "#f1f3ff",
+              "primary-fixed": "#d1e4ff",
+              "background": "#f9f9ff",
+              "surface-dim": "#d4daea",
+              "on-secondary-container": "#611b00",
+              "surface-container": "#e8eeff",
+              "on-surface": "#161c27",
+              "on-tertiary": "#ffffff",
+              "on-primary-container": "#f0f5ff",
+              "inverse-surface": "#2a303d",
+              "surface-tint": "#276197",
+              "secondary-fixed": "#ffdbcf",
+              "surface-container-lowest": "#ffffff",
+              "error": "#ba1a1a",
+              "tertiary": "#62554a"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Lexend"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-md shadow-sm">
+<div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+<a href="../" class="text-2xl font-black text-blue-900 italic font-headline uppercase tracking-tight">NBK</a>
+<!-- Desktop Navigation -->
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../">Nyheter</a>
+<a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../grener/">Grener</a>
+<a class="text-blue-600 border-b-2 border-orange-500 pb-1 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="#">Events</a>
+<a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../medlemskap/">Medlemskap</a>
+<a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../om-oss/">Om Oss</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:block px-6 py-2 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-105 transition-all active:scale-95 shadow-lg shadow-secondary/20">
+                    Bli Medlem
+                </button>
+<button class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</nav>
+
+<main>
+<!-- Editorial Header -->
+<section class="pt-32 pb-16 px-8 max-w-7xl mx-auto">
+<div class="max-w-3xl">
+<span class="inline-block bg-primary-fixed text-primary font-label text-xs uppercase tracking-widest px-4 py-1 rounded-full mb-6">Terminliste 2024</span>
+<h1 class="font-headline font-black text-5xl md:text-7xl tracking-tighter uppercase italic leading-none mb-6">
+                    EVENTS <span class="text-outline-variant">&amp;</span> <span class="text-primary">REGATTAER</span>
+                </h1>
+<p class="text-on-surface-variant text-lg font-body max-w-xl leading-relaxed">
+                    Fra lokale klubbregattaer til nasjonale mesterskap &#8212; finn ditt neste arrangement og v&#230;r med p&#229; vannet.
+                </p>
+</div>
+</section>
+
+<!-- Filter Buttons -->
+<section class="px-8 max-w-7xl mx-auto mb-12">
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+<div class="flex flex-wrap gap-3">
+<button class="px-6 py-2.5 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold text-sm uppercase tracking-tight shadow-md">Alle Events</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-headline font-bold text-sm uppercase tracking-tight hover:bg-primary hover:text-on-primary transition-all">Windsurfing</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-headline font-bold text-sm uppercase tracking-tight hover:bg-primary hover:text-on-primary transition-all">Wingfoil</button>
+<button class="px-6 py-2.5 rounded-full bg-surface-container-high text-on-surface-variant font-headline font-bold text-sm uppercase tracking-tight hover:bg-primary hover:text-on-primary transition-all">Klinikker</button>
+</div>
+<span class="text-on-surface-variant font-label text-sm">Viser 12 kommende arrangementer</span>
+</div>
+</section>
+
+<!-- Featured Event -->
+<section class="px-8 max-w-7xl mx-auto mb-16">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-2xl overflow-hidden bg-surface-container-low shadow-lg">
+<!-- Image -->
+<div class="relative h-[400px] lg:h-auto overflow-hidden">
+<img alt="NM i Windsurfing" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLhe1HzrXNQe4fNlOl8zt7NBI8zqwOkiAe_a4YNzBqbVq2WKWk9CaFiogx3XGMf3hcDNOVjMweJ-d-21OpgY_41TMnDqhM92VtbX6RCheYBQ9N_zR7RXQbc_FoveZ1_s7ffKZEP1wR6Yy-a9hzRfvpGg3gaSefxvgRDU3K2WzXcCBoUbmQUroNo4T6ACJQMpJIjlBhfPZb6iJNu1OYbbEjRfkfvtTkq91zLNJOdBOjECe0rlEKA6gKoKTM96lTxK_msfEMI86GOeg"/>
+<div class="absolute top-4 left-4">
+<span class="bg-secondary text-on-secondary font-label text-xs uppercase tracking-widest px-3 py-1 rounded-full font-bold">Hovedarrangement</span>
+</div>
+</div>
+<!-- Details -->
+<div class="p-10 lg:p-14 flex flex-col justify-center">
+<span class="font-label text-secondary font-bold uppercase tracking-[0.2em] mb-4 block">Windsurfing</span>
+<div class="mb-6">
+<span class="font-headline font-black text-7xl md:text-8xl text-primary tracking-tighter leading-none">15</span>
+<span class="font-headline font-bold text-2xl text-on-surface-variant ml-2 uppercase">Aug 2024</span>
+</div>
+<h2 class="font-headline font-bold text-3xl uppercase italic mb-4 tracking-tight">NM i Windsurfing</h2>
+<div class="flex items-center gap-2 text-on-surface-variant font-body mb-6">
+<span class="material-symbols-outlined text-lg">location_on</span>
+<span>Lista, Rogaland</span>
+</div>
+<p class="text-on-surface-variant font-body mb-8 leading-relaxed">Norges beste brettseillere m&#248;tes for &#229; kj&#248;re om NM-tittelen. Klassene inkluderer slalom, formula og raceboard.</p>
+<a class="px-8 py-4 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-105 transition-all shadow-lg shadow-secondary/20 inline-block text-center" href="#">
+                        Meld deg p&#229;
+                    </a>
+</div>
+</div>
+</section>
+
+<!-- Event Cards -->
+<section class="px-8 max-w-7xl mx-auto pb-28">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Wingfoil Masterclass -->
+<div class="group bg-surface-container-low rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 hover:-translate-y-2">
+<div class="relative h-56 overflow-hidden">
+<img alt="Wingfoil Masterclass" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDW4jw0-LJvuKc6o_hwOG3wRXlWvm8H3qo9J1ogqedpd1dSMj1FI4quaMIlWgZsP9gTWAUzZWrc14xWd5vtPacYjR2tYjou7Wa0sQm07OG4iR0KgZ2fDMY4c46tqAWUHGLx-ZfhnQajvGLCv13HyzmKb2-pmA10N3ilXI1I3S-Xr_OtaJxmWiCmwGrCdFk2DuZTugrTWcNlBY3oyFOdJdFN3Ft85FLTogwZpecbib7uk39wE0OxdUiaV5YpKrSK4_kEU6JWGuAFf9Y"/>
+<!-- Date Badge -->
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 text-center shadow-md">
+<span class="block font-headline font-black text-2xl text-primary leading-none">2</span>
+<span class="block font-label text-xs text-on-surface-variant uppercase">Sep</span>
+</div>
+</div>
+<div class="p-6">
+<span class="font-label text-secondary text-xs font-bold uppercase tracking-widest mb-2 block">Wingfoil</span>
+<h3 class="font-headline font-bold text-xl uppercase italic mb-2">Wingfoil Masterclass</h3>
+<p class="text-on-surface-variant text-sm font-body line-clamp-2">Intensivkurs for deg som vil ta wingfoil-ferdighetene til neste niv&#229;. Begrenset antall plasser.</p>
+</div>
+</div>
+
+<!-- Sola Open -->
+<div class="group bg-surface-container-low rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 hover:-translate-y-2">
+<div class="relative h-56 overflow-hidden">
+<img alt="Sola Open" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtsUxUa8V0AWgP7oHEk8whujW5D_gN-pbj0KiDVWLtkNnQfLmkXV6SRjoDdr1A-KoGiNP9IwL_L15hPIleoP4edPq8eRI4UN5YAh72Yp6h1oKtzqxZ2tG9cMqD8jLvqBpiXb4cbNSD3TVRjx9l6Dxz9IDBm9MaDB_eJEVuVSYkhOQXO9yRuqLbrCC0VRzq0fcMCgQDsD2C25piwXrhNSF065cw-4YWTN3NvRRhxit2HI0iPshhpDW2l9noA6RlXPGfprZZp3HDaCU"/>
+<!-- Date Badge -->
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 text-center shadow-md">
+<span class="block font-headline font-black text-2xl text-primary leading-none">12</span>
+<span class="block font-label text-xs text-on-surface-variant uppercase">Sep</span>
+</div>
+</div>
+<div class="p-6">
+<span class="font-label text-secondary text-xs font-bold uppercase tracking-widest mb-2 block">Windsurfing</span>
+<h3 class="font-headline font-bold text-xl uppercase italic mb-2">Sola Open</h3>
+<p class="text-on-surface-variant text-sm font-body line-clamp-2">&#197;pen regatta p&#229; Solastranden. Alle klasser velkommen. P&#229;melding via NBK.</p>
+</div>
+</div>
+
+<!-- Girls on Board -->
+<div class="group bg-surface-container-low rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 hover:-translate-y-2">
+<div class="relative h-56 overflow-hidden">
+<img alt="Girls on Board" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4Ulcg99gb7ibFQmPwC4Lqe6Ku-u063Hvk7TQjjnDeGq91m6WYSIo4zeeHAQEAIAQjCt0duwJYkmcICpZDh3iB1DYvAyc5pJGw0Dc_gEoENgXEdCpeQZQwonMs8NZOIQjQI8hC4zApb0jjEJfWl1Wqa2RVdGMlgdcOTyeqTEJbuHTeVtwlEL3FT6cnhEQWd_9eBQN1zK8dJj8VNdu3JbWC8OOiGFyaKnKUdNT1pVQB2GcO1TiwP7kpbJW7fngbA8Gec9h5Ef_aTj4"/>
+<!-- Date Badge -->
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 text-center shadow-md">
+<span class="block font-headline font-black text-2xl text-primary leading-none">28</span>
+<span class="block font-label text-xs text-on-surface-variant uppercase">Sep</span>
+</div>
+</div>
+<div class="p-6">
+<span class="font-label text-secondary text-xs font-bold uppercase tracking-widest mb-2 block">Klinikk</span>
+<h3 class="font-headline font-bold text-xl uppercase italic mb-2">Girls on Board</h3>
+<p class="text-on-surface-variant text-sm font-body line-clamp-2">Klinikk for jenter og kvinner som vil pr&#248;ve brettseiling og wingfoil. Gratis utstyrsl&#229;n.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- CTA: Vil du arrangere? -->
+<section class="py-28 px-8 bg-surface-container-low">
+<div class="max-w-5xl mx-auto relative">
+<!-- Decorative NBK watermark -->
+<div class="absolute -top-8 -right-4 font-headline font-black text-[12rem] text-primary/5 uppercase italic leading-none select-none pointer-events-none hidden lg:block">NBK</div>
+<div class="relative z-10 text-center">
+<h2 class="font-headline font-black text-4xl md:text-5xl text-primary tracking-tighter uppercase italic mb-6">Vil du arrangere noe?</h2>
+<p class="text-on-surface-variant text-lg font-body max-w-2xl mx-auto mb-10 leading-relaxed">
+                    NBK st&#248;tter lokale klubber og ildsjeler som vil arrangere regattaer, klinikker og sosiale samlinger. S&#248;k om st&#248;tte og f&#229; hjelp med gjennomf&#248;ringen.
+                </p>
+<a class="px-10 py-5 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold text-lg uppercase tracking-tight hover:scale-105 transition-all shadow-xl shadow-secondary/30 inline-block" href="#">
+                    S&#248;k om st&#248;tte
+                </a>
+</div>
+</div>
+</section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-slate-50 w-full py-12 px-8">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6 max-w-7xl mx-auto">
+<a href="../" class="font-headline font-bold text-blue-900 text-2xl uppercase italic">NBK</a>
+<div class="flex items-center gap-6">
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../">Nyheter</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../grener/">Grener</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="#">Events</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../medlemskap/">Medlemskap</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../om-oss/">Om Oss</a>
+</div>
+<p class="text-slate-500 font-body text-sm">&copy; 2025 Norsk Brettseilerklubb. All rights reserved.</p>
+</div>
+</footer>
+</body></html>

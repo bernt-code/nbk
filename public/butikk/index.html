@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html class="light" lang="no"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Butikk | NBK - Norsk Brettseilerklubb</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Lexend:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-container": "#3c73aa",
+              "secondary": "#ab3600",
+              "outline-variant": "#c1c7d1",
+              "on-secondary-fixed": "#390c00",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#ffb59c",
+              "on-secondary": "#ffffff",
+              "on-tertiary-fixed-variant": "#51453a",
+              "primary-fixed-dim": "#9ecaff",
+              "inverse-primary": "#9ecaff",
+              "tertiary-container": "#7b6d61",
+              "on-primary-fixed-variant": "#00497c",
+              "tertiary-fixed-dim": "#d5c3b5",
+              "primary": "#1d5a90",
+              "on-tertiary-fixed": "#231a11",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed-variant": "#832700",
+              "on-surface-variant": "#42474f",
+              "outline": "#727780",
+              "surface-variant": "#dde2f3",
+              "tertiary-fixed": "#f2dfd0",
+              "on-primary-fixed": "#001d36",
+              "on-tertiary-container": "#fff2ea",
+              "on-background": "#161c27",
+              "surface-container-highest": "#dde2f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "inverse-on-surface": "#ecf0ff",
+              "surface": "#f9f9ff",
+              "surface-container-high": "#e3e8f9",
+              "surface-bright": "#f9f9ff",
+              "secondary-container": "#ff6e39",
+              "surface-container-low": "#f1f3ff",
+              "primary-fixed": "#d1e4ff",
+              "background": "#f9f9ff",
+              "surface-dim": "#d4daea",
+              "on-secondary-container": "#611b00",
+              "surface-container": "#e8eeff",
+              "on-surface": "#161c27",
+              "on-tertiary": "#ffffff",
+              "on-primary-container": "#f0f5ff",
+              "inverse-surface": "#2a303d",
+              "surface-tint": "#276197",
+              "secondary-fixed": "#ffdbcf",
+              "surface-container-lowest": "#ffffff",
+              "error": "#ba1a1a",
+              "tertiary": "#62554a"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Lexend"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+
+      /* Mug shape */
+      .mug-body {
+        width: 220px;
+        height: 260px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 50%, #dee2e6 100%);
+        border-radius: 8px 8px 24px 24px;
+        position: relative;
+        box-shadow:
+          inset -8px 0 16px rgba(0,0,0,0.04),
+          inset 8px 0 16px rgba(255,255,255,0.6),
+          0 12px 40px rgba(0,0,0,0.12);
+        border: 2px solid #dee2e6;
+      }
+      .mug-body::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 18px;
+        background: linear-gradient(135deg, #e9ecef, #dee2e6);
+        border-radius: 6px 6px 0 0;
+        border-bottom: 2px solid #ced4da;
+      }
+      .mug-handle {
+        position: absolute;
+        right: -42px;
+        top: 50px;
+        width: 40px;
+        height: 100px;
+        border: 8px solid #dee2e6;
+        border-left: none;
+        border-radius: 0 24px 24px 0;
+        background: transparent;
+        box-shadow: 4px 4px 12px rgba(0,0,0,0.08);
+      }
+      .mug-rim {
+        position: absolute;
+        top: -8px;
+        left: -6px;
+        right: -6px;
+        height: 16px;
+        background: linear-gradient(135deg, #f1f3f5, #dee2e6);
+        border-radius: 8px 8px 4px 4px;
+        border: 2px solid #ced4da;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      }
+      .mug-shadow {
+        width: 240px;
+        height: 20px;
+        background: radial-gradient(ellipse, rgba(0,0,0,0.12) 0%, transparent 70%);
+        margin-top: 8px;
+      }
+      .sail-number-display {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 700;
+        font-size: 2rem;
+        color: #1d5a90;
+        text-align: center;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        white-space: nowrap;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.06);
+      }
+      .sail-number-display .flag-line {
+        display: block;
+        font-size: 0.65em;
+        color: #3c73aa;
+        letter-spacing: 0.15em;
+        font-weight: 600;
+      }
+
+      /* Step cards hover */
+      .step-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .step-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+      }
+
+      /* Modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: rgba(0,0,0,0.5);
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+      }
+      .modal-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .modal-panel {
+        background: #f9f9ff;
+        border-radius: 1.5rem;
+        max-width: 480px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 24px 80px rgba(0,0,0,0.2);
+        transform: translateY(16px) scale(0.97);
+        transition: transform 0.25s ease;
+      }
+      .modal-overlay.active .modal-panel {
+        transform: translateY(0) scale(1);
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
+
+<!-- Top Navigation Shell -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 dark:bg-slate-900/70 backdrop-blur-md shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+<a href="../" class="text-2xl font-black text-blue-900 dark:text-blue-100 italic font-headline uppercase tracking-tight">
+                NBK
+            </a>
+<!-- Desktop Navigation -->
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../">Nyheter</a>
+<a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../grener/">Grener</a>
+<a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../events/">Events</a>
+<a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../medlemskap/">Medlemskap</a>
+<a class="text-blue-600 dark:text-blue-300 border-b-2 border-orange-500 pb-1 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="#">Butikk</a>
+<a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../om-oss/">Om Oss</a>
+</div>
+<div class="flex items-center gap-4">
+<a href="../medlemskap/" class="hidden md:block px-6 py-2 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-105 transition-all active:scale-95 shadow-lg shadow-secondary/20">
+                    Bli Medlem
+                </a>
+<button id="mobile-menu-btn" class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden md:hidden px-8 pb-6 space-y-4 bg-surface/95 backdrop-blur-md">
+<a class="block text-slate-700 font-headline font-bold uppercase tracking-tight py-2" href="../">Nyheter</a>
+<a class="block text-slate-700 font-headline font-bold uppercase tracking-tight py-2" href="../grener/">Grener</a>
+<a class="block text-slate-700 font-headline font-bold uppercase tracking-tight py-2" href="../events/">Events</a>
+<a class="block text-slate-700 font-headline font-bold uppercase tracking-tight py-2" href="../medlemskap/">Medlemskap</a>
+<a class="block text-blue-600 font-headline font-bold uppercase tracking-tight py-2 border-l-4 border-orange-500 pl-3" href="#">Butikk</a>
+<a class="block text-slate-700 font-headline font-bold uppercase tracking-tight py-2" href="../om-oss/">Om Oss</a>
+<a href="../medlemskap/" class="block text-center px-6 py-3 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight mt-4">Bli Medlem</a>
+</div>
+</nav>
+
+<main>
+
+<!-- Hero Section -->
+<section class="relative pt-32 pb-20 md:pt-40 md:pb-28 px-8 bg-gradient-to-br from-primary via-primary-container to-primary overflow-hidden">
+<div class="absolute top-0 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl -mr-48 -mt-48"></div>
+<div class="absolute bottom-0 left-0 w-72 h-72 bg-secondary-container/15 rounded-full blur-3xl -ml-36 -mb-36"></div>
+<div class="relative z-10 max-w-5xl mx-auto text-center">
+<span class="inline-block bg-white/15 backdrop-blur-sm text-white font-label text-xs uppercase tracking-[0.25em] px-5 py-2 rounded-full mb-8">Nytt i butikken</span>
+<h1 class="font-headline font-black text-5xl md:text-8xl text-white leading-none tracking-tighter uppercase italic mb-6">
+            Støtt<br/>Ungdommen
+        </h1>
+<p class="text-white/85 text-lg md:text-xl font-body max-w-xl mx-auto leading-relaxed">
+            Kjøp merch med ditt gamle seilnummer. Hele overskuddet går til unge seilere.
+        </p>
+</div>
+</section>
+
+<!-- Product Section -->
+<section class="py-20 md:py-28 px-8 max-w-6xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+<!-- Mug Preview -->
+<div class="flex flex-col items-center justify-center">
+<div class="bg-surface-container-low rounded-2xl p-12 md:p-16 w-full flex flex-col items-center">
+<div class="relative" style="padding-right: 42px;">
+<div class="mug-body">
+<div class="mug-rim"></div>
+<div class="mug-handle"></div>
+<div class="sail-number-display" id="mug-preview">
+<span class="flag-line">NOR</span>
+<span id="mug-number">42</span>
+</div>
+</div>
+<div class="mug-shadow mx-auto"></div>
+</div>
+<p class="mt-8 text-on-surface-variant font-label text-xs uppercase tracking-[0.2em]">Forhåndsvisning</p>
+</div>
+</div>
+
+<!-- Product Details -->
+<div>
+<span class="font-label text-secondary font-bold uppercase tracking-[0.2em] text-sm mb-4 block">Personlig gave</span>
+<h2 class="font-headline font-black text-4xl md:text-5xl text-on-surface tracking-tighter uppercase italic mb-4">Din Seilnummer-Kopp</h2>
+<p class="text-on-surface-variant font-body text-lg leading-relaxed mb-8">
+            Få ditt gamle seilnummer på en eksklusiv kopp. Hele overskuddet går til å støtte unge seilere.
+        </p>
+<div class="flex items-baseline gap-3 mb-10">
+<span class="font-headline font-black text-5xl text-primary">500,-</span>
+<span class="text-on-surface-variant font-label text-sm uppercase tracking-wide">NOK</span>
+</div>
+
+<!-- Personalization Form -->
+<div class="space-y-6">
+<div>
+<label for="sail-number" class="block font-headline font-bold text-sm uppercase tracking-wider text-on-surface mb-2">Ditt seilnummer</label>
+<input
+  type="text"
+  id="sail-number"
+  placeholder="f.eks. NOR 42"
+  maxlength="12"
+  class="w-full px-5 py-4 rounded-xl bg-surface-container-high border-2 border-transparent focus:border-primary focus:ring-0 font-headline font-bold text-2xl text-primary placeholder:text-outline placeholder:font-normal placeholder:text-base transition-colors"
+/>
+</div>
+<button
+  id="order-btn"
+  class="w-full px-10 py-5 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold text-lg uppercase tracking-tight hover:scale-[1.02] transition-all active:scale-[0.98] shadow-xl shadow-secondary/20 flex items-center justify-center gap-3"
+>
+<span class="material-symbols-outlined">shopping_cart</span>
+Bestill med Vipps
+</button>
+<p id="order-status" class="text-center font-label text-sm text-on-surface-variant hidden"></p>
+</div>
+</div>
+
+</div>
+</section>
+
+<!-- How It Works -->
+<section class="bg-surface-container-low py-20 md:py-28 px-8">
+<div class="max-w-5xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-headline font-black text-4xl md:text-6xl text-primary tracking-tighter uppercase italic mb-4">Slik Fungerer Det</h2>
+<p class="text-on-surface-variant font-body text-lg">Tre enkle steg til din personlige kopp.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+<div class="step-card bg-surface rounded-2xl p-8 text-center">
+<div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
+<span class="font-headline font-black text-2xl text-primary">1</span>
+</div>
+<h3 class="font-headline font-bold text-xl uppercase tracking-tight mb-3">Velg ditt nummer</h3>
+<p class="text-on-surface-variant font-body">Skriv inn seilnummeret ditt og se det direkte på koppen.</p>
+</div>
+
+<div class="step-card bg-surface rounded-2xl p-8 text-center">
+<div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center mx-auto mb-6">
+<span class="font-headline font-black text-2xl text-secondary">2</span>
+</div>
+<h3 class="font-headline font-bold text-xl uppercase tracking-tight mb-3">Betal med Vipps</h3>
+<p class="text-on-surface-variant font-body">Rask og enkel betaling. Ingen kontooppretting nødvendig.</p>
+</div>
+
+<div class="step-card bg-surface rounded-2xl p-8 text-center">
+<div class="w-16 h-16 rounded-full bg-primary-container/20 flex items-center justify-center mx-auto mb-6">
+<span class="font-headline font-black text-2xl text-primary-container">3</span>
+</div>
+<h3 class="font-headline font-bold text-xl uppercase tracking-tight mb-3">Koppen leveres hjem</h3>
+<p class="text-on-surface-variant font-body">Produsert og levert rett til døren din.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- Support Message -->
+<section class="py-24 md:py-32 px-8 bg-surface">
+<div class="max-w-5xl mx-auto rounded-3xl bg-primary overflow-hidden relative">
+<div class="absolute top-0 right-0 w-64 h-64 bg-secondary/20 rounded-full blur-3xl -mr-32 -mt-32"></div>
+<div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary-container/20 rounded-full blur-3xl -ml-32 -mb-32"></div>
+<div class="relative z-10 px-8 md:px-16 py-16 md:py-20">
+<div class="max-w-2xl mx-auto text-center">
+<span class="inline-block bg-white/15 backdrop-blur-sm text-white font-label text-xs uppercase tracking-[0.25em] px-5 py-2 rounded-full mb-8">Ditt bidrag teller</span>
+<h2 class="font-headline font-black text-4xl md:text-6xl text-white mb-6 uppercase italic leading-tight">500,- som betyr noe</h2>
+<p class="text-on-primary-container text-lg md:text-xl leading-relaxed mb-4">
+            For deg er det en kopp med minner. For en ung seiler er det muligheten til å trene, konkurrere og vokse i sporten vi elsker.
+        </p>
+<p class="text-white/60 font-body leading-relaxed">
+            Hele overskuddet fra butikken går direkte til NBKs ungdomsprogram: treningssamlinger, regattastøtte og utstyrshjelp for de neste generasjonene.
+        </p>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+
+<!-- Shipping Modal -->
+<div id="shipping-modal" class="modal-overlay">
+<div class="modal-panel">
+<div class="p-8 md:p-10">
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-headline font-black text-2xl text-on-surface uppercase italic tracking-tight">Levering</h2>
+<button id="modal-close-x" class="text-outline hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<form id="shipping-form" class="space-y-5" novalidate>
+<div>
+<label for="sf-name" class="block font-headline font-bold text-xs uppercase tracking-wider text-on-surface mb-1.5">Navn *</label>
+<input type="text" id="sf-name" required autocomplete="name" class="w-full px-4 py-3 rounded-xl bg-surface-container-high border-2 border-transparent focus:border-primary focus:ring-0 font-body text-on-surface placeholder:text-outline transition-colors" />
+</div>
+<div>
+<label for="sf-email" class="block font-headline font-bold text-xs uppercase tracking-wider text-on-surface mb-1.5">E-post *</label>
+<input type="email" id="sf-email" required autocomplete="email" class="w-full px-4 py-3 rounded-xl bg-surface-container-high border-2 border-transparent focus:border-primary focus:ring-0 font-body text-on-surface placeholder:text-outline transition-colors" />
+</div>
+<div>
+<label for="sf-phone" class="block font-headline font-bold text-xs uppercase tracking-wider text-on-surface mb-1.5">Telefon</label>
+<input type="tel" id="sf-phone" autocomplete="tel" class="w-full px-4 py-3 rounded-xl bg-surface-container-high border-2 border-transparent focus:border-primary focus:ring-0 font-body text-on-surface placeholder:text-outline transition-colors" />
+</div>
+<div>
+<label for="sf-street" class="block font-headline font-bold text-xs uppercase tracking-wider text-on-surface mb-1.5">Adresse *</label>
+<input type="text" id="sf-street" required autocomplete="street-address" class="w-full px-4 py-3 rounded-xl bg-surface-container-high border-2 border-transparent focus:border-primary focus:ring-0 font-body text-on-surface placeholder:text-outline transition-colors" />
+</div>
+<div class="grid grid-cols-5 gap-4">
+<div class="col-span-2">
+<label for="sf-postal" class="block font-headline font-bold text-xs uppercase tracking-wider text-on-surface mb-1.5">Postnummer *</label>
+<input type="text" id="sf-postal" required autocomplete="postal-code" class="w-full px-4 py-3 rounded-xl bg-surface-container-high border-2 border-transparent focus:border-primary focus:ring-0 font-body text-on-surface placeholder:text-outline transition-colors" />
+</div>
+<div class="col-span-3">
+<label for="sf-city" class="block font-headline font-bold text-xs uppercase tracking-wider text-on-surface mb-1.5">By *</label>
+<input type="text" id="sf-city" required autocomplete="address-level2" class="w-full px-4 py-3 rounded-xl bg-surface-container-high border-2 border-transparent focus:border-primary focus:ring-0 font-body text-on-surface placeholder:text-outline transition-colors" />
+</div>
+</div>
+<div>
+<label for="sf-country" class="block font-headline font-bold text-xs uppercase tracking-wider text-on-surface mb-1.5">Land</label>
+<input type="text" id="sf-country" value="Norge" autocomplete="country-name" class="w-full px-4 py-3 rounded-xl bg-surface-container-high border-2 border-transparent focus:border-primary focus:ring-0 font-body text-on-surface placeholder:text-outline transition-colors" />
+</div>
+<p id="modal-error" class="text-error font-label text-sm hidden"></p>
+<button type="submit" id="modal-submit-btn" class="w-full px-10 py-4 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold text-lg uppercase tracking-tight hover:scale-[1.02] transition-all active:scale-[0.98] shadow-xl shadow-secondary/20 flex items-center justify-center gap-3 mt-4">
+<span class="material-symbols-outlined">payment</span>
+Betal med Vipps
+</button>
+<div class="text-center mt-3">
+<button type="button" id="modal-cancel-btn" class="text-on-surface-variant font-label text-sm hover:text-on-surface transition-colors">Avbryt</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 w-full py-12 px-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+<div class="space-y-6">
+<div class="font-headline font-bold text-blue-900 dark:text-blue-100 text-3xl uppercase italic">NBK</div>
+<p class="text-slate-500 dark:text-slate-400 font-body text-sm leading-relaxed">
+                Norsk Brettseilerklubb jobber for å fremme brettsport i Norge gjennom arrangementer, utdanning og miljøbygging langs hele kysten.
+            </p>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm mb-2">Navigasjon</h4>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../grener/">Grener</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../events/">Events</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../seilnummer/">Seilnummer</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../klubber/">Klubber</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="#">Butikk</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm mb-2">Finn oss</h4>
+<p class="text-slate-500 font-body text-sm">post@nbk.no</p>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm">Nyhetsbrev</h4>
+<div class="relative">
+<input class="w-full bg-surface-container-high border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary" placeholder="Din e-post" type="email"/>
+<button class="absolute right-2 top-1.5 p-1.5 bg-primary text-on-primary rounded-md">
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-16 pt-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4 max-w-7xl mx-auto">
+<p class="text-slate-500 font-body text-sm">&copy; 2025 Norsk Brettseilerklubb. All rights reserved.</p>
+</div>
+</footer>
+
+<script>
+// --- Live mug preview ---
+const sailInput = document.getElementById('sail-number');
+const mugPreview = document.getElementById('mug-preview');
+
+sailInput.addEventListener('input', () => {
+  const val = sailInput.value.trim().toUpperCase();
+  if (!val) {
+    mugPreview.innerHTML = '<span class="flag-line">NOR</span><span id="mug-number">42</span>';
+    return;
+  }
+  const match = val.match(/^([A-Z]{2,4})\s*(.+)$/);
+  if (match) {
+    mugPreview.innerHTML = `<span class="flag-line">${match[1]}</span><span>${match[2]}</span>`;
+  } else {
+    mugPreview.innerHTML = `<span>${val}</span>`;
+  }
+});
+
+// --- Modal ---
+const modal = document.getElementById('shipping-modal');
+const shippingForm = document.getElementById('shipping-form');
+const modalError = document.getElementById('modal-error');
+const modalSubmitBtn = document.getElementById('modal-submit-btn');
+const orderBtn = document.getElementById('order-btn');
+const orderStatus = document.getElementById('order-status');
+
+function openModal() { modal.classList.add('active'); document.body.style.overflow = 'hidden'; }
+function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; modalError.classList.add('hidden'); }
+
+document.getElementById('modal-close-x').addEventListener('click', closeModal);
+document.getElementById('modal-cancel-btn').addEventListener('click', closeModal);
+modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+// --- Order button -> open modal ---
+orderBtn.addEventListener('click', () => {
+  const sailNumber = sailInput.value.trim().toUpperCase();
+  if (!sailNumber) {
+    orderStatus.textContent = 'Skriv inn seilnummeret ditt først.';
+    orderStatus.className = 'text-center font-label text-sm text-error';
+    orderStatus.classList.remove('hidden');
+    return;
+  }
+  orderStatus.classList.add('hidden');
+  openModal();
+});
+
+// --- Shipping form submit ---
+shippingForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  modalError.classList.add('hidden');
+
+  const name = document.getElementById('sf-name').value.trim();
+  const email = document.getElementById('sf-email').value.trim();
+  const phone = document.getElementById('sf-phone').value.trim();
+  const street = document.getElementById('sf-street').value.trim();
+  const postal = document.getElementById('sf-postal').value.trim();
+  const city = document.getElementById('sf-city').value.trim();
+  const country = document.getElementById('sf-country').value.trim();
+
+  if (!name || !email || !street || !postal || !city) {
+    modalError.textContent = 'Vennligst fyll ut alle påkrevde felt.';
+    modalError.classList.remove('hidden');
+    return;
+  }
+
+  const sailNumber = sailInput.value.trim().toUpperCase();
+
+  // Map country name to code
+  const countryMap = { 'norge': 'NO', 'norway': 'NO', 'sverige': 'SE', 'sweden': 'SE', 'danmark': 'DK', 'denmark': 'DK' };
+  const countryCode = countryMap[country.toLowerCase()] || country.toUpperCase().substring(0, 2);
+
+  modalSubmitBtn.disabled = true;
+  modalSubmitBtn.classList.add('opacity-60', 'cursor-not-allowed');
+  modalSubmitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> Behandler...';
+
+  try {
+    const res = await fetch('../api/shop-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        productId: 'sail-mug',
+        sailNumber: sailNumber,
+        buyerName: name,
+        buyerEmail: email,
+        buyerPhone: phone || undefined,
+        shippingAddress: {
+          name: name,
+          street: street,
+          city: city,
+          postalCode: postal,
+          country: countryCode
+        }
+      })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || 'Bestillingen feilet. Prøv igjen.');
+    }
+
+    const data = await res.json();
+
+    if (data.redirectUrl) {
+      window.location.href = data.redirectUrl;
+      return;
+    }
+
+    // No redirect — show inline success
+    closeModal();
+    orderStatus.textContent = data.message || 'Bestillingen er registrert!';
+    orderStatus.className = 'text-center font-label text-sm text-primary';
+    orderStatus.classList.remove('hidden');
+  } catch (err) {
+    modalError.textContent = err.message || 'Noe gikk galt. Prøv igjen.';
+    modalError.classList.remove('hidden');
+  } finally {
+    modalSubmitBtn.disabled = false;
+    modalSubmitBtn.classList.remove('opacity-60', 'cursor-not-allowed');
+    modalSubmitBtn.innerHTML = '<span class="material-symbols-outlined">payment</span> Betal med Vipps';
+  }
+});
+
+// --- Fetch products on load (verify API) ---
+(async function loadProducts() {
+  try {
+    const res = await fetch('../api/shop-products');
+    if (res.ok) {
+      const products = await res.json();
+      console.log('Shop products loaded:', products);
+    }
+  } catch (e) {
+    console.log('Shop products API not yet available');
+  }
+})();
+
+// --- Mobile menu toggle ---
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+if (mobileMenuBtn && mobileMenu) {
+  mobileMenuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+}
+</script>
+</body></html>

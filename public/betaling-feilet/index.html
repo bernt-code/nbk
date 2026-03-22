@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html class="light" lang="no"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Betaling feilet | NBK - Norsk Brettseilerklubb</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Lexend:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-container": "#3c73aa",
+              "secondary": "#ab3600",
+              "outline-variant": "#c1c7d1",
+              "on-secondary-fixed": "#390c00",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#ffb59c",
+              "on-secondary": "#ffffff",
+              "on-tertiary-fixed-variant": "#51453a",
+              "primary-fixed-dim": "#9ecaff",
+              "inverse-primary": "#9ecaff",
+              "tertiary-container": "#7b6d61",
+              "on-primary-fixed-variant": "#00497c",
+              "tertiary-fixed-dim": "#d5c3b5",
+              "primary": "#1d5a90",
+              "on-tertiary-fixed": "#231a11",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed-variant": "#832700",
+              "on-surface-variant": "#42474f",
+              "outline": "#727780",
+              "surface-variant": "#dde2f3",
+              "tertiary-fixed": "#f2dfd0",
+              "on-primary-fixed": "#001d36",
+              "on-tertiary-container": "#fff2ea",
+              "on-background": "#161c27",
+              "surface-container-highest": "#dde2f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "inverse-on-surface": "#ecf0ff",
+              "surface": "#f9f9ff",
+              "surface-container-high": "#e3e8f9",
+              "surface-bright": "#f9f9ff",
+              "secondary-container": "#ff6e39",
+              "surface-container-low": "#f1f3ff",
+              "primary-fixed": "#d1e4ff",
+              "background": "#f9f9ff",
+              "surface-dim": "#d4daea",
+              "on-secondary-container": "#611b00",
+              "surface-container": "#e8eeff",
+              "on-surface": "#161c27",
+              "on-tertiary": "#ffffff",
+              "on-primary-container": "#f0f5ff",
+              "inverse-surface": "#2a303d",
+              "surface-tint": "#276197",
+              "secondary-fixed": "#ffdbcf",
+              "surface-container-lowest": "#ffffff",
+              "error": "#ba1a1a",
+              "tertiary": "#62554a"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Lexend"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
+
+<!-- Top Navigation Shell -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 dark:bg-slate-900/70 backdrop-blur-md shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+<a href="../" class="text-2xl font-black text-blue-900 dark:text-blue-100 italic font-headline uppercase tracking-tight">
+                NBK
+            </a>
+<!-- Desktop Navigation -->
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../">Nyheter</a>
+<a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../grener/">Grener</a>
+<a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../events/">Events</a>
+<a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../medlemskap/">Medlemskap</a>
+<a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../butikk/">Butikk</a>
+<a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../om-oss/">Om Oss</a>
+</div>
+<div class="flex items-center gap-4">
+<a href="../medlemskap/" class="hidden md:block px-6 py-2 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-105 transition-all active:scale-95 shadow-lg shadow-secondary/20">
+                    Bli Medlem
+                </a>
+<button id="mobile-menu-btn" class="md:hidden text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden md:hidden px-8 pb-6 space-y-4 bg-surface/95 backdrop-blur-md">
+<a class="block text-slate-700 font-headline font-bold uppercase tracking-tight py-2" href="../">Nyheter</a>
+<a class="block text-slate-700 font-headline font-bold uppercase tracking-tight py-2" href="../grener/">Grener</a>
+<a class="block text-slate-700 font-headline font-bold uppercase tracking-tight py-2" href="../events/">Events</a>
+<a class="block text-slate-700 font-headline font-bold uppercase tracking-tight py-2" href="../medlemskap/">Medlemskap</a>
+<a class="block text-slate-700 font-headline font-bold uppercase tracking-tight py-2" href="../butikk/">Butikk</a>
+<a class="block text-slate-700 font-headline font-bold uppercase tracking-tight py-2" href="../om-oss/">Om Oss</a>
+<a href="../medlemskap/" class="block text-center px-6 py-3 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight mt-4">Bli Medlem</a>
+</div>
+</nav>
+
+<main>
+<section class="min-h-screen flex items-center justify-center px-8 pt-24 pb-20">
+<div class="max-w-lg mx-auto text-center">
+<!-- Warning icon -->
+<div class="w-24 h-24 rounded-full bg-error-container flex items-center justify-center mx-auto mb-8">
+<span class="material-symbols-outlined text-error" style="font-size: 56px; font-variation-settings: 'FILL' 1, 'wght' 500;">warning</span>
+</div>
+
+<h1 class="font-headline font-black text-4xl md:text-5xl text-on-surface tracking-tighter uppercase italic mb-4">Noe gikk galt</h1>
+<p class="text-on-surface-variant font-body text-lg leading-relaxed mb-10">
+Betalingen ble ikke gjennomf&oslash;rt. Pr&oslash;v igjen eller kontakt oss.
+</p>
+
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<a href="../butikk/" class="inline-flex items-center gap-3 px-10 py-4 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold text-lg uppercase tracking-tight hover:scale-[1.02] transition-all active:scale-[0.98] shadow-xl shadow-secondary/20">
+<span class="material-symbols-outlined">refresh</span>
+Pr&oslash;v igjen
+</a>
+<a href="../om-oss/" class="inline-flex items-center gap-2 text-primary font-headline font-bold uppercase tracking-tight hover:text-secondary transition-colors border-b-2 border-primary-container pb-1">
+Kontakt oss
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 w-full py-12 px-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+<div class="space-y-6">
+<div class="font-headline font-bold text-blue-900 dark:text-blue-100 text-3xl uppercase italic">NBK</div>
+<p class="text-slate-500 dark:text-slate-400 font-body text-sm leading-relaxed">
+                Norsk Brettseilerklubb jobber for &aring; fremme brettsport i Norge gjennom arrangementer, utdanning og milj&oslash;bygging langs hele kysten.
+            </p>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm mb-2">Navigasjon</h4>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../grener/">Grener</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../events/">Events</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../seilnummer/">Seilnummer</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../klubber/">Klubber</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../butikk/">Butikk</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm mb-2">Finn oss</h4>
+<p class="text-slate-500 font-body text-sm">post@nbk.no</p>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm">Nyhetsbrev</h4>
+<div class="relative">
+<input class="w-full bg-surface-container-high border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary" placeholder="Din e-post" type="email"/>
+<button class="absolute right-2 top-1.5 p-1.5 bg-primary text-on-primary rounded-md">
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-16 pt-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4 max-w-7xl mx-auto">
+<p class="text-slate-500 font-body text-sm">&copy; 2025 Norsk Brettseilerklubb. All rights reserved.</p>
+</div>
+</footer>
+
+<script>
+// Mobile menu toggle
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+if (mobileMenuBtn && mobileMenu) {
+  mobileMenuBtn.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+}
+</script>
+</body></html>

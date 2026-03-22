@@ -1,0 +1,158 @@
+backend:
+  name: git-gateway
+  branch: main
+
+site_url: https://nbk-no.netlify.app
+
+media_folder: "public/img/uploads"
+public_folder: "/img/uploads"
+
+collections:
+  # Pages
+  - name: "pages"
+    label: "Sider"
+    folder: "content/pages"
+    format: "json"
+    fields:
+      # Home page fields
+      - { label: "Hero tittel", name: "hero_title", widget: "string" }
+      - { label: "Hero undertittel", name: "hero_subtitle", widget: "string" }
+      - { label: "Hero badge", name: "hero_badge", widget: "string" }
+      - { label: "Hero bilde", name: "hero_image", widget: "image" }
+      - { label: "Hero CTA tekst", name: "hero_cta_text", widget: "string" }
+      - { label: "Hero sekundaer CTA", name: "hero_secondary_cta", widget: "string" }
+      # About fields
+      - { label: "Tittel", name: "title", widget: "string", required: false }
+      - { label: "Undertittel", name: "subtitle", widget: "string", required: false }
+      - { label: "Historietekst", name: "history_text", widget: "text", required: false }
+      - label: "Statistikk"
+        name: "stats"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Etikett", name: "label", widget: "string" }
+          - { label: "Nummer", name: "number", widget: "string" }
+      # Membership fields
+      - label: "Medlemsplaner"
+        name: "plans"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Navn", name: "name", widget: "string" }
+          - { label: "Pris", name: "price", widget: "string" }
+          - { label: "Fordeler", name: "features", widget: "list", field: { label: "Fordel", name: "feature", widget: "string" } }
+
+  # News / Nyheter
+  - name: "nyheter"
+    label: "Nyheter"
+    folder: "content/nyheter"
+    format: "json"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Tittel", name: "title", widget: "string" }
+      - { label: "Dato", name: "date", widget: "datetime" }
+      - label: "Kategori"
+        name: "category"
+        widget: "select"
+        options:
+          - "Hoydepunkt"
+          - "Nybegynner"
+          - "Medlem"
+          - "Regatta"
+          - "Klinikk"
+          - "Community"
+      - { label: "Bilde", name: "image", widget: "image" }
+      - { label: "Sammendrag", name: "summary", widget: "text" }
+      - { label: "Innhold", name: "body", widget: "markdown" }
+      - { label: "Sted", name: "location", widget: "string", required: false }
+
+  # Events
+  - name: "events"
+    label: "Events"
+    folder: "content/events"
+    format: "json"
+    create: true
+    fields:
+      - { label: "Tittel", name: "title", widget: "string" }
+      - { label: "Dato", name: "date", widget: "datetime" }
+      - { label: "Sluttdato", name: "end_date", widget: "datetime", required: false }
+      - { label: "Sted", name: "location", widget: "string" }
+      - label: "Disiplin"
+        name: "discipline"
+        widget: "select"
+        options:
+          - "Windsurfing"
+          - "Wingfoil"
+          - "Raceboard"
+          - "iQFOiL"
+          - "Alle"
+      - label: "Type"
+        name: "type"
+        widget: "select"
+        options:
+          - "Regatta"
+          - "Klinikk"
+          - "Community"
+          - "NM"
+      - { label: "Bilde", name: "image", widget: "image" }
+      - { label: "Beskrivelse", name: "description", widget: "markdown" }
+      - { label: "Pameldings-URL", name: "registration_url", widget: "string", required: false }
+      - { label: "Fremhevet", name: "featured", widget: "boolean", default: false }
+
+  # Clubs / Klubber
+  - name: "klubber"
+    label: "Klubber"
+    folder: "content/klubber"
+    format: "json"
+    create: true
+    fields:
+      - { label: "Navn", name: "name", widget: "string" }
+      - { label: "Forkortelse", name: "abbreviation", widget: "string" }
+      - label: "Region"
+        name: "region"
+        widget: "select"
+        options:
+          - "Viken"
+          - "Vestland"
+          - "Agder"
+          - "Rogaland"
+          - "Troendelag"
+          - "Nordland"
+          - "Troms"
+          - "Oslo"
+      - { label: "Bilde", name: "image", widget: "image" }
+      - { label: "Beskrivelse", name: "description", widget: "text" }
+      - label: "Disipliner"
+        name: "disciplines"
+        widget: "list"
+        field:
+          label: "Disiplin"
+          name: "discipline"
+          widget: "select"
+          options:
+            - "Windsurfing"
+            - "Wingfoil"
+            - "Raceboard"
+            - "iQFOiL"
+            - "Wave"
+            - "Freestyle"
+      - { label: "Nettside", name: "website", widget: "string", required: false }
+      - { label: "Kontakt e-post", name: "contact_email", widget: "string", required: false }
+
+  # Site Settings
+  - name: "settings"
+    label: "Innstillinger"
+    files:
+      - label: "Sideinnstillinger"
+        name: "general"
+        file: "content/settings.json"
+        fields:
+          - { label: "Sidenavn", name: "site_name", widget: "string", default: "Norsk Brettseilerklubb" }
+          - { label: "Kontakt e-post", name: "contact_email", widget: "string" }
+          - { label: "Kontaktadresse", name: "contact_address", widget: "string" }
+          - { label: "Facebook URL", name: "facebook_url", widget: "string", required: false }
+          - { label: "Instagram URL", name: "instagram_url", widget: "string", required: false }
+          - { label: "YouTube URL", name: "youtube_url", widget: "string", required: false }
+          - { label: "Bunntekst", name: "footer_text", widget: "string" }
+          - { label: "Sesongbadge", name: "season_badge", widget: "string" }

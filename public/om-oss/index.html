@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html class="light" lang="no"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Om Oss | NBK - Norsk Brettseilerklubb</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-container": "#3c73aa",
+              "secondary": "#ab3600",
+              "outline-variant": "#c1c7d1",
+              "on-secondary-fixed": "#390c00",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#ffb59c",
+              "on-secondary": "#ffffff",
+              "on-tertiary-fixed-variant": "#51453a",
+              "primary-fixed-dim": "#9ecaff",
+              "inverse-primary": "#9ecaff",
+              "tertiary-container": "#7b6d61",
+              "on-primary-fixed-variant": "#00497c",
+              "tertiary-fixed-dim": "#d5c3b5",
+              "primary": "#1d5a90",
+              "on-tertiary-fixed": "#231a11",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed-variant": "#832700",
+              "on-surface-variant": "#42474f",
+              "outline": "#727780",
+              "surface-variant": "#dde2f3",
+              "tertiary-fixed": "#f2dfd0",
+              "on-primary-fixed": "#001d36",
+              "on-tertiary-container": "#fff2ea",
+              "on-background": "#161c27",
+              "surface-container-highest": "#dde2f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "inverse-on-surface": "#ecf0ff",
+              "surface": "#f9f9ff",
+              "surface-container-high": "#e3e8f9",
+              "surface-bright": "#f9f9ff",
+              "secondary-container": "#ff6e39",
+              "surface-container-low": "#f1f3ff",
+              "primary-fixed": "#d1e4ff",
+              "background": "#f9f9ff",
+              "surface-dim": "#d4daea",
+              "on-secondary-container": "#611b00",
+              "surface-container": "#e8eeff",
+              "on-surface": "#161c27",
+              "on-tertiary": "#ffffff",
+              "on-primary-container": "#f0f5ff",
+              "inverse-surface": "#2a303d",
+              "surface-tint": "#276197",
+              "secondary-fixed": "#ffdbcf",
+              "surface-container-lowest": "#ffffff",
+              "error": "#ba1a1a",
+              "tertiary": "#62554a"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Lexend"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
+
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 dark:bg-slate-900/70 backdrop-blur-md shadow-sm dark:shadow-none">
+<div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+<a href="../" class="text-2xl font-black text-blue-900 dark:text-blue-100 italic font-headline uppercase tracking-tight">NBK</a>
+<!-- Desktop Navigation -->
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../">Nyheter</a>
+<a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../grener/">Grener</a>
+<a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../events/">Events</a>
+<a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="../medlemskap/">Medlemskap</a>
+<a class="text-blue-600 dark:text-blue-300 border-b-2 border-orange-500 pb-1 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="#">Om Oss</a>
+</div>
+<div class="flex items-center gap-4">
+<a href="../medlemskap/" class="hidden md:block px-6 py-2 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-105 transition-all active:scale-95 shadow-lg shadow-secondary/20">
+                    Bli Medlem
+                </a>
+<button class="md:hidden text-primary" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden md:hidden px-8 pb-6 space-y-4">
+<a class="block text-slate-700 font-headline font-bold uppercase tracking-tight" href="../">Nyheter</a>
+<a class="block text-slate-700 font-headline font-bold uppercase tracking-tight" href="../grener/">Grener</a>
+<a class="block text-slate-700 font-headline font-bold uppercase tracking-tight" href="../events/">Events</a>
+<a class="block text-slate-700 font-headline font-bold uppercase tracking-tight" href="../medlemskap/">Medlemskap</a>
+<a class="block text-blue-600 font-headline font-bold uppercase tracking-tight" href="#">Om Oss</a>
+</div>
+</nav>
+
+<main>
+
+<!-- Hero Section -->
+<section class="pt-28 pb-20 px-8 max-w-7xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
+<div class="md:col-span-7">
+<span class="inline-block bg-primary/10 text-primary font-label text-xs uppercase tracking-widest px-4 py-1 rounded-full mb-6">Siden 1978</span>
+<h1 class="font-headline font-black text-5xl md:text-7xl tracking-tighter uppercase leading-none mb-6">
+                    Drevet av <span class="text-secondary italic">Vind og Vann.</span>
+                </h1>
+<p class="text-on-surface-variant text-lg md:text-xl leading-relaxed max-w-xl">
+                    I over 45 år har Norsk Brettseilerklubb vært hjertet i norsk brettsport. Fra de første seilene på Oslofjorden til dagens wingfoil-revolusjon, vi har alltid ligget i forkant.
+                </p>
+</div>
+<div class="md:col-span-5">
+<div class="rounded-2xl overflow-hidden shadow-2xl">
+<img alt="Om NBK" class="w-full h-[400px] object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkBPL4XN4d0etIDhHg-TReiOrB3PaKM4yUHFnCidzXkkq5dVt2aK9oPk8fNLDWWzy6WNVqJY58aD2AktdjpWME-HAoTZw7BCWjG8j16h2IZlAShFJPe7D6egdsGGSnGb6AuEmnnYT0Kc7CuQxjBV8D-amebgAuZ9baQZCu5UnR56rj8KLJzGyJukMa66WmVNc57EptmT3A2SSlabs2_6zY3hZCRD2zeYc6TOTDpy2JlZCaJBEtbf8fy-KEIEkvPlQKKn2D8_dIvzg"/>
+</div>
+</div>
+</div>
+</section>
+
+<!-- History Bento Grid -->
+<section class="py-20 px-8 bg-surface-container-low">
+<div class="max-w-7xl mx-auto">
+<div class="mb-16">
+<h2 class="font-headline font-black text-5xl md:text-6xl text-primary tracking-tighter uppercase italic">Vår Historie</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+<!-- Text Card: 1980-tallet -->
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-2xl p-10 flex flex-col justify-between">
+<div>
+<div class="flex flex-wrap gap-3 mb-6">
+<span class="bg-primary/10 text-primary font-label text-xs uppercase tracking-widest px-3 py-1 rounded-full">Tradisjon</span>
+<span class="bg-secondary/10 text-secondary font-label text-xs uppercase tracking-widest px-3 py-1 rounded-full">Arv</span>
+<span class="bg-tertiary/10 text-tertiary font-label text-xs uppercase tracking-widest px-3 py-1 rounded-full">Fellesskap</span>
+</div>
+<h3 class="font-headline font-bold text-3xl md:text-4xl uppercase italic mb-4">1980-tallet / Gullalderen</h3>
+<p class="text-on-surface-variant leading-relaxed text-lg">
+                        Da windsurfing eksploderte som sport i Norge, var NBK allerede der. Med hundrevis av aktive medlemmer langs kysten bygde vi et fellesskap som skulle vare i generasjoner. Fra regattaene i Oslofjorden til de legendariske bølgeseilingene på Jæren.
+                    </p>
+</div>
+</div>
+
+<!-- Retro Image -->
+<div class="group rounded-2xl overflow-hidden h-[350px] relative">
+<img alt="NBK retro" class="w-full h-full object-cover transition-all duration-700 group-hover:grayscale-0 grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNSek4uw_eQidx4pM3h50wGaC1F1ExqYSlo68oe0J_uNLnEqEtbXAER83KFZb77zg74UucG9jzYjYpuflGSj38Ic6tq8n3Rgau9EpOnJMaAnVtJkQJc_IAkH2VcA33Xz2eS4hD5W-JTaOdP9Vi-6MC7l-vKVlV5PcGfOOCpIJSLa62u-y9E55Bu5Z1CMdWcc0tOImJl6HlWK-7GAVv2SrMgQW7PJCFRUjMBvQ-udP3pKDQjHw_1OnbwlreZjgF7JN98P3rtBSGi4I"/>
+</div>
+
+<!-- Image with Gradient Overlay Quote -->
+<div class="lg:col-span-2 rounded-2xl overflow-hidden h-[350px] relative group">
+<img alt="Kystlandskap" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3uy-7pXr81wj3iCHNDHVLjN_EEI7LycOT1SQx57e0GY6fyBjioQjn4GplGtLT-_aXvo0ey2OePPZaYjjDJP26InEa4Hemf3guIGnJTEo81SvxCLAwNNkVZzJpwoeV3FFq1pl4ofqW4fX3-3h8fhTliERu5THR2Ri2yB9XL4-mlPxgZVAXE1QXp6RTDOq6HphPb3z60OTgv4sIYoQCZkJcuQOrwitnGRwlNtVaope2N5Vqc_O5SCic3FVytsFdydiD2toQygLS0USfk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/30 to-transparent"></div>
+<div class="absolute bottom-8 left-8 right-8">
+<blockquote class="font-headline text-2xl md:text-3xl text-white italic leading-snug">
+                        "Vinden kjenner ingen alder, ingen grenser. Den er like fri som oss."
+                    </blockquote>
+<p class="text-white/70 mt-3 font-label text-sm uppercase tracking-widest">Grunnlegger, 1978</p>
+</div>
+</div>
+
+<!-- Stats Card -->
+<div class="bg-primary rounded-2xl p-10 flex flex-col justify-center text-center">
+<div class="space-y-8">
+<div>
+<p class="font-headline font-black text-5xl text-white">45+</p>
+<p class="text-on-primary-container font-label text-sm uppercase tracking-widest mt-1">år med historie</p>
+</div>
+<div class="w-16 h-px bg-white/20 mx-auto"></div>
+<div>
+<p class="font-headline font-black text-5xl text-white">12</p>
+<p class="text-on-primary-container font-label text-sm uppercase tracking-widest mt-1">lokale klubber</p>
+</div>
+<div class="w-16 h-px bg-white/20 mx-auto"></div>
+<div>
+<p class="font-headline font-black text-5xl text-white">2.5k</p>
+<p class="text-on-primary-container font-label text-sm uppercase tracking-widest mt-1">aktive medlemmer</p>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- Board Members -->
+<section class="py-28 px-8 max-w-7xl mx-auto">
+<div class="mb-16 text-center">
+<h2 class="font-headline font-black text-5xl md:text-6xl text-primary tracking-tighter uppercase italic">Styret</h2>
+<p class="text-on-surface-variant mt-4 font-body text-lg max-w-2xl mx-auto">Menneskene som driver klubben fremover, med lidenskap for vind og vann.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+<!-- Erik Sørli -->
+<div class="group">
+<div class="rounded-2xl overflow-hidden mb-5 shadow-lg">
+<img alt="Erik Sørli" class="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJZf1qcf9aqOxJjwqVtN0hiRiKQcY2lBv3OUgUVouQaV6M6riYG2nd3CKZMH1M1BjdlqZRgLDV596nNIfSEqoJgN1ChhdDzRRuwDOPU6xlIJCblE0B3kNwGi0k_f37U4PuayIdrrYqiShF36vCSIuyg0_OWyqnCpgrl_PQWzc_hrFg95tc2jdE-yI7DBED3u9jKFR2PoD8oEsNgvWio6qvetzmuAXjNxf1IztaM9D5P-TCLf4ihLZleWZC_5iaC1ywRtljJwRtndM"/>
+</div>
+<h3 class="font-headline font-bold text-xl uppercase">Erik Sørli</h3>
+<p class="text-secondary font-label text-sm uppercase tracking-widest">Styreleder</p>
+</div>
+
+<!-- Morten Gran (staggered down) -->
+<div class="group lg:translate-y-12">
+<div class="rounded-2xl overflow-hidden mb-5 shadow-lg">
+<img alt="Morten Gran" class="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfD4tig2UbUgjYIOJLS7ljDzyKUN2oNIHSl3u6g-wdK6wqjv5Rw4muwKEx8Y_i8jfV9Ci9WwyVt6PPam3qfAE5RUD68bkzINUZm9JLwJSIqjdTHRcXgboU2GT4g_MjU2R4Z2EfhK9dCoez1a_TQMOiQr6FrXLcDg3v9QeUG18fcX09jLXaj8-hjzlbCYHDA-kcyeDXywQiUakkzQIMLp4W_c-yJUqqpum8EWqIWxX2IpFlatf453ZmaT0OR-Y6--2tCKx4zkmTiJY"/>
+</div>
+<h3 class="font-headline font-bold text-xl uppercase">Morten Gran</h3>
+<p class="text-secondary font-label text-sm uppercase tracking-widest">Nestleder</p>
+</div>
+
+<!-- Ingrid Moe -->
+<div class="group">
+<div class="rounded-2xl overflow-hidden mb-5 shadow-lg">
+<img alt="Ingrid Moe" class="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBk09_ZlKCLa3itJNEzi8hPUD7SZfSBUqQLG7NG06yEoToyZR9dgoM7LFdQeig5zWwOMl3PcxqsXpuQ0mfuehCko2pXKsWWxTXxeXrQGyrOH5zDtBQIw7mJQ-XQwPQwTEad9-R03H6P_a4FiXvqC6t7M-hCefR8FjT5StHfIr6Kfg4tNzrkM0UsYCqIS5-3zB75yR_q6z2yp1VCyDiqAQsTFSPbSwIakPtIDekIR7l67vjvB1hxwHadKzZdWLUB8EhWl6MD4soQHCg"/>
+</div>
+<h3 class="font-headline font-bold text-xl uppercase">Ingrid Moe</h3>
+<p class="text-secondary font-label text-sm uppercase tracking-widest">Økonomiansvarlig</p>
+</div>
+
+<!-- Anders Lie (staggered down) -->
+<div class="group lg:translate-y-12">
+<div class="rounded-2xl overflow-hidden mb-5 shadow-lg">
+<img alt="Anders Lie" class="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQYr-VtnLZ-0Sae7vXDIec9fIfSkDU2aoMOXjvC-aaXEPN-e0qdZkjKCE00UZKqqKeGSmx_662TqJdYcwOT7hh42laWaVdZSceDkpiD9tFpTu96WkscZGPbPCpac7dF9ly5_hoKkRy4PaltbL661GnyNeS8TORkySl_cpmxooKD-RBRovrpkzfNsJhyXiNQ1FMbBL6Yw_m0DAJbCtohlCrjkLyicvVAhnIsfLllxmtw1N8KFhQSvoz15KnjcFIWnNHlIKG8OQC0ME"/>
+</div>
+<h3 class="font-headline font-bold text-xl uppercase">Anders Lie</h3>
+<p class="text-secondary font-label text-sm uppercase tracking-widest">Sportslig leder</p>
+</div>
+
+</div>
+</section>
+
+<!-- Contact Section -->
+<section id="kontakt" class="py-28 px-8 bg-surface-container-low">
+<div class="max-w-5xl mx-auto">
+<div class="mb-16 text-center">
+<h2 class="font-headline font-black text-5xl md:text-6xl text-primary tracking-tighter uppercase italic">Kontakt Oss</h2>
+<p class="text-on-surface-variant mt-4 font-body text-lg">Vi hører gjerne fra deg. Send oss en melding eller stopp innom.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 bg-surface-container-lowest rounded-3xl overflow-hidden shadow-xl">
+
+<!-- Contact Info -->
+<div class="bg-primary p-12 flex flex-col justify-center">
+<h3 class="font-headline font-bold text-2xl text-white uppercase mb-8">Finn Oss</h3>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary-container text-2xl mt-1">mail</span>
+<div>
+<p class="text-white/60 font-label text-xs uppercase tracking-widest mb-1">E-post</p>
+<a href="mailto:post@nbk.no" class="text-white text-lg font-medium hover:text-secondary-container transition-colors">post@nbk.no</a>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary-container text-2xl mt-1">location_on</span>
+<div>
+<p class="text-white/60 font-label text-xs uppercase tracking-widest mb-1">Adresse</p>
+<p class="text-white text-lg font-medium">Sjølyst plass 2<br/>0278 Oslo</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-secondary-container text-2xl mt-1">schedule</span>
+<div>
+<p class="text-white/60 font-label text-xs uppercase tracking-widest mb-1">Kontortid</p>
+<p class="text-white text-lg font-medium">Man - Fre: 09:00 - 16:00</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Contact Form -->
+<div class="p-12">
+<h3 class="font-headline font-bold text-2xl uppercase mb-8">Send Melding</h3>
+<form class="space-y-6">
+<div>
+<label class="block font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2" for="name">Navn</label>
+<input id="name" type="text" placeholder="Ditt fulle navn" class="w-full bg-surface-container-high border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary"/>
+</div>
+<div>
+<label class="block font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2" for="email">E-post</label>
+<input id="email" type="email" placeholder="din@epost.no" class="w-full bg-surface-container-high border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary"/>
+</div>
+<div>
+<label class="block font-label text-xs uppercase tracking-widest text-on-surface-variant mb-2" for="message">Melding</label>
+<textarea id="message" rows="4" placeholder="Skriv din melding her..." class="w-full bg-surface-container-high border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary resize-none"></textarea>
+</div>
+<button type="submit" class="w-full px-8 py-4 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-[1.02] transition-all shadow-lg shadow-secondary/20">
+                            Send Melding
+                        </button>
+</form>
+</div>
+
+</div>
+</div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 w-full py-12 px-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+<div class="space-y-6">
+<a href="../" class="font-headline font-bold text-blue-900 dark:text-blue-100 text-3xl uppercase italic block">NBK</a>
+<p class="text-slate-500 dark:text-slate-400 font-body text-sm leading-relaxed">
+                    Norsk Brettseilerklubb jobber for å fremme brettsport i Norge gjennom arrangementer, utdanning og miljøbygging langs hele kysten.
+                </p>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm mb-2">Navigasjon</h4>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../grener/">Grener</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../events/">Events</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../seilnummer/">Seilnummer</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../klubber/">Klubber</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm mb-2">Finn oss</h4>
+<p class="text-slate-500 font-body text-sm">post@nbk.no</p>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm">Nyhetsbrev</h4>
+<div class="relative">
+<input class="w-full bg-surface-container-high border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary" placeholder="Din e-post" type="email"/>
+<button class="absolute right-2 top-1.5 p-1.5 bg-primary text-on-primary rounded-md">
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-16 pt-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4 max-w-7xl mx-auto">
+<p class="text-slate-500 font-body text-sm">&copy; 2025 Norsk Brettseilerklubb. All rights reserved.</p>
+</div>
+</footer>
+
+</body></html>
