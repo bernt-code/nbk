@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Directories that need manifest files
-const collections = ['nyheter', 'events', 'klubber'];
+const collections = ['nyheter', 'events', 'klubber', 'grener'];
 
 collections.forEach(collection => {
   const dir = path.join(__dirname, 'public', 'content', collection);

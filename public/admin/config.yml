@@ -140,6 +140,57 @@ collections:
       - { label: "Nettside", name: "website", widget: "string", required: false }
       - { label: "Kontakt e-post", name: "contact_email", widget: "string", required: false }
 
+  # Grener / Disciplines
+  - name: "grener"
+    label: "Grener"
+    folder: "public/content/grener"
+    format: "json"
+    create: true
+    fields:
+      - { label: "Navn", name: "name", widget: "string" }
+      - { label: "Undertittel", name: "subtitle", widget: "string" }
+      - { label: "Beskrivelse", name: "description", widget: "text" }
+      - { label: "Bilde", name: "image", widget: "image" }
+      - label: "Type"
+        name: "type"
+        widget: "select"
+        options:
+          - "Klassisk"
+          - "Fremtiden"
+          - "Strategi & Presisjon"
+          - "Olympisk"
+      - { label: "CTA tekst", name: "cta_text", widget: "string", default: "Les Mer" }
+      - { label: "Rekkefolge", name: "order", widget: "number", default: 0 }
+
+  # Om Oss / About
+  - name: "om-oss"
+    label: "Om Oss"
+    files:
+      - label: "Om NBK"
+        name: "about"
+        file: "public/content/pages/om-oss.json"
+        fields:
+          - { label: "Badge", name: "badge", widget: "string", default: "Siden 1978" }
+          - { label: "Tittel", name: "title", widget: "string" }
+          - { label: "Undertittel", name: "subtitle", widget: "text" }
+          - { label: "Hero bilde", name: "hero_image", widget: "image", required: false }
+          - { label: "Historietekst", name: "history_text", widget: "text" }
+          - label: "Statistikk"
+            name: "stats"
+            widget: "list"
+            fields:
+              - { label: "Tall", name: "number", widget: "string" }
+              - { label: "Etikett", name: "label", widget: "string" }
+          - label: "Styremedlemmer"
+            name: "board_members"
+            widget: "list"
+            fields:
+              - { label: "Navn", name: "name", widget: "string" }
+              - { label: "Rolle", name: "role", widget: "string" }
+              - { label: "Bilde", name: "image", widget: "image", required: false }
+          - { label: "Kontakt e-post", name: "contact_email", widget: "string" }
+          - { label: "Kontakt adresse", name: "contact_address", widget: "string" }
+
   # Site Settings
   - name: "settings"
     label: "Innstillinger"
