@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html class="light" lang="no"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NBK | Laster...</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-container": "#3c73aa",
+              "secondary": "#ab3600",
+              "outline-variant": "#c1c7d1",
+              "on-secondary-fixed": "#390c00",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#ffb59c",
+              "on-secondary": "#ffffff",
+              "on-tertiary-fixed-variant": "#51453a",
+              "primary-fixed-dim": "#9ecaff",
+              "inverse-primary": "#9ecaff",
+              "tertiary-container": "#7b6d61",
+              "on-primary-fixed-variant": "#00497c",
+              "tertiary-fixed-dim": "#d5c3b5",
+              "primary": "#1d5a90",
+              "on-tertiary-fixed": "#231a11",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed-variant": "#832700",
+              "on-surface-variant": "#42474f",
+              "outline": "#727780",
+              "surface-variant": "#dde2f3",
+              "tertiary-fixed": "#f2dfd0",
+              "on-primary-fixed": "#001d36",
+              "on-tertiary-container": "#fff2ea",
+              "on-background": "#161c27",
+              "surface-container-highest": "#dde2f3",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "inverse-on-surface": "#ecf0ff",
+              "surface": "#f9f9ff",
+              "surface-container-high": "#e3e8f9",
+              "surface-bright": "#f9f9ff",
+              "secondary-container": "#ff6e39",
+              "surface-container-low": "#f1f3ff",
+              "primary-fixed": "#d1e4ff",
+              "background": "#f9f9ff",
+              "surface-dim": "#d4daea",
+              "on-secondary-container": "#611b00",
+              "surface-container": "#e8eeff",
+              "on-surface": "#161c27",
+              "on-tertiary": "#ffffff",
+              "on-primary-container": "#f0f5ff",
+              "inverse-surface": "#2a303d",
+              "surface-tint": "#276197",
+              "secondary-fixed": "#ffdbcf",
+              "surface-container-lowest": "#ffffff",
+              "error": "#ba1a1a",
+              "tertiary": "#62554a"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Lexend"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .prose h2 { font-size: 1.5rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+      .prose h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.25rem; margin-bottom: 0.5rem; }
+      .prose p { margin-bottom: 1rem; line-height: 1.8; }
+      .prose ul { list-style: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+      .prose li { margin-bottom: 0.25rem; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary-container selection:text-on-secondary-container">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-md shadow-sm">
+<div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+<a href="/" class="text-2xl font-black text-blue-900 italic font-headline uppercase tracking-tight">NBK</a>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="/">Nyheter</a>
+<a class="text-blue-600 border-b-2 border-orange-500 pb-1 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="/grener/">Grener</a>
+<a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="/events/">Events</a>
+<a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="/medlemskap/">Medlemskap</a>
+<a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="/om-oss/">Om Oss</a>
+<a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="/seilnummer/">Seilnummer</a>
+</div>
+<div class="flex items-center gap-4">
+<a href="/medlemskap/" class="hidden md:block px-6 py-2 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-105 transition-all active:scale-95 shadow-lg shadow-secondary/20">
+                    Bli Medlem
+                </a>
+<button class="md:hidden text-primary" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+<!-- Mobile menu -->
+<div id="mobile-menu" class="hidden md:hidden px-8 pb-4">
+<div class="flex flex-col gap-3">
+<a class="text-slate-700 font-headline font-bold uppercase tracking-tight py-2" href="/">Nyheter</a>
+<a class="text-blue-600 font-headline font-bold uppercase tracking-tight py-2" href="/grener/">Grener</a>
+<a class="text-slate-700 font-headline font-bold uppercase tracking-tight py-2" href="/events/">Events</a>
+<a class="text-slate-700 font-headline font-bold uppercase tracking-tight py-2" href="/medlemskap/">Medlemskap</a>
+<a class="text-slate-700 font-headline font-bold uppercase tracking-tight py-2" href="/om-oss/">Om Oss</a>
+<a class="text-slate-700 font-headline font-bold uppercase tracking-tight py-2" href="/seilnummer/">Seilnummer</a>
+</div>
+</div>
+</nav>
+
+<main>
+<!-- Hero Section -->
+<section id="hero-section" class="relative min-h-[70vh] flex items-end overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img id="hero-image" alt="" class="w-full h-full object-cover scale-105" src=""/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 via-on-surface/40 to-on-surface/10"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto px-8 w-full pb-16 pt-32">
+<a href="/grener/" class="inline-flex items-center gap-2 text-white/70 font-label text-sm uppercase tracking-widest mb-6 hover:text-white transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+Alle grener
+</a>
+<span id="hero-badge" class="block font-label text-secondary-container font-bold uppercase tracking-[0.2em] mb-4"></span>
+<h1 id="hero-title" class="font-headline font-black text-5xl md:text-8xl text-white tracking-tighter uppercase italic leading-none mb-6"></h1>
+<p id="hero-description" class="text-white/90 text-xl font-body max-w-2xl leading-relaxed"></p>
+</div>
+</section>
+
+<!-- Key Facts -->
+<section id="key-facts-section" class="bg-primary py-6 hidden">
+<div class="max-w-7xl mx-auto px-8">
+<div id="key-facts" class="flex flex-wrap justify-center gap-8 md:gap-16"></div>
+</div>
+</section>
+
+<!-- Om Disiplinen -->
+<section id="about-section" class="py-20 px-8 hidden">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+<div class="lg:col-span-2">
+<h2 class="font-headline font-black text-4xl md:text-5xl text-primary tracking-tighter uppercase italic mb-8">Om Disiplinen</h2>
+<div id="long-description" class="text-on-surface-variant text-lg font-body leading-relaxed prose"></div>
+</div>
+<div>
+<!-- Gallery or additional info -->
+<div id="gallery-section" class="hidden">
+<h3 class="font-headline font-bold text-xl text-primary uppercase tracking-tight mb-4">Galleri</h3>
+<div id="gallery" class="grid grid-cols-2 gap-3"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Utstyr -->
+<section id="equipment-section" class="bg-surface-container-low py-20 px-8 hidden">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div>
+<span class="font-label text-secondary font-bold uppercase tracking-[0.2em] mb-4 block">Hva trenger du</span>
+<h2 class="font-headline font-black text-4xl md:text-5xl text-primary tracking-tighter uppercase italic mb-8">Utstyr</h2>
+<p id="equipment-text" class="text-on-surface-variant text-lg font-body leading-relaxed"></p>
+</div>
+<div class="flex justify-center">
+<div class="bg-surface rounded-2xl p-8 shadow-lg w-full max-w-md">
+<h3 class="font-headline font-bold text-xl text-primary uppercase tracking-tight mb-6">Utstyrsliste</h3>
+<ul id="equipment-list" class="space-y-4"></ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Kom i Gang -->
+<section id="getting-started-section" class="py-20 px-8 hidden">
+<div class="max-w-7xl mx-auto">
+<div class="max-w-3xl mx-auto text-center">
+<span class="font-label text-secondary font-bold uppercase tracking-[0.2em] mb-4 block">Ny i sporten?</span>
+<h2 class="font-headline font-black text-4xl md:text-5xl text-primary tracking-tighter uppercase italic mb-8">Kom i Gang</h2>
+<p id="getting-started-text" class="text-on-surface-variant text-lg font-body leading-relaxed mb-10"></p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<a href="/klubber/" class="px-8 py-4 rounded-full bg-primary text-on-primary font-headline font-bold uppercase tracking-tight hover:scale-105 transition-all shadow-lg inline-flex items-center gap-2">
+<span class="material-symbols-outlined">location_on</span>
+Finn en klubb
+</a>
+<a href="/events/" class="px-8 py-4 rounded-full bg-surface-container-high text-on-surface-variant font-headline font-bold uppercase tracking-tight hover:bg-primary hover:text-on-primary transition-all inline-flex items-center gap-2">
+<span class="material-symbols-outlined">event</span>
+Se kommende events
+</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Relaterte Events -->
+<section id="events-section" class="bg-surface-container-low py-20 px-8 hidden">
+<div class="max-w-7xl mx-auto">
+<div class="flex items-end justify-between mb-12">
+<div>
+<h2 class="font-headline font-black text-4xl md:text-5xl text-primary tracking-tighter uppercase italic">Kommende Events</h2>
+<p class="text-on-surface-variant mt-3 font-body text-lg">Konkurranser, klinikker og samlinger</p>
+</div>
+<a class="text-primary font-headline font-bold uppercase tracking-tight border-b-2 border-primary-container pb-1 hover:text-secondary transition-colors hidden md:block" href="/events/">Se alle events</a>
+</div>
+<div id="events-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+<div class="mt-8 text-center md:hidden">
+<a class="text-primary font-headline font-bold uppercase tracking-tight border-b-2 border-primary-container pb-1" href="/events/">Se alle events</a>
+</div>
+</div>
+</section>
+
+<!-- CTA -->
+<section class="py-32 px-8 bg-surface">
+<div class="max-w-5xl mx-auto rounded-3xl bg-primary overflow-hidden relative">
+<div class="absolute top-0 right-0 w-64 h-64 bg-secondary/20 rounded-full blur-3xl -mr-32 -mt-32"></div>
+<div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary-container/20 rounded-full blur-3xl -ml-32 -mb-32"></div>
+<div class="relative z-10 px-12 py-20 text-center">
+<h2 class="font-headline font-black text-4xl md:text-6xl text-white mb-6 uppercase italic leading-tight">Klar for vannet?</h2>
+<p class="text-on-primary-container text-xl max-w-2xl mx-auto mb-10">Bli medlem i Norsk Brettseilerklubb og bli en del av fellesskapet.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<a class="px-12 py-6 bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold text-xl uppercase tracking-tight rounded-full hover:scale-105 transition-all shadow-2xl" href="/medlemskap/">
+                            Bli Medlem i dag
+                        </a>
+</div>
+<p class="mt-8 text-white/60 font-label text-xs uppercase tracking-widest">Ingen forkunnskaper nødvendig — Vi lærer deg alt du trenger!</p>
+</div>
+</div>
+</section>
+</main>
+
+<!-- Footer -->
+<footer class="bg-slate-50 w-full py-12 px-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+<div class="space-y-6">
+<a href="/" class="font-headline font-bold text-blue-900 text-3xl uppercase italic">NBK</a>
+<p class="text-slate-500 font-body text-sm leading-relaxed">
+                    Norsk Brettseilerklubb jobber for å fremme brettsport i Norge gjennom arrangementer, utdanning og miljøbygging langs hele kysten.
+                </p>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm mb-2">Navigasjon</h4>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="/grener/">Grener</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="/events/">Events</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="/seilnummer/">Seilnummer</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="/klubber/">Klubber</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="/dokumenter/">Dokumenter</a>
+<a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="/lenker/">Lenker</a>
+</div>
+<div class="flex flex-col gap-3">
+<h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm mb-2">Finn oss</h4>
+<p id="footer-email" class="text-slate-500 font-body text-sm">post@nbk.no</p>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm">Nyhetsbrev</h4>
+<div class="relative">
+<input class="w-full bg-surface-container-high border-none rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-primary" placeholder="Din e-post" type="email"/>
+<button class="absolute right-2 top-1.5 p-1.5 bg-primary text-on-primary rounded-md">
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</div>
+</div>
+<div class="mt-16 pt-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4 max-w-7xl mx-auto">
+<p id="footer-text" class="text-slate-500 font-body text-sm">&copy; 2025 Norsk Brettseilerklubb. All rights reserved.</p>
+</div>
+</footer>
+
+<script>
+// Determine discipline slug from URL path
+function getSlug() {
+  const parts = window.location.pathname.replace(/\/+$/, '').split('/');
+  return parts[parts.length - 1] || parts[parts.length - 2];
+}
+
+// Simple markdown-to-HTML for long_description
+function renderMarkdown(md) {
+  if (!md) return '';
+  return md
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/^- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/\n/g, '<br>')
+    .replace(/^/, '<p>')
+    .replace(/$/, '</p>')
+    .replace(/<p><h/g, '<h')
+    .replace(/<\/h([23])><\/p>/g, '</h$1>')
+    .replace(/<p><ul>/g, '<ul>')
+    .replace(/<\/ul><\/p>/g, '</ul>')
+    .replace(/<p><\/p>/g, '');
+}
+
+// Load discipline data
+async function loadDiscipline() {
+  const slug = getSlug();
+  if (!slug || slug === 'gren') {
+    document.title = 'NBK | Grener';
+    window.location.href = '/grener/';
+    return;
+  }
+
+  try {
+    const res = await fetch('/content/grener/' + slug + '.json');
+    if (!res.ok) {
+      document.title = 'NBK | Ikke funnet';
+      document.querySelector('main').innerHTML = '<div class="pt-32 pb-20 px-8 max-w-7xl mx-auto text-center"><h1 class="font-headline font-black text-5xl text-primary uppercase italic mb-6">Ikke funnet</h1><p class="text-on-surface-variant text-lg mb-8">Vi fant ikke denne grenen.</p><a href="/grener/" class="text-primary font-headline font-bold uppercase tracking-tight border-b-2 border-primary-container pb-1">Tilbake til alle grener</a></div>';
+      return;
+    }
+
+    const data = await res.json();
+    document.title = 'NBK | ' + data.name;
+
+    // Hero
+    const defaultHero = 'https://lh3.googleusercontent.com/aida-public/AB6AXuBfjEMzbDWs4iLDRJCo8-FyyF6YCZdcDPYX8LEF6xZ5PWY3ndcu70znf9SXN3YYZbwkkKS9OeZuno8S1nGW9iNxrfKXnw0DPBwzXwmjYGsMg7EO6YPVmh67BQsXKTKE8i9EGkQak1J0KOz81PTFZEnpdMsEA5wHA8azIeh5YVeKW3dGaaVNylkSXWNmg5XZQ1p23tU-jVQ0XtoHpwyeBg0S2jDwLXpqYVcFdXWLIMrPqrqnhhExZG3EYXGM6Hoe-sCSSDAFuLhqbqs';
+    document.getElementById('hero-image').src = data.hero_image || data.image || defaultHero;
+    document.getElementById('hero-image').alt = data.name;
+    document.getElementById('hero-badge').textContent = data.subtitle || data.type || '';
+    document.getElementById('hero-title').textContent = data.name;
+    document.getElementById('hero-description').textContent = data.description || '';
+
+    // Key Facts
+    if (data.key_facts && data.key_facts.length > 0) {
+      const factsSection = document.getElementById('key-facts-section');
+      factsSection.classList.remove('hidden');
+      const factsContainer = document.getElementById('key-facts');
+      factsContainer.innerHTML = data.key_facts.map(f =>
+        '<div class="text-center"><span class="block text-white/70 font-label text-xs uppercase tracking-widest mb-1">' + f.label + '</span><span class="text-white font-headline font-bold text-lg">' + f.value + '</span></div>'
+      ).join('');
+    }
+
+    // Om Disiplinen
+    if (data.long_description) {
+      const aboutSection = document.getElementById('about-section');
+      aboutSection.classList.remove('hidden');
+      document.getElementById('long-description').innerHTML = renderMarkdown(data.long_description);
+    }
+
+    // Gallery
+    if (data.gallery && data.gallery.length > 0) {
+      const gallerySection = document.getElementById('gallery-section');
+      gallerySection.classList.remove('hidden');
+      document.getElementById('gallery').innerHTML = data.gallery.map(img =>
+        '<div class="rounded-xl overflow-hidden aspect-square"><img alt="" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" src="' + img + '"/></div>'
+      ).join('');
+    }
+
+    // Utstyr
+    if (data.equipment_text) {
+      const eqSection = document.getElementById('equipment-section');
+      eqSection.classList.remove('hidden');
+      document.getElementById('equipment-text').textContent = data.equipment_text;
+      // Parse equipment items from text (comma or newline separated)
+      const items = data.equipment_text.split(/[,\n]/).map(s => s.trim()).filter(Boolean);
+      document.getElementById('equipment-list').innerHTML = items.map(item =>
+        '<li class="flex items-center gap-3"><span class="material-symbols-outlined text-secondary">check_circle</span><span class="font-body text-on-surface">' + item + '</span></li>'
+      ).join('');
+    }
+
+    // Kom i Gang
+    if (data.getting_started) {
+      const gsSection = document.getElementById('getting-started-section');
+      gsSection.classList.remove('hidden');
+      document.getElementById('getting-started-text').textContent = data.getting_started;
+    }
+
+    // Load related events
+    loadEvents(data.name, slug);
+
+  } catch (e) {
+    console.error('Failed to load discipline:', e);
+  }
+}
+
+// Load events filtered by discipline
+async function loadEvents(disciplineName, slug) {
+  try {
+    const manifestRes = await fetch('/content/events/index.json');
+    if (!manifestRes.ok) return;
+    const files = await manifestRes.json();
+
+    const events = [];
+    for (const file of files) {
+      const res = await fetch('/content/events/' + file);
+      if (res.ok) {
+        const ev = await res.json();
+        ev._file = file;
+        events.push(ev);
+      }
+    }
+
+    // Filter by discipline name or "Alle"
+    const nameLC = disciplineName.toLowerCase();
+    const related = events.filter(ev => {
+      const disc = (ev.discipline || '').toLowerCase();
+      return disc === nameLC || disc === slug || disc === 'alle';
+    });
+
+    // Only show future events
+    const now = new Date();
+    const upcoming = related
+      .filter(ev => new Date(ev.date) >= now)
+      .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    if (upcoming.length === 0) return;
+
+    const section = document.getElementById('events-section');
+    section.classList.remove('hidden');
+    const grid = document.getElementById('events-grid');
+
+    grid.innerHTML = upcoming.slice(0, 6).map(ev => {
+      const date = new Date(ev.date);
+      const day = date.getDate();
+      const month = date.toLocaleDateString('no', { month: 'short' }).toUpperCase();
+      return '<div class="group bg-surface rounded-xl overflow-hidden shadow-md hover:-translate-y-2 transition-transform duration-500">' +
+        (ev.image ? '<div class="aspect-video overflow-hidden"><img alt="" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="' + ev.image + '"/></div>' : '') +
+        '<div class="p-6">' +
+        '<div class="flex items-start gap-4 mb-4">' +
+        '<div class="bg-primary-fixed rounded-lg px-3 py-2 text-center flex-shrink-0"><span class="block font-headline font-bold text-primary text-2xl leading-none">' + day + '</span><span class="font-label text-primary text-xs uppercase">' + month + '</span></div>' +
+        '<div><h3 class="font-headline font-bold text-lg uppercase">' + (ev.title || '') + '</h3><p class="text-on-surface-variant text-sm mt-1"><span class="material-symbols-outlined text-sm align-middle mr-1">location_on</span>' + (ev.location || '') + '</p></div>' +
+        '</div>' +
+        '<div class="flex items-center gap-2"><span class="px-3 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label text-xs uppercase">' + (ev.type || '') + '</span></div>' +
+        '</div></div>';
+    }).join('');
+  } catch (e) {
+    console.error('Failed to load events:', e);
+  }
+}
+
+// Load footer from settings
+async function loadFooter() {
+  try {
+    const res = await fetch('/content/settings.json');
+    if (!res.ok) return;
+    const s = await res.json();
+    if (s.footer_text) { const el = document.getElementById('footer-text'); if (el) el.textContent = s.footer_text; }
+    if (s.contact_email) { const el = document.getElementById('footer-email'); if (el) el.textContent = s.contact_email; }
+  } catch (e) {}
+}
+
+loadDiscipline();
+loadFooter();
+</script>
+</body></html>

@@ -86,6 +86,7 @@ collections:
           - "Wingfoil"
           - "Raceboard"
           - "iQFOiL"
+          - "Bølgeseiling"
           - "Alle"
       - label: "Type"
         name: "type"
@@ -161,6 +162,25 @@ collections:
           - "Olympisk"
       - { label: "CTA tekst", name: "cta_text", widget: "string", default: "Les Mer" }
       - { label: "Rekkefolge", name: "order", widget: "number", default: 0 }
+      - { label: "Detaljert beskrivelse", name: "long_description", widget: "markdown", required: false }
+      - { label: "Utstyr", name: "equipment_text", widget: "text", required: false }
+      - { label: "Kom i gang", name: "getting_started", widget: "text", required: false }
+      - { label: "Hero-bilde (landingsside)", name: "hero_image", widget: "image", required: false }
+      - label: "Galleri"
+        name: "gallery"
+        widget: "list"
+        required: false
+        field:
+          label: "Bilde"
+          name: "image"
+          widget: "image"
+      - label: "Nøkkelfakta"
+        name: "key_facts"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Etikett", name: "label", widget: "string" }
+          - { label: "Verdi", name: "value", widget: "string" }
 
   # Om Oss / About
   - name: "om-oss"

@@ -239,7 +239,7 @@ async function loadGrener() {
     const grener = [];
     for (const file of files) {
       const res = await fetch('/content/grener/' + file);
-      if (res.ok) grener.push(await res.json());
+      if (res.ok) grener.push({ ...await res.json(), slug: file.replace('.json', '') });
     }
 
     grener.sort((a, b) => (a.order || 0) - (b.order || 0));
@@ -269,7 +269,7 @@ async function loadGrener() {
         html += '<span class="font-label text-primary-fixed-dim font-bold uppercase tracking-[0.2em] mb-4 block">' + (g.subtitle || '') + '</span>';
         html += '<h3 class="font-headline font-bold text-4xl text-white mb-4 uppercase italic">' + g.name + '</h3>';
         html += '<p class="text-white/80 mb-8 leading-relaxed">' + (g.description || '') + '</p>';
-        html += '<div class="flex gap-3"><a class="px-6 py-3 bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold rounded-full uppercase tracking-tight text-sm hover:scale-105 transition-all" href="#">' + (g.cta_text || 'Les Mer') + '</a></div>';
+        html += '<div class="flex gap-3"><a class="px-6 py-3 bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold rounded-full uppercase tracking-tight text-sm hover:scale-105 transition-all" href="/grener/' + g.slug + '/">' + (g.cta_text || 'Les Mer') + '</a></div>';
         html += '</div>';
         if (g.image) {
           html += '<div class="relative hidden lg:block"><img alt="' + g.name + '" class="absolute inset-0 w-full h-full object-cover opacity-40 rounded-r-xl" src="' + g.image + '"/></div>';
@@ -284,7 +284,7 @@ async function loadGrener() {
         html += '<span class="font-label text-secondary-container font-bold uppercase tracking-[0.2em] mb-3 block">' + (g.subtitle || g.type || '') + '</span>';
         html += '<h3 class="font-headline font-bold text-' + (isFirst ? '4xl' : '3xl') + ' text-white mb-4 uppercase italic">' + g.name + '</h3>';
         html += '<p class="text-white/80 max-w-md mb-6 leading-relaxed">' + (g.description || '') + '</p>';
-        html += '<a class="flex items-center gap-2 text-white font-headline font-bold uppercase tracking-tight group/btn" href="#">' + (g.cta_text || 'Les Mer') + ' <span class="material-symbols-outlined transition-transform group-hover/btn:translate-x-2">arrow_forward</span></a>';
+        html += '<a class="flex items-center gap-2 text-white font-headline font-bold uppercase tracking-tight group/btn" href="/grener/' + g.slug + '/">' + (g.cta_text || 'Les Mer') + ' <span class="material-symbols-outlined transition-transform group-hover/btn:translate-x-2">arrow_forward</span></a>';
         html += '</div></div>';
       }
     });

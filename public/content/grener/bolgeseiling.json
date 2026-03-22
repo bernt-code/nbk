@@ -1,0 +1,18 @@
+{
+  "name": "Bølgeseiling",
+  "subtitle": "Naturens kraft",
+  "description": "Der vind og bølger møtes. Bølgeseiling er windsurfing i sin mest dramatiske og naturlige form.",
+  "image": "/img/uploads/screenshot-2026-03-22-at-17.38.51.png",
+  "type": "Klassisk",
+  "cta_text": "Les Mer",
+  "order": 5,
+  "long_description": "## Bølgeseiling — Vindsurfing i bølgene\n\nBølgeseiling er kanskje den mest spektakulære formen for windsurfing. Her kombineres surfing og seiling i en symbiose med naturkreftene. Utøverne rider bølger, utfører aerials og navigerer i krevende forhold der hav, vind og strøm møtes.\n\n## Norges bølgesteder\n\nNorge har noen av Europas beste bølgespotter for windsurfing. Jæren er kanskje det mest kjente området, med konsistente bølger fra Nordsjøen og sidevind som gir perfekte forhold. Lofoten byr på arktisk bølgeseiling med dramatisk natur, mens Vestlandskysten og Sørlandet har tallrike steder som fungerer på ulike vindretninger.\n\n### Kjente spotter\n- **Jæren** — Bore, Hellestø, Sola: Nordsjøbølger med sidevind\n- **Lofoten** — Unstad, Flakstad: Arktisk bølgeseiling i verdensklasse\n- **Vestlandet** — Hoddevik, Ervik: Atlanterhavsbølger med fjellkulisse\n- **Sørlandet** — Lista: Eksponert halvøy med gode bølgeforhold\n\n## Utstyr for bølger\n\nBølgeseiling krever spesialisert utstyr. Brettene er korte (70-95 liter), seilene små (3.7-5.3 m²), og alt er bygget for å tåle hard behandling. Moderne bølgebrett er utrolig manøvrerbare og lar erfarne seilere utføre radikale svinger og hopp.\n\n## Kulturen\n\nBølgeseilermiljøet i Norge er tett og lidenskapelig. Det handler ikke om regattaer og resultater, men om å dele stoke, jakte perfekte forhold og pushe egne grenser. Forecasting, spotguides og vindobservasjoner deles aktivt i miljøet.",
+  "equipment_text": "Bølgebrett (70-95 liter), Bølgeseil (3.7-5.3 m²), Kort mast (370-400 cm), Bom, Våtdrakt (5/4mm for norske bølger, gjerne med hette), Hjelm (sterkt anbefalt), Impact vest",
+  "getting_started": "Bølgeseiling krever grunnleggende windsurfing-ferdigheter først. Når du mestrer vannstart, planfase og jibb, er du klar for å begynne i mindre bølger. Erfarne bølgeseilere i NBK-miljøet er vanligvis svært hjelpsomme overfor nye utøvere. Bli med i lokale bølgeseiler-grupper for tips om spotter, forhold og utstyr. Start med rolige dager og bygg deg opp gradvis.",
+  "key_facts": [
+    { "label": "Aldersgruppe", "value": "16+" },
+    { "label": "Vindkrav", "value": "15-35 knop" },
+    { "label": "Bølgehøyde", "value": "0.5-3+ meter" },
+    { "label": "Ferdighet", "value": "Viderekomne" }
+  ]
+}

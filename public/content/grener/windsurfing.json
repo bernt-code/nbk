@@ -5,5 +5,14 @@
   "image": "",
   "type": "Klassisk",
   "cta_text": "Les Mer",
-  "order": 1
+  "order": 1,
+  "long_description": "## Windsurfing i Norge\n\nWindsurfing har en lang og stolt historie i Norge. Siden de første brettseilerne tok seg ut på fjordene tidlig på 1980-tallet, har sporten utviklet seg til et mangfoldig miljø med utøvere langs hele kysten.\n\nNorsk Brettseilerklubb har vært navet i norsk windsurfing siden 1978, og sporten har aldri vært mer tilgjengelig enn den er i dag.\n\n## Disipliner\n\n### Slalom\nDen raskeste formen for windsurfing. Korte baner, høy fart og tette dueller. Slalom seiles typisk i 15-30 knop vind på brett mellom 60 og 80 liter.\n\n### Wave\nBølgeseiling handler om å kombinere surfing og seiling. Norges kystlinje byr på fantastiske bølgeforhold, spesielt på Jæren, i Lofoten og langs Vestlandskysten.\n\n### Freestyle\nKreativ og spektakulær — freestyle handler om å utføre triks og rotasjoner. Flattvann og jevn vind er ideelt.\n\n### Freeride\nDen mest populære formen for windsurfing. Freeride handler om glede, fart og lange turer på vannet uten konkurransepress.\n\n## Konkurransescenen\n\nNBK arrangerer regattaer gjennom hele sommersesongen, fra lokale klubbregattaer til Norgesmesterskapet. Vi deltar også aktivt i nordiske mesterskap og internasjonale stevner.",
+  "equipment_text": "Brett (100-160 liter for nybegynnere, 60-120 liter for viderekomne), Seil (4.0-9.0 m² avhengig av vind og vekt), Mast (carbon eller glassfibermix), Bom (justerbar aluminium eller carbon), Våtdrakt (4/3mm eller 5/4mm for norske forhold), Trapeskrok og harness",
+  "getting_started": "Windsurfing er lettere å komme i gang med enn mange tror. De fleste klubber tilknyttet NBK tilbyr nybegynnerkurs gjennom sommeren, typisk fra mai til september. Du trenger ingen erfaring — alt utstyr er inkludert i kurset. Etter et helgekurs vil de fleste kunne seile selvstendig i lett vind. Ta kontakt med din nærmeste klubb for kursinformasjon og utstyrsutlån.",
+  "key_facts": [
+    { "label": "Aldersgruppe", "value": "Alle aldre" },
+    { "label": "Vindkrav", "value": "10-35 knop" },
+    { "label": "Disipliner", "value": "Slalom / Wave / Freestyle / Freeride" },
+    { "label": "NBK-medlemmer", "value": "Flest aktive" }
+  ]
 }

@@ -5,5 +5,14 @@
   "image": "",
   "type": "Olympisk",
   "cta_text": "Landslaget",
-  "order": 4
+  "order": 4,
+  "long_description": "## iQFOiL — Olympisk windsurf-foiling\n\niQFOiL ble valgt som olympisk windsurfing-klasse fra og med Paris 2024, og erstatter RS:X. Dette er en spektakulær klasse der utøverne seiler på hydrofoil i hastigheter opp mot 35 knop — en revolusjon for olympisk brettseiling.\n\n## Olympisk status\n\nMed OL-debut i Paris 2024 fikk windsurf-foiling verdens største sportsscene. Klassen kombinerer det tekniske fra tradisjonell windsurfing med den moderne foilingteknologien, og resultatet er noe av det mest action-fylte man kan se på vannet.\n\n## Norsk satsing\n\nNBK og Norges Seilforbund samarbeider tett om utviklingen av norske iQFOiL-seilere. Vi har en aktiv treningsgruppe som jobber mot internasjonal representasjon, og rekrutteringsprogrammer rettet mot unge talenter.\n\nNorske iQFOiL-seilere deltar jevnlig i europeiske mesterskap, verdenscup-runder og internasjonale regattaer. Miljøet vokser stadig, og treningsforholdene langs norskekysten er utmerket for å utvikle de ferdighetene som kreves.\n\n## Teknisk nivå\n\niQFOiL krever et høyt teknisk nivå. Seilerne må beherske foiling, pumping, jibbing og avansert seilkontroll. Utstyret er standardisert — alle seiler på identisk brett, seil og foil — slik at det er utøverens ferdighet som avgjør.\n\n## Veien inn\n\nSjøl om klassen er teknisk krevende, er det absolutt mulig å bygge seg opp. Mange starter med vanlig windsurfing eller wingfoil og går over til iQFOiL etter hvert. NBK tilbyr treningssamlinger og klinikker for de som ønsker å satse.",
+  "equipment_text": "iQFOiL brett (standard one-design), iQFOiL seil (standard størrelse), Foil (standard one-design), Mast og bom (klasse-godkjent), Våtdrakt (4/3mm eller 5/4mm), Hjelm (påkrevd), Impact vest, GPS-sporing (for trening)",
+  "getting_started": "iQFOiL er en klasse for deg som vil satse. Ta kontakt med NBK for informasjon om treningsgrupper i din region. Landslaget rekrutterer aktivt, og det finnes treningsgrupper i flere norske byer. Har du bakgrunn fra windsurfing, wingfoil eller annen seiling, har du et godt utgangspunkt. NBK arrangerer rekrutteringssamlinger der du kan prøve utstyret og møte trenere og utøvere.",
+  "key_facts": [
+    { "label": "Olympisk", "value": "Ja (Paris 2024)" },
+    { "label": "Vindkrav", "value": "8-30 knop" },
+    { "label": "Toppfart", "value": "Opptil 35 knop" },
+    { "label": "Utstyr", "value": "One-design (standardisert)" }
+  ]
 }

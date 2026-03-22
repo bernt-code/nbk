@@ -5,5 +5,14 @@
   "image": "/img/uploads/dsc_3056.jpeg",
   "type": "Strategi & Presisjon",
   "cta_text": "Utforsk disiplinen",
-  "order": 3
+  "order": 3,
+  "long_description": "## Raceboard — Klassisk brettseilas\n\nRaceboard er den tradisjonelle konkurranseklassen i brettseiling. Her handler det om taktikk, seilkunst og presisjon — ikke bare fart. Med store seil og brede brett seiles det baner i alt fra 5 til 25 knop, noe som gjør dette til den mest allsidige windsurf-disiplinen.\n\n## Klassen\n\nRaceboard er en internasjonal klasse med standardisert utstyrsliste. Brettene er typisk rundt 290-320 cm lange, og seilene varierer fra 7.8 til 9.5 kvadratmeter. Det gjør det mulig å seile effektivt i en bred vindrange, fra lette sommerbriser til høstkuling.\n\n## Konkurranseformatet\n\nRegattaer seiles som fleet racing på oppkreusbaner, der taktikk og posisjonering er like viktig som ren seilferdighet. Startprosedyrer, vindlesing og banestrategi er sentrale elementer.\n\nI Norge arrangeres det raceboard-regattaer gjennom hele sesongen, og NBK organiserer et nasjonalt rankingsystem. Norske raceboard-seilere deltar jevnlig i nordiske og europeiske mesterskap.\n\n## Hvorfor raceboard?\n\nFor deg som setter pris på det taktiske aspektet ved seiling. Raceboard gir en dypere seilopplevelse der vinddreier, strøm og bølger alle spiller inn. Det er en fantastisk arena for å utvikle seilferdigheter som er overførbare til alle andre disipliner.",
+  "equipment_text": "Raceboard (290-320 cm lengde), Seil (7.8-9.5 m²), Mast (460-490 cm, karbon), Bom (justerbar), Seilnummer (påkrevd for regatta), Våtdrakt, Trapeskrok og harness",
+  "getting_started": "Den beste måten å starte med raceboard er å delta på klubbregattaer. Her møter du erfarne seilere som gjerne deler kunnskap og tips. Mange klubber har låneutstyr tilgjengelig for nye utøvere. NBK arrangerer også klinikker spesifikt rettet mot raceboard-seiling, der du kan lære banestart, taktikk og trimming fra erfarne seilere og instruktører.",
+  "key_facts": [
+    { "label": "Klasse", "value": "Internasjonal" },
+    { "label": "Vindkrav", "value": "5-25 knop" },
+    { "label": "Format", "value": "Fleet racing" },
+    { "label": "Seilstørrelse", "value": "7.8-9.5 m²" }
+  ]
 }
