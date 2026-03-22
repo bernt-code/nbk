@@ -176,7 +176,7 @@
 
 <!-- Clubs Grid -->
 <section class="py-24 px-8 max-w-7xl mx-auto">
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<div id="clubs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
 <!-- Club 1: Drøbak Seilforening -->
 <div class="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-surface-container-high">
@@ -376,7 +376,7 @@
 </div>
 <div class="flex flex-col gap-3">
 <h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm mb-2">Finn oss</h4>
-<p class="text-slate-500 font-body text-sm">post@nbk.no</p>
+<p id="footer-email" class="text-slate-500 font-body text-sm">post@nbk.no</p>
 <div class="flex gap-3 mt-2">
 <a href="#" class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:bg-primary hover:text-on-primary transition-colors">
 <span class="material-symbols-outlined text-xl">share</span>
@@ -394,9 +394,78 @@
 </div>
 </div>
 <div class="mt-16 pt-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4 max-w-7xl mx-auto">
-<p class="text-slate-500 font-body text-sm">&copy; 2025 Norsk Brettseilerklubb. All rights reserved.</p>
+<p id="footer-text" class="text-slate-500 font-body text-sm">&copy; 2025 Norsk Brettseilerklubb. All rights reserved.</p>
 </div>
 </footer>
+
+<script>
+// Load clubs from CMS
+async function loadClubs() {
+  try {
+    const manifestRes = await fetch('/content/klubber/index.json');
+    if (!manifestRes.ok) return;
+    const filenames = await manifestRes.json();
+
+    const clubs = await Promise.all(
+      filenames.map(async f => {
+        const res = await fetch('/content/klubber/' + f);
+        return res.ok ? res.json() : null;
+      })
+    );
+    const valid = clubs.filter(Boolean);
+    if (valid.length === 0) return;
+
+    const container = document.getElementById('clubs-grid');
+    container.innerHTML = valid.map(club => {
+      const disciplines = (club.disciplines || []).map(d =>
+        `<span class="px-3 py-1 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label text-xs uppercase tracking-wide">${d}</span>`
+      ).join('');
+
+      return `
+        <div class="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-surface-container-high">
+          <div class="relative aspect-[16/10] overflow-hidden">
+            ${club.image ? `<img alt="${club.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="${club.image}"/>` : '<div class="w-full h-full bg-primary-fixed"></div>'}
+            <div class="absolute top-4 left-4">
+              <span class="inline-flex items-center gap-1 bg-white/90 backdrop-blur-sm text-on-surface-variant font-label text-xs px-3 py-1 rounded-full">
+                <span class="material-symbols-outlined text-sm">location_on</span>
+                ${club.region || ''}
+              </span>
+            </div>
+          </div>
+          <div class="p-6">
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-primary flex items-center justify-center text-on-primary font-headline font-bold text-sm shrink-0">
+                ${club.abbreviation || club.name.substring(0, 3).toUpperCase()}
+              </div>
+              <div>
+                <h3 class="font-headline font-bold text-xl tracking-tight group-hover:text-primary transition-colors">${club.name}</h3>
+                <p class="text-on-surface-variant text-sm mt-1 line-clamp-2">${club.description || ''}</p>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2 mb-5">${disciplines}</div>
+            ${club.website ? `<a href="${club.website}" class="inline-flex items-center gap-2 text-primary font-headline font-bold uppercase tracking-tight text-sm hover:gap-3 transition-all">Bes\u00f8k Klubb <span class="material-symbols-outlined text-sm">arrow_forward</span></a>` : ''}
+          </div>
+        </div>`;
+    }).join('');
+
+  } catch (e) {
+    // Fallback: keep hardcoded content
+  }
+}
+loadClubs();
+
+// Load footer from settings
+async function loadFooter() {
+  try {
+    const res = await fetch('/content/settings.json');
+    if (!res.ok) return;
+    const s = await res.json();
+    if (s.footer_text) { const el = document.getElementById('footer-text'); if (el) el.textContent = s.footer_text; }
+    if (s.contact_email) { const el = document.getElementById('footer-email'); if (el) el.textContent = s.contact_email; }
+  } catch (e) {}
+}
+loadFooter();
+</script>
 
 </body>
 </html>

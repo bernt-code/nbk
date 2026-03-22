@@ -11,7 +11,7 @@ collections:
   # Pages
   - name: "pages"
     label: "Sider"
-    folder: "content/pages"
+    folder: "public/content/pages"
     format: "json"
     fields:
       # Home page fields
@@ -45,7 +45,7 @@ collections:
   # News / Nyheter
   - name: "nyheter"
     label: "Nyheter"
-    folder: "content/nyheter"
+    folder: "public/content/nyheter"
     format: "json"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
@@ -70,7 +70,7 @@ collections:
   # Events
   - name: "events"
     label: "Events"
-    folder: "content/events"
+    folder: "public/content/events"
     format: "json"
     create: true
     fields:
@@ -103,7 +103,7 @@ collections:
   # Clubs / Klubber
   - name: "klubber"
     label: "Klubber"
-    folder: "content/klubber"
+    folder: "public/content/klubber"
     format: "json"
     create: true
     fields:
@@ -146,7 +146,7 @@ collections:
     files:
       - label: "Sideinnstillinger"
         name: "general"
-        file: "content/settings.json"
+        file: "public/content/settings.json"
         fields:
           - { label: "Sidenavn", name: "site_name", widget: "string", default: "Norsk Brettseilerklubb" }
           - { label: "Kontakt e-post", name: "contact_email", widget: "string" }

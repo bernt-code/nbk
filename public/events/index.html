@@ -109,11 +109,11 @@
 <!-- Editorial Header -->
 <section class="pt-32 pb-16 px-8 max-w-7xl mx-auto">
 <div class="max-w-3xl">
-<span class="inline-block bg-primary-fixed text-primary font-label text-xs uppercase tracking-widest px-4 py-1 rounded-full mb-6">Terminliste 2024</span>
-<h1 class="font-headline font-black text-5xl md:text-7xl tracking-tighter uppercase italic leading-none mb-6">
+<span id="events-badge" class="inline-block bg-primary-fixed text-primary font-label text-xs uppercase tracking-widest px-4 py-1 rounded-full mb-6">Terminliste 2024</span>
+<h1 id="events-title" class="font-headline font-black text-5xl md:text-7xl tracking-tighter uppercase italic leading-none mb-6">
                     EVENTS <span class="text-outline-variant">&amp;</span> <span class="text-primary">REGATTAER</span>
                 </h1>
-<p class="text-on-surface-variant text-lg font-body max-w-xl leading-relaxed">
+<p id="events-subtitle" class="text-on-surface-variant text-lg font-body max-w-xl leading-relaxed">
                     Fra lokale klubbregattaer til nasjonale mesterskap &#8212; finn ditt neste arrangement og v&#230;r med p&#229; vannet.
                 </p>
 </div>
@@ -133,8 +133,8 @@
 </section>
 
 <!-- Featured Event -->
-<section class="px-8 max-w-7xl mx-auto mb-16">
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-2xl overflow-hidden bg-surface-container-low shadow-lg">
+<section id="featured-event-section" class="px-8 max-w-7xl mx-auto mb-16">
+<div id="featured-event" class="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-2xl overflow-hidden bg-surface-container-low shadow-lg">
 <!-- Image -->
 <div class="relative h-[400px] lg:h-auto overflow-hidden">
 <img alt="NM i Windsurfing" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLhe1HzrXNQe4fNlOl8zt7NBI8zqwOkiAe_a4YNzBqbVq2WKWk9CaFiogx3XGMf3hcDNOVjMweJ-d-21OpgY_41TMnDqhM92VtbX6RCheYBQ9N_zR7RXQbc_FoveZ1_s7ffKZEP1wR6Yy-a9hzRfvpGg3gaSefxvgRDU3K2WzXcCBoUbmQUroNo4T6ACJQMpJIjlBhfPZb6iJNu1OYbbEjRfkfvtTkq91zLNJOdBOjECe0rlEKA6gKoKTM96lTxK_msfEMI86GOeg"/>
@@ -164,7 +164,7 @@
 
 <!-- Event Cards -->
 <section class="px-8 max-w-7xl mx-auto pb-28">
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div id="event-cards" class="grid grid-cols-1 md:grid-cols-3 gap-6">
 <!-- Wingfoil Masterclass -->
 <div class="group bg-surface-container-low rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 hover:-translate-y-2">
 <div class="relative h-56 overflow-hidden">
@@ -247,7 +247,103 @@
 <a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../medlemskap/">Medlemskap</a>
 <a class="text-slate-500 hover:text-blue-600 font-body text-sm" href="../om-oss/">Om Oss</a>
 </div>
-<p class="text-slate-500 font-body text-sm">&copy; 2025 Norsk Brettseilerklubb. All rights reserved.</p>
+<p id="footer-text" class="text-slate-500 font-body text-sm">&copy; 2025 Norsk Brettseilerklubb. All rights reserved.</p>
 </div>
 </footer>
+
+<script>
+// Load events from CMS
+async function loadEvents() {
+  try {
+    const manifestRes = await fetch('/content/events/index.json');
+    if (!manifestRes.ok) return;
+    const filenames = await manifestRes.json();
+
+    const events = await Promise.all(
+      filenames.map(async f => {
+        const res = await fetch('/content/events/' + f);
+        return res.ok ? res.json() : null;
+      })
+    );
+    const valid = events.filter(Boolean);
+    if (valid.length === 0) return;
+
+    // Sort by date ascending (upcoming first)
+    valid.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    // Render featured event (first featured or first event)
+    const featured = valid.find(e => e.featured) || valid[0];
+    if (featured) {
+      const d = new Date(featured.date);
+      const day = d.getDate();
+      const month = d.toLocaleDateString('no', { month: 'short' }).replace('.', '');
+      const year = d.getFullYear();
+      const el = document.getElementById('featured-event');
+      el.innerHTML = `
+        <div class="relative h-[400px] lg:h-auto overflow-hidden">
+          ${featured.image ? `<img alt="${featured.title}" class="w-full h-full object-cover" src="${featured.image}"/>` : '<div class="w-full h-full bg-primary-fixed"></div>'}
+          <div class="absolute top-4 left-4">
+            <span class="bg-secondary text-on-secondary font-label text-xs uppercase tracking-widest px-3 py-1 rounded-full font-bold">Hovedarrangement</span>
+          </div>
+        </div>
+        <div class="p-10 lg:p-14 flex flex-col justify-center">
+          <span class="font-label text-secondary font-bold uppercase tracking-[0.2em] mb-4 block">${featured.discipline || ''}</span>
+          <div class="mb-6">
+            <span class="font-headline font-black text-7xl md:text-8xl text-primary tracking-tighter leading-none">${day}</span>
+            <span class="font-headline font-bold text-2xl text-on-surface-variant ml-2 uppercase">${month} ${year}</span>
+          </div>
+          <h2 class="font-headline font-bold text-3xl uppercase italic mb-4 tracking-tight">${featured.title}</h2>
+          <div class="flex items-center gap-2 text-on-surface-variant font-body mb-6">
+            <span class="material-symbols-outlined text-lg">location_on</span>
+            <span>${featured.location || ''}</span>
+          </div>
+          <p class="text-on-surface-variant font-body mb-8 leading-relaxed">${(featured.description || '').replace(/[#*`]/g, '').substring(0, 200)}</p>
+          ${featured.registration_url ? `<a class="px-8 py-4 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-105 transition-all shadow-lg shadow-secondary/20 inline-block text-center" href="${featured.registration_url}">Meld deg p\u00e5</a>` : ''}
+        </div>`;
+    }
+
+    // Render event cards (non-featured or all if only one)
+    const cardEvents = valid.length > 1 ? valid.filter(e => e !== featured) : valid;
+    const container = document.getElementById('event-cards');
+    container.innerHTML = cardEvents.map(ev => {
+      const d = new Date(ev.date);
+      const day = d.getDate();
+      const month = d.toLocaleDateString('no', { month: 'short' }).replace('.', '');
+      return `
+        <div class="group bg-surface-container-low rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-500 hover:-translate-y-2">
+          <div class="relative h-56 overflow-hidden">
+            ${ev.image ? `<img alt="${ev.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="${ev.image}"/>` : '<div class="w-full h-full bg-primary-fixed"></div>'}
+            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 text-center shadow-md">
+              <span class="block font-headline font-black text-2xl text-primary leading-none">${day}</span>
+              <span class="block font-label text-xs text-on-surface-variant uppercase">${month}</span>
+            </div>
+          </div>
+          <div class="p-6">
+            <span class="font-label text-secondary text-xs font-bold uppercase tracking-widest mb-2 block">${ev.discipline || ev.type || ''}</span>
+            <h3 class="font-headline font-bold text-xl uppercase italic mb-2">${ev.title}</h3>
+            <p class="text-on-surface-variant text-sm font-body line-clamp-2">${ev.location || ''}</p>
+          </div>
+        </div>`;
+    }).join('');
+
+  } catch (e) {
+    // Fallback: keep hardcoded content
+  }
+}
+loadEvents();
+
+// Load footer from settings
+async function loadFooter() {
+  try {
+    const res = await fetch('/content/settings.json');
+    if (!res.ok) return;
+    const s = await res.json();
+    if (s.footer_text) {
+      const el = document.getElementById('footer-text');
+      if (el) el.textContent = s.footer_text;
+    }
+  } catch (e) {}
+}
+loadFooter();
+</script>
 </body></html>

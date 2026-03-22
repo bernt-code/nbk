@@ -121,23 +121,23 @@
 <!-- Hero Section -->
 <section class="relative min-h-screen flex items-center overflow-hidden">
 <div class="absolute inset-0 z-0">
-<img alt="Windsurfing action" class="w-full h-full object-cover scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfjEMzbDWs4iLDRJCo8-FyyF6YCZdcDPYX8LEF6xZ5PWY3ndcu70znf9SXN3YYZbwkkKS9OeZuno8S1nGW9iNxrfKXnw0DPBwzXwmjYGsMg7EO6YPVmh67BQsXKTKE8i9EGkQak1J0KOz81PTFZEnpdMsEA5wHA8azIeh5YVeKW3dGaaVNylkSXWNmg5XZQ1p23tU-jVQ0XtoHpwyeBg0S2jDwLXpqYVcFdXWLIMrPqrqnhhExZG3EYXGM6Hoe-sCSSDAFuLhqbqs"/>
+<img id="hero-image" alt="Windsurfing action" class="w-full h-full object-cover scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfjEMzbDWs4iLDRJCo8-FyyF6YCZdcDPYX8LEF6xZ5PWY3ndcu70znf9SXN3YYZbwkkKS9OeZuno8S1nGW9iNxrfKXnw0DPBwzXwmjYGsMg7EO6YPVmh67BQsXKTKE8i9EGkQak1J0KOz81PTFZEnpdMsEA5wHA8azIeh5YVeKW3dGaaVNylkSXWNmg5XZQ1p23tU-jVQ0XtoHpwyeBg0S2jDwLXpqYVcFdXWLIMrPqrqnhhExZG3EYXGM6Hoe-sCSSDAFuLhqbqs"/>
 <div class="absolute inset-0 bg-gradient-to-r from-on-surface/60 via-on-surface/20 to-transparent"></div>
 </div>
 <div class="relative z-10 max-w-7xl mx-auto px-8 w-full pt-20">
 <div class="max-w-2xl">
-<span class="inline-block bg-secondary text-on-secondary font-label text-xs uppercase tracking-widest px-4 py-1 rounded-full mb-6">Sesongen 2025 er i gang</span>
-<h1 class="font-headline font-bold text-6xl md:text-8xl text-white leading-none tracking-tighter mb-8 italic">
+<span id="hero-badge" class="inline-block bg-secondary text-on-secondary font-label text-xs uppercase tracking-widest px-4 py-1 rounded-full mb-6">Sesongen 2025 er i gang</span>
+<h1 id="hero-title" class="font-headline font-bold text-6xl md:text-8xl text-white leading-none tracking-tighter mb-8 italic">
                         Kjenn Kraften <br/> fra Havet.
                     </h1>
-<p class="text-white/90 text-xl font-body mb-10 max-w-lg leading-relaxed">
+<p id="hero-subtitle" class="text-white/90 text-xl font-body mb-10 max-w-lg leading-relaxed">
                         Opplev friheten, farten og fellesskapet. Bli en del av Norges fremste milj&#248; for brettseiling og wingfoil.
                     </p>
 <div class="flex flex-col sm:flex-row gap-4">
-<button class="px-10 py-5 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold text-lg uppercase tracking-tight hover:scale-105 transition-all shadow-xl shadow-secondary/30">
+<button id="hero-cta" class="px-10 py-5 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold text-lg uppercase tracking-tight hover:scale-105 transition-all shadow-xl shadow-secondary/30">
                             Bli Medlem N&#229;
                         </button>
-<button class="px-10 py-5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-headline font-bold text-lg uppercase tracking-tight hover:bg-white/20 transition-all">
+<button id="hero-secondary-cta" class="px-10 py-5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-headline font-bold text-lg uppercase tracking-tight hover:bg-white/20 transition-all">
                             Se Grener
                         </button>
 </div>
@@ -255,7 +255,7 @@
 </div>
 <div class="flex flex-col gap-3">
 <h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm mb-2">Finn oss</h4>
-<p class="text-slate-500 font-body text-sm">post@nbk.no</p>
+<p id="footer-email" class="text-slate-500 font-body text-sm">post@nbk.no</p>
 </div>
 <div class="flex flex-col gap-4">
 <h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm">Nyhetsbrev</h4>
@@ -268,7 +268,7 @@
 </div>
 </div>
 <div class="mt-16 pt-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4 max-w-7xl mx-auto">
-<p class="text-slate-500 font-body text-sm">&copy; 2025 Norsk Brettseilerklubb. All rights reserved.</p>
+<p id="footer-text" class="text-slate-500 font-body text-sm">&copy; 2025 Norsk Brettseilerklubb. All rights reserved.</p>
 </div>
 </footer>
 
@@ -320,6 +320,98 @@ async function loadFeeds() {
   }
 }
 loadFeeds();
+</script>
+<script>
+// Load hero content from CMS
+async function loadHeroContent() {
+  try {
+    const res = await fetch('/content/pages/home.json');
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data.hero_title) document.getElementById('hero-title').textContent = data.hero_title;
+    if (data.hero_subtitle) document.getElementById('hero-subtitle').textContent = data.hero_subtitle;
+    if (data.hero_badge) document.getElementById('hero-badge').textContent = data.hero_badge;
+    if (data.hero_image) document.getElementById('hero-image').src = data.hero_image;
+    if (data.hero_cta_text) document.getElementById('hero-cta').textContent = data.hero_cta_text;
+    if (data.hero_secondary_cta) document.getElementById('hero-secondary-cta').textContent = data.hero_secondary_cta;
+  } catch (e) {
+    // Fallback: keep hardcoded text
+  }
+}
+loadHeroContent();
+</script>
+<script>
+// Load news from CMS into feed container
+async function loadNews() {
+  try {
+    const manifestRes = await fetch('/content/nyheter/index.json');
+    if (!manifestRes.ok) return;
+    const filenames = await manifestRes.json();
+
+    const items = await Promise.all(
+      filenames.map(async f => {
+        const res = await fetch('/content/nyheter/' + f);
+        return res.ok ? res.json() : null;
+      })
+    );
+    const valid = items.filter(Boolean);
+    if (valid.length === 0) return;
+
+    valid.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    const container = document.getElementById('feed-container');
+    let html = '';
+    valid.slice(0, 4).forEach((item, i) => {
+      if (i === 0) {
+        html += `<div class="md:col-span-8 group cursor-pointer overflow-hidden rounded-xl bg-surface-container-low transition-transform duration-500 hover:-translate-y-2">
+          ${item.image ? `<div class="aspect-[16/9] overflow-hidden"><img alt="" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="${item.image}"/></div>` : ''}
+          <div class="p-8">
+            <div class="flex items-center gap-4 mb-4">
+              <span class="text-secondary font-label text-sm font-bold">${new Date(item.date).toLocaleDateString('no')}</span>
+              <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+              <span class="text-on-surface-variant font-label text-sm uppercase">${item.category || 'Nyhet'}</span>
+            </div>
+            <h3 class="font-headline font-bold text-3xl mb-4 group-hover:text-primary transition-colors uppercase">${item.title || ''}</h3>
+            <p class="text-on-surface-variant line-clamp-2">${item.summary || ''}</p>
+          </div>
+        </div>`;
+      } else {
+        html += `<div class="${i === 1 ? 'md:col-span-4 flex flex-col gap-6' : 'md:col-span-4'}">
+          <div class="flex-1 group cursor-pointer overflow-hidden rounded-xl bg-surface-container-low transition-transform duration-500 hover:-translate-y-2">
+            ${item.image ? `<div class="aspect-video overflow-hidden"><img alt="" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="${item.image}"/></div>` : ''}
+            <div class="p-6">
+              <span class="text-secondary font-label text-xs font-bold mb-2 block uppercase">${item.category || 'Nyhet'}</span>
+              <h4 class="font-headline font-bold text-xl mb-2 uppercase italic">${item.title || ''}</h4>
+              <p class="text-on-surface-variant text-sm line-clamp-1">${item.summary || ''}</p>
+            </div>
+          </div>
+        </div>`;
+      }
+    });
+    container.innerHTML = html;
+  } catch (e) {
+    // Fallback: keep existing feed content
+  }
+}
+loadNews();
+
+// Load footer from settings
+async function loadFooter() {
+  try {
+    const res = await fetch('/content/settings.json');
+    if (!res.ok) return;
+    const s = await res.json();
+    if (s.footer_text) {
+      const el = document.getElementById('footer-text');
+      if (el) el.textContent = s.footer_text;
+    }
+    if (s.contact_email) {
+      const el = document.getElementById('footer-email');
+      if (el) el.textContent = s.contact_email;
+    }
+  } catch (e) {}
+}
+loadFooter();
 </script>
 <script>
   if (window.netlifyIdentity) {

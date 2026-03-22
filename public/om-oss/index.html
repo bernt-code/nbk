@@ -120,11 +120,11 @@
 <section class="pt-28 pb-20 px-8 max-w-7xl mx-auto">
 <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
 <div class="md:col-span-7">
-<span class="inline-block bg-primary/10 text-primary font-label text-xs uppercase tracking-widest px-4 py-1 rounded-full mb-6">Siden 1978</span>
-<h1 class="font-headline font-black text-5xl md:text-7xl tracking-tighter uppercase leading-none mb-6">
+<span id="about-badge" class="inline-block bg-primary/10 text-primary font-label text-xs uppercase tracking-widest px-4 py-1 rounded-full mb-6">Siden 1978</span>
+<h1 id="about-title" class="font-headline font-black text-5xl md:text-7xl tracking-tighter uppercase leading-none mb-6">
                     Drevet av <span class="text-secondary italic">Vind og Vann.</span>
                 </h1>
-<p class="text-on-surface-variant text-lg md:text-xl leading-relaxed max-w-xl">
+<p id="about-subtitle" class="text-on-surface-variant text-lg md:text-xl leading-relaxed max-w-xl">
                     I over 45 år har Norsk Brettseilerklubb vært hjertet i norsk brettsport. Fra de første seilene på Oslofjorden til dagens wingfoil-revolusjon, vi har alltid ligget i forkant.
                 </p>
 </div>
@@ -177,21 +177,21 @@
 </div>
 
 <!-- Stats Card -->
-<div class="bg-primary rounded-2xl p-10 flex flex-col justify-center text-center">
+<div id="stats-card" class="bg-primary rounded-2xl p-10 flex flex-col justify-center text-center">
 <div class="space-y-8">
 <div>
-<p class="font-headline font-black text-5xl text-white">45+</p>
-<p class="text-on-primary-container font-label text-sm uppercase tracking-widest mt-1">år med historie</p>
+<p id="stat-number-0" class="font-headline font-black text-5xl text-white">45+</p>
+<p id="stat-label-0" class="text-on-primary-container font-label text-sm uppercase tracking-widest mt-1">år med historie</p>
 </div>
 <div class="w-16 h-px bg-white/20 mx-auto"></div>
 <div>
-<p class="font-headline font-black text-5xl text-white">12</p>
-<p class="text-on-primary-container font-label text-sm uppercase tracking-widest mt-1">lokale klubber</p>
+<p id="stat-number-1" class="font-headline font-black text-5xl text-white">12</p>
+<p id="stat-label-1" class="text-on-primary-container font-label text-sm uppercase tracking-widest mt-1">lokale klubber</p>
 </div>
 <div class="w-16 h-px bg-white/20 mx-auto"></div>
 <div>
-<p class="font-headline font-black text-5xl text-white">2.5k</p>
-<p class="text-on-primary-container font-label text-sm uppercase tracking-widest mt-1">aktive medlemmer</p>
+<p id="stat-number-2" class="font-headline font-black text-5xl text-white">2.5k</p>
+<p id="stat-label-2" class="text-on-primary-container font-label text-sm uppercase tracking-widest mt-1">aktive medlemmer</p>
 </div>
 </div>
 </div>
@@ -206,7 +206,7 @@
 <h2 class="font-headline font-black text-5xl md:text-6xl text-primary tracking-tighter uppercase italic">Styret</h2>
 <p class="text-on-surface-variant mt-4 font-body text-lg max-w-2xl mx-auto">Menneskene som driver klubben fremover, med lidenskap for vind og vann.</p>
 </div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+<div id="board-members" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
 
 <!-- Erik Sørli -->
 <div class="group">
@@ -264,14 +264,14 @@
 <span class="material-symbols-outlined text-secondary-container text-2xl mt-1">mail</span>
 <div>
 <p class="text-white/60 font-label text-xs uppercase tracking-widest mb-1">E-post</p>
-<a href="mailto:post@nbk.no" class="text-white text-lg font-medium hover:text-secondary-container transition-colors">post@nbk.no</a>
+<a id="contact-email" href="mailto:post@nbk.no" class="text-white text-lg font-medium hover:text-secondary-container transition-colors">post@nbk.no</a>
 </div>
 </div>
 <div class="flex items-start gap-4">
 <span class="material-symbols-outlined text-secondary-container text-2xl mt-1">location_on</span>
 <div>
 <p class="text-white/60 font-label text-xs uppercase tracking-widest mb-1">Adresse</p>
-<p class="text-white text-lg font-medium">Sjølyst plass 2<br/>0278 Oslo</p>
+<p id="contact-address" class="text-white text-lg font-medium">Sjølyst plass 2<br/>0278 Oslo</p>
 </div>
 </div>
 <div class="flex items-start gap-4">
@@ -330,7 +330,7 @@
 </div>
 <div class="flex flex-col gap-3">
 <h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm mb-2">Finn oss</h4>
-<p class="text-slate-500 font-body text-sm">post@nbk.no</p>
+<p id="footer-email" class="text-slate-500 font-body text-sm">post@nbk.no</p>
 </div>
 <div class="flex flex-col gap-4">
 <h4 class="font-headline font-bold text-on-surface uppercase tracking-wider text-sm">Nyhetsbrev</h4>
@@ -343,8 +343,64 @@
 </div>
 </div>
 <div class="mt-16 pt-8 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-4 max-w-7xl mx-auto">
-<p class="text-slate-500 font-body text-sm">&copy; 2025 Norsk Brettseilerklubb. All rights reserved.</p>
+<p id="footer-text" class="text-slate-500 font-body text-sm">&copy; 2025 Norsk Brettseilerklubb. All rights reserved.</p>
 </div>
 </footer>
+
+<script>
+// Load about page content from CMS
+async function loadAboutContent() {
+  try {
+    const res = await fetch('/content/pages/home.json');
+    if (!res.ok) return;
+    const data = await res.json();
+
+    // Update stats if available
+    if (data.stats && data.stats.length > 0) {
+      data.stats.forEach((stat, i) => {
+        const numEl = document.getElementById('stat-number-' + i);
+        const labelEl = document.getElementById('stat-label-' + i);
+        if (numEl && stat.number) numEl.textContent = stat.number;
+        if (labelEl && stat.label) labelEl.textContent = stat.label;
+      });
+    }
+
+    // Update history text if available
+    if (data.history_text) {
+      const el = document.getElementById('about-subtitle');
+      if (el) el.textContent = data.history_text;
+    }
+  } catch (e) {}
+}
+loadAboutContent();
+
+// Load contact info from settings
+async function loadSettings() {
+  try {
+    const res = await fetch('/content/settings.json');
+    if (!res.ok) return;
+    const s = await res.json();
+
+    if (s.contact_email) {
+      const emailEl = document.getElementById('contact-email');
+      if (emailEl) {
+        emailEl.textContent = s.contact_email;
+        emailEl.href = 'mailto:' + s.contact_email;
+      }
+      const footerEmail = document.getElementById('footer-email');
+      if (footerEmail) footerEmail.textContent = s.contact_email;
+    }
+    if (s.contact_address) {
+      const addrEl = document.getElementById('contact-address');
+      if (addrEl) addrEl.textContent = s.contact_address;
+    }
+    if (s.footer_text) {
+      const el = document.getElementById('footer-text');
+      if (el) el.textContent = s.footer_text;
+    }
+  } catch (e) {}
+}
+loadSettings();
+</script>
 
 </body></html>
