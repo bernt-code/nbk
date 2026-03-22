@@ -72,37 +72,49 @@ export default async (req) => {
 
     // Create Vipps payment
     if (process.env.VIPPS_CLIENT_ID) {
-      const { Client } = await import("@vippsmobilepay/sdk");
-      const client = Client({
-        merchantSerialNumber: process.env.VIPPS_MSN,
-        subscriptionKey: process.env.VIPPS_SUBSCRIPTION_KEY,
-        useTestMode: process.env.VIPPS_TEST_MODE === "true",
-        retryRequests: false,
-      });
-
-      const accessToken = await client.auth.getToken({
-        clientId: process.env.VIPPS_CLIENT_ID,
-        clientSecret: process.env.VIPPS_CLIENT_SECRET,
-      });
-
-      const payment = await client.payment.create(accessToken.token, {
-        amount: {
-          currency: "NOK",
-          value: 50000,
+      const tokenRes = await fetch("https://api.vipps.no/accesstoken/get", {
+        method: "POST",
+        headers: {
+          "client_id": process.env.VIPPS_CLIENT_ID,
+          "client_secret": process.env.VIPPS_CLIENT_SECRET,
+          "Ocp-Apim-Subscription-Key": process.env.VIPPS_SUBSCRIPTION_KEY,
+          "Merchant-Serial-Number": process.env.VIPPS_MSN,
         },
-        paymentMethod: { type: "WALLET" },
-        reference,
-        paymentDescription: `NBK Kopp: ${sailNumber}`,
-        userFlow: "WEB_REDIRECT",
-        returnUrl: `${siteUrl}/api/vipps/callback?reference=${reference}`,
       });
+      const tokenData = await tokenRes.json();
 
-      return Response.json({
-        success: true,
-        reference,
-        redirectUrl: payment.redirectUrl,
-        message: `Order created for ${sailNumber} mug. Complete Vipps payment.`,
-      });
+      if (tokenData.access_token) {
+        const paymentRes = await fetch("https://api.vipps.no/epayment/v1/payments", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${tokenData.access_token}`,
+            "Ocp-Apim-Subscription-Key": process.env.VIPPS_SUBSCRIPTION_KEY,
+            "Merchant-Serial-Number": process.env.VIPPS_MSN,
+            "Content-Type": "application/json",
+            "Vipps-System-Name": "nbk-website",
+            "Vipps-System-Version": "1.0.0",
+            "Idempotency-Key": reference,
+          },
+          body: JSON.stringify({
+            amount: { currency: "NOK", value: 50000 },
+            paymentMethod: { type: "WALLET" },
+            reference,
+            paymentDescription: `NBK Kopp: ${sailNumber}`,
+            userFlow: "WEB_REDIRECT",
+            returnUrl: `${siteUrl}/api/vipps/callback?reference=${reference}`,
+          }),
+        });
+        const payment = await paymentRes.json();
+
+        if (payment.redirectUrl) {
+          return Response.json({
+            success: true,
+            reference,
+            redirectUrl: payment.redirectUrl,
+            message: `Order created for ${sailNumber} mug. Complete Vipps payment.`,
+          });
+        }
+      }
     }
 
     // No Vipps — dev mode

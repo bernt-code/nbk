@@ -103,43 +103,71 @@ export default async (req) => {
           buyerName,
           buyerEmail,
           buyerPhone: buyerPhone || null,
-          amount: 50000, // 500 NOK in øre
+          amount: 10000, // 100 NOK in øre
           createdAt: new Date().toISOString(),
         })
       );
 
       // If Vipps is configured, create payment
       if (process.env.VIPPS_CLIENT_ID) {
-        const { Client } = await import("@vippsmobilepay/sdk");
-        const client = Client({
-          merchantSerialNumber: process.env.VIPPS_MSN,
-          subscriptionKey: process.env.VIPPS_SUBSCRIPTION_KEY,
-          useTestMode: process.env.VIPPS_TEST_MODE === "true",
-          retryRequests: false,
-        });
-
-        const accessToken = await client.auth.getToken({
-          clientId: process.env.VIPPS_CLIENT_ID,
-          clientSecret: process.env.VIPPS_CLIENT_SECRET,
-        });
-
-        const payment = await client.payment.create(accessToken.token, {
-          amount: {
-            currency: "NOK",
-            value: 50000, // 500 NOK
+        // Get access token
+        const tokenRes = await fetch("https://api.vipps.no/accesstoken/get", {
+          method: "POST",
+          headers: {
+            "client_id": process.env.VIPPS_CLIENT_ID,
+            "client_secret": process.env.VIPPS_CLIENT_SECRET,
+            "Ocp-Apim-Subscription-Key": process.env.VIPPS_SUBSCRIPTION_KEY,
+            "Merchant-Serial-Number": process.env.VIPPS_MSN,
           },
-          paymentMethod: { type: "WALLET" },
-          reference,
-          paymentDescription: `Seilnummer NOR ${number}`,
-          userFlow: "WEB_REDIRECT",
-          returnUrl: `${siteUrl}/api/vipps/callback?reference=${reference}`,
         });
+        const tokenData = await tokenRes.json();
 
+        if (!tokenData.access_token) {
+          console.error("Vipps auth failed:", tokenData);
+          return Response.json({
+            success: true,
+            reference,
+            message: `NOR ${number} reserved. Vipps auth failed.`,
+          });
+        }
+
+        // Create ePayment
+        const paymentRes = await fetch("https://api.vipps.no/epayment/v1/payments", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${tokenData.access_token}`,
+            "Ocp-Apim-Subscription-Key": process.env.VIPPS_SUBSCRIPTION_KEY,
+            "Merchant-Serial-Number": process.env.VIPPS_MSN,
+            "Content-Type": "application/json",
+            "Vipps-System-Name": "nbk-website",
+            "Vipps-System-Version": "1.0.0",
+            "Idempotency-Key": reference,
+          },
+          body: JSON.stringify({
+            amount: { currency: "NOK", value: 10000 },
+            paymentMethod: { type: "WALLET" },
+            reference,
+            paymentDescription: `Seilnummer NOR ${number}`,
+            userFlow: "WEB_REDIRECT",
+            returnUrl: `${siteUrl}/api/vipps/callback?reference=${reference}`,
+          }),
+        });
+        const payment = await paymentRes.json();
+
+        if (payment.redirectUrl) {
+          return Response.json({
+            success: true,
+            reference,
+            redirectUrl: payment.redirectUrl,
+            message: `NOR ${number} reserved. Complete payment to confirm.`,
+          });
+        }
+
+        console.error("Vipps payment creation failed:", payment);
         return Response.json({
           success: true,
           reference,
-          redirectUrl: payment.redirectUrl,
-          message: `NOR ${number} reserved. Complete payment to confirm.`,
+          message: `NOR ${number} reserved. Payment setup failed.`,
         });
       }
 
