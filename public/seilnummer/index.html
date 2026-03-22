@@ -241,7 +241,7 @@ async function loadSailNumbers() {
 
 function renderNumbers(numbers) {
   const list = document.getElementById('sail-list');
-  const filtered = numbers.slice(0, 50);
+  const filtered = numbers;
 
   let html = `<div class="hidden md:grid grid-cols-12 px-8 py-4 text-xs font-label font-black text-outline uppercase tracking-widest">
     <div class="col-span-3">Nummer</div>
