@@ -355,11 +355,20 @@
 // Load about page content from CMS
 async function loadAboutContent() {
   try {
-    const res = await fetch('/content/pages/home.json');
+    const res = await fetch('/content/pages/om-oss.json');
     if (!res.ok) return;
     const data = await res.json();
 
-    // Update stats if available
+    // Hero section
+    if (data.badge) { const el = document.getElementById('about-badge'); if (el) el.textContent = data.badge; }
+    if (data.title) { const el = document.getElementById('about-title'); if (el) el.innerHTML = data.title; }
+    if (data.subtitle) { const el = document.getElementById('about-subtitle'); if (el) el.textContent = data.subtitle; }
+    if (data.hero_image) {
+      const img = document.querySelector('#about-title').closest('section').querySelector('img');
+      if (img) img.src = data.hero_image;
+    }
+
+    // Stats
     if (data.stats && data.stats.length > 0) {
       data.stats.forEach((stat, i) => {
         const numEl = document.getElementById('stat-number-' + i);
@@ -369,12 +378,42 @@ async function loadAboutContent() {
       });
     }
 
-    // Update history text if available
+    // History text
     if (data.history_text) {
-      const el = document.getElementById('about-subtitle');
-      if (el) el.textContent = data.history_text;
+      const histEl = document.querySelector('.lg\\:col-span-2 p.text-on-surface-variant');
+      if (histEl) histEl.textContent = data.history_text;
     }
-  } catch (e) {}
+
+    // Board members
+    if (data.board_members && data.board_members.length > 0) {
+      const grid = document.getElementById('board-members');
+      if (grid) {
+        let html = '';
+        data.board_members.forEach((m, i) => {
+          const stagger = i % 2 === 1 ? 'lg:translate-y-12' : '';
+          const imgSrc = m.image || '/img/bernt-blankholm.jpeg';
+          html += '<div class="group ' + stagger + '">';
+          html += '<div class="rounded-2xl overflow-hidden mb-5 shadow-lg">';
+          html += '<img alt="' + m.name + '" class="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-105" src="' + imgSrc + '"/>';
+          html += '</div>';
+          html += '<h3 class="font-headline font-bold text-xl uppercase">' + m.name + '</h3>';
+          html += '<p class="text-secondary font-label text-sm uppercase tracking-widest">' + m.role + '</p>';
+          html += '</div>';
+        });
+        grid.innerHTML = html;
+      }
+    }
+
+    // Contact info
+    if (data.contact_email) {
+      const el = document.getElementById('contact-email');
+      if (el) { el.textContent = data.contact_email; el.href = 'mailto:' + data.contact_email; }
+    }
+    if (data.contact_address) {
+      const el = document.getElementById('contact-address');
+      if (el) el.textContent = data.contact_address;
+    }
+  } catch (e) { console.error('Failed to load about content:', e); }
 }
 loadAboutContent();
 
