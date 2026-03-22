@@ -231,7 +231,7 @@ async function loadSailNumbers() {
     const res = await fetch('/api/sail-numbers');
     const data = await res.json();
     allNumbers = data.numbers || [];
-    renderNumbers(allNumbers);
+    renderNumbers(allNumbers.slice(0, 50));
     updateCount();
   } catch (e) {
     console.error('Failed to load sail numbers:', e);
@@ -279,6 +279,7 @@ function filterNumbers(status) {
   });
 
   const filtered = status === 'all' ? allNumbers : allNumbers.filter(n => n.status === status);
+  showAll = true;
   renderNumbers(filtered);
   updateCount();
 }
@@ -329,8 +330,8 @@ async function reserveNumber(number) {
 let showAll = false;
 function loadMore() {
   showAll = !showAll;
-  const filtered = showAll ? allNumbers : allNumbers;
-  renderNumbers(showAll ? filtered : filtered.slice(0, 50));
+  renderNumbers(showAll ? allNumbers : allNumbers.slice(0, 50));
+  document.querySelector('[onclick="loadMore()"]').textContent = showAll ? 'Vis færre' : 'Vis flere numre';
 }
 
 loadSailNumbers();
