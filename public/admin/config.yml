@@ -207,3 +207,56 @@ collections:
           - { label: "YouTube URL", name: "youtube_url", widget: "string", required: false }
           - { label: "Bunntekst", name: "footer_text", widget: "string" }
           - { label: "Sesongbadge", name: "season_badge", widget: "string" }
+
+  # Dokumenter
+  - name: "dokumenter"
+    label: "Dokumenter"
+    folder: "public/content/dokumenter"
+    format: "json"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Tittel", name: "title", widget: "string" }
+      - { label: "Dato", name: "date", widget: "datetime" }
+      - label: "Kategori"
+        name: "category"
+        widget: "select"
+        options:
+          - "Årsmøte"
+          - "Styremøte"
+          - "Regnskap"
+          - "Handlingsplan"
+          - "Annet"
+      - { label: "URL (Google Drive)", name: "url", widget: "string" }
+      - { label: "Beskrivelse", name: "description", widget: "string", required: false }
+      - label: "Filtype"
+        name: "file_type"
+        widget: "select"
+        options:
+          - "PDF"
+          - "Google Doc"
+          - "Regneark"
+          - "Presentasjon"
+
+  # Lenker
+  - name: "lenker"
+    label: "Lenker"
+    folder: "public/content/lenker"
+    format: "json"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Tittel", name: "title", widget: "string" }
+      - { label: "URL", name: "url", widget: "string" }
+      - { label: "Beskrivelse", name: "description", widget: "text" }
+      - label: "Kategori"
+        name: "category"
+        widget: "select"
+        options:
+          - "Klasseforeninger"
+          - "Vær og vind"
+          - "Regelverk"
+          - "Utstyr"
+          - "Forbund"
+          - "Annet"
+      - { label: "Rekkefølge", name: "order", widget: "number", default: 0 }
