@@ -1,13 +1,927 @@
 <!DOCTYPE html>
-<html>
+<html lang="no">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex" />
-  <title>NBK Admin</title>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NBK Admin – Seilnummer</title>
+<style>
+  :root {
+    --navy: #1d5a90;
+    --navy-dark: #153f66;
+    --navy-light: #2a7abf;
+    --green: #2ecc71;
+    --yellow: #f39c12;
+    --red: #e74c3c;
+    --grey: #95a5a6;
+    --bg: #f4f6f9;
+    --card: #ffffff;
+    --text: #2c3e50;
+    --border: #dde3ea;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── Login ────────────────────────────────────────── */
+  #login-screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  .login-card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 48px 40px;
+    width: 380px;
+    box-shadow: 0 4px 24px rgba(0,0,0,.12);
+    text-align: center;
+  }
+
+  .login-card .logo {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--navy);
+    letter-spacing: -1px;
+    margin-bottom: 6px;
+  }
+
+  .login-card .subtitle {
+    color: var(--grey);
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+
+  .login-card input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color .2s;
+    margin-bottom: 12px;
+  }
+
+  .login-card input:focus { border-color: var(--navy); }
+
+  .login-card button {
+    width: 100%;
+    padding: 12px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s;
+  }
+
+  .login-card button:hover { background: var(--navy-dark); }
+
+  .login-error {
+    color: var(--red);
+    font-size: 13px;
+    margin-top: 10px;
+    display: none;
+  }
+
+  /* ── App shell ────────────────────────────────────── */
+  #app { display: none; flex-direction: column; min-height: 100vh; }
+
+  header {
+    background: var(--navy);
+    color: white;
+    padding: 0 24px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,.2);
+  }
+
+  header .brand { font-weight: 800; font-size: 18px; letter-spacing: -.5px; }
+  header .brand span { opacity: .6; font-weight: 400; font-size: 14px; margin-left: 8px; }
+
+  header .header-right { display: flex; align-items: center; gap: 16px; }
+
+  .sync-time { font-size: 12px; opacity: .7; }
+
+  #btn-logout {
+    background: rgba(255,255,255,.15);
+    border: none;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  #btn-logout:hover { background: rgba(255,255,255,.25); }
+
+  /* ── Stats bar ────────────────────────────────────── */
+  .stats-bar {
+    display: flex;
+    gap: 16px;
+    padding: 20px 24px;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 16px 20px;
+    flex: 1;
+    border-left: 4px solid transparent;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  }
+
+  .stat-card.taken { border-color: var(--navy); }
+  .stat-card.reserved { border-color: var(--yellow); }
+  .stat-card.available { border-color: var(--green); }
+
+  .stat-card .val {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-card.taken .val { color: var(--navy); }
+  .stat-card.reserved .val { color: var(--yellow); }
+  .stat-card.available .val { color: var(--green); }
+
+  .stat-card .lbl { font-size: 12px; color: var(--grey); text-transform: uppercase; letter-spacing: .5px; }
+
+  /* ── Controls ─────────────────────────────────────── */
+  .controls {
+    display: flex;
+    gap: 12px;
+    padding: 0 24px 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .controls input[type="search"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 9px 14px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+  }
+
+  .controls input[type="search"]:focus { border-color: var(--navy); }
+
+  .filter-btns { display: flex; gap: 6px; }
+
+  .filter-btns button {
+    padding: 8px 14px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all .15s;
+  }
+
+  .filter-btns button.active {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: white;
+  }
+
+  .controls-right { margin-left: auto; }
+
+  /* ── Table ────────────────────────────────────────── */
+  .table-wrap {
+    padding: 0 24px 24px;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    font-size: 14px;
+  }
+
+  thead tr { background: #f8fafc; border-bottom: 2px solid var(--border); }
+
+  th {
+    padding: 12px 14px;
+    text-align: left;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    color: var(--grey);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  th.sortable { cursor: pointer; user-select: none; }
+  th.sortable:hover { color: var(--navy); }
+
+  td {
+    padding: 11px 14px;
+    border-bottom: 1px solid #f0f2f5;
+    vertical-align: middle;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  tr:hover td { background: #f8fafc; }
+
+  .nor-num {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--navy);
+    min-width: 60px;
+  }
+
+  .owner-name { font-weight: 500; }
+
+  .email-cell { font-size: 13px; color: var(--grey); }
+  .email-cell.has-email { color: var(--text); }
+
+  /* Status badge */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .3px;
+  }
+
+  .badge.taken { background: #dbeafe; color: #1d4ed8; }
+  .badge.reserved { background: #fef3c7; color: #92400e; }
+  .badge.available { background: #dcfce7; color: #166534; }
+  .badge.legend { background: #fce7f3; color: #9d174d; }
+
+  .legend-flag { font-size: 11px; margin-left: 4px; }
+
+  /* Purchase date */
+  .date-cell { font-size: 12px; color: var(--grey); white-space: nowrap; }
+
+  /* Action buttons */
+  .actions { display: flex; gap: 6px; white-space: nowrap; }
+
+  .btn {
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all .15s;
+  }
+
+  .btn-primary { background: var(--navy); color: white; }
+  .btn-primary:hover { background: var(--navy-dark); }
+
+  .btn-charge { background: #eff6ff; color: var(--navy); border: 1px solid #bfdbfe; }
+  .btn-charge:hover { background: #dbeafe; }
+
+  .btn-danger { background: #fff1f2; color: var(--red); border: 1px solid #fecdd3; }
+  .btn-danger:hover { background: #ffe4e6; }
+
+  .btn-edit { background: #f8fafc; color: var(--text); border: 1px solid var(--border); }
+  .btn-edit:hover { background: #f0f2f5; }
+
+  /* ── Empty / Loading ──────────────────────────────── */
+  .table-msg {
+    text-align: center;
+    padding: 48px;
+    color: var(--grey);
+    font-size: 15px;
+  }
+
+  /* ── Modal ────────────────────────────────────────── */
+  .modal-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  .modal-bg.open { display: flex; }
+
+  .modal {
+    background: white;
+    border-radius: 12px;
+    padding: 32px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 16px 48px rgba(0,0,0,.2);
+  }
+
+  .modal h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--navy);
+  }
+
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 12px; font-weight: 600; color: var(--grey); text-transform: uppercase; letter-spacing: .4px; margin-bottom: 6px; }
+
+  .field input, .field select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .2s;
+  }
+
+  .field input:focus, .field select:focus { border-color: var(--navy); }
+
+  .field input[readonly] { background: #f8fafc; color: var(--grey); }
+
+  .url-box {
+    background: #f8fafc;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    word-break: break-all;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .modal-actions { display: flex; gap: 10px; margin-top: 24px; justify-content: flex-end; }
+
+  .btn-lg {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all .15s;
+  }
+
+  .btn-lg.primary { background: var(--navy); color: white; }
+  .btn-lg.primary:hover { background: var(--navy-dark); }
+  .btn-lg.secondary { background: #f8fafc; color: var(--text); border: 1px solid var(--border); }
+  .btn-lg.secondary:hover { background: #f0f2f5; }
+  .btn-lg.danger { background: var(--red); color: white; }
+  .btn-lg.danger:hover { background: #c0392b; }
+  .btn-lg.success { background: var(--green); color: white; }
+  .btn-lg.success:hover { background: #27ae60; }
+
+  .copy-note { font-size: 12px; color: var(--grey); text-align: center; margin-top: 6px; }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #1e293b;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 1000;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all .3s;
+    pointer-events: none;
+  }
+
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* ── Confirm modal ────────────────────────────────── */
+  .confirm-text { font-size: 15px; line-height: 1.5; color: var(--text); margin-bottom: 8px; }
+  .confirm-sub { font-size: 13px; color: var(--grey); }
+
+  /* Amount display */
+  .amount-display {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--navy);
+    text-align: center;
+    padding: 16px;
+    background: #eff6ff;
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+
+  @media (max-width: 768px) {
+    .stats-bar { flex-wrap: wrap; }
+    .stat-card { min-width: calc(50% - 8px); }
+    th.hide-mobile, td.hide-mobile { display: none; }
+  }
+</style>
 </head>
 <body>
-  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+<!-- ── Login ─────────────────────────────────────────────────────────────── -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="logo">NBK</div>
+    <div class="subtitle">Seilnummer administrasjon</div>
+    <input type="password" id="token-input" placeholder="Admin-nøkkel" autofocus>
+    <button onclick="doLogin()">Logg inn</button>
+    <div class="login-error" id="login-error">Feil nøkkel – prøv igjen</div>
+  </div>
+</div>
+
+<!-- ── App ───────────────────────────────────────────────────────────────── -->
+<div id="app">
+  <header>
+    <div class="brand">NBK Admin <span>Seilnummer</span></div>
+    <div class="header-right">
+      <span class="sync-time" id="sync-time"></span>
+      <button id="btn-logout" onclick="doLogout()">Logg ut</button>
+    </div>
+  </header>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-card taken">
+      <div class="val" id="stat-taken">–</div>
+      <div class="lbl">Tatt</div>
+    </div>
+    <div class="stat-card reserved">
+      <div class="val" id="stat-reserved">–</div>
+      <div class="lbl">Reservert</div>
+    </div>
+    <div class="stat-card available">
+      <div class="val" id="stat-available">–</div>
+      <div class="lbl">Ledig</div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <input type="search" id="search-box" placeholder="Søk på navn eller nummer…" oninput="renderTable()">
+    <div class="filter-btns">
+      <button class="active" data-f="all" onclick="setFilter('all',this)">Alle</button>
+      <button data-f="taken" onclick="setFilter('taken',this)">Tatt</button>
+      <button data-f="reserved" onclick="setFilter('reserved',this)">Reservert</button>
+      <button data-f="available" onclick="setFilter('available',this)">Ledig</button>
+      <button data-f="legend" onclick="setFilter('legend',this)">Legend</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="sortable" onclick="sortBy('number')">NOR #</th>
+          <th class="sortable" onclick="sortBy('owner')">Eier</th>
+          <th class="hide-mobile">E-post</th>
+          <th>Status</th>
+          <th class="hide-mobile sortable" onclick="sortBy('purchasedAt')">Kjøpsdato</th>
+          <th>Handlinger</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <tr><td colspan="6" class="table-msg">Laster…</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ── Modal: Frigjør (confirm) ──────────────────────────────────────────── -->
+<div class="modal-bg" id="modal-release">
+  <div class="modal">
+    <h3>Frigjør seilnummer</h3>
+    <p class="confirm-text">Vil du frigjøre <strong id="rel-num"></strong>?</p>
+    <p class="confirm-sub">Nåværende eier: <span id="rel-owner"></span></p>
+    <p class="confirm-sub" style="margin-top:6px;color:#e74c3c">Dette kan ikke angres.</p>
+    <div class="modal-actions">
+      <button class="btn-lg secondary" onclick="closeModal('modal-release')">Avbryt</button>
+      <button class="btn-lg danger" onclick="confirmRelease()">Frigjør</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Modal: Send krav ──────────────────────────────────────────────────── -->
+<div class="modal-bg" id="modal-charge">
+  <div class="modal">
+    <h3>Send Vipps-krav</h3>
+    <div class="field">
+      <label>Seilnummer</label>
+      <input type="text" id="chg-num-display" readonly>
+    </div>
+    <div class="field">
+      <label>Eier</label>
+      <input type="text" id="chg-owner" placeholder="Navn på seiler">
+    </div>
+    <div class="field">
+      <label>E-post (valgfritt)</label>
+      <input type="email" id="chg-email" placeholder="epost@example.com">
+    </div>
+    <div class="field">
+      <label>Beløp (NOK)</label>
+      <input type="number" id="chg-amount" value="100" min="1" max="9999">
+    </div>
+    <div id="chg-result" style="display:none">
+      <div class="amount-display" id="chg-amount-display"></div>
+      <label style="font-size:12px;font-weight:600;color:var(--grey);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;display:block">Vipps betalingslenke</label>
+      <div class="url-box" id="chg-url"></div>
+      <div class="copy-note">Kopier lenken og send til seiler via e-post eller SMS</div>
+    </div>
+    <div class="modal-actions" id="chg-actions">
+      <button class="btn-lg secondary" onclick="closeModal('modal-charge')">Avbryt</button>
+      <button class="btn-lg primary" onclick="sendCharge()">Generer betalingslenke</button>
+    </div>
+    <div class="modal-actions" id="chg-copy-actions" style="display:none">
+      <button class="btn-lg secondary" onclick="closeModal('modal-charge')">Lukk</button>
+      <button class="btn-lg success" onclick="copyChargeUrl()">Kopier lenke</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Modal: Rediger ────────────────────────────────────────────────────── -->
+<div class="modal-bg" id="modal-edit">
+  <div class="modal">
+    <h3>Rediger seilnummer</h3>
+    <input type="hidden" id="edit-number">
+    <div class="field">
+      <label>NOR nummer</label>
+      <input type="text" id="edit-num-display" readonly>
+    </div>
+    <div class="field">
+      <label>Eier (navn)</label>
+      <input type="text" id="edit-owner" placeholder="Fullt navn">
+    </div>
+    <div class="field">
+      <label>E-post</label>
+      <input type="email" id="edit-email" placeholder="epost@example.com">
+    </div>
+    <div class="field">
+      <label>Telefon</label>
+      <input type="tel" id="edit-phone" placeholder="+47 000 00 000">
+    </div>
+    <div class="field">
+      <label>Status</label>
+      <select id="edit-status">
+        <option value="taken">Tatt</option>
+        <option value="reserved">Reservert</option>
+        <option value="available">Ledig</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Legend-nummer</label>
+      <select id="edit-legend">
+        <option value="false">Nei</option>
+        <option value="true">Ja – Legend</option>
+      </select>
+    </div>
+    <div class="field" id="edit-legend-holder-field" style="display:none">
+      <label>Legend-holder (permanent eier)</label>
+      <input type="text" id="edit-legend-holder" placeholder="Navn på legend-holder">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-lg secondary" onclick="closeModal('modal-edit')">Avbryt</button>
+      <button class="btn-lg primary" onclick="saveEdit()">Lagre</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Toast ─────────────────────────────────────────────────────────────── -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+const API = '/api/admin';
+let token = sessionStorage.getItem('nbk_admin_token') || '';
+let allNumbers = [];
+let filterStatus = 'all';
+let sortKey = 'number';
+let sortDir = 1;
+let activeReleaseNumber = null;
+let activeChargeNumber = null;
+let chargeUrl = '';
+
+// ── Auth ───────────────────────────────────────────────────────────────────
+async function doLogin() {
+  const t = document.getElementById('token-input').value.trim();
+  if (!t) return;
+
+  // Quick auth check
+  try {
+    const res = await fetch(`${API}/numbers`, { headers: { Authorization: `Bearer ${t}` } });
+    if (res.status === 401) {
+      document.getElementById('login-error').style.display = 'block';
+      return;
+    }
+    const data = await res.json();
+    token = t;
+    sessionStorage.setItem('nbk_admin_token', t);
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    processData(data);
+  } catch (e) {
+    document.getElementById('login-error').textContent = 'Feil: ' + e.message;
+    document.getElementById('login-error').style.display = 'block';
+  }
+}
+
+document.getElementById('token-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+function doLogout() {
+  sessionStorage.removeItem('nbk_admin_token');
+  token = '';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('token-input').value = '';
+}
+
+// Auto-login if token in session
+if (token) {
+  fetch(`${API}/numbers`, { headers: { Authorization: `Bearer ${token}` } })
+    .then(r => r.ok ? r.json() : null)
+    .then(data => {
+      if (data) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('app').style.display = 'flex';
+        processData(data);
+      }
+    }).catch(() => {});
+}
+
+// ── Data ───────────────────────────────────────────────────────────────────
+function processData(data) {
+  allNumbers = data.numbers || [];
+  document.getElementById('stat-taken').textContent = data.stats.taken;
+  document.getElementById('stat-reserved').textContent = data.stats.reserved;
+  document.getElementById('stat-available').textContent = data.stats.available;
+
+  const d = new Date(data.lastUpdated);
+  document.getElementById('sync-time').textContent =
+    'Oppdatert ' + d.toLocaleString('no-NO', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' });
+
+  renderTable();
+}
+
+async function reload() {
+  try {
+    const res = await fetch(`${API}/numbers`, { headers: { Authorization: `Bearer ${token}` } });
+    const data = await res.json();
+    processData(data);
+  } catch(e) {
+    toast('Feil ved lasting: ' + e.message, true);
+  }
+}
+
+// ── Filtering & sorting ────────────────────────────────────────────────────
+function setFilter(f, btn) {
+  filterStatus = f;
+  document.querySelectorAll('.filter-btns button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+
+function sortBy(key) {
+  if (sortKey === key) sortDir = -sortDir;
+  else { sortKey = key; sortDir = 1; }
+  renderTable();
+}
+
+function renderTable() {
+  const q = document.getElementById('search-box').value.toLowerCase();
+
+  let rows = allNumbers.filter(n => {
+    if (filterStatus === 'legend') return n.isLegend;
+    if (filterStatus !== 'all' && n.status !== filterStatus) return false;
+    if (q) {
+      const numStr = String(n.number);
+      const owner = (n.owner || '').toLowerCase();
+      return numStr.includes(q) || owner.includes(q);
+    }
+    return true;
+  });
+
+  rows.sort((a, b) => {
+    let av = a[sortKey] ?? '', bv = b[sortKey] ?? '';
+    if (typeof av === 'string') av = av.toLowerCase();
+    if (typeof bv === 'string') bv = bv.toLowerCase();
+    return av < bv ? -sortDir : av > bv ? sortDir : 0;
+  });
+
+  const tbody = document.getElementById('table-body');
+
+  if (rows.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" class="table-msg">Ingen numre matcher filteret</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = rows.map(n => {
+    const statusBadge = n.isLegend
+      ? `<span class="badge legend">Legend</span>`
+      : `<span class="badge ${n.status}">${statusLabel(n.status)}</span>`;
+
+    const email = n.ownerEmail
+      ? `<span class="email-cell has-email">${n.ownerEmail}</span>`
+      : `<span class="email-cell">–</span>`;
+
+    const dateStr = n.purchasedAt
+      ? new Date(n.purchasedAt).toLocaleDateString('no-NO')
+      : (n.reservedAt ? `<span style="color:var(--yellow)">Reservert ${new Date(n.reservedAt).toLocaleDateString('no-NO')}</span>` : '–');
+
+    const actionBtns = n.status === 'taken' || n.status === 'reserved'
+      ? `<button class="btn btn-charge" onclick="openCharge(${n.number})">Krav</button>
+         <button class="btn btn-edit" onclick="openEdit(${n.number})">Rediger</button>
+         <button class="btn btn-danger" onclick="openRelease(${n.number})">Frigjør</button>`
+      : `<button class="btn btn-edit" onclick="openEdit(${n.number})">Rediger</button>`;
+
+    return `<tr>
+      <td class="nor-num">NOR ${n.number}</td>
+      <td class="owner-name">${n.owner || (n.reservedBy ? `<em style="color:var(--grey)">${n.reservedBy}</em>` : '–')}</td>
+      <td class="hide-mobile">${email}</td>
+      <td>${statusBadge}</td>
+      <td class="date-cell hide-mobile">${dateStr}</td>
+      <td class="actions">${actionBtns}</td>
+    </tr>`;
+  }).join('');
+}
+
+function statusLabel(s) {
+  return { taken: 'Tatt', reserved: 'Reservert', available: 'Ledig' }[s] || s;
+}
+
+// ── Release ────────────────────────────────────────────────────────────────
+function openRelease(number) {
+  const entry = allNumbers.find(n => n.number === number);
+  document.getElementById('rel-num').textContent = `NOR ${number}`;
+  document.getElementById('rel-owner').textContent = entry?.owner || entry?.reservedBy || '–';
+  activeReleaseNumber = number;
+  openModal('modal-release');
+}
+
+async function confirmRelease() {
+  try {
+    const res = await fetch(`${API}/release`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ number: activeReleaseNumber }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    closeModal('modal-release');
+    toast(`NOR ${activeReleaseNumber} er frigjort`);
+    await reload();
+  } catch(e) {
+    toast('Feil: ' + e.message, true);
+  }
+}
+
+// ── Charge ─────────────────────────────────────────────────────────────────
+function openCharge(number) {
+  const entry = allNumbers.find(n => n.number === number);
+  document.getElementById('chg-num-display').value = `NOR ${number}`;
+  document.getElementById('chg-owner').value = entry?.owner || entry?.reservedBy || '';
+  document.getElementById('chg-email').value = entry?.ownerEmail || '';
+  document.getElementById('chg-amount').value = '100';
+  document.getElementById('chg-result').style.display = 'none';
+  document.getElementById('chg-actions').style.display = 'flex';
+  document.getElementById('chg-copy-actions').style.display = 'none';
+  activeChargeNumber = number;
+  chargeUrl = '';
+  openModal('modal-charge');
+}
+
+async function sendCharge() {
+  const ownerName = document.getElementById('chg-owner').value.trim();
+  const ownerEmail = document.getElementById('chg-email').value.trim();
+  const amountNOK = parseFloat(document.getElementById('chg-amount').value) || 100;
+
+  if (!ownerName) { toast('Fyll inn eiers navn', true); return; }
+
+  try {
+    const res = await fetch(`${API}/charge`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        number: activeChargeNumber,
+        ownerName,
+        ownerEmail: ownerEmail || null,
+        amount: Math.round(amountNOK * 100), // convert to øre
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+
+    chargeUrl = data.redirectUrl;
+    document.getElementById('chg-url').textContent = chargeUrl;
+    document.getElementById('chg-amount-display').textContent = `${amountNOK} NOK`;
+    document.getElementById('chg-result').style.display = 'block';
+    document.getElementById('chg-actions').style.display = 'none';
+    document.getElementById('chg-copy-actions').style.display = 'flex';
+  } catch(e) {
+    toast('Feil: ' + e.message, true);
+  }
+}
+
+function copyChargeUrl() {
+  navigator.clipboard.writeText(chargeUrl).then(() => {
+    toast('Betalingslenke kopiert!');
+  });
+}
+
+// ── Edit ───────────────────────────────────────────────────────────────────
+function openEdit(number) {
+  const entry = allNumbers.find(n => n.number === number);
+  document.getElementById('edit-number').value = number;
+  document.getElementById('edit-num-display').value = `NOR ${number}`;
+  document.getElementById('edit-owner').value = entry?.owner || entry?.reservedBy || '';
+  document.getElementById('edit-email').value = entry?.ownerEmail || '';
+  document.getElementById('edit-phone').value = entry?.ownerPhone || '';
+  document.getElementById('edit-status').value = entry?.status || 'taken';
+  const isLegend = !!entry?.isLegend;
+  document.getElementById('edit-legend').value = isLegend ? 'true' : 'false';
+  document.getElementById('edit-legend-holder').value = entry?.legendHolder || '';
+  document.getElementById('edit-legend-holder-field').style.display = isLegend ? 'block' : 'none';
+  openModal('modal-edit');
+}
+
+document.getElementById('edit-legend').addEventListener('change', function() {
+  document.getElementById('edit-legend-holder-field').style.display =
+    this.value === 'true' ? 'block' : 'none';
+});
+
+async function saveEdit() {
+  const number = parseInt(document.getElementById('edit-number').value);
+  const body = {
+    number,
+    owner: document.getElementById('edit-owner').value.trim() || null,
+    ownerEmail: document.getElementById('edit-email').value.trim() || null,
+    ownerPhone: document.getElementById('edit-phone').value.trim() || null,
+    status: document.getElementById('edit-status').value,
+    isLegend: document.getElementById('edit-legend').value === 'true',
+    legendHolder: document.getElementById('edit-legend-holder').value.trim() || null,
+  };
+
+  try {
+    const res = await fetch(`${API}/number`, {
+      method: 'PATCH',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    closeModal('modal-edit');
+    toast(`NOR ${number} oppdatert`);
+    await reload();
+  } catch(e) {
+    toast('Feil: ' + e.message, true);
+  }
+}
+
+// ── Modal helpers ──────────────────────────────────────────────────────────
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+// Close modals on background click
+document.querySelectorAll('.modal-bg').forEach(bg => {
+  bg.addEventListener('click', e => {
+    if (e.target === bg) bg.classList.remove('open');
+  });
+});
+
+// ── Toast ──────────────────────────────────────────────────────────────────
+let toastTimer;
+function toast(msg, isError = false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.style.background = isError ? '#e74c3c' : '#1e293b';
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+}
+</script>
 </body>
 </html>
