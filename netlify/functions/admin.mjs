@@ -213,10 +213,15 @@ export default async (req) => {
       }
 
       const { store, registry } = await loadRegistry();
-      const entry = registry.numbers.find((n) => n.number === number);
+      let entry = registry.numbers.find((n) => n.number === number);
+      let isNew = false;
 
       if (!entry) {
-        return Response.json({ error: `NOR ${number} not found` }, { status: 404 });
+        // Upsert — create new entry if not found
+        entry = { number, status: "taken", owner: null };
+        registry.numbers.push(entry);
+        registry.numbers.sort((a, b) => a.number - b.number);
+        isNew = true;
       }
 
       // Apply only fields that were sent
@@ -226,12 +231,13 @@ export default async (req) => {
       if (body.status !== undefined) entry.status = body.status;
       if (body.isLegend !== undefined) entry.isLegend = body.isLegend;
       if (body.legendHolder !== undefined) entry.legendHolder = body.legendHolder;
+      if (body.requiresApplication !== undefined) entry.requiresApplication = body.requiresApplication;
       entry.updatedAt = new Date().toISOString();
 
       await saveRegistry(store, registry);
 
-      console.log(`Admin updated NOR ${number}:`, JSON.stringify(body));
-      return Response.json({ success: true, entry });
+      console.log(`Admin ${isNew ? "inserted" : "updated"} NOR ${number}:`, JSON.stringify(body));
+      return Response.json({ success: true, entry, isNew });
     }
 
     // ── GET /api/admin/payment-status ─────────────────────────────────────
