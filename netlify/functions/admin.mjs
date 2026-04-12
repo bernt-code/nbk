@@ -4,7 +4,7 @@ import { getStore } from "@netlify/blobs";
 function checkAuth(req) {
   const auth = req.headers.get("Authorization") || "";
   const token = auth.startsWith("Bearer ") ? auth.slice(7) : auth;
-  const adminToken = Netlify.env.get("ADMIN_TOKEN");
+  const adminToken = process.env.ADMIN_TOKEN;
   return adminToken && token === adminToken;
 }
 
@@ -13,10 +13,10 @@ async function getVippsToken() {
   const res = await fetch("https://api.vipps.no/accesstoken/get", {
     method: "POST",
     headers: {
-      "client_id": Netlify.env.get("VIPPS_CLIENT_ID"),
-      "client_secret": Netlify.env.get("VIPPS_CLIENT_SECRET"),
-      "Ocp-Apim-Subscription-Key": Netlify.env.get("VIPPS_SUBSCRIPTION_KEY"),
-      "Merchant-Serial-Number": Netlify.env.get("VIPPS_MSN"),
+      "client_id": process.env.VIPPS_CLIENT_ID,
+      "client_secret": process.env.VIPPS_CLIENT_SECRET,
+      "Ocp-Apim-Subscription-Key": process.env.VIPPS_SUBSCRIPTION_KEY,
+      "Merchant-Serial-Number": process.env.VIPPS_MSN,
     },
   });
   const data = await res.json();
@@ -27,8 +27,8 @@ async function getVippsToken() {
 function vippsHeaders(token) {
   return {
     "Authorization": `Bearer ${token}`,
-    "Ocp-Apim-Subscription-Key": Netlify.env.get("VIPPS_SUBSCRIPTION_KEY"),
-    "Merchant-Serial-Number": Netlify.env.get("VIPPS_MSN"),
+    "Ocp-Apim-Subscription-Key": process.env.VIPPS_SUBSCRIPTION_KEY,
+    "Merchant-Serial-Number": process.env.VIPPS_MSN,
     "Content-Type": "application/json",
     "Vipps-System-Name": "nbk-admin",
     "Vipps-System-Version": "1.0.0",
@@ -148,7 +148,7 @@ export default async (req) => {
 
       const token = await getVippsToken();
       const reference = `sail-${number}-${Date.now()}`;
-      const siteUrl = Netlify.env.get("SITE_URL") || "https://nbk-no.netlify.app";
+      const siteUrl = process.env.SITE_URL || "https://nbk-no.netlify.app";
 
       const paymentRes = await fetch("https://api.vipps.no/epayment/v1/payments", {
         method: "POST",
