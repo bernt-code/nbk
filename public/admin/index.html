@@ -572,21 +572,42 @@
         <button class="btn btn-primary" onclick="loadRecurring()" style="padding:8px 16px;font-size:13px">↻ Last inn</button>
       </div>
     </div>
+    <!-- Missing recurring section -->
+    <div id="rec-missing-section" style="display:none;margin-bottom:20px">
+      <h3 style="font-size:15px;font-weight:700;color:#e74c3c;margin-bottom:10px">
+        ⚠️ Mangler Recurring – bør purres (<span id="rec-missing-count">0</span>)
+      </h3>
+      <div class="table-wrap" style="padding:0 0 12px">
+        <table>
+          <thead>
+            <tr>
+              <th>NOR #</th>
+              <th>Eier</th>
+              <th>E-post</th>
+              <th>Telefon (registrert)</th>
+              <th>Handling</th>
+            </tr>
+          </thead>
+          <tbody id="rec-missing-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <h3 style="font-size:14px;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px" id="rec-agreements-title">Aktive avtaler</h3>
     <div class="table-wrap" style="padding:0 0 24px">
       <table>
         <thead>
           <tr>
-            <th>Avtale-ID</th>
-            <th>Navn</th>
-            <th>Telefon</th>
+            <th>NOR #</th>
+            <th>Eier (register)</th>
+            <th>Telefon (Vipps)</th>
             <th>Status</th>
             <th>Beløp</th>
             <th>Opprettet</th>
-            <th>Neste trekk</th>
           </tr>
         </thead>
         <tbody id="rec-table-body">
-          <tr><td colspan="7" class="table-msg">Trykk "Last inn" for å hente avtaler fra Vipps</td></tr>
+          <tr><td colspan="6" class="table-msg">Trykk "Last inn" for å hente avtaler fra Vipps</td></tr>
         </tbody>
       </table>
     </div>
@@ -1008,7 +1029,9 @@ function showView(name, btn) {
 async function loadRecurring() {
   const status = document.getElementById('rec-status-filter').value;
   const tbody = document.getElementById('rec-table-body');
-  tbody.innerHTML = `<tr><td colspan="7" class="table-msg">Henter fra Vipps…</td></tr>`;
+  const missingSection = document.getElementById('rec-missing-section');
+  tbody.innerHTML = `<tr><td colspan="6" class="table-msg">Henter fra Vipps…</td></tr>`;
+  missingSection.style.display = 'none';
 
   try {
     const res = await fetch(`${API}/recurring?status=${status}`, {
@@ -1018,44 +1041,55 @@ async function loadRecurring() {
     if (!res.ok) throw new Error(data.error || JSON.stringify(data.details || {}));
 
     const agreements = data.agreements || [];
+    const missing = data.missingRecurring || [];
 
-    // Update stat counters for current status
+    // Update stat counters
     if (status === 'ACTIVE') document.getElementById('rec-count-active').textContent = agreements.length;
     if (status === 'STOPPED') document.getElementById('rec-count-stopped').textContent = agreements.length;
     if (status === 'EXPIRED') document.getElementById('rec-count-expired').textContent = agreements.length;
 
+    document.getElementById('rec-agreements-title').textContent =
+      `${status === 'ACTIVE' ? 'Aktive' : status === 'STOPPED' ? 'Stoppet' : 'Utløpt'} avtaler (${agreements.length})`;
+
+    // Show missing recurring section
+    if (status === 'ACTIVE' && missing.length > 0) {
+      document.getElementById('rec-missing-count').textContent = missing.length;
+      document.getElementById('rec-missing-body').innerHTML = missing.map(n => `<tr>
+        <td class="nor-num">NOR ${n.number}</td>
+        <td>${n.owner || '–'}</td>
+        <td class="email-cell ${n.ownerEmail ? 'has-email' : ''}">${n.ownerEmail || '–'}</td>
+        <td style="font-size:13px">${n.ownerPhone || '–'}</td>
+        <td><button class="btn btn-charge" onclick="openCharge(${n.number})">Send krav</button></td>
+      </tr>`).join('');
+      missingSection.style.display = 'block';
+    }
+
     if (agreements.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7" class="table-msg">Ingen avtaler med status ${status}</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="6" class="table-msg">Ingen avtaler med status ${status}</td></tr>`;
       return;
     }
 
     tbody.innerHTML = agreements.map(a => {
-      const amount = a.pricing?.amount != null
-        ? `${(a.pricing.amount / 100).toFixed(0)} NOK`
-        : (a.price != null ? `${(a.price / 100).toFixed(0)} NOK` : '–');
-
-      const nextCharge = a.lastChargeDate || a.start || '–';
+      const amount = a.amount != null ? `${(a.amount / 100).toFixed(0)} NOK` : '–';
       const created = a.created ? new Date(a.created).toLocaleDateString('no-NO') : '–';
-      const phone = a.customerPhoneNumber || '–';
-
-      const statusColor = {
-        ACTIVE: '#166534', STOPPED: '#e74c3c', EXPIRED: '#95a5a6',
-        PENDING: '#92400e', UNSUBSCRIBED: '#64748b'
-      }[a.status] || '#64748b';
+      const phone = a.phone || '–';
+      const norNum = a.norNumber != null ? `NOR ${a.norNumber}` : (a.productName || '–');
+      const statusColor = { ACTIVE:'#166534', STOPPED:'#e74c3c', EXPIRED:'#95a5a6', PENDING:'#92400e' }[a.status] || '#64748b';
 
       return `<tr>
-        <td style="font-size:12px;color:var(--grey);font-family:monospace">${a.id || '–'}</td>
-        <td style="font-weight:500">${a.productName || a.externalId || '–'}</td>
-        <td style="font-size:13px">${phone}</td>
+        <td class="nor-num">${norNum}</td>
+        <td>${a.owner || '<span style="color:var(--grey)">–</span>'}</td>
+        <td style="font-size:13px;font-weight:${phone !== '–' ? '600' : '400'};color:${phone !== '–' ? 'var(--text)' : 'var(--grey)'}">
+          ${phone !== '–' ? `<a href="tel:+47${phone}" style="color:var(--navy);text-decoration:none">+47 ${phone}</a>` : '–'}
+        </td>
         <td><span class="badge" style="background:#f0fdf4;color:${statusColor}">${a.status}</span></td>
         <td>${amount}</td>
         <td class="date-cell">${created}</td>
-        <td class="date-cell">${nextCharge !== '–' ? new Date(nextCharge).toLocaleDateString('no-NO') : '–'}</td>
       </tr>`;
     }).join('');
 
   } catch(e) {
-    tbody.innerHTML = `<tr><td colspan="7" class="table-msg" style="color:var(--red)">Feil: ${e.message}</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="6" class="table-msg" style="color:var(--red)">Feil: ${e.message}</td></tr>`;
     toast('Feil ved henting av Recurring: ' + e.message, true);
   }
 }
