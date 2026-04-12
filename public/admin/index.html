@@ -114,6 +114,40 @@
   header .brand { font-weight: 800; font-size: 18px; letter-spacing: -.5px; }
   header .brand span { opacity: .6; font-weight: 400; font-size: 14px; margin-left: 8px; }
 
+  /* ── Nav tabs ─────────────────────────────────────────── */
+  .nav-tabs {
+    display: flex;
+    gap: 0;
+    padding: 0 24px;
+    border-bottom: 2px solid var(--border);
+    background: var(--card);
+  }
+  .nav-tab {
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--grey);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all .15s;
+    border: none;
+    background: none;
+  }
+  .nav-tab:hover { color: var(--navy); }
+  .nav-tab.active { color: var(--navy); border-bottom: 3px solid var(--navy); }
+  .nav-tab.recurring.active { color: #059669; border-bottom-color: #059669; }
+
+  /* ── Recurring view ───────────────────────────────────── */
+  #view-recurring { display: none; padding: 20px 24px; }
+  .rec-filter { display: flex; gap: 8px; margin-bottom: 16px; align-items: center; flex-wrap: wrap; }
+  .rec-stat { background: var(--card); border-radius: 8px; padding: 10px 16px; font-size: 13px; border-left: 3px solid var(--green); box-shadow: 0 1px 4px rgba(0,0,0,.06); }
+  .rec-stat.stopped { border-color: var(--red); }
+  .rec-stat.expired { border-color: var(--grey); }
+  .rec-stat strong { font-size: 20px; display: block; color: var(--navy); }
+  .rec-stat.stopped strong { color: var(--red); }
+  .rec-stat.expired strong { color: var(--grey); }
+
   header .header-right { display: flex; align-items: center; gap: 16px; }
 
   .sync-time { font-size: 12px; opacity: .7; }
@@ -460,6 +494,15 @@
     </div>
   </header>
 
+  <!-- Nav tabs -->
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showView('numbers', this)">Seilnummer</button>
+    <button class="nav-tab recurring" onclick="showView('recurring', this)">Vipps Recurring</button>
+  </div>
+
+  <!-- ── View: Seilnummer ─────────────────────────── -->
+  <div id="view-numbers">
+
   <!-- Stats -->
   <div class="stats-bar">
     <div class="stat-card taken">
@@ -509,6 +552,44 @@
         <tr><td colspan="6" class="table-msg">Laster…</td></tr>
       </tbody>
     </table>
+  </div>
+  </div><!-- end view-numbers -->
+
+  <!-- ── View: Vipps Recurring ───────────────────────── -->
+  <div id="view-recurring">
+    <div class="rec-filter">
+      <div class="rec-stat" id="rec-stat-active"><strong id="rec-count-active">–</strong>Aktive avtaler</div>
+      <div class="rec-stat stopped" id="rec-stat-stopped"><strong id="rec-count-stopped">–</strong>Stoppet</div>
+      <div class="rec-stat expired" id="rec-stat-expired"><strong id="rec-count-expired">–</strong>Utløpt</div>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <select id="rec-status-filter" onchange="loadRecurring()" style="padding:8px 12px;border:2px solid var(--border);border-radius:8px;font-size:13px;outline:none">
+          <option value="ACTIVE">Aktive</option>
+          <option value="STOPPED">Stoppet</option>
+          <option value="EXPIRED">Utløpt</option>
+          <option value="PENDING">Venter</option>
+          <option value="UNSUBSCRIBED">Avmeldt</option>
+        </select>
+        <button class="btn btn-primary" onclick="loadRecurring()" style="padding:8px 16px;font-size:13px">↻ Last inn</button>
+      </div>
+    </div>
+    <div class="table-wrap" style="padding:0 0 24px">
+      <table>
+        <thead>
+          <tr>
+            <th>Avtale-ID</th>
+            <th>Navn</th>
+            <th>Telefon</th>
+            <th>Status</th>
+            <th>Beløp</th>
+            <th>Opprettet</th>
+            <th>Neste trekk</th>
+          </tr>
+        </thead>
+        <tbody id="rec-table-body">
+          <tr><td colspan="7" class="table-msg">Trykk "Last inn" for å hente avtaler fra Vipps</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -908,6 +989,74 @@ async function saveEdit() {
     await reload();
   } catch(e) {
     toast('Feil: ' + e.message, true);
+  }
+}
+
+// ── View switching ─────────────────────────────────────────────────────────
+function showView(name, btn) {
+  document.getElementById('view-numbers').style.display = name === 'numbers' ? 'block' : 'none';
+  document.getElementById('view-recurring').style.display = name === 'recurring' ? 'block' : 'none';
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (name === 'recurring' && document.getElementById('rec-table-body').innerHTML.includes('Last inn')) {
+    // auto-load on first open
+    loadRecurring();
+  }
+}
+
+// ── Vipps Recurring ────────────────────────────────────────────────────────
+async function loadRecurring() {
+  const status = document.getElementById('rec-status-filter').value;
+  const tbody = document.getElementById('rec-table-body');
+  tbody.innerHTML = `<tr><td colspan="7" class="table-msg">Henter fra Vipps…</td></tr>`;
+
+  try {
+    const res = await fetch(`${API}/recurring?status=${status}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || JSON.stringify(data.details || {}));
+
+    const agreements = data.agreements || [];
+
+    // Update stat counters for current status
+    if (status === 'ACTIVE') document.getElementById('rec-count-active').textContent = agreements.length;
+    if (status === 'STOPPED') document.getElementById('rec-count-stopped').textContent = agreements.length;
+    if (status === 'EXPIRED') document.getElementById('rec-count-expired').textContent = agreements.length;
+
+    if (agreements.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="7" class="table-msg">Ingen avtaler med status ${status}</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = agreements.map(a => {
+      const amount = a.pricing?.amount != null
+        ? `${(a.pricing.amount / 100).toFixed(0)} NOK`
+        : (a.price != null ? `${(a.price / 100).toFixed(0)} NOK` : '–');
+
+      const nextCharge = a.lastChargeDate || a.start || '–';
+      const created = a.created ? new Date(a.created).toLocaleDateString('no-NO') : '–';
+      const phone = a.customerPhoneNumber || '–';
+
+      const statusColor = {
+        ACTIVE: '#166534', STOPPED: '#e74c3c', EXPIRED: '#95a5a6',
+        PENDING: '#92400e', UNSUBSCRIBED: '#64748b'
+      }[a.status] || '#64748b';
+
+      return `<tr>
+        <td style="font-size:12px;color:var(--grey);font-family:monospace">${a.id || '–'}</td>
+        <td style="font-weight:500">${a.productName || a.externalId || '–'}</td>
+        <td style="font-size:13px">${phone}</td>
+        <td><span class="badge" style="background:#f0fdf4;color:${statusColor}">${a.status}</span></td>
+        <td>${amount}</td>
+        <td class="date-cell">${created}</td>
+        <td class="date-cell">${nextCharge !== '–' ? new Date(nextCharge).toLocaleDateString('no-NO') : '–'}</td>
+      </tr>`;
+    }).join('');
+
+  } catch(e) {
+    tbody.innerHTML = `<tr><td colspan="7" class="table-msg" style="color:var(--red)">Feil: ${e.message}</td></tr>`;
+    toast('Feil ved henting av Recurring: ' + e.message, true);
   }
 }
 
