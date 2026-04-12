@@ -240,6 +240,28 @@ export default async (req) => {
       return Response.json({ success: true, entry, isNew });
     }
 
+    // ── GET /api/admin/recurring ──────────────────────────────────────────
+    // List all Vipps Recurring agreements
+    if (req.method === "GET" && path.endsWith("/recurring")) {
+      const token = await getVippsToken();
+      const status = url.searchParams.get("status") || "ACTIVE";
+
+      // Fetch all agreements (paginated — Vipps returns up to 1000 per call)
+      const res = await fetch(
+        `https://api.vipps.no/recurring/v3/agreements?status=${status}`,
+        { headers: vippsHeaders(token) }
+      );
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.error("Vipps Recurring error:", JSON.stringify(data));
+        return Response.json({ error: "Vipps Recurring API feil", details: data }, { status: 502 });
+      }
+
+      // data is array of agreements
+      return Response.json({ success: true, agreements: Array.isArray(data) ? data : [], status });
+    }
+
     // ── GET /api/admin/payment-status ─────────────────────────────────────
     // Check Vipps payment status for a reference
     if (req.method === "GET" && path.endsWith("/payment-status")) {
