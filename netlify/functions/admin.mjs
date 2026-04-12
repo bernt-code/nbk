@@ -316,6 +316,68 @@ export default async (req) => {
       return Response.json({ success: true, agreements: enriched, missingRecurring, status });
     }
 
+    // ── POST /api/admin/charge-all ────────────────────────────────────────
+    // Send annual Vipps Recurring charge to all active agreements
+    if (req.method === "POST" && path.endsWith("/charge-all")) {
+      const body = await req.json().catch(() => ({}));
+      const amountNOK = body.amountNOK || 200;
+      const dueDate = body.dueDate || new Date().toISOString().slice(0, 10);
+      const year = new Date(dueDate).getFullYear();
+      const amount = Math.round(amountNOK * 100); // øre
+
+      const vippsToken = await getVippsToken();
+
+      // Fetch all active agreements
+      const listRes = await fetch(
+        "https://api.vipps.no/recurring/v3/agreements?status=ACTIVE",
+        { headers: vippsHeaders(vippsToken) }
+      );
+      const agreements = await listRes.json();
+      if (!Array.isArray(agreements)) {
+        return Response.json({ error: "Kunne ikke hente avtaler fra Vipps" }, { status: 502 });
+      }
+
+      const results = { sent: [], skipped: [], failed: [] };
+
+      for (const ag of agreements) {
+        const norMatch = (ag.productName || "").match(/NOR\s+(\d+)/i);
+        const norLabel = norMatch ? `NOR ${norMatch[1]}` : ag.productName || ag.id;
+        const orderRef = `nbk-${(norLabel).replace(/\s+/g, "-").toLowerCase()}-${year}`;
+
+        try {
+          const chargeRes = await fetch(
+            `https://api.vipps.no/recurring/v3/agreements/${ag.id}/charges`,
+            {
+              method: "POST",
+              headers: { ...vippsHeaders(vippsToken), "Idempotency-Key": orderRef },
+              body: JSON.stringify({
+                amount,
+                currency: "NOK",
+                description: `${norLabel} – Årsavgift ${year}`,
+                due: dueDate,
+                retryDays: 5,
+                orderReference: orderRef,
+              }),
+            }
+          );
+          const chargeData = await chargeRes.json();
+          if (chargeRes.ok) {
+            results.sent.push({ agreementId: ag.id, norLabel, chargeId: chargeData.chargeId });
+          } else if (chargeRes.status === 409) {
+            // Already charged this year (idempotency)
+            results.skipped.push({ agreementId: ag.id, norLabel, reason: "allerede sendt" });
+          } else {
+            results.failed.push({ agreementId: ag.id, norLabel, error: chargeData });
+          }
+        } catch (e) {
+          results.failed.push({ agreementId: ag.id, norLabel, error: e.message });
+        }
+      }
+
+      console.log(`charge-all: ${results.sent.length} sent, ${results.skipped.length} skipped, ${results.failed.length} failed`);
+      return Response.json({ success: true, year, dueDate, amountNOK, ...results });
+    }
+
     // ── GET /api/admin/payment-status ─────────────────────────────────────
     // Check Vipps payment status for a reference
     if (req.method === "GET" && path.endsWith("/payment-status")) {
