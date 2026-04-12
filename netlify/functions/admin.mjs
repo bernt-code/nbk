@@ -232,6 +232,7 @@ export default async (req) => {
       if (body.isLegend !== undefined) entry.isLegend = body.isLegend;
       if (body.legendHolder !== undefined) entry.legendHolder = body.legendHolder;
       if (body.requiresApplication !== undefined) entry.requiresApplication = body.requiresApplication;
+      if (body.isJunior !== undefined) entry.isJunior = body.isJunior;
       entry.updatedAt = new Date().toISOString();
 
       await saveRegistry(store, registry);
@@ -320,7 +321,7 @@ export default async (req) => {
     // Send annual Vipps Recurring charge to all active agreements
     if (req.method === "POST" && path.endsWith("/charge-all")) {
       const body = await req.json().catch(() => ({}));
-      const amountNOK = body.amountNOK || 200;
+      const amountNOK = body.amountNOK || 350;
       const dueDate = body.dueDate || new Date().toISOString().slice(0, 10);
       const year = new Date(dueDate).getFullYear();
       const amount = Math.round(amountNOK * 100); // øre
@@ -344,6 +345,7 @@ export default async (req) => {
         const norLabel = norMatch ? `NOR ${norMatch[1]}` : ag.productName || ag.id;
         const orderRef = `nbk-${(norLabel).replace(/\s+/g, "-").toLowerCase()}-${year}`;
 
+
         try {
           const chargeRes = await fetch(
             `https://api.vipps.no/recurring/v3/agreements/${ag.id}/charges`,
@@ -353,7 +355,7 @@ export default async (req) => {
               body: JSON.stringify({
                 amount,
                 currency: "NOK",
-                description: `${norLabel} – Årsavgift ${year}`,
+                description: `${norLabel} – Seilnummer og medlemskap ${year}`,
                 due: dueDate,
                 retryDays: 5,
                 orderReference: orderRef,
@@ -405,3 +407,4 @@ export default async (req) => {
 export const config = {
   path: ["/api/admin/:action*"],
 };
+// deployed: 1775998392

@@ -626,7 +626,7 @@
     </div>
     <div class="field">
       <label>Beløp per seiler (NOK)</label>
-      <input type="number" id="ca-amount" value="200" min="1" max="9999">
+      <input type="number" id="ca-amount" value="350" min="1" max="9999">
     </div>
     <div id="ca-result" style="display:none;margin-top:16px">
       <div style="background:#f0fdf4;border-radius:8px;padding:14px;font-size:14px">
@@ -735,6 +735,13 @@
     <div class="field" id="edit-legend-holder-field" style="display:none">
       <label>Legend-holder (permanent eier)</label>
       <input type="text" id="edit-legend-holder" placeholder="Navn på legend-holder">
+    </div>
+    <div class="field">
+      <label>Medlemskategori</label>
+      <select id="edit-junior">
+        <option value="false">Senior (18+) – betaler seilnummer</option>
+        <option value="true">Junior (under 18) – seilnummer inkludert</option>
+      </select>
     </div>
     <div class="modal-actions">
       <button class="btn-lg secondary" onclick="closeModal('modal-edit')">Avbryt</button>
@@ -893,10 +900,11 @@ function renderTable() {
          <button class="btn btn-danger" onclick="openRelease(${n.number})">Frigjør</button>`
       : `<button class="btn btn-edit" onclick="openEdit(${n.number})">Rediger</button>`;
 
+    const juniorTag = n.isJunior ? `<br><small style="color:#0ea5e9;font-weight:600">🧒 Junior</small>` : '';
     const ownerCell = n.isLegend
       ? `<span class="owner-name">${n.owner || (n.reservedBy ? `<em style="color:var(--grey)">${n.reservedBy}</em>` : '–')}</span>` +
         (n.legendHolder ? `<br><small style="color:#9d174d;font-weight:600">♛ ${n.legendHolder}</small>` : `<br><small style="color:#9d174d;opacity:.6">Legend-holder ukjent</small>`)
-      : `<span class="owner-name">${n.owner || (n.reservedBy ? `<em style="color:var(--grey)">${n.reservedBy}</em>` : '–')}</span>`;
+      : `<span class="owner-name">${n.owner || (n.reservedBy ? `<em style="color:var(--grey)">${n.reservedBy}</em>` : '–')}</span>${juniorTag}`;
 
     return `<tr>
       <td class="nor-num">NOR ${n.number}</td>
@@ -1005,6 +1013,7 @@ function openEdit(number) {
   document.getElementById('edit-legend').value = isLegend ? 'true' : 'false';
   document.getElementById('edit-legend-holder').value = entry?.legendHolder || '';
   document.getElementById('edit-legend-holder-field').style.display = isLegend ? 'block' : 'none';
+  document.getElementById('edit-junior').value = entry?.isJunior ? 'true' : 'false';
   // Update labels & title for legend numbers
   document.getElementById('edit-modal-title').textContent = isLegend ? '♛ Rediger Legend-nummer' : 'Rediger seilnummer';
   document.getElementById('edit-owner-label').textContent = isLegend ? 'Nåværende bruker (leier/bruker av nummeret)' : 'Eier (navn)';
@@ -1026,6 +1035,7 @@ async function saveEdit() {
     status: document.getElementById('edit-status').value,
     isLegend: document.getElementById('edit-legend').value === 'true',
     legendHolder: document.getElementById('edit-legend-holder').value.trim() || null,
+    isJunior: document.getElementById('edit-junior').value === 'true',
   };
 
   try {
@@ -1062,7 +1072,7 @@ function openChargeAll() {
 
 async function runChargeAll() {
   const dueDate = document.getElementById('ca-due-date').value;
-  const amountNOK = parseInt(document.getElementById('ca-amount').value) || 200;
+  const amountNOK = parseInt(document.getElementById('ca-amount').value) || 350;
   if (!dueDate) { toast('Velg forfallsdato', true); return; }
 
   document.getElementById('ca-actions').innerHTML =
@@ -1202,3 +1212,4 @@ function toast(msg, isError = false) {
 </script>
 </body>
 </html>
+<!-- deployed: 1775998392 -->
