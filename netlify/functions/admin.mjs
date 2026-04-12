@@ -241,15 +241,14 @@ export default async (req) => {
     }
 
     // ── GET /api/admin/recurring ──────────────────────────────────────────
-    // List all Vipps Recurring agreements
+    // List all Vipps Recurring agreements, enriched with phone + crossref
     if (req.method === "GET" && path.endsWith("/recurring")) {
-      const token = await getVippsToken();
+      const vippsToken = await getVippsToken();
       const status = url.searchParams.get("status") || "ACTIVE";
 
-      // Fetch all agreements (paginated — Vipps returns up to 1000 per call)
       const res = await fetch(
         `https://api.vipps.no/recurring/v3/agreements?status=${status}`,
-        { headers: vippsHeaders(token) }
+        { headers: vippsHeaders(vippsToken) }
       );
       const data = await res.json();
 
@@ -258,8 +257,63 @@ export default async (req) => {
         return Response.json({ error: "Vipps Recurring API feil", details: data }, { status: 502 });
       }
 
-      // data is array of agreements
-      return Response.json({ success: true, agreements: Array.isArray(data) ? data : [], status });
+      const agreements = Array.isArray(data) ? data : [];
+
+      // Extract phone number from vippsConfirmationUrl JWT payload
+      function extractPhone(agreement) {
+        try {
+          const jwt = agreement.vippsConfirmationUrl;
+          if (!jwt) return null;
+          const parts = jwt.split("token=");
+          if (parts.length < 2) return null;
+          const token = parts[1].split(".")[1]; // JWT payload
+          const payload = JSON.parse(atob(token));
+          return payload.mob ? String(payload.mob) : null;
+        } catch { return null; }
+      }
+
+      // Extract NOR number from productName e.g. "NOR 18" → 18
+      function extractNumber(agreement) {
+        const m = (agreement.productName || "").match(/NOR\s+(\d+)/i);
+        return m ? parseInt(m[1]) : null;
+      }
+
+      // Load registry to cross-reference
+      const { registry } = await loadRegistry();
+      const registryByNumber = {};
+      for (const n of registry.numbers) registryByNumber[n.number] = n;
+
+      // Enrich agreements
+      const activeNorNumbers = new Set();
+      const enriched = agreements.map(a => {
+        const phone = extractPhone(a);
+        const norNumber = extractNumber(a);
+        if (norNumber !== null && status === "ACTIVE") activeNorNumbers.add(norNumber);
+        const regEntry = norNumber !== null ? registryByNumber[norNumber] : null;
+        return {
+          id: a.id,
+          norNumber,
+          productName: a.productName,
+          phone,
+          status: a.status,
+          amount: a.pricing?.amount ?? null,
+          created: a.created,
+          start: a.start,
+          stop: a.stop,
+          owner: regEntry?.owner ?? null,
+          ownerEmail: regEntry?.ownerEmail ?? null,
+        };
+      });
+
+      // Find taken numbers WITHOUT active recurring (only when fetching ACTIVE)
+      let missingRecurring = [];
+      if (status === "ACTIVE") {
+        missingRecurring = registry.numbers
+          .filter(n => n.status === "taken" && !n.isLegend && !activeNorNumbers.has(n.number))
+          .map(n => ({ number: n.number, owner: n.owner, ownerEmail: n.ownerEmail, ownerPhone: n.ownerPhone }));
+      }
+
+      return Response.json({ success: true, agreements: enriched, missingRecurring, status });
     }
 
     // ── GET /api/admin/payment-status ─────────────────────────────────────
