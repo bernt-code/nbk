@@ -570,6 +570,7 @@
           <option value="UNSUBSCRIBED">Avmeldt</option>
         </select>
         <button class="btn btn-primary" onclick="loadRecurring()" style="padding:8px 16px;font-size:13px">↻ Last inn</button>
+        <button class="btn-lg primary" onclick="openChargeAll()" style="padding:8px 18px;font-size:13px;border-radius:8px;font-weight:700;background:#059669;color:white;border:none;cursor:pointer">💸 Fakturer alle</button>
       </div>
     </div>
     <!-- Missing recurring section -->
@@ -610,6 +611,36 @@
           <tr><td colspan="6" class="table-msg">Trykk "Last inn" for å hente avtaler fra Vipps</td></tr>
         </tbody>
       </table>
+    </div>
+  </div>
+</div>
+
+<!-- ── Modal: Fakturer alle ───────────────────────────────────────────────── -->
+<div class="modal-bg" id="modal-charge-all">
+  <div class="modal">
+    <h3>💸 Fakturer alle – Årsavgift</h3>
+    <p class="confirm-text" style="margin-bottom:16px">Sender Vipps-krav til alle <strong id="ca-count">85</strong> aktive avtaler.</p>
+    <div class="field">
+      <label>Forfallsdato</label>
+      <input type="date" id="ca-due-date">
+    </div>
+    <div class="field">
+      <label>Beløp per seiler (NOK)</label>
+      <input type="number" id="ca-amount" value="200" min="1" max="9999">
+    </div>
+    <div id="ca-result" style="display:none;margin-top:16px">
+      <div style="background:#f0fdf4;border-radius:8px;padding:14px;font-size:14px">
+        <div>✅ Sendt: <strong id="ca-sent">0</strong></div>
+        <div>⏭ Allerede sendt: <strong id="ca-skipped">0</strong></div>
+        <div>❌ Feilet: <strong id="ca-failed">0</strong></div>
+      </div>
+    </div>
+    <div class="modal-actions" id="ca-actions">
+      <button class="btn-lg secondary" onclick="closeModal('modal-charge-all')">Avbryt</button>
+      <button class="btn-lg primary" style="background:#059669" onclick="runChargeAll()">Send årsavgift</button>
+    </div>
+    <div class="modal-actions" id="ca-done-actions" style="display:none">
+      <button class="btn-lg secondary" onclick="closeModal('modal-charge-all');loadRecurring()">Lukk</button>
     </div>
   </div>
 </div>
@@ -1010,6 +1041,54 @@ async function saveEdit() {
     await reload();
   } catch(e) {
     toast('Feil: ' + e.message, true);
+  }
+}
+
+// ── Charge all ────────────────────────────────────────────────────────────
+function openChargeAll() {
+  // Default to next March 31st
+  const today = new Date();
+  let due = new Date(today.getFullYear(), 2, 31); // March 31
+  if (due < today) due = new Date(today.getFullYear() + 1, 2, 31);
+  document.getElementById('ca-due-date').value = due.toISOString().slice(0, 10);
+  document.getElementById('ca-result').style.display = 'none';
+  document.getElementById('ca-actions').style.display = 'flex';
+  document.getElementById('ca-done-actions').style.display = 'none';
+  // Update count from current data
+  const activeCount = document.getElementById('rec-count-active').textContent;
+  if (activeCount !== '–') document.getElementById('ca-count').textContent = activeCount;
+  openModal('modal-charge-all');
+}
+
+async function runChargeAll() {
+  const dueDate = document.getElementById('ca-due-date').value;
+  const amountNOK = parseInt(document.getElementById('ca-amount').value) || 200;
+  if (!dueDate) { toast('Velg forfallsdato', true); return; }
+
+  document.getElementById('ca-actions').innerHTML =
+    '<span style="color:var(--grey);font-size:13px">Sender krav til Vipps… dette tar litt tid</span>';
+
+  try {
+    const res = await fetch(`${API}/charge-all`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ dueDate, amountNOK }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Ukjent feil');
+
+    document.getElementById('ca-sent').textContent = data.sent?.length || 0;
+    document.getElementById('ca-skipped').textContent = data.skipped?.length || 0;
+    document.getElementById('ca-failed').textContent = data.failed?.length || 0;
+    document.getElementById('ca-result').style.display = 'block';
+    document.getElementById('ca-actions').style.display = 'none';
+    document.getElementById('ca-done-actions').style.display = 'flex';
+    toast(`✅ ${data.sent?.length || 0} krav sendt!`);
+  } catch(e) {
+    toast('Feil: ' + e.message, true);
+    document.getElementById('ca-actions').innerHTML =
+      `<button class="btn-lg secondary" onclick="closeModal('modal-charge-all')">Avbryt</button>
+       <button class="btn-lg primary" style="background:#059669" onclick="runChargeAll()">Prøv igjen</button>`;
   }
 }
 
