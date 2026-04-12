@@ -149,6 +149,7 @@
   .stat-card.taken { border-color: var(--navy); }
   .stat-card.reserved { border-color: var(--yellow); }
   .stat-card.available { border-color: var(--green); }
+  .stat-card.legend { border-color: #9d174d; }
 
   .stat-card .val {
     font-size: 32px;
@@ -160,6 +161,7 @@
   .stat-card.taken .val { color: var(--navy); }
   .stat-card.reserved .val { color: var(--yellow); }
   .stat-card.available .val { color: var(--green); }
+  .stat-card.legend .val { color: #9d174d; }
 
   .stat-card .lbl { font-size: 12px; color: var(--grey); text-transform: uppercase; letter-spacing: .5px; }
 
@@ -472,6 +474,10 @@
       <div class="val" id="stat-available">–</div>
       <div class="lbl">Ledig</div>
     </div>
+    <div class="stat-card legend">
+      <div class="val" id="stat-legend">–</div>
+      <div class="lbl">Legend</div>
+    </div>
   </div>
 
   <!-- Controls -->
@@ -560,14 +566,14 @@
 <!-- ── Modal: Rediger ────────────────────────────────────────────────────── -->
 <div class="modal-bg" id="modal-edit">
   <div class="modal">
-    <h3>Rediger seilnummer</h3>
+    <h3 id="edit-modal-title">Rediger seilnummer</h3>
     <input type="hidden" id="edit-number">
     <div class="field">
       <label>NOR nummer</label>
       <input type="text" id="edit-num-display" readonly>
     </div>
     <div class="field">
-      <label>Eier (navn)</label>
+      <label id="edit-owner-label">Nåværende bruker (navn)</label>
       <input type="text" id="edit-owner" placeholder="Fullt navn">
     </div>
     <div class="field">
@@ -674,6 +680,7 @@ function processData(data) {
   document.getElementById('stat-taken').textContent = data.stats.taken;
   document.getElementById('stat-reserved').textContent = data.stats.reserved;
   document.getElementById('stat-available').textContent = data.stats.available;
+  document.getElementById('stat-legend').textContent = (data.numbers || []).filter(n => n.isLegend).length;
 
   const d = new Date(data.lastUpdated);
   document.getElementById('sync-time').textContent =
@@ -753,9 +760,14 @@ function renderTable() {
          <button class="btn btn-danger" onclick="openRelease(${n.number})">Frigjør</button>`
       : `<button class="btn btn-edit" onclick="openEdit(${n.number})">Rediger</button>`;
 
+    const ownerCell = n.isLegend
+      ? `<span class="owner-name">${n.owner || (n.reservedBy ? `<em style="color:var(--grey)">${n.reservedBy}</em>` : '–')}</span>` +
+        (n.legendHolder ? `<br><small style="color:#9d174d;font-weight:600">♛ ${n.legendHolder}</small>` : `<br><small style="color:#9d174d;opacity:.6">Legend-holder ukjent</small>`)
+      : `<span class="owner-name">${n.owner || (n.reservedBy ? `<em style="color:var(--grey)">${n.reservedBy}</em>` : '–')}</span>`;
+
     return `<tr>
       <td class="nor-num">NOR ${n.number}</td>
-      <td class="owner-name">${n.owner || (n.reservedBy ? `<em style="color:var(--grey)">${n.reservedBy}</em>` : '–')}</td>
+      <td>${ownerCell}</td>
       <td class="hide-mobile">${email}</td>
       <td>${statusBadge}</td>
       <td class="date-cell hide-mobile">${dateStr}</td>
@@ -860,6 +872,9 @@ function openEdit(number) {
   document.getElementById('edit-legend').value = isLegend ? 'true' : 'false';
   document.getElementById('edit-legend-holder').value = entry?.legendHolder || '';
   document.getElementById('edit-legend-holder-field').style.display = isLegend ? 'block' : 'none';
+  // Update labels & title for legend numbers
+  document.getElementById('edit-modal-title').textContent = isLegend ? '♛ Rediger Legend-nummer' : 'Rediger seilnummer';
+  document.getElementById('edit-owner-label').textContent = isLegend ? 'Nåværende bruker (leier/bruker av nummeret)' : 'Eier (navn)';
   openModal('modal-edit');
 }
 
