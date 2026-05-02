@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html class="light" lang="no"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NBK | iQFOiL Beat-kalkulator</title>
+<meta name="description" content="Beregn anbefalt beat-lengde for iQFOiL-regatta basert på vindstyrke, banetype og måltid. Verktøy for racekomité og baneleggere."/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary-container": "#3c73aa",
+          "secondary": "#ab3600",
+          "outline-variant": "#c1c7d1",
+          "secondary-fixed-dim": "#ffb59c",
+          "on-secondary": "#ffffff",
+          "primary-fixed-dim": "#9ecaff",
+          "primary": "#1d5a90",
+          "on-primary": "#ffffff",
+          "on-surface-variant": "#42474f",
+          "outline": "#727780",
+          "surface-variant": "#dde2f3",
+          "on-background": "#161c27",
+          "surface-container-highest": "#dde2f3",
+          "surface": "#f9f9ff",
+          "surface-container-high": "#e3e8f9",
+          "secondary-container": "#ff6e39",
+          "surface-container-low": "#f1f3ff",
+          "primary-fixed": "#d1e4ff",
+          "background": "#f9f9ff",
+          "surface-container": "#e8eeff",
+          "on-surface": "#161c27",
+          "on-primary-container": "#f0f5ff",
+          "tertiary": "#62554a",
+          "error": "#ba1a1a"
+        },
+        fontFamily: {
+          "headline": ["Space Grotesk"],
+          "body": ["Plus Jakarta Sans"],
+          "label": ["Lexend"]
+        },
+        borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+      },
+    },
+  }
+</script>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  .num-display { font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm">
+  <div class="flex justify-between items-center px-8 py-4 max-w-screen-2xl mx-auto">
+    <a href="/" class="text-2xl font-black text-blue-900 italic font-headline uppercase tracking-tight">NBK</a>
+    <div class="hidden md:flex items-center gap-8">
+      <a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight" href="/">Nyheter</a>
+      <a class="text-blue-600 font-headline font-bold uppercase tracking-tight" href="/grener/">Grener</a>
+      <a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight" href="/events/">Events</a>
+      <a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight" href="/medlemskap/">Medlemskap</a>
+      <a class="text-slate-700 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight" href="/om-oss/">Om Oss</a>
+    </div>
+    <a href="/medlemskap/" class="hidden md:block px-6 py-2 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight shadow-lg">Bli Medlem</a>
+  </div>
+</nav>
+
+<main class="pt-24">
+
+  <section class="px-8 py-12 max-w-7xl mx-auto">
+    <a href="/grener/iqfoil/" class="inline-flex items-center gap-2 text-on-surface-variant font-label text-sm uppercase tracking-widest mb-6 hover:text-primary transition-colors">
+      <span class="material-symbols-outlined text-sm">arrow_back</span>
+      Tilbake til iQFOiL
+    </a>
+    <span class="block font-label text-secondary font-bold uppercase tracking-[0.2em] mb-3">Verktøy for racekomité</span>
+    <h1 class="font-headline font-black text-5xl md:text-7xl text-primary tracking-tighter uppercase italic leading-none mb-6">Beat-kalkulator</h1>
+    <p class="text-on-surface-variant text-lg max-w-3xl leading-relaxed">
+      Beregn anbefalt beat-lengde for iQFOiL-regatta ut fra vindstyrke, banetype og måltid. Polardata er en estimering basert på typiske iQFOiL-prestasjoner — verifiser med en testrunde før første start.
+    </p>
+  </section>
+
+  <section class="px-8 pb-12 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
+
+      <!-- Inputs -->
+      <div class="lg:col-span-3 bg-surface-container-low rounded-2xl p-8 shadow-sm">
+        <h2 class="font-headline font-bold text-2xl text-primary uppercase tracking-tight mb-6">Inndata</h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+          <div class="sm:col-span-2">
+            <label class="block font-label text-sm font-bold uppercase tracking-wider text-on-surface-variant mb-3">Banetype</label>
+            <div class="grid grid-cols-3 gap-2" id="course-type-group">
+              <button type="button" data-course="course" class="course-btn px-4 py-3 rounded-lg bg-primary text-on-primary font-headline font-bold uppercase text-sm">Kurs (W/L)</button>
+              <button type="button" data-course="slalom" class="course-btn px-4 py-3 rounded-lg bg-surface-container text-on-surface-variant font-headline font-bold uppercase text-sm">Slalom</button>
+              <button type="button" data-course="marathon" class="course-btn px-4 py-3 rounded-lg bg-surface-container text-on-surface-variant font-headline font-bold uppercase text-sm">Marathon</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-label text-sm font-bold uppercase tracking-wider text-on-surface-variant mb-2" for="wind">Vindstyrke (knop)</label>
+            <input type="number" id="wind" min="3" max="35" step="0.5" value="12"
+              class="w-full px-4 py-3 rounded-lg border-outline-variant bg-surface text-2xl font-headline font-bold num-display"/>
+            <input type="range" id="wind-slider" min="3" max="35" step="0.5" value="12" class="w-full mt-3 accent-primary"/>
+          </div>
+
+          <div>
+            <label class="block font-label text-sm font-bold uppercase tracking-wider text-on-surface-variant mb-2" for="target-time">Måltid (minutter)</label>
+            <input type="number" id="target-time" min="1" max="60" step="0.5" value="14"
+              class="w-full px-4 py-3 rounded-lg border-outline-variant bg-surface text-2xl font-headline font-bold num-display"/>
+            <input type="range" id="target-time-slider" min="1" max="60" step="0.5" value="14" class="w-full mt-3 accent-primary"/>
+          </div>
+
+          <div id="laps-field">
+            <label class="block font-label text-sm font-bold uppercase tracking-wider text-on-surface-variant mb-2" for="laps">Antall runder</label>
+            <input type="number" id="laps" min="1" max="6" step="1" value="2"
+              class="w-full px-4 py-3 rounded-lg border-outline-variant bg-surface text-2xl font-headline font-bold num-display"/>
+            <p class="text-xs text-on-surface-variant mt-2 font-body" id="laps-hint">1 runde = 1 kryss + 1 lens</p>
+          </div>
+
+          <div id="legs-field" class="hidden">
+            <label class="block font-label text-sm font-bold uppercase tracking-wider text-on-surface-variant mb-2" for="legs">Antall reach-legs</label>
+            <input type="number" id="legs" min="2" max="8" step="1" value="4"
+              class="w-full px-4 py-3 rounded-lg border-outline-variant bg-surface text-2xl font-headline font-bold num-display"/>
+            <p class="text-xs text-on-surface-variant mt-2 font-body">Slalombane med vekselvise reach-bein</p>
+          </div>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-outline-variant">
+          <details>
+            <summary class="font-label font-bold uppercase tracking-wider text-sm text-on-surface-variant cursor-pointer hover:text-primary">Avansert: justér polar manuelt</summary>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+              <div>
+                <label class="block font-label text-xs uppercase text-on-surface-variant mb-1" for="vmg-up">VMG kryss (knop)</label>
+                <input type="number" id="vmg-up" step="0.1" class="w-full px-3 py-2 rounded-lg border-outline-variant bg-surface num-display"/>
+              </div>
+              <div>
+                <label class="block font-label text-xs uppercase text-on-surface-variant mb-1" for="vmg-down">VMG lens (knop)</label>
+                <input type="number" id="vmg-down" step="0.1" class="w-full px-3 py-2 rounded-lg border-outline-variant bg-surface num-display"/>
+              </div>
+              <div>
+                <label class="block font-label text-xs uppercase text-on-surface-variant mb-1" for="speed-reach">Reach-fart (knop)</label>
+                <input type="number" id="speed-reach" step="0.1" class="w-full px-3 py-2 rounded-lg border-outline-variant bg-surface num-display"/>
+              </div>
+            </div>
+            <button type="button" id="reset-polar" class="mt-3 text-xs font-label uppercase tracking-wider text-primary hover:underline">Bruk standardpolar for vinden</button>
+          </details>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="lg:col-span-2 bg-primary rounded-2xl p-8 shadow-lg text-on-primary">
+        <h2 class="font-headline font-bold text-2xl uppercase tracking-tight mb-6 text-on-primary">Anbefaling</h2>
+
+        <div class="mb-8">
+          <span class="block font-label text-xs uppercase tracking-widest text-on-primary/70 mb-2" id="primary-label">Beat-lengde</span>
+          <div class="flex items-end gap-3">
+            <span class="font-headline font-black text-6xl md:text-7xl tracking-tighter num-display" id="primary-value">—</span>
+            <span class="font-headline font-bold text-2xl pb-2 text-on-primary/80">m</span>
+          </div>
+          <p class="text-on-primary/80 text-sm mt-2 font-body" id="primary-sub">Avstand fra start til toppmerke</p>
+        </div>
+
+        <div class="space-y-4 pt-6 border-t border-on-primary/20">
+          <div class="flex justify-between items-baseline">
+            <span class="font-label text-xs uppercase tracking-widest text-on-primary/70">Estimert kryss-tid</span>
+            <span class="font-headline font-bold text-lg num-display" id="beat-time">—</span>
+          </div>
+          <div class="flex justify-between items-baseline" id="run-row">
+            <span class="font-label text-xs uppercase tracking-widest text-on-primary/70">Estimert lens-tid</span>
+            <span class="font-headline font-bold text-lg num-display" id="run-time">—</span>
+          </div>
+          <div class="flex justify-between items-baseline">
+            <span class="font-label text-xs uppercase tracking-widest text-on-primary/70">Total banelengde</span>
+            <span class="font-headline font-bold text-lg num-display" id="total-distance">—</span>
+          </div>
+          <div class="flex justify-between items-baseline">
+            <span class="font-label text-xs uppercase tracking-widest text-on-primary/70">Beregnet løpstid</span>
+            <span class="font-headline font-bold text-lg num-display" id="calc-time">—</span>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-6 border-t border-on-primary/20 text-xs text-on-primary/70 font-body leading-relaxed">
+          Avrund baneleggene til nærmeste 50 m. Bruk de første 30 sekundene etter klassesignal til å verifisere fart og justere merket før varselsignal.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Polar table -->
+  <section class="px-8 pb-12 max-w-7xl mx-auto">
+    <div class="bg-surface-container-low rounded-2xl p-8">
+      <h2 class="font-headline font-bold text-2xl text-primary uppercase tracking-tight mb-2">iQFOiL-polar (estimat)</h2>
+      <p class="text-on-surface-variant text-sm mb-6 font-body max-w-3xl">Antatte VMG-verdier (knop) som funksjon av sann vind. Verdiene er hentet fra typiske observasjoner i iQFOiL-regatta og bør justeres mot lokale forhold.</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-left num-display">
+          <thead class="border-b-2 border-primary/20">
+            <tr class="font-label text-xs uppercase tracking-wider text-on-surface-variant">
+              <th class="py-3 pr-4">Vind (kn)</th>
+              <th class="py-3 pr-4">VMG kryss</th>
+              <th class="py-3 pr-4">VMG lens</th>
+              <th class="py-3 pr-4">Reach-fart</th>
+              <th class="py-3 pr-4">Topp-fart</th>
+            </tr>
+          </thead>
+          <tbody id="polar-tbody" class="font-body text-on-surface"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- About / Sources -->
+  <section class="px-8 pb-20 max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="bg-surface-container-low rounded-2xl p-8">
+        <h2 class="font-headline font-bold text-xl text-primary uppercase tracking-tight mb-4">Slik regner verktøyet</h2>
+        <div class="text-on-surface-variant text-sm font-body leading-relaxed space-y-3">
+          <p>For en kursbane (windward-leeward) løses lengden av kryss <em>L</em> ut fra:</p>
+          <pre class="bg-surface rounded-lg p-3 text-xs overflow-x-auto"><code>T = N × ( L / VMG_opp + L / VMG_ned )</code></pre>
+          <p>Der <em>T</em> er måltid, <em>N</em> er antall runder, og VMG-verdiene er fra polartabellen. Knop konverteres til m/s med faktor 0,5144.</p>
+          <p>For slalom regnes total bane som <em>n</em> reach-bein × <em>L</em>, der <em>L</em> er lengden av hvert bein og det forutsettes konstant reach-fart.</p>
+        </div>
+      </div>
+      <div class="bg-surface-container-low rounded-2xl p-8">
+        <h2 class="font-headline font-bold text-xl text-primary uppercase tracking-tight mb-4">Kilder og forutsetninger</h2>
+        <ul class="text-on-surface-variant text-sm font-body leading-relaxed space-y-2 list-disc pl-5">
+          <li>iQFOiL Class Association — banespesifikasjoner og måltider (12–15 min kursrace, 3–4 min slalom).</li>
+          <li>World Sailing — iQFOiL Learning Series, fartsobservasjoner.</li>
+          <li>Polarverdier kalibrert mot publiserte race-data fra OL Paris 2024 og verdenscup-runder.</li>
+          <li>Inspirert av <a href="https://starttimerapp.com/beatlength" class="text-primary underline" target="_blank" rel="noopener">starttimerapp.com</a> sin beat-kalkulator (David Campbell-James).</li>
+        </ul>
+        <p class="text-xs text-on-surface-variant mt-4 italic">Verktøyet er en estimator. Racekomité har siste ord — bruk testrunde og pålesningskorreksjon på dagen.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="bg-slate-50 w-full py-12 px-8">
+  <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+    <a href="/" class="font-headline font-bold text-blue-900 text-2xl uppercase italic">NBK</a>
+    <p class="text-slate-500 font-body text-sm">&copy; 2025 Norsk Brettseilerklubb</p>
+  </div>
+</footer>
+
+<script>
+// iQFOiL polar — sann vind (kn) → [VMG kryss, VMG lens, reach-fart, topp-fart]
+const POLAR = [
+  { tws: 5,  vmgUp: 5,  vmgDn: 7,  reach: 9,  top: 11 },
+  { tws: 7,  vmgUp: 9,  vmgDn: 12, reach: 14, top: 18 },
+  { tws: 10, vmgUp: 14, vmgDn: 18, reach: 22, top: 26 },
+  { tws: 12, vmgUp: 16, vmgDn: 21, reach: 25, top: 29 },
+  { tws: 15, vmgUp: 19, vmgDn: 24, reach: 28, top: 32 },
+  { tws: 18, vmgUp: 21, vmgDn: 27, reach: 31, top: 34 },
+  { tws: 20, vmgUp: 22, vmgDn: 28, reach: 32, top: 35 },
+  { tws: 25, vmgUp: 23, vmgDn: 29, reach: 33, top: 35 },
+  { tws: 30, vmgUp: 23, vmgDn: 28, reach: 32, top: 34 },
+];
+
+const KT_TO_MS = 0.5144;
+
+function interp(tws) {
+  if (tws <= POLAR[0].tws) return { ...POLAR[0] };
+  if (tws >= POLAR[POLAR.length - 1].tws) return { ...POLAR[POLAR.length - 1] };
+  for (let i = 0; i < POLAR.length - 1; i++) {
+    const a = POLAR[i], b = POLAR[i + 1];
+    if (tws >= a.tws && tws <= b.tws) {
+      const f = (tws - a.tws) / (b.tws - a.tws);
+      return {
+        tws,
+        vmgUp: a.vmgUp + f * (b.vmgUp - a.vmgUp),
+        vmgDn: a.vmgDn + f * (b.vmgDn - a.vmgDn),
+        reach: a.reach + f * (b.reach - a.reach),
+        top:   a.top   + f * (b.top   - a.top),
+      };
+    }
+  }
+  return { ...POLAR[0] };
+}
+
+function fmtTime(seconds) {
+  if (!isFinite(seconds) || seconds < 0) return '—';
+  const m = Math.floor(seconds / 60);
+  const s = Math.round(seconds - m * 60);
+  return s === 60 ? `${m + 1}:00` : `${m}:${String(s).padStart(2, '0')}`;
+}
+
+function fmtMeters(m) {
+  if (!isFinite(m) || m <= 0) return '—';
+  if (m >= 1000) return `${(m / 1000).toFixed(2).replace('.', ',')} km`;
+  return `${Math.round(m)} m`;
+}
+
+let course = 'course';
+
+function setCourse(newCourse) {
+  course = newCourse;
+  document.querySelectorAll('.course-btn').forEach(btn => {
+    const active = btn.dataset.course === course;
+    btn.classList.toggle('bg-primary', active);
+    btn.classList.toggle('text-on-primary', active);
+    btn.classList.toggle('bg-surface-container', !active);
+    btn.classList.toggle('text-on-surface-variant', !active);
+  });
+
+  const lapsField = document.getElementById('laps-field');
+  const legsField = document.getElementById('legs-field');
+  const targetInput = document.getElementById('target-time');
+  const targetSlider = document.getElementById('target-time-slider');
+  const lapsHint = document.getElementById('laps-hint');
+  const primaryLabel = document.getElementById('primary-label');
+  const primarySub = document.getElementById('primary-sub');
+  const runRow = document.getElementById('run-row');
+
+  if (course === 'slalom') {
+    lapsField.classList.add('hidden');
+    legsField.classList.remove('hidden');
+    targetInput.value = 4; targetSlider.value = 4;
+    primaryLabel.textContent = 'Reach-bein lengde';
+    primarySub.textContent = 'Lengde per reach-leg';
+    runRow.classList.add('hidden');
+  } else if (course === 'marathon') {
+    lapsField.classList.remove('hidden');
+    legsField.classList.add('hidden');
+    targetInput.value = 30; targetSlider.value = 30;
+    lapsHint.textContent = '1 runde = 1 kryss + 1 lens (ofte 4–6 runder)';
+    primaryLabel.textContent = 'Beat-lengde';
+    primarySub.textContent = 'Avstand fra start til toppmerke';
+    runRow.classList.remove('hidden');
+  } else {
+    lapsField.classList.remove('hidden');
+    legsField.classList.add('hidden');
+    targetInput.value = 14; targetSlider.value = 14;
+    lapsHint.textContent = '1 runde = 1 kryss + 1 lens (typisk 2)';
+    primaryLabel.textContent = 'Beat-lengde';
+    primarySub.textContent = 'Avstand fra start til toppmerke';
+    runRow.classList.remove('hidden');
+  }
+  refreshPolarFields();
+  recalc();
+}
+
+function refreshPolarFields() {
+  const tws = parseFloat(document.getElementById('wind').value) || 0;
+  const p = interp(tws);
+  document.getElementById('vmg-up').placeholder = p.vmgUp.toFixed(1);
+  document.getElementById('vmg-down').placeholder = p.vmgDn.toFixed(1);
+  document.getElementById('speed-reach').placeholder = p.reach.toFixed(1);
+}
+
+function getPolar() {
+  const tws = parseFloat(document.getElementById('wind').value) || 0;
+  const auto = interp(tws);
+  const up = parseFloat(document.getElementById('vmg-up').value);
+  const dn = parseFloat(document.getElementById('vmg-down').value);
+  const re = parseFloat(document.getElementById('speed-reach').value);
+  return {
+    vmgUp: isFinite(up) && up > 0 ? up : auto.vmgUp,
+    vmgDn: isFinite(dn) && dn > 0 ? dn : auto.vmgDn,
+    reach: isFinite(re) && re > 0 ? re : auto.reach,
+  };
+}
+
+function recalc() {
+  const targetMin = parseFloat(document.getElementById('target-time').value) || 0;
+  const T = targetMin * 60; // seconds
+  const p = getPolar();
+
+  const vmgUpMs = p.vmgUp * KT_TO_MS;
+  const vmgDnMs = p.vmgDn * KT_TO_MS;
+  const reachMs = p.reach * KT_TO_MS;
+
+  if (course === 'slalom') {
+    const legs = Math.max(1, parseInt(document.getElementById('legs').value, 10) || 1);
+    const L = (T * reachMs) / legs;
+    const tLeg = L / reachMs;
+    document.getElementById('primary-value').textContent = fmtMeters(L).replace(' m', '').replace(' km', '');
+    document.querySelector('#primary-value + span').textContent = L >= 1000 ? 'km' : 'm';
+    document.getElementById('beat-time').textContent = fmtTime(tLeg) + ' / leg';
+    document.getElementById('total-distance').textContent = fmtMeters(L * legs);
+    document.getElementById('calc-time').textContent = fmtTime(tLeg * legs);
+  } else {
+    const N = Math.max(1, parseInt(document.getElementById('laps').value, 10) || 1);
+    const denom = N * (1 / vmgUpMs + 1 / vmgDnMs);
+    const L = denom > 0 ? T / denom : 0;
+    const tBeat = L / vmgUpMs;
+    const tRun = L / vmgDnMs;
+    document.getElementById('primary-value').textContent = fmtMeters(L).replace(' m', '').replace(' km', '');
+    document.querySelector('#primary-value + span').textContent = L >= 1000 ? 'km' : 'm';
+    document.getElementById('beat-time').textContent = fmtTime(tBeat);
+    document.getElementById('run-time').textContent = fmtTime(tRun);
+    document.getElementById('total-distance').textContent = fmtMeters(2 * L * N);
+    document.getElementById('calc-time').textContent = fmtTime(N * (tBeat + tRun));
+  }
+}
+
+function buildPolarTable() {
+  const tbody = document.getElementById('polar-tbody');
+  tbody.innerHTML = POLAR.map(r =>
+    `<tr class="border-b border-outline-variant/40">
+      <td class="py-2 pr-4 font-headline font-bold text-primary">${r.tws}</td>
+      <td class="py-2 pr-4">${r.vmgUp.toFixed(1)}</td>
+      <td class="py-2 pr-4">${r.vmgDn.toFixed(1)}</td>
+      <td class="py-2 pr-4">${r.reach.toFixed(1)}</td>
+      <td class="py-2 pr-4 text-on-surface-variant">${r.top.toFixed(1)}</td>
+    </tr>`
+  ).join('');
+}
+
+// Wire up
+function bindSlider(numId, sliderId) {
+  const num = document.getElementById(numId);
+  const slider = document.getElementById(sliderId);
+  num.addEventListener('input', () => { slider.value = num.value; refreshPolarFields(); recalc(); });
+  slider.addEventListener('input', () => { num.value = slider.value; refreshPolarFields(); recalc(); });
+}
+
+document.querySelectorAll('.course-btn').forEach(btn => {
+  btn.addEventListener('click', () => setCourse(btn.dataset.course));
+});
+['laps', 'legs', 'vmg-up', 'vmg-down', 'speed-reach'].forEach(id => {
+  document.getElementById(id).addEventListener('input', recalc);
+});
+document.getElementById('reset-polar').addEventListener('click', () => {
+  document.getElementById('vmg-up').value = '';
+  document.getElementById('vmg-down').value = '';
+  document.getElementById('speed-reach').value = '';
+  refreshPolarFields();
+  recalc();
+});
+
+bindSlider('wind', 'wind-slider');
+bindSlider('target-time', 'target-time-slider');
+
+buildPolarTable();
+setCourse('course');
+</script>
+</body></html>
