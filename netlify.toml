@@ -58,6 +58,12 @@
   to = "/.netlify/functions/membership/:splat"
   status = 200
 
+
+[[redirects]]
+  from = "/api/admin/setup-webhooks"
+  to = "/.netlify/functions/setup-webhooks"
+  status = 200
+
 # CORS headers for API
 [[headers]]
   for = "/api/*"
