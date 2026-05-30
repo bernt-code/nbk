@@ -191,6 +191,14 @@ Norsk Brettseilerklubb er klasseklubb under Norges Seilforbund. Som medlem støt
 <label class="font-label text-xs tracking-widest uppercase font-bold text-on-surface-variant mb-1.5 block">Mobil (Vipps-nummer)</label>
 <input name="phone" type="tel" placeholder="+47 900 00 000" class="w-full px-4 py-3 rounded-lg border-2 border-transparent bg-surface-container-low focus:border-primary focus:outline-none"/>
 </div>
+<div id="number-field" style="display:none;">
+<label class="font-label text-xs tracking-widest uppercase font-bold text-on-surface-variant mb-1.5 flex items-center justify-between">
+<span>Reserver NOR-nummer (valgfritt)</span>
+<a href="/seilnummer/" target="_blank" class="text-primary underline normal-case font-normal tracking-normal text-[11px]">Se ledige numre →</a>
+</label>
+<input name="number" type="number" min="0" max="99999" placeholder="F.eks. 47" class="w-full px-4 py-3 rounded-lg border-2 border-transparent bg-surface-container-low focus:border-primary focus:outline-none"/>
+<p class="text-xs text-on-surface-variant mt-1.5">Skriv inn nummeret du vil ha. Nummeret reserveres automatisk når Vipps-avtalen aktiveres. Du kan også hoppe over og velge senere.</p>
+</div>
 <div class="flex items-center gap-2 text-xs text-on-surface-variant">
 <span class="material-icons text-base text-primary">autorenew</span>
 <span>Avtalen fornyes automatisk via Vipps Recurring. Avslutt når som helst i Vipps-appen.</span>
@@ -217,6 +225,14 @@ function openSignup(tier) {
   document.getElementById('signup-label').textContent = `Bli ${TIERS[tier].name.toLowerCase()}`;
   document.getElementById('signup-status').textContent = '';
   document.getElementById('signup-form').reset();
+  // Vis nummer-feltet kun for Aktiv (Støttemedlem får ikke nummer)
+  const numField = document.getElementById('number-field');
+  if (numField) numField.style.display = (tier === 'aktiv') ? 'block' : 'none';
+  // Pre-fyll nummer hvis kommer fra /seilnummer/?reserveNumber=X
+  if (pendingNumberReservation && tier === 'aktiv') {
+    const numInput = document.querySelector('input[name="number"]');
+    if (numInput) numInput.value = pendingNumberReservation;
+  }
   const m = document.getElementById('signup-modal');
   m.classList.remove('hidden');
   m.classList.add('flex');
@@ -297,8 +313,14 @@ async function submitSignup(e) {
     email: form.email.value,
     phone: form.phone.value,
   };
-  if (pendingNumberReservation && currentTier === 'aktiv') {
-    data.reserveNumber = pendingNumberReservation;
+  // Reserver nummer hvis brukeren skrev inn ett, eller hvis pre-utfylt fra /seilnummer/
+  if (currentTier === 'aktiv') {
+    const numberInput = form.number ? form.number.value.trim() : '';
+    if (numberInput) {
+      data.reserveNumber = Number(numberInput);
+    } else if (pendingNumberReservation) {
+      data.reserveNumber = pendingNumberReservation;
+    }
   }
   submit.disabled = true;
   submit.textContent = 'Sender til Vipps…';
