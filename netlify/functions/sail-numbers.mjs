@@ -70,10 +70,23 @@ export default async (req) => {
       }
 
       const registry = await loadRegistry();
-      const entry = registry.numbers.find(n => n.number === Number(number));
+      let entry = registry.numbers.find(n => n.number === Number(number));
+
+      // Hvis nummeret ikke finnes i registeret, opprett det som "available"
+      // — vi viser kun 0-502 + spesialnumre, men medlemmer kan velge høyere
+      // nummer ved direkte forespørsel (jf. NBK-praksis).
       if (!entry) {
-        return Response.json({ error: `NOR ${number} eksisterer ikke i registeret` }, { status: 404 });
+        const n = Number(number);
+        if (!Number.isInteger(n) || n < 0 || n > 99999) {
+          return Response.json({ error: `Ugyldig nummer ${number} (må være heltall 0–99999)` }, { status: 400 });
+        }
+        entry = { number: n, status: "available" };
+        registry.numbers.push(entry);
+        // Sorter for ryddig listing
+        registry.numbers.sort((a, b) => a.number - b.number);
+        console.log(`NOR ${n} opprettet on-demand for reservasjon`);
       }
+
       if (entry.status !== "available") {
         return Response.json(
           { error: `NOR ${number} er ikke ledig (status: ${entry.status})` },
