@@ -194,7 +194,7 @@ Norsk Brettseilerklubb er klasseklubb under Norges Seilforbund. Som medlem støt
 <div id="number-field" style="display:none;">
 <label class="font-label text-xs tracking-widest uppercase font-bold text-on-surface-variant mb-1.5 flex items-center justify-between">
 <span>Reserver NOR-nummer (valgfritt)</span>
-<a href="/seilnummer/" target="_blank" class="text-primary underline normal-case font-normal tracking-normal text-[11px]">Se ledige numre →</a>
+<a href="/seilnummer/" target="_blank" onclick="rememberFormBeforeLeaving()" class="text-primary underline normal-case font-normal tracking-normal text-[11px]">Se ledige numre →</a>
 </label>
 <input name="number" type="number" min="0" max="99999" placeholder="F.eks. 47" oninput="validateNumber(this)" onblur="validateNumber(this)" class="w-full px-4 py-3 rounded-lg border-2 border-transparent bg-surface-container-low focus:border-primary focus:outline-none"/>
 <div id="number-status" class="text-xs mt-1.5 text-on-surface-variant">Skriv inn nummeret du vil ha. Reserveres automatisk når Vipps-avtalen aktiveres. Du kan også hoppe over og velge senere.</div>
@@ -348,6 +348,55 @@ async function submitSignup(e) {
   }
 }
 
+
+// Husk brukerinfo mellom medlemskap-modal og seilnummer-siden
+function rememberFormBeforeLeaving() {
+  const form = document.getElementById('signup-form');
+  if (!form) return;
+  const data = {
+    name: form.name ? form.name.value : '',
+    email: form.email ? form.email.value : '',
+    phone: form.phone ? form.phone.value : '',
+    tier: currentTier,
+    timestamp: Date.now(),
+  };
+  if (data.name || data.email) {
+    sessionStorage.setItem('nbk_signup_data', JSON.stringify(data));
+  }
+}
+
+// Ved load, prefyll skjemaet hvis vi har lagret data (utløper etter 1 time)
+function tryPrefillForm() {
+  const raw = sessionStorage.getItem('nbk_signup_data');
+  if (!raw) return;
+  try {
+    const data = JSON.parse(raw);
+    if (Date.now() - data.timestamp > 3600000) {
+      sessionStorage.removeItem('nbk_signup_data');
+      return;
+    }
+    const form = document.getElementById('signup-form');
+    if (!form) return;
+    if (data.name && form.name) form.name.value = data.name;
+    if (data.email && form.email) form.email.value = data.email;
+    if (data.phone && form.phone) form.phone.value = data.phone;
+  } catch (e) {}
+}
+
+// Etter openSignup, prøv pre-fyll
+const _origOpenSignup = openSignup;
+openSignup = function(tier) {
+  _origOpenSignup(tier);
+  setTimeout(tryPrefillForm, 50);
+};
+
+// Tøm sessionStorage etter vellykket submit
+const _origSubmitSignup = submitSignup;
+submitSignup = async function(e) {
+  const result = await _origSubmitSignup(e);
+  // Hvis vi blir redirected (success), tøm storage
+  return result;
+};
 
 // Inline-validering av seilnummer i medlemskap-modalen
 let _numberCache = null;
