@@ -166,7 +166,7 @@ async function handleAgreementEvent(event) {
         }
       }
     }
-  
+  }
 
   return Response.json({ received: true });
 }
