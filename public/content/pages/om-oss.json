@@ -11,35 +11,30 @@
       "image": ""
     },
     {
-      "name": "Einar Bleikvin ",
-      "role": "Vise Vise President ",
-      "image": ""
-    },
-    {
-      "name": "Ben Fra Sandefjord ",
-      "role": "Hvalfanger ",
+      "name": "Einar Bleikvin",
+      "role": "Styremedlem",
       "image": ""
     }
   ],
-  "badge": "Siden 1978",
-  "contact_address": "0250 Oslo, Norge",
+  "badge": "Klasseklubb under NSF",
+  "contact_address": "c/o Norges Seilforbund, Sognsveien 73, 0855 Oslo",
   "hero_image": "",
-  "subtitle": "Norsk Brettseilerklubb (NBK) er hjemmet for alle som elsker følelsen av å fly over vannet. Fra de dypeste fjordene til det åpne havet, forener vi pionerer og nybegynnere.",
-  "history_text": "Det var her det startet. Windsurfing eksploderte langs norskekysten, og NBK ble grunnlagt for å organisere den voksende interessen. Vi har siden den gang vært ryggraden i norsk brettsport.",
+  "subtitle": "Norsk Brettseilerklubb (NBK) er klasseklubben for brettseiling og wingfoil i Norge. Vi forvalter det offisielle NOR-seilnummerregisteret etter fullmakt fra Norges Seilforbund, koordinerer terminliste og bidrar til at norske utøvere kan delta i nasjonale og internasjonale regattaer.",
+  "history_text": "Fra Huk til Herdla, fra Mjelle til Jæren — vi er der vinden blåser. NBK ble grunnlagt for å organisere norsk brettseiling og har siden den gang vært ryggraden i klubbens disipliner: iQFOiL, Wingfoil, Windsurf og Raceboard.",
   "title": "Drevet av Vind og Vann.",
-  "contact_email": "hei@brettseiling.no",
+  "contact_email": "post@nbk.no",
   "stats": [
     {
-      "number": "45+",
-      "label": "År med erfaring"
+      "number": "NOR",
+      "label": "Offisielt seilnummerregister"
     },
     {
-      "number": "12",
-      "label": "Lokale klubber"
+      "number": "4",
+      "label": "Offisielle grener"
     },
     {
-      "number": "2.5k",
-      "label": "Aktive medlemmer"
+      "number": "NSF",
+      "label": "Klasseklubb under Norges Seilforbund"
     }
   ]
 }
