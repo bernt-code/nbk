@@ -47,6 +47,17 @@
   to = "/.netlify/functions/register-webhook"
   status = 200
 
+
+[[redirects]]
+  from = "/api/membership"
+  to = "/.netlify/functions/membership"
+  status = 200
+
+[[redirects]]
+  from = "/api/membership/*"
+  to = "/.netlify/functions/membership/:splat"
+  status = 200
+
 # CORS headers for API
 [[headers]]
   for = "/api/*"
