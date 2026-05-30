@@ -8,13 +8,13 @@ const TIERS = {
   aktiv: {
     name: "Aktiv medlemskap",
     productName: "NBK Aktiv medlemskap",
-    productDescription: "Årlig medlemskap i Norsk Brettseilerklubb. Inkluderer rett til ett registrert nummer (NOR seilnummer eller W-BIB).",
+    productDescription: "Årsmedlemskap i NBK. Gir rett til ett registrert nummer (NOR-seilnummer eller W-BIB).",
     amount: 35000, // 350 NOK i øre
   },
   stotte: {
     name: "Støttemedlem",
     productName: "NBK Støttemedlem",
-    productDescription: "Årlig støttemedlemskap i Norsk Brettseilerklubb. Støtter klubbens drift og virksomhet.",
+    productDescription: "Årlig støttemedlemskap i NBK. Støtter klubbens drift og virksomhet.",
     amount: 20000, // 200 NOK i øre
   },
 };
