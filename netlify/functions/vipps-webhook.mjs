@@ -1,10 +1,7 @@
 import { getStore } from "@netlify/blobs";
 
 export default async (req) => {
-  if (req.method === "OPTIONS") {
-    return new Response(null, { status: 204 });
-  }
-
+  if (req.method === "OPTIONS") return new Response(null, { status: 204 });
   if (req.method !== "POST") {
     return Response.json({ error: "Method not allowed" }, { status: 405 });
   }
@@ -13,52 +10,46 @@ export default async (req) => {
     const event = await req.json();
     console.log("Vipps webhook received:", JSON.stringify(event));
 
+    // Vipps sender forskjellige event-typer.
+    // ePayment: { reference, name: "epayments.payment.*" }
+    // Recurring agreement: { agreementId, name: "recurring.agreement-activated.v1", ... }
+    // Recurring charge: { agreementId, chargeId, name: "recurring.charge-captured.v1", ... }
+
+    const eventName = event?.name || "UNKNOWN";
+
+    // ── Recurring agreement-events (medlemskap) ──
+    if (eventName.startsWith("recurring.agreement")) {
+      return await handleAgreementEvent(event);
+    }
+
+    // ── Recurring charge-events (årlig fornyelse) ──
+    if (eventName.startsWith("recurring.charge")) {
+      return await handleChargeEvent(event);
+    }
+
+    // ── ePayment-events (seilnummer + shop) ──
     const reference = event?.reference;
     if (!reference) {
       return Response.json({ error: "Missing reference" }, { status: 400 });
     }
 
-    // Look up the order
     const orders = getStore("orders");
     const orderData = await orders.get(reference, { type: "json" });
-
     if (!orderData) {
       console.error(`Order not found for reference: ${reference}`);
       return Response.json({ error: "Order not found" }, { status: 404 });
     }
 
-    const paymentStatus = event?.pspReference
-      ? "AUTHORIZED"
-      : event?.name || "UNKNOWN";
+    const paymentStatus = event?.pspReference ? "AUTHORIZED" : eventName;
 
-    console.log(
-      `Payment ${reference}: status=${paymentStatus}, type=${orderData.type}`
-    );
-
-    if (
-      paymentStatus === "AUTHORIZED" ||
-      paymentStatus === "epayments.payment.captured.v1"
-    ) {
-      // Payment successful
-      if (orderData.type === "sail-number") {
-        await handleSailNumberPayment(reference, orderData);
-      } else if (orderData.type === "shop-order") {
-        await handleShopOrderPayment(reference, orderData);
-      }
-
-      // Update order status
+    if (paymentStatus === "AUTHORIZED" || paymentStatus === "epayments.payment.captured.v1") {
+      if (orderData.type === "sail-number") await handleSailNumberPayment(reference, orderData);
+      else if (orderData.type === "shop-order") await handleShopOrderPayment(reference, orderData);
       orderData.status = "paid";
       orderData.paidAt = new Date().toISOString();
       await orders.set(reference, JSON.stringify(orderData));
-    } else if (
-      paymentStatus === "CANCELLED" ||
-      paymentStatus === "epayments.payment.cancelled.v1"
-    ) {
-      // Payment cancelled — release reservation
-      if (orderData.type === "sail-number") {
-        await releaseSailNumber(orderData.number);
-      }
-
+    } else if (paymentStatus === "CANCELLED" || paymentStatus === "epayments.payment.cancelled.v1") {
+      if (orderData.type === "sail-number") await releaseSailNumber(orderData.number);
       orderData.status = "cancelled";
       orderData.cancelledAt = new Date().toISOString();
       await orders.set(reference, JSON.stringify(orderData));
@@ -71,16 +62,102 @@ export default async (req) => {
   }
 };
 
+// ─────────────────────────────────────────────
+// Membership / Recurring handlers
+// ─────────────────────────────────────────────
+async function handleAgreementEvent(event) {
+  const eventName = event.name;
+  const agreementId = event.agreementId;
+  console.log(`Recurring agreement event: ${eventName} for ${agreementId}`);
+
+  // Finn membership-order basert på agreementId
+  const orders = getStore("orders");
+  // Vi må iterere — orders har reference som nøkkel, vi lagret agreementId i innholdet
+  // Bedre løsning: sett opp en agreements-blob som mapper agreementId → reference
+  const agreements = getStore("agreements");
+  let reference = await agreements.get(agreementId);
+
+  if (!reference) {
+    // Første gang vi ser denne agreementId — finn via order-payload
+    const list = await orders.list();
+    for (const item of (list.blobs || [])) {
+      const data = await orders.get(item.key, { type: "json" });
+      if (data?.agreementId === agreementId) {
+        reference = item.key;
+        await agreements.set(agreementId, reference);
+        break;
+      }
+    }
+  }
+
+  if (!reference) {
+    console.error(`No membership order found for agreementId: ${agreementId}`);
+    return Response.json({ received: true, note: "agreement not matched" });
+  }
+
+  const order = await orders.get(reference, { type: "json" });
+  if (!order) return Response.json({ received: true });
+
+  if (eventName === "recurring.agreement-activated.v1") {
+    // Avtale aktivert — lagre som aktivt medlem
+    const members = getStore("members");
+    await members.set(order.email.toLowerCase(), JSON.stringify({
+      email: order.email,
+      name: order.name,
+      phone: order.phone,
+      tier: order.tier,
+      agreementId,
+      activatedAt: new Date().toISOString(),
+      reference,
+    }));
+    order.status = "active";
+    order.activatedAt = new Date().toISOString();
+    await orders.set(reference, JSON.stringify(order));
+    console.log(`Membership activated: ${order.name} (${order.tier})`);
+  } else if (eventName === "recurring.agreement-rejected.v1" ||
+             eventName === "recurring.agreement-stopped.v1" ||
+             eventName === "recurring.agreement-expired.v1") {
+    order.status = eventName.replace("recurring.agreement-", "").replace(".v1", "");
+    order.statusUpdatedAt = new Date().toISOString();
+    await orders.set(reference, JSON.stringify(order));
+  }
+
+  return Response.json({ received: true });
+}
+
+async function handleChargeEvent(event) {
+  const eventName = event.name;
+  const agreementId = event.agreementId;
+  const chargeId = event.chargeId;
+  console.log(`Recurring charge event: ${eventName} for agreement ${agreementId}`);
+
+  const members = getStore("members");
+  // Vi vet ikke email direkte fra event, må slå opp via agreements-blob
+  const agreements = getStore("agreements");
+  const reference = await agreements.get(agreementId);
+  const orders = getStore("orders");
+  const order = reference ? await orders.get(reference, { type: "json" }) : null;
+
+  if (order?.email) {
+    const member = await members.get(order.email.toLowerCase(), { type: "json" });
+    if (member) {
+      member.lastChargeAt = new Date().toISOString();
+      member.lastChargeId = chargeId;
+      member.lastChargeStatus = eventName;
+      await members.set(order.email.toLowerCase(), JSON.stringify(member));
+    }
+  }
+
+  return Response.json({ received: true });
+}
+
+// ─────────────────────────────────────────────
+// Sail-number + shop handlers (uendret)
+// ─────────────────────────────────────────────
 async function handleSailNumberPayment(reference, order) {
   const store = getStore("sail-numbers");
   let registry;
-
-  try {
-    registry = await store.get("registry", { type: "json" });
-  } catch {
-    return; // Can't update without registry
-  }
-
+  try { registry = await store.get("registry", { type: "json" }); } catch { return; }
   if (!registry) return;
 
   const entry = registry.numbers.find((n) => n.number === order.number);
@@ -102,13 +179,7 @@ async function handleSailNumberPayment(reference, order) {
 async function releaseSailNumber(number) {
   const store = getStore("sail-numbers");
   let registry;
-
-  try {
-    registry = await store.get("registry", { type: "json" });
-  } catch {
-    return;
-  }
-
+  try { registry = await store.get("registry", { type: "json" }); } catch { return; }
   if (!registry) return;
 
   const entry = registry.numbers.find((n) => n.number === number);
@@ -126,42 +197,20 @@ async function releaseSailNumber(number) {
 }
 
 async function handleShopOrderPayment(reference, order) {
-  // Create Gelato order after payment confirmed
-  if (!process.env.GELATO_API_KEY) {
-    console.log("Gelato not configured — skipping POD order creation");
-    return;
-  }
-
+  if (!process.env.GELATO_API_KEY) return;
   try {
-    const gelatoOrder = await fetch(
-      "https://order.gelatoapis.com/v4/orders",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "X-API-KEY": process.env.GELATO_API_KEY,
-        },
-        body: JSON.stringify({
-          orderReferenceId: reference,
-          customerReferenceId: order.buyerEmail,
-          currency: "NOK",
-          items: [
-            {
-              itemReferenceId: `mug-${reference}`,
-              productUid: order.productUid,
-              quantity: 1,
-              fileUrl: order.designUrl,
-            },
-          ],
-          shippingAddress: order.shippingAddress,
-        }),
-      }
-    );
-
+    const gelatoOrder = await fetch("https://order.gelatoapis.com/v4/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-API-KEY": process.env.GELATO_API_KEY },
+      body: JSON.stringify({
+        orderReferenceId: reference,
+        customerReferenceId: order.buyerEmail,
+        currency: "NOK",
+        items: [{ itemReferenceId: `mug-${reference}`, productUid: order.productUid, quantity: 1, fileUrl: order.designUrl }],
+        shippingAddress: order.shippingAddress,
+      }),
+    });
     const result = await gelatoOrder.json();
-    console.log("Gelato order created:", JSON.stringify(result));
-
-    // Store Gelato order ID
     const orders = getStore("orders");
     order.gelatoOrderId = result.id;
     order.gelatoStatus = "submitted";
