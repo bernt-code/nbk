@@ -196,8 +196,8 @@ Norsk Brettseilerklubb er klasseklubb under Norges Seilforbund. Som medlem støt
 <span>Reserver NOR-nummer (valgfritt)</span>
 <a href="/seilnummer/" target="_blank" onclick="rememberFormBeforeLeaving()" class="text-primary underline normal-case font-normal tracking-normal text-[11px]">Se ledige numre →</a>
 </label>
-<input name="number" type="number" min="0" max="99999" placeholder="F.eks. 47" class="w-full px-4 py-3 rounded-lg border-2 border-transparent bg-surface-container-low focus:border-primary focus:outline-none"/>
-<p class="text-xs text-on-surface-variant mt-1.5">Skriv inn nummeret du vil ha. Nummeret reserveres automatisk når Vipps-avtalen aktiveres. Du kan også hoppe over og velge senere.</p>
+<input name="number" type="number" min="0" max="99999" placeholder="F.eks. 47" oninput="validateNumber(this)" onblur="validateNumber(this)" class="w-full px-4 py-3 rounded-lg border-2 border-transparent bg-surface-container-low focus:border-primary focus:outline-none"/>
+<div id="number-status" class="text-xs mt-1.5 text-on-surface-variant">Skriv inn nummeret du vil ha. Reserveres automatisk når Vipps-avtalen aktiveres. Du kan også hoppe over og velge senere.</div>
 </div>
 <div class="flex items-center gap-2 text-xs text-on-surface-variant">
 <span class="material-icons text-base text-primary">autorenew</span>
@@ -397,6 +397,83 @@ submitSignup = async function(e) {
   // Hvis vi blir redirected (success), tøm storage
   return result;
 };
+
+// Inline-validering av seilnummer i medlemskap-modalen
+let _numberCache = null;
+let _numberCacheAt = 0;
+let _validateTimer = null;
+
+async function fetchNumbersOnce() {
+  // Cache i 30 sekunder for å unngå mange requests
+  if (_numberCache && Date.now() - _numberCacheAt < 30000) return _numberCache;
+  try {
+    const res = await fetch('/api/sail-numbers');
+    const data = await res.json();
+    _numberCache = data.numbers || [];
+    _numberCacheAt = Date.now();
+    return _numberCache;
+  } catch (e) {
+    return [];
+  }
+}
+
+function validateNumber(input) {
+  const status = document.getElementById('number-status');
+  if (!status) return;
+
+  clearTimeout(_validateTimer);
+  const val = input.value.trim();
+
+  if (!val) {
+    status.className = 'text-xs mt-1.5 text-on-surface-variant';
+    status.innerHTML = 'Skriv inn nummeret du vil ha. Reserveres automatisk når Vipps-avtalen aktiveres. Du kan også hoppe over og velge senere.';
+    input.style.borderColor = '';
+    return;
+  }
+
+  const n = Number(val);
+  if (!Number.isInteger(n) || n < 0 || n > 99999) {
+    status.className = 'text-xs mt-1.5';
+    status.style.color = '#ab3600';
+    status.innerHTML = '⚠ Ugyldig nummer (må være heltall 0–99999)';
+    input.style.borderColor = '#ab3600';
+    return;
+  }
+
+  // Debounce: vent 300ms etter siste tastetrykk
+  _validateTimer = setTimeout(async () => {
+    const numbers = await fetchNumbersOnce();
+    const entry = numbers.find(x => x.number === n);
+
+    if (!entry) {
+      // Nummeret finnes ikke i registeret — kan opprettes som nytt
+      status.className = 'text-xs mt-1.5';
+      status.style.color = '#1e6837';
+      status.innerHTML = '✓ NOR ' + n + ' er tilgjengelig (opprettes som nytt nummer)';
+      input.style.borderColor = '#1e6837';
+    } else if (entry.status === 'available') {
+      status.className = 'text-xs mt-1.5';
+      status.style.color = '#1e6837';
+      status.innerHTML = '✓ NOR ' + n + ' er ledig — reserveres for deg når Vipps-avtalen aktiveres';
+      input.style.borderColor = '#1e6837';
+    } else if (entry.status === 'taken') {
+      status.className = 'text-xs mt-1.5';
+      status.style.color = '#c0392b';
+      status.innerHTML = '⚠ NOR ' + n + ' er allerede tatt' + (entry.owner ? ' av ' + entry.owner : '') + '. <a href="/seilnummer/" target="_blank" onclick="rememberFormBeforeLeaving()" class="underline">Se ledige numre →</a>';
+      input.style.borderColor = '#c0392b';
+    } else if (entry.status === 'reserved') {
+      status.className = 'text-xs mt-1.5';
+      status.style.color = '#c0392b';
+      status.innerHTML = '⚠ NOR ' + n + ' er midlertidig reservert. <a href="/seilnummer/" target="_blank" onclick="rememberFormBeforeLeaving()" class="underline">Se ledige numre →</a>';
+      input.style.borderColor = '#c0392b';
+    } else {
+      status.className = 'text-xs mt-1.5';
+      status.style.color = '#c0392b';
+      status.innerHTML = '⚠ NOR ' + n + ' er ikke tilgjengelig (status: ' + entry.status + '). <a href="/seilnummer/" target="_blank" onclick="rememberFormBeforeLeaving()" class="underline">Se ledige numre →</a>';
+      input.style.borderColor = '#c0392b';
+    }
+  }, 300);
+}
 
 // Lukk modal ved klikk utenfor
 document.getElementById('signup-modal').addEventListener('click', (e) => {
