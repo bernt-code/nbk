@@ -266,6 +266,66 @@ async function submitSignup(e) {
   }
 }
 
+
+// Håndter ?reserveNumber=X query param — pre-fyll nummer i medlemskaps-flyt
+const urlParams = new URLSearchParams(window.location.search);
+const reserveNumber = urlParams.get('reserveNumber');
+let pendingNumberReservation = reserveNumber ? Number(reserveNumber) : null;
+
+if (pendingNumberReservation) {
+  // Vis banner som forklarer at medlemskap kreves for det valgte nummeret
+  window.addEventListener('DOMContentLoaded', () => {
+    const banner = document.createElement('div');
+    banner.style.cssText = 'background: #ffe9d6; border-left: 4px solid #ab3600; padding: 16px 24px; margin: 20px auto; max-width: 1024px; border-radius: 8px; font-family: \'Plus Jakarta Sans\', sans-serif;';
+    banner.innerHTML = '<strong style="color: #611b00;">NOR ' + pendingNumberReservation + ' venter på deg.</strong> <br><span style="color:#42474f;font-size:14px;">For å fullføre reservasjonen må du være Aktiv medlem (350 kr/år). Velg Aktiv medlemskap under og fyll inn detaljene — nummeret reserveres automatisk når Vipps-avtalen aktiveres.</span>';
+    document.body.insertBefore(banner, document.body.firstChild.nextSibling);
+    // Auto-open Aktiv signup modal
+    setTimeout(() => openSignup('aktiv'), 500);
+  });
+}
+
+// Override submitSignup for å inkludere reserveNumber
+const _originalSubmitSignup = submitSignup;
+async function submitSignup(e) {
+  e.preventDefault();
+  const submit = document.getElementById('signup-submit');
+  const status = document.getElementById('signup-status');
+  const form = e.target;
+  const data = {
+    tier: currentTier,
+    name: form.name.value,
+    email: form.email.value,
+    phone: form.phone.value,
+  };
+  if (pendingNumberReservation && currentTier === 'aktiv') {
+    data.reserveNumber = pendingNumberReservation;
+  }
+  submit.disabled = true;
+  submit.textContent = 'Sender til Vipps…';
+  status.textContent = '';
+  try {
+    const res = await fetch('/api/membership', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const result = await res.json();
+    if (result.redirectUrl) {
+      status.innerHTML = '<span style="color:#ab3600">Redirecter til Vipps…</span>';
+      window.location.href = result.redirectUrl;
+    } else if (result.success) {
+      status.innerHTML = '<span style="color:#ab3600">' + (result.message || 'Reservert!') + '</span>';
+    } else {
+      status.innerHTML = '<span style="color:#b00">Feil: ' + (result.error || 'Ukjent feil') + '</span>';
+      submit.disabled = false;
+      submit.innerHTML = 'Betal med Vipps <span class="material-icons text-base">payment</span>';
+    }
+  } catch (err) {
+    status.innerHTML = '<span style="color:#b00">Nettverksfeil: ' + err.message + '</span>';
+    submit.disabled = false;
+    submit.innerHTML = 'Betal med Vipps <span class="material-icons text-base">payment</span>';
+  }
+}
+
 // Lukk modal ved klikk utenfor
 document.getElementById('signup-modal').addEventListener('click', (e) => {
   if (e.target.id === 'signup-modal') closeSignup();

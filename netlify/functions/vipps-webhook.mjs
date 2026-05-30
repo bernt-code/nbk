@@ -101,7 +101,7 @@ async function handleAgreementEvent(event) {
   if (eventName === "recurring.agreement-activated.v1") {
     // Avtale aktivert — lagre som aktivt medlem
     const members = getStore("members");
-    await members.set(order.email.toLowerCase(), JSON.stringify({
+    const memberData = {
       email: order.email,
       name: order.name,
       phone: order.phone,
@@ -109,18 +109,64 @@ async function handleAgreementEvent(event) {
       agreementId,
       activatedAt: new Date().toISOString(),
       reference,
-    }));
+      numberReserved: null,
+    };
+
+    // Hvis det var et pending nummer-valg, fullfør reservasjonen
+    if (order.reserveNumber) {
+      const sailStore = getStore("sail-numbers");
+      const registry = await sailStore.get("registry", { type: "json" });
+      if (registry) {
+        const entry = registry.numbers.find(n => n.number === Number(order.reserveNumber));
+        if (entry && entry.pendingMembershipReference === reference) {
+          entry.status = "taken";
+          entry.owner = order.name;
+          entry.memberEmail = order.email;
+          entry.purchasedAt = new Date().toISOString();
+          entry.purchaseReference = reference;
+          delete entry.reservedBy;
+          delete entry.reservedEmail;
+          delete entry.reservedPhone;
+          delete entry.reservedAt;
+          delete entry.reservedReason;
+          delete entry.pendingMembershipReference;
+          registry.lastUpdated = new Date().toISOString();
+          await sailStore.set("registry", JSON.stringify(registry));
+          memberData.numberReserved = Number(order.reserveNumber);
+          memberData.numberReservedAt = new Date().toISOString();
+          console.log(`NOR ${order.reserveNumber} tildelt ${order.name} via membership-flyt`);
+        }
+      }
+    }
+
+    await members.set(order.email.toLowerCase(), JSON.stringify(memberData));
     order.status = "active";
     order.activatedAt = new Date().toISOString();
     await orders.set(reference, JSON.stringify(order));
     console.log(`Membership activated: ${order.name} (${order.tier})`);
   } else if (eventName === "recurring.agreement-rejected.v1" ||
-             eventName === "recurring.agreement-stopped.v1" ||
-             eventName === "recurring.agreement-expired.v1") {
-    order.status = eventName.replace("recurring.agreement-", "").replace(".v1", "");
-    order.statusUpdatedAt = new Date().toISOString();
-    await orders.set(reference, JSON.stringify(order));
-  }
+             eventName === "recurring.agreement-stopped.v1") {
+    // Avtale avvist/stoppet — frigi pending nummer hvis det finnes
+    if (order.reserveNumber) {
+      const sailStore = getStore("sail-numbers");
+      const registry = await sailStore.get("registry", { type: "json" });
+      if (registry) {
+        const entry = registry.numbers.find(n => n.number === Number(order.reserveNumber));
+        if (entry && entry.pendingMembershipReference === reference) {
+          entry.status = "available";
+          delete entry.reservedBy;
+          delete entry.reservedEmail;
+          delete entry.reservedPhone;
+          delete entry.reservedAt;
+          delete entry.reservedReason;
+          delete entry.pendingMembershipReference;
+          registry.lastUpdated = new Date().toISOString();
+          await sailStore.set("registry", JSON.stringify(registry));
+          console.log(`NOR ${order.reserveNumber} frigitt — avtale ${eventName}`);
+        }
+      }
+    }
+  
 
   return Response.json({ received: true });
 }

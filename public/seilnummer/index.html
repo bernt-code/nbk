@@ -303,6 +303,14 @@ function updateCount() {
 }
 
 async function reserveNumber(number) {
+  // Hvis ingen number gitt (fra hero-knappen), spør først om hvilket
+  if (!number) {
+    const numStr = prompt('Hvilket NOR-nummer vil du reservere? (Skriv tallet)');
+    if (!numStr) return;
+    number = Number(numStr);
+    if (isNaN(number)) return alert('Ugyldig nummer');
+  }
+
   const name = prompt('Ditt navn:');
   if (!name) return;
   const email = prompt('Din e-post:');
@@ -316,7 +324,21 @@ async function reserveNumber(number) {
     });
     const data = await res.json();
 
-    if (data.redirectUrl) {
+    // 402: Bruker er ikke medlem — send til medlemskap-flyt med nummer pre-utvalgt
+    if (data.requiresMembership) {
+      const goToMembership = confirm(
+        data.message + '\n\nKlikk OK for å bli Aktiv medlem nå (350 kr/år) — NOR ' + number + ' reserveres automatisk etter bekreftelse.'
+      );
+      if (goToMembership) {
+        window.location.href = data.membershipUrl;
+      }
+      return;
+    }
+
+    if (data.success && data.asMember) {
+      alert('🎉 ' + data.message);
+      loadSailNumbers();
+    } else if (data.redirectUrl) {
       window.location.href = data.redirectUrl;
     } else if (data.success) {
       alert(data.message);
