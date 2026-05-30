@@ -1,7 +1,6 @@
 [
-  "windsurfing.json",
-  "wingfoil.json",
-  "raceboard.json",
   "iqfoil.json",
-  "bolgeseiling.json"
+  "wingfoil.json",
+  "windsurfing.json",
+  "raceboard.json"
 ]
