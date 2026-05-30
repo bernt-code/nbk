@@ -311,10 +311,27 @@ async function reserveNumber(number) {
     if (isNaN(number)) return alert('Ugyldig nummer');
   }
 
-  const name = prompt('Ditt navn:');
-  if (!name) return;
-  const email = prompt('Din e-post:');
-  if (!email) return;
+  // Hent lagret brukerinfo fra medlemskap-modal (hvis bruker kom derfra)
+  let name = '', email = '';
+  try {
+    const raw = sessionStorage.getItem('nbk_signup_data');
+    if (raw) {
+      const data = JSON.parse(raw);
+      if (Date.now() - data.timestamp < 3600000) {
+        name = data.name || '';
+        email = data.email || '';
+      }
+    }
+  } catch (e) {}
+
+  if (!name) {
+    name = prompt('Ditt navn:');
+    if (!name) return;
+  }
+  if (!email) {
+    email = prompt('Din e-post:');
+    if (!email) return;
+  }
 
   try {
     const res = await fetch('/api/sail-numbers', {
