@@ -9,39 +9,20 @@ media_folder: "public/img/uploads"
 public_folder: "/img/uploads"
 
 collections:
-  # Pages
+  # Forside
   - name: "pages"
-    label: "Sider"
-    folder: "public/content/pages"
-    format: "json"
-    fields:
-      # Home page fields
-      - { label: "Hero tittel", name: "hero_title", widget: "string" }
-      - { label: "Hero undertittel", name: "hero_subtitle", widget: "string" }
-      - { label: "Hero badge", name: "hero_badge", widget: "string" }
-      - { label: "Hero bilde", name: "hero_image", widget: "image" }
-      - { label: "Hero CTA tekst", name: "hero_cta_text", widget: "string" }
-      - { label: "Hero sekundaer CTA", name: "hero_secondary_cta", widget: "string" }
-      # About fields
-      - { label: "Tittel", name: "title", widget: "string", required: false }
-      - { label: "Undertittel", name: "subtitle", widget: "string", required: false }
-      - { label: "Historietekst", name: "history_text", widget: "text", required: false }
-      - label: "Statistikk"
-        name: "stats"
-        widget: "list"
-        required: false
+    label: "Forside"
+    files:
+      - label: "Forside"
+        name: "forside"
+        file: "public/content/pages/home.json"
         fields:
-          - { label: "Etikett", name: "label", widget: "string" }
-          - { label: "Nummer", name: "number", widget: "string" }
-      # Membership fields
-      - label: "Medlemsplaner"
-        name: "plans"
-        widget: "list"
-        required: false
-        fields:
-          - { label: "Navn", name: "name", widget: "string" }
-          - { label: "Pris", name: "price", widget: "string" }
-          - { label: "Fordeler", name: "features", widget: "list", field: { label: "Fordel", name: "feature", widget: "string" } }
+          - { label: "Hero tittel", name: "hero_title", widget: "string" }
+          - { label: "Hero undertittel", name: "hero_subtitle", widget: "string" }
+          - { label: "Hero badge", name: "hero_badge", widget: "string" }
+          - { label: "Hero bilde", name: "hero_image", widget: "image" }
+          - { label: "Hero CTA tekst", name: "hero_cta_text", widget: "string" }
+          - { label: "Hero sekundaer CTA", name: "hero_secondary_cta", widget: "string" }
 
   # News / Nyheter
   - name: "nyheter"
