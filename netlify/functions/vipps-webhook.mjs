@@ -91,7 +91,40 @@ async function handleAgreementEvent(event) {
   }
 
   if (!reference) {
-    console.error(`No membership order found for agreementId: ${agreementId}`);
+    // FALLBACK 2026-05-31: matching via agreementId scan kan feile pga.
+    // race condition (webhook kommer før order.agreementId lagres) eller
+    // hvis order ble opprettet uten endelig agreementId. Søk i registry
+    // etter pending-membership reservasjon som ikke har blitt fullført.
+    console.warn(`No order via agreementId scan — trying registry fallback for ${agreementId}`);
+    const sailStoreFallback = getStore("sail-numbers");
+    const registryFallback = await sailStoreFallback.get("registry", { type: "json" });
+    if (registryFallback) {
+      const pending = registryFallback.numbers.filter(n =>
+        n.status === "reserved" &&
+        n.reservedReason === "pending-membership" &&
+        n.pendingMembershipReference
+      );
+      console.log(`Pending-membership candidates: ${pending.length}`);
+      // Hvis nøyaktig én pending finnes, anta at det er denne
+      if (pending.length === 1) {
+        const candidateRef = pending[0].pendingMembershipReference;
+        const candidateOrder = await orders.get(candidateRef, { type: "json" });
+        if (candidateOrder) {
+          candidateOrder.agreementId = agreementId;
+          await orders.set(candidateRef, JSON.stringify(candidateOrder));
+          await agreements.set(agreementId, candidateRef);
+          reference = candidateRef;
+          console.log(`Fallback match: ${reference} (single pending reservation)`);
+        }
+      } else if (pending.length > 1) {
+        // Flere pending — log alle, men ikke gjett
+        console.error(`Multiple pending-membership reservations (${pending.length}) — cannot disambiguate. Numbers: ${pending.map(p => p.number).join(", ")}`);
+      }
+    }
+  }
+
+  if (!reference) {
+    console.error(`No membership order found for agreementId: ${agreementId} (registry fallback also failed)`);
     return Response.json({ received: true, note: "agreement not matched" });
   }
 
