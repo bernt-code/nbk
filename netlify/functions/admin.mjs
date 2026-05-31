@@ -397,6 +397,56 @@ export default async (req) => {
       return Response.json(data);
     }
 
+    // ── POST /api/admin/populate-range ────────────────────────────────────
+    // Batch-add seilnummer som "available" i et område. Hopper over numre
+    // som allerede finnes (uansett status). Brukes ved utvidelse av registeret.
+    // Body: { from: 503, to: 1000 } — begge inkluderte.
+    if (req.method === "POST" && path.endsWith("/populate-range")) {
+      const body = await req.json().catch(() => ({}));
+      const from = Number(body.from);
+      const to = Number(body.to);
+
+      if (!Number.isInteger(from) || !Number.isInteger(to) || from < 0 || to < from || to > 99999) {
+        return Response.json(
+          { error: "Ugyldig from/to (heltall, 0 ≤ from ≤ to ≤ 99999)" },
+          { status: 400 }
+        );
+      }
+      if (to - from > 5000) {
+        return Response.json(
+          { error: "For stort område (maks 5000 numre per kall)" },
+          { status: 400 }
+        );
+      }
+
+      const { store, registry } = await loadRegistry();
+      const existing = new Set(registry.numbers.map((n) => n.number));
+      const added = [];
+
+      for (let n = from; n <= to; n++) {
+        if (!existing.has(n)) {
+          registry.numbers.push({ number: n, status: "available" });
+          added.push(n);
+        }
+      }
+
+      // Sorter for ryddig listing
+      registry.numbers.sort((a, b) => a.number - b.number);
+      await saveRegistry(store, registry);
+
+      console.log(`Admin populated range ${from}-${to}: ${added.length} new available numbers`);
+      return Response.json({
+        success: true,
+        from,
+        to,
+        addedCount: added.length,
+        skippedCount: (to - from + 1) - added.length,
+        firstAdded: added.slice(0, 5),
+        lastAdded: added.slice(-5),
+        totalNumbersNow: registry.numbers.length,
+      });
+    }
+
     return Response.json({ error: "Not found" }, { status: 404 });
   } catch (err) {
     console.error("Admin API error:", err);
