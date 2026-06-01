@@ -1,0 +1,40 @@
+{
+  "hero_title": "Legender",
+  "hero_subtitle": "Bak hvert NOR-nummer ligger en historie. Disse navnene har formet norsk brettseiling — som æresmedlemmer i NBK, verdensmestre, eller pionerer som introduserte sporten til Norge.",
+  "hero_image": "/img/uploads/dsc_1315.jpeg",
+  "aresmedlemmer_eyebrow": "NBKs egne",
+  "aresmedlemmer_title": "Æresmedlemmer",
+  "aresmedlemmer_intro": "Personer som NBK har utnevnt til æresmedlemmer for sin innsats og betydning for klubben og sporten.",
+  "aresmedlemmer": [
+    { "name": "Svein Rasmussen", "nor": "1", "bragd": "Verdensmester 1983 og 1991, pionér innenfor produksjon av seilbrett", "ar": "" },
+    { "name": "Jannicke Stålstrøm", "nor": "3", "bragd": "Blant Norges mest meritterte brettseilere", "ar": "" },
+    { "name": "Jorunn Horgen", "nor": "6", "bragd": "Femdobbel verdensmester (1984, 1986, 1987, 1989, 1992), OL-deltaker Barcelona 1992", "ar": "" },
+    { "name": "Kjell Strand Jacobsen", "nor": "20", "bragd": "Mangeårig bidragsyter til klubben", "ar": "" },
+    { "name": "Vidar Jensen", "nor": "44", "bragd": "Æresmedlem", "ar": "" },
+    { "name": "Inge Johannessen", "nor": "83", "bragd": "Æresmedlem", "ar": "" },
+    { "name": "Ole-Jacob Schjerven", "nor": "235", "bragd": "Æresmedlem", "ar": "" },
+    { "name": "Lasse Gustavsson", "nor": "462", "bragd": "Æresmedlem", "ar": "" }
+  ],
+  "vm_eyebrow": "Internasjonal toppidrett",
+  "vm_title": "Norske verdensmestere",
+  "vm_intro": "Brettseilere som har stått øverst på pallen i internasjonal regatta.",
+  "vm": [
+    { "name": "Anders Føyen", "klasse": "Windsurfer", "ar": "1976, 1977, 1978" },
+    { "name": "Jan Wanggaard", "klasse": "Divisjon II", "ar": "1981" },
+    { "name": "Maren Berner", "klasse": "Divisjon II", "ar": "1981" },
+    { "name": "Svein Rasmussen", "klasse": "Mistral / Funbrett", "ar": "1983, 1991" },
+    { "name": "Ole Holm", "klasse": "Mistral tungvekt", "ar": "1984" },
+    { "name": "Jorunn Horgen", "klasse": "Mistral, Divisjon II, Lechner, Funbrett", "ar": "1984, 1986, 1987, 1989, 1992" },
+    { "name": "Thomas Føyen", "klasse": "Mistral lettvekt", "ar": "1985" },
+    { "name": "Håkon Nissen-Lie", "klasse": "Mistral tungvekt", "ar": "1985" },
+    { "name": "Anders Løken", "klasse": "Formula", "ar": "2007" }
+  ],
+  "pioner_eyebrow": "Hvor det hele startet",
+  "pioner_title": "Pionerer",
+  "pioner_intro": "I 1972 tok to nordmenn med seg de første brettene fra USA til Asker. Norsk brettseiling hadde fått sine første utøvere.",
+  "pioner": [
+    { "name": "Thor Føyen", "rolle": "Tok med første brett til Norge fra USA, 1972", "klubb": "Asker Seilforening" },
+    { "name": "Finn Ferner", "rolle": "Tok med første brett til Norge fra USA, 1972", "klubb": "Asker Seilforening" }
+  ],
+  "footer_note": "Listen vedlikeholdes av styret. Forslag til nye legender eller utfyllende info kan sendes til post@nbk.no."
+}

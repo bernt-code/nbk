@@ -96,6 +96,51 @@ collections:
           - { label: "CTA primær", name: "cta_primary", widget: "string" }
           - { label: "CTA sekundær", name: "cta_secondary", widget: "string" }
 
+
+  # Legender-siden
+  - name: "legender-page"
+    label: "Legender-side"
+    files:
+      - label: "Legender"
+        name: "legender"
+        file: "public/content/pages/legender.json"
+        fields:
+          - { label: "Hero tittel", name: "hero_title", widget: "string" }
+          - { label: "Hero undertittel", name: "hero_subtitle", widget: "text" }
+          - { label: "Hero bilde", name: "hero_image", widget: "image" }
+          - { label: "Æresmedlemmer — eyebrow", name: "aresmedlemmer_eyebrow", widget: "string" }
+          - { label: "Æresmedlemmer — tittel", name: "aresmedlemmer_title", widget: "string" }
+          - { label: "Æresmedlemmer — intro", name: "aresmedlemmer_intro", widget: "text" }
+          - label: "Æresmedlemmer (liste)"
+            name: "aresmedlemmer"
+            widget: "list"
+            fields:
+              - { label: "Navn", name: "name", widget: "string" }
+              - { label: "NOR-nummer", name: "nor", widget: "string", required: false }
+              - { label: "Bragd / beskrivelse", name: "bragd", widget: "text", required: false }
+              - { label: "Årstall / periode", name: "ar", widget: "string", required: false }
+          - { label: "VM — eyebrow", name: "vm_eyebrow", widget: "string" }
+          - { label: "VM — tittel", name: "vm_title", widget: "string" }
+          - { label: "VM — intro", name: "vm_intro", widget: "text" }
+          - label: "Verdensmestere"
+            name: "vm"
+            widget: "list"
+            fields:
+              - { label: "Navn", name: "name", widget: "string" }
+              - { label: "Klasse / disiplin", name: "klasse", widget: "string", required: false }
+              - { label: "Årstall", name: "ar", widget: "string", required: false }
+          - { label: "Pionerer — eyebrow", name: "pioner_eyebrow", widget: "string" }
+          - { label: "Pionerer — tittel", name: "pioner_title", widget: "string" }
+          - { label: "Pionerer — intro", name: "pioner_intro", widget: "text" }
+          - label: "Pionerer (liste)"
+            name: "pioner"
+            widget: "list"
+            fields:
+              - { label: "Navn", name: "name", widget: "string" }
+              - { label: "Rolle", name: "rolle", widget: "string", required: false }
+              - { label: "Klubb", name: "klubb", widget: "string", required: false }
+          - { label: "Footer-notat", name: "footer_note", widget: "text", required: false }
+
   # News / Nyheter
   - name: "nyheter"
     label: "Nyheter"

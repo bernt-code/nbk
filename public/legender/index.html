@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html class="light" lang="no"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NBK | Legender</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;family=Lexend:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: { colors: {
+      "primary": "#1d5a90", "on-primary": "#ffffff", "primary-fixed": "#d1e4ff",
+      "secondary": "#ab3600", "on-secondary": "#ffffff", "secondary-container": "#ff6e39", "on-secondary-container": "#611b00",
+      "outline-variant": "#c1c7d1", "outline": "#727780",
+      "on-surface-variant": "#42474f", "on-surface": "#161c27",
+      "surface": "#f9f9ff", "surface-container-low": "#f1f3ff", "surface-container-lowest": "#ffffff",
+      "surface-container-high": "#e3e8f9",
+    }, fontFamily: {
+      headline: ["Space Grotesk", "sans-serif"], body: ["Plus Jakarta Sans", "sans-serif"], label: ["Lexend", "sans-serif"],
+    }}}
+  };
+</script>
+<style>
+  body { background: #f9f9ff; font-family: 'Plus Jakarta Sans', sans-serif; color: #161c27; }
+  .material-icons, .material-symbols-outlined { font-family: 'Material Symbols Outlined'; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="bg-surface/95 backdrop-blur-md sticky top-0 z-40 border-b border-outline-variant/30">
+<div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+<a href="../" class="font-headline font-black italic uppercase text-2xl tracking-tighter text-primary">NBK</a>
+<div class="hidden md:flex items-center gap-6 font-headline font-bold uppercase text-sm tracking-tight">
+<a href="../" class="hover:text-primary">Nyheter</a>
+<a href="../grener/" class="hover:text-primary">Grener</a>
+<a href="../events/" class="hover:text-primary">Events</a>
+<a href="../medlemskap/" class="hover:text-primary">Medlemskap</a>
+<a href="../om-oss/" class="hover:text-primary">Om Oss</a>
+<a href="../seilnummer/" class="hover:text-primary">Seilnummer</a>
+<a href="#" class="text-primary border-b-2 border-primary pb-1">Legender</a>
+</div>
+<a href="../medlemskap/" class="px-6 py-2.5 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase text-sm tracking-tight hover:scale-105 transition">Bli Medlem</a>
+</div>
+</nav>
+
+<!-- Hero -->
+<section class="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-12 items-center">
+<div>
+<span class="font-label text-secondary font-bold uppercase tracking-[0.3em] text-sm mb-4 block">Norsk brettseilings historie</span>
+<h1 id="cms-hero-title" class="font-headline text-5xl md:text-7xl font-black italic uppercase tracking-tighter leading-none">Legender</h1>
+<p id="cms-hero-subtitle" class="mt-6 text-lg text-on-surface-variant leading-relaxed max-w-md">
+Bak hvert NOR-nummer ligger en historie. Disse navnene har formet norsk brettseiling — som æresmedlemmer i NBK, verdensmestre, eller pionerer som introduserte sporten til Norge.
+</p>
+</div>
+<div>
+<img id="cms-hero-image" src="/img/uploads/dsc_1315.jpeg" alt="Brettseiling" class="rounded-3xl shadow-2xl shadow-primary/10 w-full"/>
+</div>
+</section>
+
+<!-- Æresmedlemmer -->
+<section class="bg-surface-container-low py-20">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-12">
+<span id="cms-aresmedlemmer-eyebrow" class="font-label text-secondary font-bold uppercase tracking-[0.3em] text-sm mb-3 block">NBKs egne</span>
+<h2 id="cms-aresmedlemmer-title" class="font-headline text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-primary">Æresmedlemmer</h2>
+<p id="cms-aresmedlemmer-intro" class="mt-4 text-on-surface-variant max-w-2xl mx-auto">Personer som NBK har utnevnt til æresmedlemmer for sin innsats og betydning for klubben og sporten.</p>
+</div>
+<div id="cms-aresmedlemmer-grid" class="grid md:grid-cols-2 gap-5">
+<!-- Fylles av JS -->
+</div>
+</div>
+</section>
+
+<!-- Verdensmestere -->
+<section class="py-20 max-w-7xl mx-auto px-6">
+<div class="text-center mb-12">
+<span id="cms-vm-eyebrow" class="font-label text-secondary font-bold uppercase tracking-[0.3em] text-sm mb-3 block">Internasjonal toppidrett</span>
+<h2 id="cms-vm-title" class="font-headline text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-primary">Norske verdensmestere</h2>
+<p id="cms-vm-intro" class="mt-4 text-on-surface-variant max-w-2xl mx-auto">Brettseilere som har stått øverst på pallen i internasjonal regatta.</p>
+</div>
+<div id="cms-vm-list" class="space-y-3 max-w-3xl mx-auto">
+<!-- Fylles av JS -->
+</div>
+</section>
+
+<!-- Pionerer -->
+<section class="bg-primary text-on-primary py-20">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-12">
+<span id="cms-pioner-eyebrow" class="font-label text-secondary-container font-bold uppercase tracking-[0.3em] text-sm mb-3 block">Hvor det hele startet</span>
+<h2 id="cms-pioner-title" class="font-headline text-4xl md:text-5xl font-black italic uppercase tracking-tighter">Pionerer</h2>
+<p id="cms-pioner-intro" class="mt-4 text-white/85 max-w-2xl mx-auto">I 1972 tok to nordmenn med seg de første brettene fra USA til Asker. Norsk brettseiling hadde fått sine første utøvere.</p>
+</div>
+<div id="cms-pioner-grid" class="grid md:grid-cols-2 gap-5 max-w-4xl mx-auto">
+<!-- Fylles av JS -->
+</div>
+</div>
+</section>
+
+<!-- Footer-note -->
+<section class="max-w-3xl mx-auto px-6 py-16 text-center">
+<p id="cms-footer-note" class="text-sm text-on-surface-variant italic">Listen vedlikeholdes av styret. Forslag til nye legender eller utfyllende info kan sendes til post@nbk.no.</p>
+</section>
+
+<!-- Footer -->
+<footer class="bg-on-surface text-white py-12">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<div class="font-headline italic font-bold text-2xl">NBK</div>
+<p class="mt-2 text-sm text-white/60">Norsk Brettseilerklubb · Klasseklubb under Norges Seilforbund</p>
+<p class="mt-1 text-sm text-white/60"><a href="mailto:post@nbk.no" class="hover:text-white">post@nbk.no</a> · Org.nr 974 459 183</p>
+</div>
+</footer>
+
+<!-- CMS-fill -->
+<script>
+(async function() {
+  try {
+    const res = await fetch('/content/pages/legender.json', { cache: 'no-cache' });
+    if (!res.ok) return;
+    const d = await res.json();
+    const set = (id, v) => { const e = document.getElementById(id); if (e && v) e.textContent = v; };
+    const setAttr = (id, attr, v) => { const e = document.getElementById(id); if (e && v) e.setAttribute(attr, v); };
+
+    set('cms-hero-title', d.hero_title);
+    set('cms-hero-subtitle', d.hero_subtitle);
+    setAttr('cms-hero-image', 'src', d.hero_image);
+
+    set('cms-aresmedlemmer-eyebrow', d.aresmedlemmer_eyebrow);
+    set('cms-aresmedlemmer-title', d.aresmedlemmer_title);
+    set('cms-aresmedlemmer-intro', d.aresmedlemmer_intro);
+    set('cms-vm-eyebrow', d.vm_eyebrow);
+    set('cms-vm-title', d.vm_title);
+    set('cms-vm-intro', d.vm_intro);
+    set('cms-pioner-eyebrow', d.pioner_eyebrow);
+    set('cms-pioner-title', d.pioner_title);
+    set('cms-pioner-intro', d.pioner_intro);
+    set('cms-footer-note', d.footer_note);
+
+    // Æresmedlemmer-kort
+    if (Array.isArray(d.aresmedlemmer)) {
+      document.getElementById('cms-aresmedlemmer-grid').innerHTML = d.aresmedlemmer.map(p => `
+        <div class="bg-surface rounded-3xl p-7 border border-outline-variant flex gap-5 items-start">
+          ${p.nor ? `<div class="flex-shrink-0 w-20 h-20 rounded-2xl bg-primary text-on-primary flex flex-col items-center justify-center"><div class="font-label text-[10px] tracking-widest uppercase opacity-80">NOR</div><div class="font-headline font-black italic text-2xl tracking-tighter">${p.nor}</div></div>` : ''}
+          <div class="flex-1 min-w-0">
+            <h3 class="font-headline font-bold italic text-xl tracking-tight">${p.name || ''}</h3>
+            ${p.bragd ? `<p class="text-sm text-on-surface-variant mt-1.5">${p.bragd}</p>` : ''}
+            ${p.ar ? `<p class="text-xs text-outline mt-2 font-label uppercase tracking-wider">${p.ar}</p>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // VM-liste
+    if (Array.isArray(d.vm)) {
+      document.getElementById('cms-vm-list').innerHTML = d.vm.map(v => `
+        <div class="bg-surface-container-lowest rounded-2xl p-5 border border-outline-variant/30 grid grid-cols-12 gap-3 items-center">
+          <div class="col-span-5 font-headline font-bold italic text-lg">${v.name || ''}</div>
+          <div class="col-span-4 text-sm text-on-surface-variant">${v.klasse || ''}</div>
+          <div class="col-span-3 font-label text-xs font-bold uppercase tracking-wider text-secondary text-right">${v.ar || ''}</div>
+        </div>
+      `).join('');
+    }
+
+    // Pionerer
+    if (Array.isArray(d.pioner)) {
+      document.getElementById('cms-pioner-grid').innerHTML = d.pioner.map(p => `
+        <div class="bg-white/10 backdrop-blur rounded-3xl p-6 border border-white/20">
+          <h3 class="font-headline font-bold italic text-2xl tracking-tight">${p.name || ''}</h3>
+          ${p.rolle ? `<p class="text-sm text-white/80 mt-2">${p.rolle}</p>` : ''}
+          ${p.klubb ? `<p class="text-xs text-white/60 mt-3 font-label uppercase tracking-wider">${p.klubb}</p>` : ''}
+        </div>
+      `).join('');
+    }
+  } catch (err) {
+    console.warn('CMS-fill failed:', err);
+  }
+})();
+</script>
+
+</body></html>
