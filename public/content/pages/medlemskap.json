@@ -24,7 +24,7 @@
     }
   ],
   "tier_title": "Velg ditt medlemskap",
-  "tier_subtitle": "To kategorier. Begge fornyes automatisk via Vipps.",
+  "tier_subtitle": "Tre kategorier. Alle fornyes automatisk via Vipps.",
   "aktiv_badge": "Anbefalt",
   "aktiv_features": [
     "Rett til ett registrert nummer (NOR eller W-BIB)",
@@ -46,6 +46,10 @@
       "a": "Medlemskap fornyes automatisk via Vipps Recurring hvert år. Du kan avslutte avtalen når som helst i Vipps-appen."
     },
     {
+      "q": "Hva er familiemedlemskap?",
+      "a": "Familiemedlemskap dekker 2-5 personer i samme husstand med hvert sitt nummer. Én betaler (typisk foreldre). Pris bygges opp: 350 kr for første person + 160 kr per ekstra person. Eksempel: 510 kr for 2, 990 kr for 5."
+    },
+    {
       "q": "Hva er forskjellen på Aktiv og Støttemedlem?",
       "a": "Aktiv medlemskap gir rett til å reservere ett nummer i NOR- eller W-BIB-registeret. Støttemedlem støtter NBKs drift uten nummer-tildeling. Begge gir stemmerett på årsmøtet."
     },
@@ -57,5 +61,14 @@
       "q": "Kan utenlandske brukere bli medlem?",
       "a": "Vipps Recurring krever nordisk telefonnummer. Utenlandske brukere uten Vipps-app kan ikke ha autofornyende medlemskap — kontakt post@nbk.no for alternativ håndtering."
     }
-  ]
+  ],
+  "familie_badge": "For familien",
+  "familie_features": [
+    "2-5 personer i samme husstand",
+    "Ett nummer per person (NOR eller W-BIB)",
+    "Stemmerett på årsmøtet for alle medlemmer",
+    "Én betaling — én Vipps-avtale",
+    "Pris bygges opp: 350 + 160 per ekstra person"
+  ],
+  "familie_pris_eksempel": "Eks: 2 personer = 510 kr, 5 personer = 990 kr"
 }
