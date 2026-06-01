@@ -145,15 +145,26 @@ async function handleAgreementEvent(event) {
       numberReserved: null,
     };
 
-    // Hvis det var et pending nummer-valg, fullfør reservasjonen
-    if (order.reserveNumber) {
-      const sailStore = getStore("sail-numbers");
-      const registry = await sailStore.get("registry", { type: "json" });
-      if (registry) {
-        const entry = registry.numbers.find(n => n.number === Number(order.reserveNumber));
+    // Hvis det var pending nummer-valg(er), fullfør reservasjonen(e)
+    // Aktiv: ett nummer i order.reserveNumber
+    // Familie: flere numre i order.members[{number,name}]
+    const sailStore = getStore("sail-numbers");
+    const registry = await sailStore.get("registry", { type: "json" });
+    if (registry) {
+      // Bygg liste av numre vi forventer å fullføre
+      let expected = [];
+      if (order.reserveNumber) {
+        expected = [{ number: Number(order.reserveNumber), name: order.name }];
+      } else if (Array.isArray(order.members)) {
+        expected = order.members.map(m => ({ number: Number(m.number), name: m.name }));
+      }
+
+      const completed = [];
+      for (const target of expected) {
+        const entry = registry.numbers.find(n => n.number === target.number);
         if (entry && entry.pendingMembershipReference === reference) {
           entry.status = "taken";
-          entry.owner = order.name;
+          entry.owner = target.name; // person-navnet for hvert nummer
           entry.memberEmail = order.email;
           entry.purchasedAt = new Date().toISOString();
           entry.purchaseReference = reference;
@@ -163,12 +174,18 @@ async function handleAgreementEvent(event) {
           delete entry.reservedAt;
           delete entry.reservedReason;
           delete entry.pendingMembershipReference;
-          registry.lastUpdated = new Date().toISOString();
-          await sailStore.set("registry", JSON.stringify(registry));
-          memberData.numberReserved = Number(order.reserveNumber);
-          memberData.numberReservedAt = new Date().toISOString();
-          console.log(`NOR ${order.reserveNumber} tildelt ${order.name} via membership-flyt`);
+          completed.push(target.number);
         }
+      }
+
+      if (completed.length > 0) {
+        registry.lastUpdated = new Date().toISOString();
+        await sailStore.set("registry", JSON.stringify(registry));
+        memberData.numbersReserved = completed;
+        memberData.numbersReservedAt = new Date().toISOString();
+        // Backward-compat for aktiv tier
+        if (completed.length === 1) memberData.numberReserved = completed[0];
+        console.log(`Tildelt ${completed.length} nummer (${completed.join(", ")}) via membership-flyt (${order.tier})`);
       }
     }
 
@@ -179,24 +196,29 @@ async function handleAgreementEvent(event) {
     console.log(`Membership activated: ${order.name} (${order.tier})`);
   } else if (eventName === "recurring.agreement-rejected.v1" ||
              eventName === "recurring.agreement-stopped.v1") {
-    // Avtale avvist/stoppet — frigi pending nummer hvis det finnes
-    if (order.reserveNumber) {
+    // Avtale avvist/stoppet — frigi pending nummer hvis det finnes (ett eller flere)
+    const expectedNums = [];
+    if (order.reserveNumber) expectedNums.push(Number(order.reserveNumber));
+    if (Array.isArray(order.members)) expectedNums.push(...order.members.map(m => Number(m.number)));
+    if (expectedNums.length > 0) {
       const sailStore = getStore("sail-numbers");
       const registry = await sailStore.get("registry", { type: "json" });
       if (registry) {
-        const entry = registry.numbers.find(n => n.number === Number(order.reserveNumber));
-        if (entry && entry.pendingMembershipReference === reference) {
-          entry.status = "available";
-          delete entry.reservedBy;
-          delete entry.reservedEmail;
-          delete entry.reservedPhone;
-          delete entry.reservedAt;
-          delete entry.reservedReason;
-          delete entry.pendingMembershipReference;
-          registry.lastUpdated = new Date().toISOString();
-          await sailStore.set("registry", JSON.stringify(registry));
-          console.log(`NOR ${order.reserveNumber} frigitt — avtale ${eventName}`);
+        for (const num of expectedNums) {
+          const entry = registry.numbers.find(n => n.number === num);
+          if (entry && entry.pendingMembershipReference === reference) {
+            entry.status = "available";
+            delete entry.reservedBy;
+            delete entry.reservedEmail;
+            delete entry.reservedPhone;
+            delete entry.reservedAt;
+            delete entry.reservedReason;
+            delete entry.pendingMembershipReference;
+          }
         }
+        registry.lastUpdated = new Date().toISOString();
+        await sailStore.set("registry", JSON.stringify(registry));
+        console.log(`${expectedNums.length} nummer frigitt (${expectedNums.join(", ")}) — avtale ${eventName}`);
       }
     }
   }

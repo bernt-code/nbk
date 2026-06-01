@@ -103,7 +103,7 @@ Norsk Brettseilerklubb er klasseklubb under Norges Seilforbund. Som medlem støt
 <h2 id="cms-tier-title" class="text-center font-headline text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-primary">Velg ditt medlemskap</h2>
 <p id="cms-tier-subtitle" class="text-center mt-3 text-on-surface-variant">To kategorier. Begge fornyes automatisk via Vipps.</p>
 
-<div class="grid md:grid-cols-2 gap-6 mt-12 max-w-4xl mx-auto">
+<div class="grid md:grid-cols-3 gap-6 mt-12 max-w-6xl mx-auto">
 <!-- Aktiv -->
 <div class="bg-on-surface text-white relative rounded-3xl p-8 shadow-2xl overflow-hidden">
 <div class="absolute -top-20 -right-20 w-60 h-60 rounded-full bg-secondary-container/20 blur-3xl"></div>
@@ -121,6 +121,22 @@ Norsk Brettseilerklubb er klasseklubb under Norges Seilforbund. Som medlem støt
 </ul>
 <button onclick="openSignup('aktiv')" class="mt-8 w-full px-6 py-4 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-[1.02] shadow-lg transition">Bli Aktiv Medlem</button>
 </div>
+</div>
+
+<!-- Familiemedlemskap -->
+<div class="bg-secondary-container/30 border-2 border-secondary rounded-3xl p-8 relative">
+<span class="font-label font-bold text-xs uppercase tracking-widest text-secondary" id="cms-familie-badge">For familien</span>
+<h3 class="mt-2 font-headline font-black italic uppercase text-3xl tracking-tight">Familiemedlemskap</h3>
+<div class="mt-6 font-headline font-black italic text-5xl tracking-tighter leading-none">510-990<span class="text-base font-normal not-italic opacity-60 tracking-normal"> / år</span></div>
+<div class="mt-2 font-label text-[.65rem] tracking-widest uppercase opacity-70">2-5 personer · Vipps Recurring</div>
+<ul id="cms-familie-features" class="mt-6 space-y-2 text-base">
+<li class="flex gap-2 items-start"><span class="material-icons text-lg text-secondary">check_circle</span><span class="opacity-90">2-5 personer i samme husstand</span></li>
+<li class="flex gap-2 items-start"><span class="material-icons text-lg text-secondary">check_circle</span><span class="opacity-90">Ett nummer per person (NOR eller W-BIB)</span></li>
+<li class="flex gap-2 items-start"><span class="material-icons text-lg text-secondary">check_circle</span><span class="opacity-90">Stemmerett på årsmøtet for alle medlemmer</span></li>
+<li class="flex gap-2 items-start"><span class="material-icons text-lg text-secondary">check_circle</span><span class="opacity-90">Én betaling — én Vipps-avtale</span></li>
+<li class="flex gap-2 items-start"><span class="material-icons text-lg text-secondary">check_circle</span><span class="opacity-90">Pris bygges opp: 350 + 160 per ekstra person</span></li>
+</ul>
+<button onclick="openFamilieModal()" class="mt-8 w-full px-6 py-3 rounded-full bg-secondary text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-[1.02] shadow-lg transition">Bli familiemedlem</button>
 </div>
 
 <!-- Støttemedlem -->
@@ -168,6 +184,56 @@ Norsk Brettseilerklubb er klasseklubb under Norges Seilforbund. Som medlem støt
 <p class="mt-1 text-sm text-white/60"><a href="mailto:post@nbk.no" class="hover:text-white">post@nbk.no</a> · Org.nr 974 459 183</p>
 </div>
 </footer>
+
+
+<!-- Familie-modal -->
+<div id="familie-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+<div class="bg-surface rounded-3xl shadow-2xl w-full max-w-2xl p-8 max-h-[90vh] overflow-y-auto">
+<div class="flex items-center justify-between mb-2">
+<div class="font-label text-xs tracking-widest uppercase font-bold text-secondary">Familiemedlemskap</div>
+<button onclick="closeFamilieModal()" class="w-8 h-8 rounded-full hover:bg-surface-container flex items-center justify-center"><span class="material-icons text-on-surface-variant">close</span></button>
+</div>
+<h3 class="font-headline font-black italic uppercase text-2xl tracking-tighter">Familiemedlemskap</h3>
+<div class="mt-2 text-sm text-on-surface-variant">Velg hvor mange familiemedlemmer som skal ha eget nummer.</div>
+
+<!-- Stepper -->
+<div class="mt-6 flex items-center gap-4">
+<label class="font-label text-xs tracking-widest uppercase font-bold text-on-surface-variant">Antall medlemmer:</label>
+<div class="flex items-center gap-2">
+<button type="button" onclick="changeFamilieSize(-1)" class="w-10 h-10 rounded-full bg-surface-container-low font-bold text-xl hover:bg-surface-container">−</button>
+<span id="familie-size" class="font-headline font-black italic text-2xl w-12 text-center">2</span>
+<button type="button" onclick="changeFamilieSize(1)" class="w-10 h-10 rounded-full bg-surface-container-low font-bold text-xl hover:bg-surface-container">+</button>
+</div>
+<div class="ml-auto text-right">
+<div class="font-headline font-black italic text-3xl tracking-tighter" id="familie-price">510,-</div>
+<div class="text-xs text-on-surface-variant">/ år</div>
+</div>
+</div>
+
+<form id="familie-form" class="mt-6 space-y-4" onsubmit="submitFamilie(event)">
+<div class="bg-surface-container-low rounded-2xl p-4 space-y-3">
+<div class="font-label text-xs tracking-widest uppercase font-bold text-on-surface-variant">Betaler (foreldre/kontaktperson)</div>
+<input name="paymentName" required placeholder="Fullt navn" class="w-full px-4 py-3 rounded-lg border-2 border-transparent bg-surface focus:border-primary focus:outline-none"/>
+<input name="paymentEmail" type="email" required placeholder="E-post" class="w-full px-4 py-3 rounded-lg border-2 border-transparent bg-surface focus:border-primary focus:outline-none"/>
+<input name="paymentPhone" type="tel" placeholder="Mobil (Vipps-nummer, f.eks. +47 900 00 000)" class="w-full px-4 py-3 rounded-lg border-2 border-transparent bg-surface focus:border-primary focus:outline-none"/>
+</div>
+
+<div id="familie-members" class="space-y-3">
+<!-- Members fylles in av JS -->
+</div>
+
+<div class="flex items-center gap-2 text-xs text-on-surface-variant">
+<span class="material-icons text-base text-primary">autorenew</span>
+<span>Avtalen fornyes automatisk via Vipps Recurring. Avslutt når som helst i Vipps-appen.</span>
+</div>
+
+<button type="submit" id="familie-submit" class="w-full px-7 py-4 rounded-full bg-secondary text-on-secondary font-headline font-bold uppercase tracking-tight shadow-lg hover:scale-[1.02] transition inline-flex items-center justify-center gap-2">
+Betal med Vipps <span class="material-icons text-base">payment</span>
+</button>
+</form>
+<div id="familie-status" class="mt-4 text-sm"></div>
+</div>
+</div>
 
 <!-- Signup modal -->
 <div id="signup-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
@@ -281,6 +347,129 @@ async function submitSignup(e) {
     submit.innerHTML = 'Betal med Vipps <span class="material-icons text-base">payment</span>';
   }
 }
+
+
+
+// ───── Familiemedlemskap ─────
+let familieSize = 2;
+const FAMILIE_BASE_KR = 350;
+const FAMILIE_PER_EKSTRA_KR = 160;
+const FAMILIE_MIN = 2;
+const FAMILIE_MAX = 5;
+
+function openFamilieModal() {
+  familieSize = 2;
+  renderFamilieMembers();
+  updateFamiliePrice();
+  document.getElementById('familie-status').textContent = '';
+  document.getElementById('familie-form').reset();
+  const m = document.getElementById('familie-modal');
+  m.classList.remove('hidden');
+  m.classList.add('flex');
+}
+
+function closeFamilieModal() {
+  const m = document.getElementById('familie-modal');
+  m.classList.add('hidden');
+  m.classList.remove('flex');
+}
+
+function changeFamilieSize(delta) {
+  const next = familieSize + delta;
+  if (next < FAMILIE_MIN || next > FAMILIE_MAX) return;
+  familieSize = next;
+  document.getElementById('familie-size').textContent = familieSize;
+  renderFamilieMembers();
+  updateFamiliePrice();
+}
+
+function updateFamiliePrice() {
+  const price = FAMILIE_BASE_KR + FAMILIE_PER_EKSTRA_KR * (familieSize - 1);
+  document.getElementById('familie-price').textContent = price + ',-';
+}
+
+function renderFamilieMembers() {
+  const container = document.getElementById('familie-members');
+  // Behold tidligere verdier hvis brukeren bare endrer antall
+  const prev = Array.from(container.querySelectorAll('.familie-member-row')).map(row => ({
+    number: row.querySelector('input[name^="memberNumber"]')?.value || '',
+    name: row.querySelector('input[name^="memberName"]')?.value || '',
+  }));
+  let html = '';
+  for (let i = 0; i < familieSize; i++) {
+    const p = prev[i] || { number: '', name: '' };
+    html += `<div class="familie-member-row bg-surface-container-low rounded-2xl p-4">
+      <div class="font-label text-xs tracking-widest uppercase font-bold text-on-surface-variant mb-2">Medlem ${i + 1}</div>
+      <div class="grid grid-cols-3 gap-2">
+        <input name="memberNumber_${i}" type="number" min="0" max="99999" required placeholder="NOR" value="${p.number}" class="col-span-1 px-4 py-3 rounded-lg border-2 border-transparent bg-surface focus:border-secondary focus:outline-none"/>
+        <input name="memberName_${i}" type="text" required placeholder="Navn på personen" value="${p.name}" class="col-span-2 px-4 py-3 rounded-lg border-2 border-transparent bg-surface focus:border-secondary focus:outline-none"/>
+      </div>
+    </div>`;
+  }
+  container.innerHTML = html;
+}
+
+async function submitFamilie(e) {
+  e.preventDefault();
+  const submit = document.getElementById('familie-submit');
+  const status = document.getElementById('familie-status');
+  const form = e.target;
+
+  const members = [];
+  for (let i = 0; i < familieSize; i++) {
+    members.push({
+      number: Number(form[`memberNumber_${i}`].value),
+      name: form[`memberName_${i}`].value.trim(),
+    });
+  }
+
+  // Duplikat-sjekk frontend
+  const nums = members.map(m => m.number);
+  if (new Set(nums).size !== nums.length) {
+    status.innerHTML = '<span class="text-red-600">Familien kan ikke ha duplikate numre.</span>';
+    return;
+  }
+
+  const data = {
+    tier: 'familie',
+    name: form.paymentName.value,
+    email: form.paymentEmail.value,
+    phone: form.paymentPhone.value,
+    members,
+  };
+
+  submit.disabled = true;
+  submit.textContent = 'Sender til Vipps…';
+  status.textContent = '';
+
+  try {
+    const res = await fetch('/api/membership', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const result = await res.json();
+    if (result.redirectUrl) {
+      status.innerHTML = '<span class="text-secondary">Redirecter til Vipps…</span>';
+      window.location.href = result.redirectUrl;
+    } else if (result.conflicts) {
+      status.innerHTML = '<span class="text-red-600">' + result.error + '<br>' + result.conflicts.join('<br>') + '</span>';
+      submit.disabled = false;
+      submit.innerHTML = 'Betal med Vipps <span class="material-icons text-base">payment</span>';
+    } else if (result.success) {
+      status.innerHTML = '<span class="text-secondary">' + (result.message || 'Reservert!') + '</span>';
+    } else {
+      status.innerHTML = '<span class="text-red-600">Feil: ' + (result.error || 'Ukjent feil') + '</span>';
+      submit.disabled = false;
+      submit.innerHTML = 'Betal med Vipps <span class="material-icons text-base">payment</span>';
+    }
+  } catch (err) {
+    status.innerHTML = '<span class="text-red-600">Nettverksfeil: ' + err.message + '</span>';
+    submit.disabled = false;
+    submit.innerHTML = 'Betal med Vipps <span class="material-icons text-base">payment</span>';
+  }
+}
+// ───── Slutt familie-funksjoner ─────
 
 
 // Håndter ?reserveNumber=X query param — pre-fyll nummer i medlemskaps-flyt
@@ -532,6 +721,13 @@ document.getElementById('signup-modal').addEventListener('click', (e) => {
     if (Array.isArray(data.stotte_features)) {
       const ul = document.getElementById('cms-stotte-features');
       if (ul) ul.innerHTML = data.stotte_features.map(f => `<li class="flex gap-2 items-start"><span class="material-icons text-lg text-tertiary">check_circle</span><span class="opacity-90">${f}</span></li>`).join('');
+    }
+
+    // Familie
+    set('cms-familie-badge', data.familie_badge);
+    if (Array.isArray(data.familie_features)) {
+      const ul = document.getElementById('cms-familie-features');
+      if (ul) ul.innerHTML = data.familie_features.map(f => `<li class="flex gap-2 items-start"><span class="material-icons text-lg text-secondary">check_circle</span><span class="opacity-90">${f}</span></li>`).join('');
     }
 
     // Disclaimer

@@ -53,6 +53,8 @@ collections:
           - { label: "Velg-tier — undertittel", name: "tier_subtitle", widget: "string" }
           - { label: "Aktiv — bullets", name: "aktiv_features", widget: "list", field: { label: "Bullet", name: "bullet", widget: "string" } }
           - { label: "Støtte — bullets", name: "stotte_features", widget: "list", field: { label: "Bullet", name: "bullet", widget: "string" } }
+          - { label: "Familie — badge", name: "familie_badge", widget: "string", required: false }
+          - { label: "Familie — bullets", name: "familie_features", widget: "list", required: false, field: { label: "Bullet", name: "bullet", widget: "string" } }
           - { label: "Fysisk-disclaimer", name: "fysisk_disclaimer", widget: "text" }
           - { label: "FAQ — tittel", name: "faq_title", widget: "string" }
           - label: "FAQ — spørsmål"
