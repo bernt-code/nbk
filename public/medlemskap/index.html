@@ -59,26 +59,26 @@ tailwind.config = {
 <!-- Hero -->
 <section class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 gap-12 items-center">
 <div>
-<h1 class="font-headline text-5xl md:text-6xl font-black italic uppercase tracking-tighter leading-none">Bli en del av<br><span class="text-secondary">kraften i vannet</span></h1>
-<p class="mt-6 text-lg text-on-surface-variant leading-relaxed max-w-md">
+<h1 id="cms-hero-title" class="font-headline text-5xl md:text-6xl font-black italic uppercase tracking-tighter leading-none">Bli en del av<br><span class="text-secondary">kraften i vannet</span></h1>
+<p id="cms-hero-subtitle" class="mt-6 text-lg text-on-surface-variant leading-relaxed max-w-md">
 Norsk Brettseilerklubb er klasseklubb under Norges Seilforbund. Som medlem støtter du norsk brettseil og wingfoil — og får selv tilgang til registeret over NOR-seilnummer og W-BIB.
 </p>
 <div class="mt-8 flex gap-3">
-<a href="#tier" class="px-8 py-4 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight shadow-lg shadow-secondary/20 hover:scale-105 transition">Velg medlemskap</a>
-<a href="#fordeler" class="px-8 py-4 rounded-full border-2 border-primary text-primary font-headline font-bold uppercase tracking-tight hover:bg-primary/5 transition">Se fordeler</a>
+<a href="#tier" id="cms-hero-cta-primary" class="px-8 py-4 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight shadow-lg shadow-secondary/20 hover:scale-105 transition">Velg medlemskap</a>
+<a href="#fordeler" id="cms-hero-cta-secondary" class="px-8 py-4 rounded-full border-2 border-primary text-primary font-headline font-bold uppercase tracking-tight hover:bg-primary/5 transition">Se fordeler</a>
 </div>
 </div>
 <div>
-<img src="/img/uploads/dsc_1315.jpeg" alt="Brettseiling" class="rounded-3xl shadow-2xl shadow-primary/10 w-full" loading="lazy"/>
+<img id="cms-hero-image" src="/img/uploads/dsc_1315.jpeg" alt="Brettseiling" class="rounded-3xl shadow-2xl shadow-primary/10 w-full" loading="lazy"/>
 </div>
 </section>
 
 <!-- Fordeler -->
 <section id="fordeler" class="bg-surface-container-low py-20">
 <div class="max-w-7xl mx-auto px-6">
-<h2 class="text-center font-headline text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-primary">Medlemsfordeler</h2>
-<p class="text-center mt-3 text-on-surface-variant">Hva du får som NBK-medlem.</p>
-<div class="grid md:grid-cols-3 gap-5 mt-12">
+<h2 id="cms-fordeler-title" class="text-center font-headline text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-primary">Medlemsfordeler</h2>
+<p id="cms-fordeler-subtitle" class="text-center mt-3 text-on-surface-variant">Hva du får som NBK-medlem.</p>
+<div id="cms-fordeler-grid" class="grid md:grid-cols-3 gap-5 mt-12">
 <div class="bg-surface p-8 rounded-3xl border border-outline-variant">
 <div class="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-5"><span class="material-icons">tag</span></div>
 <h3 class="font-headline font-bold uppercase text-xl mb-2">Rett til seilnummer</h3>
@@ -100,8 +100,8 @@ Norsk Brettseilerklubb er klasseklubb under Norges Seilforbund. Som medlem støt
 
 <!-- Tier-valg -->
 <section id="tier" class="max-w-7xl mx-auto px-6 py-20">
-<h2 class="text-center font-headline text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-primary">Velg ditt medlemskap</h2>
-<p class="text-center mt-3 text-on-surface-variant">To kategorier. Begge fornyes automatisk via Vipps.</p>
+<h2 id="cms-tier-title" class="text-center font-headline text-4xl md:text-5xl font-black italic uppercase tracking-tighter text-primary">Velg ditt medlemskap</h2>
+<p id="cms-tier-subtitle" class="text-center mt-3 text-on-surface-variant">To kategorier. Begge fornyes automatisk via Vipps.</p>
 
 <div class="grid md:grid-cols-2 gap-6 mt-12 max-w-4xl mx-auto">
 <!-- Aktiv -->
@@ -113,7 +113,7 @@ Norsk Brettseilerklubb er klasseklubb under Norges Seilforbund. Som medlem støt
 <h3 class="mt-2 font-headline font-black italic uppercase text-3xl tracking-tight">Aktiv medlemskap</h3>
 <div class="mt-6 font-headline font-black italic text-5xl tracking-tighter leading-none">350,-<span class="text-base font-normal not-italic opacity-60 tracking-normal"> / år</span></div>
 <div class="mt-2 font-label text-[.65rem] tracking-widest uppercase opacity-70">Vipps Recurring · autofornyelse</div>
-<ul class="mt-6 space-y-2 text-base">
+<ul id="cms-aktiv-features" class="mt-6 space-y-2 text-base">
 <li class="flex gap-2 items-start"><span class="material-icons text-lg text-secondary-container">check_circle</span><span class="opacity-90">Rett til ett registrert nummer (NOR eller W-BIB)</span></li>
 <li class="flex gap-2 items-start"><span class="material-icons text-lg text-secondary-container">check_circle</span><span class="opacity-90">Stemmerett på årsmøtet</span></li>
 <li class="flex gap-2 items-start"><span class="material-icons text-lg text-secondary-container">check_circle</span><span class="opacity-90">Deltakelse i NBK-arrangerte regattaer</span></li>
@@ -129,7 +129,7 @@ Norsk Brettseilerklubb er klasseklubb under Norges Seilforbund. Som medlem støt
 <h3 class="mt-2 font-headline font-black italic uppercase text-3xl tracking-tight">Støttemedlem</h3>
 <div class="mt-6 font-headline font-black italic text-5xl tracking-tighter leading-none">200,-<span class="text-base font-normal not-italic opacity-60 tracking-normal"> / år</span></div>
 <div class="mt-2 font-label text-[.65rem] tracking-widest uppercase opacity-70">Vipps Recurring · autofornyelse</div>
-<ul class="mt-6 space-y-2 text-base">
+<ul id="cms-stotte-features" class="mt-6 space-y-2 text-base">
 <li class="flex gap-2 items-start"><span class="material-icons text-lg text-tertiary">check_circle</span><span class="opacity-90">Støtter NBKs virksomhet</span></li>
 <li class="flex gap-2 items-start"><span class="material-icons text-lg text-tertiary">check_circle</span><span class="opacity-90">Stemmerett på årsmøtet</span></li>
 <li class="flex gap-2 items-start"><span class="material-icons text-lg text-tertiary">check_circle</span><span class="opacity-90">Nyhetsbrev og oppdateringer</span></li>
@@ -142,7 +142,7 @@ Norsk Brettseilerklubb er klasseklubb under Norges Seilforbund. Som medlem støt
 <div class="max-w-3xl mx-auto mt-10 rounded-2xl bg-surface-container-low p-6 flex gap-3 items-start">
 <span class="material-icons text-primary">info</span>
 <div class="text-sm text-on-surface-variant">
-<strong>Digital reservasjon vs. fysisk produkt:</strong> Aktiv medlemskap reserverer ditt nummer digitalt hos NBK. Selve det fysiske seilnummeret (klistremerker på seilet) eller wingfoil-bib bestilles eksternt hos din sailmaker eller bib-leverandør — NBK selger ikke det fysiske produktet.
+<strong>Digital reservasjon vs. fysisk produkt:</strong> <span id="cms-fysisk-disclaimer">Aktiv medlemskap reserverer ditt nummer digitalt hos NBK. Selve det fysiske seilnummeret (klistremerker på seilet) eller wingfoil-bib bestilles eksternt hos din sailmaker eller bib-leverandør — NBK selger ikke det fysiske produktet.</span>
 </div>
 </div>
 </section>
@@ -150,8 +150,8 @@ Norsk Brettseilerklubb er klasseklubb under Norges Seilforbund. Som medlem støt
 <!-- FAQ -->
 <section class="bg-surface-container-low py-20">
 <div class="max-w-3xl mx-auto px-6">
-<h2 class="text-center font-headline text-3xl md:text-4xl font-black italic uppercase tracking-tighter text-primary">Spørsmål?</h2>
-<div class="mt-10 space-y-3">
+<h2 id="cms-faq-title" class="text-center font-headline text-3xl md:text-4xl font-black italic uppercase tracking-tighter text-primary">Spørsmål?</h2>
+<div id="cms-faq-container" class="mt-10 space-y-3">
 <details class="bg-surface p-6 rounded-2xl group"><summary class="cursor-pointer font-headline font-bold italic uppercase tracking-tight text-lg flex justify-between items-center">Hvordan fornyer jeg medlemskapet?<span class="material-icons text-primary group-open:rotate-180 transition">expand_more</span></summary><p class="mt-3 text-on-surface-variant">Medlemskap fornyes automatisk via Vipps Recurring hvert år. Du kan avslutte avtalen når som helst i Vipps-appen.</p></details>
 <details class="bg-surface p-6 rounded-2xl group"><summary class="cursor-pointer font-headline font-bold italic uppercase tracking-tight text-lg flex justify-between items-center">Hva er forskjellen på Aktiv og Støttemedlem?<span class="material-icons text-primary group-open:rotate-180 transition">expand_more</span></summary><p class="mt-3 text-on-surface-variant">Aktiv medlemskap gir rett til å reservere ett nummer i NOR- eller W-BIB-registeret. Støttemedlem støtter NBKs drift uten nummer-tildeling. Begge gir stemmerett på årsmøtet.</p></details>
 <details class="bg-surface p-6 rounded-2xl group"><summary class="cursor-pointer font-headline font-bold italic uppercase tracking-tight text-lg flex justify-between items-center">Kan jeg melde meg ut?<span class="material-icons text-primary group-open:rotate-180 transition">expand_more</span></summary><p class="mt-3 text-on-surface-variant">Ja, når som helst. Avslutt Vipps Recurring-avtalen i appen din, eller send e-post til <a href="mailto:post@nbk.no" class="text-primary underline">post@nbk.no</a>.</p></details>
@@ -479,6 +479,78 @@ function validateNumber(input) {
 document.getElementById('signup-modal').addEventListener('click', (e) => {
   if (e.target.id === 'signup-modal') closeSignup();
 });
+</script>
+
+
+<!-- CMS-fill: henter innhold fra /content/pages/medlemskap.json -->
+<script>
+(async function() {
+  try {
+    const res = await fetch('/content/pages/medlemskap.json', { cache: 'no-cache' });
+    if (!res.ok) return;
+    const data = await res.json();
+    const set = (id, value) => { const el = document.getElementById(id); if (el && value) el.textContent = value; };
+    const setHtml = (id, value) => { const el = document.getElementById(id); if (el && value) el.innerHTML = value; };
+    const setAttr = (id, attr, value) => { const el = document.getElementById(id); if (el && value) el.setAttribute(attr, value); };
+
+    // Hero
+    if (data.hero_title) setHtml('cms-hero-title', data.hero_title.replace(/\n/g, '<br>'));
+    set('cms-hero-subtitle', data.hero_subtitle);
+    setAttr('cms-hero-image', 'src', data.hero_image);
+    set('cms-hero-cta-primary', data.hero_cta_primary);
+    set('cms-hero-cta-secondary', data.hero_cta_secondary);
+
+    // Fordeler
+    set('cms-fordeler-title', data.fordeler_title);
+    set('cms-fordeler-subtitle', data.fordeler_subtitle);
+    if (Array.isArray(data.fordeler) && data.fordeler.length === 3) {
+      const grid = document.getElementById('cms-fordeler-grid');
+      if (grid) {
+        const styles = [
+          { card: 'bg-surface p-8 rounded-3xl border border-outline-variant', iconWrap: 'w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-5', title: 'font-headline font-bold uppercase text-xl mb-2', text: 'text-on-surface-variant text-sm' },
+          { card: 'bg-primary text-on-primary p-8 rounded-3xl', iconWrap: 'w-14 h-14 rounded-2xl bg-white/15 flex items-center justify-center mb-5', title: 'font-headline font-bold uppercase text-xl mb-2', text: 'text-white/85 text-sm' },
+          { card: 'bg-surface p-8 rounded-3xl border border-outline-variant', iconWrap: 'w-14 h-14 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center mb-5', title: 'font-headline font-bold uppercase text-xl mb-2', text: 'text-on-surface-variant text-sm' }
+        ];
+        grid.innerHTML = data.fordeler.map((f, i) => {
+          const s = styles[i] || styles[0];
+          return `<div class="${s.card}"><div class="${s.iconWrap}"><span class="material-icons">${f.icon || 'star'}</span></div><h3 class="${s.title}">${f.title || ''}</h3><p class="${s.text}">${f.text || ''}</p></div>`;
+        }).join('');
+      }
+    }
+
+    // Tier
+    set('cms-tier-title', data.tier_title);
+    set('cms-tier-subtitle', data.tier_subtitle);
+
+    // Aktiv features
+    if (Array.isArray(data.aktiv_features)) {
+      const ul = document.getElementById('cms-aktiv-features');
+      if (ul) ul.innerHTML = data.aktiv_features.map(f => `<li class="flex gap-2 items-start"><span class="material-icons text-lg text-secondary-container">check_circle</span><span class="opacity-90">${f}</span></li>`).join('');
+    }
+
+    // Stotte features
+    if (Array.isArray(data.stotte_features)) {
+      const ul = document.getElementById('cms-stotte-features');
+      if (ul) ul.innerHTML = data.stotte_features.map(f => `<li class="flex gap-2 items-start"><span class="material-icons text-lg text-tertiary">check_circle</span><span class="opacity-90">${f}</span></li>`).join('');
+    }
+
+    // Disclaimer
+    set('cms-fysisk-disclaimer', data.fysisk_disclaimer);
+
+    // FAQ
+    set('cms-faq-title', data.faq_title);
+    if (Array.isArray(data.faq)) {
+      const container = document.getElementById('cms-faq-container');
+      if (container) {
+        container.innerHTML = data.faq.map(item =>
+          `<details class="bg-surface p-6 rounded-2xl group"><summary class="cursor-pointer font-headline font-bold italic uppercase tracking-tight text-lg flex justify-between items-center">${item.q || ''}<span class="material-icons text-primary group-open:rotate-180 transition">expand_more</span></summary><p class="mt-3 text-on-surface-variant">${item.a || ''}</p></details>`
+        ).join('');
+      }
+    }
+  } catch (err) {
+    console.warn('CMS-fill failed (using default content):', err);
+  }
+})();
 </script>
 
 </body>

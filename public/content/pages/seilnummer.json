@@ -1,0 +1,47 @@
+{
+  "hero_badge": "Offisielt register",
+  "hero_title": "Seilnummer",
+  "hero_subtitle": "Alle norske brettseilere som deltar i regattaer må ha et registrert NOR-seilnummer. Her kan du søke i registeret og reservere ditt nummer.",
+  "hero_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuC3ISGYtaQfN0f1gLhv5-3byizBAapV_Bn9ScK4NvBFq_2kz1_1vAjK5LHf-YB32ImtFC7moi3qqwFTjeTOgKgG5ppWYqDWwE_T2aYzYbDD7RITH0i1jADjKad6lRgbPv2AG7Tz5ZQ-Lh0mXqFHqaHkWHUy-HdFZmuL164jr2hOAw3-Dz7Hm2j92GXREU_ZfONnNq-NkUqLQynIEjubVdBpKZ7WVS6EhiYrV7RIdw8oizl0OmXde7fe9xYS-a9xcBbbqmxanXmuX5I",
+  "search_placeholder": "Søk på nummer eller navn...",
+  "cta_button": "Søk om seilnummer",
+  "rules_eyebrow": "Regelverk",
+  "rules_title": "Alt du trenger å vite",
+  "rules": [
+    {
+      "icon": "straighten",
+      "title": "Plassering",
+      "intro": "Seilnummeret skal være plassert på begge sider av seilet i henhold til ISAF-reglene.",
+      "bullets": [
+        "Minimum 23 cm høyde",
+        "Helvetica eller tilsvarende font",
+        "NOR-prefiks etterfulgt av nummer"
+      ]
+    },
+    {
+      "icon": "autorenew",
+      "title": "Fornyelse",
+      "intro": "Seilnumre må fornyes årlig for å forbli aktive i registeret.",
+      "bullets": [
+        "Fornyes via NBK-medlemskap",
+        "Inaktive numre frigis etter 2 år",
+        "Varsel sendes før utløp"
+      ]
+    },
+    {
+      "icon": "public",
+      "title": "Internasjonalt",
+      "intro": "NOR-nummeret ditt gjelder i alle internasjonale regattaer godkjent av World Sailing.",
+      "bullets": [
+        "Gyldig i alle World Sailing-regattaer",
+        "Nasjonal identifikasjon (NOR)",
+        "Registrert via nasjonalforbundet"
+      ]
+    }
+  ],
+  "cta_eyebrow": "Klar for vannet?",
+  "cta_title": "Få ditt seilnummer",
+  "cta_subtitle": "Registrer deg som brettseilmedlem og få ditt offisielle NOR-seilnummer for å delta i regattaer.",
+  "cta_primary": "Registrer mitt nummer",
+  "cta_secondary": "Bli medlem først"
+}
