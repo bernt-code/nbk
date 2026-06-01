@@ -68,14 +68,14 @@ tailwind.config = {
 <div>
 <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-label text-xs font-bold uppercase tracking-widest mb-6">
 <span class="material-symbols-outlined text-sm">verified</span>
-Offisielt register
+<span id="cms-hero-badge">Offisielt register</span>
 </span>
-<h1 class="font-headline font-black text-6xl md:text-8xl text-on-surface tracking-tighter uppercase italic mb-6">Seilnummer</h1>
-<p class="text-on-surface-variant text-xl max-w-xl mb-4 leading-relaxed">Alle norske brettseilere som deltar i regattaer m&aring; ha et registrert NOR-seilnummer. Her kan du s&oslash;ke i registeret og reservere ditt nummer.</p>
+<h1 id="cms-hero-title" class="font-headline font-black text-6xl md:text-8xl text-on-surface tracking-tighter uppercase italic mb-6">Seilnummer</h1>
+<p id="cms-hero-subtitle" class="text-on-surface-variant text-xl max-w-xl mb-4 leading-relaxed">Alle norske brettseilere som deltar i regattaer må ha et registrert NOR-seilnummer. Her kan du søke i registeret og reservere ditt nummer.</p>
 <p id="sail-count" class="text-outline font-label text-sm font-bold uppercase tracking-wider"></p>
 </div>
 <div class="hidden md:flex justify-center">
-<img src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3ISGYtaQfN0f1gLhv5-3byizBAapV_Bn9ScK4NvBFq_2kz1_1vAjK5LHf-YB32ImtFC7moi3qqwFTjeTOgKgG5ppWYqDWwE_T2aYzYbDD7RITH0i1jADjKad6lRgbPv2AG7Tz5ZQ-Lh0mXqFHqaHkWHUy-HdFZmuL164jr2hOAw3-Dz7Hm2j92GXREU_ZfONnNq-NkUqLQynIEjubVdBpKZ7WVS6EhiYrV7RIdw8oizl0OmXde7fe9xYS-a9xcBbbqmxanXmuX5I" alt="Seilnummer" class="w-80 h-80 object-cover rounded-3xl shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500"/>
+<img id="cms-hero-image" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3ISGYtaQfN0f1gLhv5-3byizBAapV_Bn9ScK4NvBFq_2kz1_1vAjK5LHf-YB32ImtFC7moi3qqwFTjeTOgKgG5ppWYqDWwE_T2aYzYbDD7RITH0i1jADjKad6lRgbPv2AG7Tz5ZQ-Lh0mXqFHqaHkWHUy-HdFZmuL164jr2hOAw3-Dz7Hm2j92GXREU_ZfONnNq-NkUqLQynIEjubVdBpKZ7WVS6EhiYrV7RIdw8oizl0OmXde7fe9xYS-a9xcBbbqmxanXmuX5I" alt="Seilnummer" class="w-80 h-80 object-cover rounded-3xl shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-500"/>
 </div>
 </div>
 </section>
@@ -87,13 +87,13 @@ Offisielt register
 <!-- Search input -->
 <div class="flex-1 relative">
 <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
-<input id="search-input" type="text" placeholder="S&oslash;k p&aring; nummer eller navn..." oninput="searchNumbers()" class="w-full pl-12 pr-4 py-4 rounded-2xl bg-surface-container-low border border-outline-variant/30 focus:border-primary focus:ring-2 focus:ring-primary/20 font-body text-on-surface placeholder:text-outline transition-all outline-none"/>
+<input id="search-input" type="text" placeholder="Søk på nummer eller navn..." oninput="searchNumbers()" class="w-full pl-12 pr-4 py-4 rounded-2xl bg-surface-container-low border border-outline-variant/30 focus:border-primary focus:ring-2 focus:ring-primary/20 font-body text-on-surface placeholder:text-outline transition-all outline-none"/>
 </div>
 <!-- CTA button -->
 <button onclick="reserveNumber()" class="px-8 py-4 rounded-2xl bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-105 transition-all shadow-lg shadow-secondary/20 whitespace-nowrap">
 <span class="flex items-center gap-2">
 <span class="material-symbols-outlined">add_circle</span>
-S&oslash;k om seilnummer
+<span id="cms-search-cta">Søk om seilnummer</span>
 </span>
 </button>
 </div>
@@ -130,11 +130,11 @@ Vis flere numre
 <section class="py-20 px-8 bg-surface-container-low">
 <div class="max-w-7xl mx-auto">
 <div class="text-center mb-16">
-<span class="font-label text-secondary font-bold uppercase tracking-[0.3em] text-sm mb-4 block">Regelverk</span>
-<h2 class="font-headline font-black text-4xl md:text-5xl text-on-surface tracking-tighter uppercase italic">Alt du trenger &aring; vite</h2>
+<span id="cms-rules-eyebrow" class="font-label text-secondary font-bold uppercase tracking-[0.3em] text-sm mb-4 block">Regelverk</span>
+<h2 id="cms-rules-title" class="font-headline font-black text-4xl md:text-5xl text-on-surface tracking-tighter uppercase italic">Alt du trenger å vite</h2>
 </div>
 
-<div class="grid md:grid-cols-3 gap-8">
+<div id="cms-rules-grid" class="grid md:grid-cols-3 gap-8">
 <!-- Placement Rules -->
 <div class="bg-primary rounded-3xl p-8 text-white shadow-xl">
 <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center mb-6">
@@ -183,15 +183,15 @@ Vis flere numre
 <!-- CTA Section -->
 <section class="py-24 px-8">
 <div class="max-w-4xl mx-auto text-center">
-<span class="font-label text-secondary font-bold uppercase tracking-[0.3em] text-sm mb-4 block">Klar for vannet?</span>
-<h2 class="font-headline font-black text-5xl md:text-6xl text-on-surface tracking-tighter uppercase italic mb-6">F&aring; ditt seilnummer</h2>
-<p class="text-on-surface-variant text-xl max-w-2xl mx-auto mb-10 leading-relaxed">Registrer deg som brettseilmedlem og f&aring; ditt offisielle NOR-seilnummer for &aring; delta i regattaer.</p>
+<span id="cms-cta-eyebrow" class="font-label text-secondary font-bold uppercase tracking-[0.3em] text-sm mb-4 block">Klar for vannet?</span>
+<h2 id="cms-cta-title" class="font-headline font-black text-5xl md:text-6xl text-on-surface tracking-tighter uppercase italic mb-6">Få ditt seilnummer</h2>
+<p id="cms-cta-subtitle" class="text-on-surface-variant text-xl max-w-2xl mx-auto mb-10 leading-relaxed">Registrer deg som brettseilmedlem og få ditt offisielle NOR-seilnummer for å delta i regattaer.</p>
 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-<button onclick="reserveNumber()" class="px-10 py-5 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold text-lg uppercase tracking-tight hover:scale-105 transition-all shadow-xl shadow-secondary/20">
+<button onclick="reserveNumber()" id="cms-cta-primary" class="px-10 py-5 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold text-lg uppercase tracking-tight hover:scale-105 transition-all shadow-xl shadow-secondary/20">
 Registrer mitt nummer
 </button>
-<a href="../medlemskap/" class="px-10 py-5 rounded-full border-2 border-outline-variant text-on-surface font-headline font-bold text-lg uppercase tracking-tight hover:bg-surface-container-high transition-all">
-Bli medlem f&oslash;rst
+<a href="../medlemskap/" id="cms-cta-secondary" class="px-10 py-5 rounded-full border-2 border-outline-variant text-on-surface font-headline font-bold text-lg uppercase tracking-tight hover:bg-surface-container-high transition-all">
+Bli medlem først
 </a>
 </div>
 </div>
@@ -376,6 +376,60 @@ function loadMore() {
 }
 
 loadSailNumbers();
+</script>
+
+
+<!-- CMS-fill: henter innhold fra /content/pages/seilnummer.json -->
+<script>
+(async function() {
+  try {
+    const res = await fetch('/content/pages/seilnummer.json', { cache: 'no-cache' });
+    if (!res.ok) return;
+    const data = await res.json();
+    const set = (id, v) => { const el = document.getElementById(id); if (el && v) el.textContent = v; };
+    const setAttr = (id, attr, v) => { const el = document.getElementById(id); if (el && v) el.setAttribute(attr, v); };
+    const setPlaceholder = (id, v) => { const el = document.getElementById(id); if (el && v) el.setAttribute('placeholder', v); };
+
+    // Hero
+    set('cms-hero-badge', data.hero_badge);
+    set('cms-hero-title', data.hero_title);
+    set('cms-hero-subtitle', data.hero_subtitle);
+    setAttr('cms-hero-image', 'src', data.hero_image);
+
+    // Search
+    setPlaceholder('search-input', data.search_placeholder);
+    set('cms-search-cta', data.cta_button);
+
+    // Rules
+    set('cms-rules-eyebrow', data.rules_eyebrow);
+    set('cms-rules-title', data.rules_title);
+    if (Array.isArray(data.rules) && data.rules.length === 3) {
+      const grid = document.getElementById('cms-rules-grid');
+      if (grid) {
+        // Første kort: primary bg (white text), resten lyse
+        grid.innerHTML = data.rules.map((r, i) => {
+          if (i === 0) {
+            return `<div class="bg-primary rounded-3xl p-8 text-white shadow-xl"><div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center mb-6"><span class="material-symbols-outlined text-white text-3xl">${r.icon || 'info'}</span></div><h3 class="font-headline font-bold text-2xl mb-4 uppercase tracking-tight">${r.title || ''}</h3><p class="text-white/80 font-body leading-relaxed mb-4">${r.intro || ''}</p><ul class="space-y-2 text-white/70 font-body text-sm">${(r.bullets||[]).map(b => `<li class="flex items-start gap-2"><span class="material-symbols-outlined text-secondary-container text-base mt-0.5">check_circle</span> ${b}</li>`).join('')}</ul></div>`;
+          } else {
+            return `<div class="bg-surface-container-lowest rounded-3xl p-8 shadow-xl border border-outline-variant/20"><div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-6"><span class="material-symbols-outlined text-primary text-3xl">${r.icon || 'info'}</span></div><h3 class="font-headline font-bold text-2xl mb-4 uppercase tracking-tight text-on-surface">${r.title || ''}</h3><p class="text-on-surface-variant font-body leading-relaxed mb-4">${r.intro || ''}</p><ul class="space-y-2 text-on-surface-variant font-body text-sm">${(r.bullets||[]).map(b => `<li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-base mt-0.5">check_circle</span> ${b}</li>`).join('')}</ul></div>`;
+          }
+        }).join('');
+      }
+    }
+
+    // CTA
+    set('cms-cta-eyebrow', data.cta_eyebrow);
+    set('cms-cta-title', data.cta_title);
+    set('cms-cta-subtitle', data.cta_subtitle);
+    // CTA-buttons inneholder også andre nodes (icons etc) - vi setter via textContent men erstatter ikke knappens onclick
+    const ctaPrimary = document.getElementById('cms-cta-primary');
+    if (ctaPrimary && data.cta_primary) ctaPrimary.textContent = data.cta_primary;
+    const ctaSecondary = document.getElementById('cms-cta-secondary');
+    if (ctaSecondary && data.cta_secondary) ctaSecondary.textContent = data.cta_secondary;
+  } catch (err) {
+    console.warn('CMS-fill failed (using default content):', err);
+  }
+})();
 </script>
 
 </body></html>

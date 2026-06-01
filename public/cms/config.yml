@@ -24,6 +24,76 @@ collections:
           - { label: "Hero CTA tekst", name: "hero_cta_text", widget: "string" }
           - { label: "Hero sekundaer CTA", name: "hero_secondary_cta", widget: "string" }
 
+
+  # Medlemskap-siden
+  - name: "medlemskap-page"
+    label: "Medlemskap-side"
+    files:
+      - label: "Medlemskap"
+        name: "medlemskap"
+        file: "public/content/pages/medlemskap.json"
+        fields:
+          - { label: "Hero tittel", name: "hero_title", widget: "string", hint: "Bruk linjeskift (Enter) for å bryte tittelen i to linjer." }
+          - { label: "Hero undertittel", name: "hero_subtitle", widget: "text" }
+          - { label: "Hero bilde", name: "hero_image", widget: "image" }
+          - { label: "Hero CTA primær", name: "hero_cta_primary", widget: "string" }
+          - { label: "Hero CTA sekundær", name: "hero_cta_secondary", widget: "string" }
+          - { label: "Fordeler — tittel", name: "fordeler_title", widget: "string" }
+          - { label: "Fordeler — undertittel", name: "fordeler_subtitle", widget: "string" }
+          - label: "Fordeler (3 kort)"
+            name: "fordeler"
+            widget: "list"
+            min: 3
+            max: 3
+            fields:
+              - { label: "Ikon (Material)", name: "icon", widget: "string", hint: "F.eks. 'tag', 'how_to_vote', 'event'. Se fonts.google.com/icons" }
+              - { label: "Tittel", name: "title", widget: "string" }
+              - { label: "Tekst", name: "text", widget: "text" }
+          - { label: "Velg-tier — tittel", name: "tier_title", widget: "string" }
+          - { label: "Velg-tier — undertittel", name: "tier_subtitle", widget: "string" }
+          - { label: "Aktiv — bullets", name: "aktiv_features", widget: "list", field: { label: "Bullet", name: "bullet", widget: "string" } }
+          - { label: "Støtte — bullets", name: "stotte_features", widget: "list", field: { label: "Bullet", name: "bullet", widget: "string" } }
+          - { label: "Fysisk-disclaimer", name: "fysisk_disclaimer", widget: "text" }
+          - { label: "FAQ — tittel", name: "faq_title", widget: "string" }
+          - label: "FAQ — spørsmål"
+            name: "faq"
+            widget: "list"
+            fields:
+              - { label: "Spørsmål", name: "q", widget: "string" }
+              - { label: "Svar", name: "a", widget: "text" }
+
+  # Seilnummer-siden
+  - name: "seilnummer-page"
+    label: "Seilnummer-side"
+    files:
+      - label: "Seilnummer"
+        name: "seilnummer"
+        file: "public/content/pages/seilnummer.json"
+        fields:
+          - { label: "Hero badge", name: "hero_badge", widget: "string" }
+          - { label: "Hero tittel", name: "hero_title", widget: "string" }
+          - { label: "Hero undertittel", name: "hero_subtitle", widget: "text" }
+          - { label: "Hero bilde", name: "hero_image", widget: "image" }
+          - { label: "Søk-placeholder", name: "search_placeholder", widget: "string" }
+          - { label: "CTA-knapp (søk)", name: "cta_button", widget: "string" }
+          - { label: "Regler — eyebrow", name: "rules_eyebrow", widget: "string" }
+          - { label: "Regler — tittel", name: "rules_title", widget: "string" }
+          - label: "Regler (3 kort)"
+            name: "rules"
+            widget: "list"
+            min: 3
+            max: 3
+            fields:
+              - { label: "Ikon (Material)", name: "icon", widget: "string" }
+              - { label: "Tittel", name: "title", widget: "string" }
+              - { label: "Intro", name: "intro", widget: "text" }
+              - { label: "Bullets", name: "bullets", widget: "list", field: { label: "Bullet", name: "bullet", widget: "string" } }
+          - { label: "Avsluttende — eyebrow", name: "cta_eyebrow", widget: "string" }
+          - { label: "Avsluttende — tittel", name: "cta_title", widget: "string" }
+          - { label: "Avsluttende — undertittel", name: "cta_subtitle", widget: "text" }
+          - { label: "CTA primær", name: "cta_primary", widget: "string" }
+          - { label: "CTA sekundær", name: "cta_secondary", widget: "string" }
+
   # News / Nyheter
   - name: "nyheter"
     label: "Nyheter"

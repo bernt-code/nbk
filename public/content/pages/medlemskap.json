@@ -1,0 +1,61 @@
+{
+  "hero_title": "Bli en del av kraften i vannet",
+  "hero_subtitle": "Norsk Brettseilerklubb er klasseklubb under Norges Seilforbund. Som medlem støtter du norsk brettseil og wingfoil — og får selv tilgang til registeret over NOR-seilnummer og W-BIB.",
+  "hero_image": "/img/uploads/dsc_1315.jpeg",
+  "hero_cta_primary": "Velg medlemskap",
+  "hero_cta_secondary": "Se fordeler",
+  "fordeler_title": "Medlemsfordeler",
+  "fordeler_subtitle": "Hva du får som NBK-medlem.",
+  "fordeler": [
+    {
+      "icon": "tag",
+      "title": "Rett til seilnummer",
+      "text": "Aktiv medlemskap gir rett til ett registrert nummer i NBKs offisielle NOR-register for brettseil, eller W-BIB for wingfoil."
+    },
+    {
+      "icon": "how_to_vote",
+      "title": "Stemmerett",
+      "text": "Som medlem har du stemmerett på årsmøtet og kan være med å bestemme klubbens kurs. Alle medlemmer — Aktiv og Støttemedlem — har stemmerett."
+    },
+    {
+      "icon": "event",
+      "title": "Regattaer og fellesskap",
+      "text": "Delta i NBK-arrangerte regattaer og bli del av Norges miljø for brettseil og wingfoil — fra Huk til Herdla, fra Mjelle til Jæren."
+    }
+  ],
+  "tier_title": "Velg ditt medlemskap",
+  "tier_subtitle": "To kategorier. Begge fornyes automatisk via Vipps.",
+  "aktiv_badge": "Anbefalt",
+  "aktiv_features": [
+    "Rett til ett registrert nummer (NOR eller W-BIB)",
+    "Stemmerett på årsmøtet",
+    "Deltakelse i NBK-arrangerte regattaer",
+    "Nyhetsbrev og klubbinformasjon"
+  ],
+  "stotte_badge": "Støtte",
+  "stotte_features": [
+    "Støtter NBKs virksomhet",
+    "Stemmerett på årsmøtet",
+    "Nyhetsbrev og oppdateringer"
+  ],
+  "fysisk_disclaimer": "Aktiv medlemskap reserverer ditt nummer digitalt hos NBK. Selve det fysiske seilnummeret (klistremerker på seilet) eller wingfoil-bib bestilles eksternt hos din sailmaker eller bib-leverandør — NBK selger ikke det fysiske produktet.",
+  "faq_title": "Spørsmål?",
+  "faq": [
+    {
+      "q": "Hvordan fornyer jeg medlemskapet?",
+      "a": "Medlemskap fornyes automatisk via Vipps Recurring hvert år. Du kan avslutte avtalen når som helst i Vipps-appen."
+    },
+    {
+      "q": "Hva er forskjellen på Aktiv og Støttemedlem?",
+      "a": "Aktiv medlemskap gir rett til å reservere ett nummer i NOR- eller W-BIB-registeret. Støttemedlem støtter NBKs drift uten nummer-tildeling. Begge gir stemmerett på årsmøtet."
+    },
+    {
+      "q": "Kan jeg melde meg ut?",
+      "a": "Ja, når som helst. Avslutt Vipps Recurring-avtalen i appen din, eller send e-post til post@nbk.no."
+    },
+    {
+      "q": "Kan utenlandske brukere bli medlem?",
+      "a": "Vipps Recurring krever nordisk telefonnummer. Utenlandske brukere uten Vipps-app kan ikke ha autofornyende medlemskap — kontakt post@nbk.no for alternativ håndtering."
+    }
+  ]
+}
