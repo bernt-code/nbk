@@ -211,6 +211,13 @@ export default async (req) => {
     const orderData = JSON.parse(await orders.get(reference));
     orderData.agreementId = agreement.agreementId;
     await orders.set(reference, JSON.stringify(orderData));
+    // Deterministisk webhook-matching: map agreementId -> reference med en gang,
+    // slik at vipps-webhook slipper å gjette via pending-scan ("cannot disambiguate").
+    try {
+      await getStore("agreements").set(agreement.agreementId, reference);
+    } catch (e) {
+      console.error("Kunne ikke lagre agreements-mapping:", e);
+    }
 
     return Response.json({
       success: true, reference,

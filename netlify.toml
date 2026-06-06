@@ -60,7 +60,7 @@
 
 
 [[redirects]]
-  from = "/api/admin/setup-webhooks"
+  from = "/api/setup-webhooks"
   to = "/.netlify/functions/setup-webhooks"
   status = 200
 

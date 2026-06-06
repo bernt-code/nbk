@@ -233,6 +233,17 @@ export default async (req) => {
       if (body.legendHolder !== undefined) entry.legendHolder = body.legendHolder;
       if (body.requiresApplication !== undefined) entry.requiresApplication = body.requiresApplication;
       if (body.isJunior !== undefined) entry.isJunior = body.isJunior;
+
+      // Rydd en fastlåst pending-reservasjon (f.eks. når webhooken ikke fullførte flippen)
+      if (body.clearReservation === true) {
+        delete entry.reservedBy;
+        delete entry.reservedEmail;
+        delete entry.reservedPhone;
+        delete entry.reservedAt;
+        delete entry.reservedReason;
+        delete entry.pendingMembershipReference;
+      }
+
       entry.updatedAt = new Date().toISOString();
 
       await saveRegistry(store, registry);
