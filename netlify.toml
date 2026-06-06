@@ -64,6 +64,26 @@
   to = "/.netlify/functions/setup-webhooks"
   status = 200
 
+[[redirects]]
+  from = "/produkt/*"
+  to = "/seilnummer/"
+  status = 301
+
+[[redirects]]
+  from = "/vilkar-og-betingelser"
+  to = "/vilkar/"
+  status = 301
+
+[[redirects]]
+  from = "/om-nbk"
+  to = "/om-oss/"
+  status = 301
+
+[[redirects]]
+  from = "/bli-medlem"
+  to = "/medlemskap/"
+  status = 301
+
 # CORS headers for API
 [[headers]]
   for = "/api/*"
