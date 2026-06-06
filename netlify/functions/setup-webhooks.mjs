@@ -1,5 +1,5 @@
 // Engangs-admin-funksjon: rydd opp Vipps-webhooks
-// Kjøres via: curl -H "Authorization: Bearer $ADMIN_TOKEN" "https://nbk-no.netlify.app/.netlify/functions/setup-webhooks"
+// Kjøres via: curl -H "Authorization: Bearer $ADMIN_TOKEN" "https://nbk-no.netlify.app/api/setup-webhooks"
 //
 // Hva den gjør:
 //   1. Lister alle eksisterende webhooks
