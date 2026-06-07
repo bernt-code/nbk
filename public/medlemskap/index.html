@@ -693,13 +693,15 @@ document.getElementById('signup-modal').addEventListener('click', (e) => {
     // Fordeler
     set('cms-fordeler-title', data.fordeler_title);
     set('cms-fordeler-subtitle', data.fordeler_subtitle);
-    if (Array.isArray(data.fordeler) && data.fordeler.length === 3) {
+    if (Array.isArray(data.fordeler) && data.fordeler.length >= 3 && data.fordeler.length <= 4) {
       const grid = document.getElementById('cms-fordeler-grid');
       if (grid) {
+        grid.className = data.fordeler.length === 4 ? 'grid md:grid-cols-2 lg:grid-cols-4 gap-5 mt-12' : 'grid md:grid-cols-3 gap-5 mt-12';
         const styles = [
           { card: 'bg-surface p-8 rounded-3xl border border-outline-variant', iconWrap: 'w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-5', title: 'font-headline font-bold uppercase text-xl mb-2', text: 'text-on-surface-variant text-sm' },
           { card: 'bg-primary text-on-primary p-8 rounded-3xl', iconWrap: 'w-14 h-14 rounded-2xl bg-white/15 flex items-center justify-center mb-5', title: 'font-headline font-bold uppercase text-xl mb-2', text: 'text-white/85 text-sm' },
-          { card: 'bg-surface p-8 rounded-3xl border border-outline-variant', iconWrap: 'w-14 h-14 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center mb-5', title: 'font-headline font-bold uppercase text-xl mb-2', text: 'text-on-surface-variant text-sm' }
+          { card: 'bg-surface p-8 rounded-3xl border border-outline-variant', iconWrap: 'w-14 h-14 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center mb-5', title: 'font-headline font-bold uppercase text-xl mb-2', text: 'text-on-surface-variant text-sm' },
+          { card: 'bg-surface p-8 rounded-3xl border border-outline-variant', iconWrap: 'w-14 h-14 rounded-2xl bg-tertiary/10 text-tertiary flex items-center justify-center mb-5', title: 'font-headline font-bold uppercase text-xl mb-2', text: 'text-on-surface-variant text-sm' }
         ];
         grid.innerHTML = data.fordeler.map((f, i) => {
           const s = styles[i] || styles[0];

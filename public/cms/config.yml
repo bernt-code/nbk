@@ -40,11 +40,11 @@ collections:
           - { label: "Hero CTA sekundær", name: "hero_cta_secondary", widget: "string" }
           - { label: "Fordeler — tittel", name: "fordeler_title", widget: "string" }
           - { label: "Fordeler — undertittel", name: "fordeler_subtitle", widget: "string" }
-          - label: "Fordeler (3 kort)"
+          - label: "Fordeler (3–4 kort)"
             name: "fordeler"
             widget: "list"
             min: 3
-            max: 3
+            max: 4
             fields:
               - { label: "Ikon (Material)", name: "icon", widget: "string", hint: "F.eks. 'tag', 'how_to_vote', 'event'. Se fonts.google.com/icons" }
               - { label: "Tittel", name: "title", widget: "string" }
