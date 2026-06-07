@@ -1,12 +1,13 @@
 {
-  "hero_badge": "Offisielt register",
-  "hero_title": "Seilnummer",
-  "hero_subtitle": "Alle norske brettseilere som deltar i regattaer må ha et registrert NOR-seilnummer. Her kan du søke i registeret og reservere ditt nummer.",
-  "hero_image": "https://lh3.googleusercontent.com/aida-public/AB6AXuC3ISGYtaQfN0f1gLhv5-3byizBAapV_Bn9ScK4NvBFq_2kz1_1vAjK5LHf-YB32ImtFC7moi3qqwFTjeTOgKgG5ppWYqDWwE_T2aYzYbDD7RITH0i1jADjKad6lRgbPv2AG7Tz5ZQ-Lh0mXqFHqaHkWHUy-HdFZmuL164jr2hOAw3-Dz7Hm2j92GXREU_ZfONnNq-NkUqLQynIEjubVdBpKZ7WVS6EhiYrV7RIdw8oizl0OmXde7fe9xYS-a9xcBbbqmxanXmuX5I",
-  "search_placeholder": "Søk på nummer eller navn...",
   "cta_button": "Søk om seilnummer",
   "rules_eyebrow": "Regelverk",
+  "cta_secondary": "Bli medlem først",
+  "cta_subtitle": "Registrer deg som brettseilmedlem og få ditt offisielle NOR-seilnummer for å delta i regattaer.",
+  "cta_title": "Få ditt seilnummer",
   "rules_title": "Alt du trenger å vite",
+  "hero_title": "Seilnummer",
+  "cta_primary": "Registrer mitt nummer",
+  "hero_image": "/img/uploads/img_4096.jpeg",
   "rules": [
     {
       "icon": "straighten",
@@ -40,8 +41,7 @@
     }
   ],
   "cta_eyebrow": "Klar for vannet?",
-  "cta_title": "Få ditt seilnummer",
-  "cta_subtitle": "Registrer deg som brettseilmedlem og få ditt offisielle NOR-seilnummer for å delta i regattaer.",
-  "cta_primary": "Registrer mitt nummer",
-  "cta_secondary": "Bli medlem først"
+  "search_placeholder": "Søk på nummer eller navn...",
+  "hero_subtitle": "Alle norske brettseilere som deltar i regattaer må ha et registrert NOR-seilnummer. Her kan du søke i registeret og reservere ditt nummer.",
+  "hero_badge": "Offisielt register"
 }
