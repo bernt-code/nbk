@@ -1,11 +1,27 @@
 {
-  "hero_title": "Bli en del av kraften i vannet",
-  "hero_subtitle": "Norsk Brettseilerklubb er klasseklubb under Norges Seilforbund. Som medlem støtter du norsk brettseil og wingfoil — og får selv tilgang til registeret over NOR-seilnummer og W-BIB.",
-  "hero_image": "/img/uploads/dsc_1315.jpeg",
-  "hero_cta_primary": "Velg medlemskap",
   "hero_cta_secondary": "Se fordeler",
+  "stotte_features": [
+    "Støtter NBKs virksomhet",
+    "Stemmerett på årsmøtet",
+    "Nyhetsbrev og oppdateringer"
+  ],
+  "aktiv_features": [
+    "Rett til ett registrert nummer (NOR eller W-BIB)",
+    "Stemmerett på årsmøtet",
+    "Deltakelse i NBK-arrangerte regattaer",
+    "Nyhetsbrev og klubbinformasjon"
+  ],
+  "familie_pris_eksempel": "Eks: 2 personer = 510 kr, 5 personer = 990 kr",
   "fordeler_title": "Medlemsfordeler",
   "fordeler_subtitle": "Hva du får som NBK-medlem.",
+  "familie_features": [
+    "2-5 personer i samme husstand",
+    "Ett nummer per person (NOR eller W-BIB)",
+    "Stemmerett på årsmøtet for alle medlemmer",
+    "Én betaling — én Vipps-avtale",
+    "Pris bygges opp: 350 + 160 per ekstra person"
+  ],
+  "hero_cta_primary": "Velg medlemskap",
   "fordeler": [
     {
       "icon": "tag",
@@ -23,23 +39,11 @@
       "text": "Delta i NBK-arrangerte regattaer og bli del av Norges miljø for brettseil og wingfoil — fra Huk til Herdla, fra Mjelle til Jæren."
     }
   ],
-  "tier_title": "Velg ditt medlemskap",
-  "tier_subtitle": "Tre kategorier. Alle fornyes automatisk via Vipps.",
-  "aktiv_badge": "Anbefalt",
-  "aktiv_features": [
-    "Rett til ett registrert nummer (NOR eller W-BIB)",
-    "Stemmerett på årsmøtet",
-    "Deltakelse i NBK-arrangerte regattaer",
-    "Nyhetsbrev og klubbinformasjon"
-  ],
-  "stotte_badge": "Støtte",
-  "stotte_features": [
-    "Støtter NBKs virksomhet",
-    "Stemmerett på årsmøtet",
-    "Nyhetsbrev og oppdateringer"
-  ],
-  "fysisk_disclaimer": "Aktiv medlemskap reserverer ditt nummer digitalt hos NBK. Selve det fysiske seilnummeret (klistremerker på seilet) eller wingfoil-bib bestilles eksternt hos din sailmaker eller bib-leverandør — NBK selger ikke det fysiske produktet.",
   "faq_title": "Spørsmål?",
+  "hero_title": "Bli en del av kraften i vannet",
+  "familie_badge": "For familien",
+  "tier_subtitle": "Tre kategorier. Alle fornyes automatisk via Vipps.",
+  "hero_image": "/img/uploads/screenshot-2026-03-22-at-17.38.51.png",
   "faq": [
     {
       "q": "Hvordan fornyer jeg medlemskapet?",
@@ -62,13 +66,9 @@
       "a": "Vipps Recurring krever nordisk telefonnummer. Utenlandske brukere uten Vipps-app kan ikke ha autofornyende medlemskap — kontakt post@nbk.no for alternativ håndtering."
     }
   ],
-  "familie_badge": "For familien",
-  "familie_features": [
-    "2-5 personer i samme husstand",
-    "Ett nummer per person (NOR eller W-BIB)",
-    "Stemmerett på årsmøtet for alle medlemmer",
-    "Én betaling — én Vipps-avtale",
-    "Pris bygges opp: 350 + 160 per ekstra person"
-  ],
-  "familie_pris_eksempel": "Eks: 2 personer = 510 kr, 5 personer = 990 kr"
+  "fysisk_disclaimer": "Aktiv medlemskap reserverer ditt nummer digitalt hos NBK. Selve det fysiske seilnummeret (klistremerker på seilet) eller wingfoil-bib bestilles eksternt hos din sailmaker eller bib-leverandør — NBK selger ikke det fysiske produktet.",
+  "aktiv_badge": "Anbefalt",
+  "tier_title": "Velg ditt medlemskap",
+  "stotte_badge": "Støtte",
+  "hero_subtitle": "Norsk Brettseilerklubb er klasseklubb under Norges Seilforbund. Som medlem støtter du norsk brettseiling og wingfoil — og får selv tilgang til registeret over NOR-seilnummer og Wingfoil BIB ( under utvikling ) "
 }
