@@ -6,7 +6,7 @@
   "cta_title": "Få ditt seilnummer",
   "rules_title": "Alt du trenger å vite",
   "hero_title": "Seilnummer",
-  "cta_primary": "Registrer mitt nummer",
+  "cta_primary": "Registrer nummer",
   "hero_image": "/img/uploads/img_4096.jpeg",
   "rules": [
     {
@@ -40,7 +40,7 @@
       ]
     }
   ],
-  "cta_eyebrow": "Klar for vannet?",
+  "cta_eyebrow": "Klar for regatta?",
   "search_placeholder": "Søk på nummer eller navn...",
   "hero_subtitle": "Alle norske brettseilere som deltar i regattaer må ha et registrert NOR-seilnummer. Her kan du søke i registeret og reservere ditt nummer.",
   "hero_badge": "Offisielt register"
