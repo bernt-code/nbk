@@ -11,15 +11,18 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --navy: #0D1B2A;
-    --navy-light: #162336;
-    --navy-mid: #1E3250;
+    --navy: #0A1628;
+    --navy-light: #122038;
+    --navy-mid: #1A2E4A;
     --gold: #C9A84C;
     --gold-light: #E8CB78;
     --red: #C41E3A;
+    --ocean: #0096D6;
+    --ocean-dark: #0077AA;
+    --ocean-glow: rgba(0,150,214,0.18);
     --white: #FFFFFF;
-    --muted: #7A9AB2;
-    --surface: #13243A;
+    --muted: #6B8FA8;
+    --surface: #0F1E30;
   }
 
   html { scroll-behavior: smooth; }
@@ -51,11 +54,12 @@
   .nav-logo-sub { font-size: 0.7rem; color: var(--muted); display: block; line-height: 1; }
   .nav-cta {
     padding: 0.55rem 1.4rem;
-    background: var(--gold); color: var(--navy);
+    background: var(--ocean); color: var(--white);
     font-weight: 600; font-size: 0.85rem; border-radius: 100px;
     text-decoration: none; transition: background 0.2s;
+    box-shadow: 0 4px 16px rgba(0,150,214,0.3);
   }
-  .nav-cta:hover { background: var(--gold-light); }
+  .nav-cta:hover { background: var(--ocean-dark); }
 
   /* HERO */
   .hero {
@@ -63,16 +67,30 @@
     display: flex; align-items: center; justify-content: center;
     padding: 6rem 2rem 4rem;
     position: relative; overflow: hidden;
+    background:
+      linear-gradient(165deg, rgba(10,22,40,0.88) 0%, rgba(10,22,40,0.70) 50%, rgba(0,80,130,0.55) 100%),
+      url('https://images.unsplash.com/photo-1560251180-a975a873d9ed?w=1800&q=80&auto=format&fit=crop') center/cover no-repeat;
   }
   .hero::before {
     content: '';
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(201,168,76,0.07) 0%, transparent 70%),
-                radial-gradient(ellipse 60% 80% at 20% 80%, rgba(196,30,58,0.06) 0%, transparent 60%);
+    background:
+      radial-gradient(ellipse 70% 50% at 60% 40%, var(--ocean-glow) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 60% at 10% 80%, rgba(201,168,76,0.08) 0%, transparent 55%);
+    pointer-events: none;
   }
+  /* Animated wave strip at bottom of hero */
   .wave-bg {
-    position: absolute; bottom: 0; left: 0; right: 0; height: 180px; opacity: 0.08;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 180'%3E%3Cpath fill='%23C9A84C' d='M0,80 C360,160 720,0 1080,80 C1260,120 1350,60 1440,80 L1440,180 L0,180Z'/%3E%3C/svg%3E") no-repeat bottom / cover;
+    position: absolute; bottom: -2px; left: 0; right: 0; height: 100px; z-index: 3;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 100'%3E%3Cpath fill='%230A1628' d='M0,40 C240,90 480,10 720,50 C960,90 1200,20 1440,50 L1440,100 L0,100Z'/%3E%3C/svg%3E") no-repeat bottom/cover;
+  }
+  /* Diagonal speed stripe */
+  .hero::after {
+    content: '';
+    position: absolute; top: 0; right: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, transparent, var(--ocean), transparent);
+    opacity: 0.5;
   }
 
   .hero-inner {
@@ -83,11 +101,11 @@
 
   .hero-eyebrow {
     display: inline-flex; align-items: center; gap: 0.5rem;
-    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em;
-    text-transform: uppercase; color: var(--gold);
+    font-size: 0.78rem; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ocean);
     margin-bottom: 1.2rem;
-    padding: 0.4rem 1rem; border: 1px solid rgba(201,168,76,0.3);
-    border-radius: 100px;
+    padding: 0.4rem 1rem; border: 1px solid rgba(0,150,214,0.4);
+    border-radius: 100px; background: rgba(0,150,214,0.08);
   }
   .hero-title {
     font-family: 'Playfair Display', serif;
@@ -102,13 +120,14 @@
   }
   .hero-cta {
     display: inline-flex; align-items: center; gap: 0.75rem;
-    padding: 1rem 2rem;
-    background: var(--gold); color: var(--navy);
+    padding: 1rem 2.2rem;
+    background: var(--ocean); color: var(--white);
     font-weight: 700; font-size: 1rem; border-radius: 100px;
-    text-decoration: none; transition: all 0.2s;
-    box-shadow: 0 8px 32px rgba(201,168,76,0.3);
+    text-decoration: none; transition: all 0.22s;
+    box-shadow: 0 8px 32px rgba(0,150,214,0.4);
+    letter-spacing: 0.01em;
   }
-  .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(201,168,76,0.4); }
+  .hero-cta:hover { transform: translateY(-3px); background: var(--ocean-dark); box-shadow: 0 14px 44px rgba(0,150,214,0.5); }
   .hero-cta-secondary {
     margin-left: 1rem;
     color: var(--muted); font-size: 0.9rem; text-decoration: none;
@@ -120,7 +139,7 @@
     display: flex; gap: 2rem; margin-top: 2.5rem;
     padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.08);
   }
-  .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--gold); display: block; }
+  .stat-number { font-size: 1.8rem; font-weight: 700; color: var(--ocean); display: block; }
   .stat-label { font-size: 0.8rem; color: var(--muted); }
 
   /* MUG VISUAL */
@@ -148,7 +167,7 @@
   .section-inner { max-width: 1100px; margin: 0 auto; }
   .section-label {
     font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em;
-    text-transform: uppercase; color: var(--gold); margin-bottom: 1rem;
+    text-transform: uppercase; color: var(--ocean); margin-bottom: 1rem;
   }
   .section-title {
     font-family: 'Playfair Display', serif;
@@ -174,6 +193,63 @@
   }
   .why-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.6rem; }
   .why-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.6; }
+
+  /* ACTION GALLERY */
+  .gallery { background: var(--navy); padding: 0; overflow: hidden; }
+  .gallery-strip {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 340px;
+    gap: 3px;
+  }
+  .gallery-img {
+    overflow: hidden; position: relative;
+  }
+  .gallery-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s ease; display: block;
+  }
+  .gallery-img:hover img { transform: scale(1.04); }
+  .gallery-img .img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,22,40,0.7) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .gallery-img .img-caption {
+    position: absolute; bottom: 1.2rem; left: 1.2rem;
+    font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: white; opacity: 0.8;
+  }
+  .gallery-cta-row {
+    background: var(--ocean);
+    padding: 1.4rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .gallery-cta-row p {
+    font-weight: 600; font-size: 1rem;
+  }
+  .gallery-cta-row a {
+    padding: 0.6rem 1.6rem;
+    background: white; color: var(--navy);
+    font-weight: 700; border-radius: 100px;
+    text-decoration: none; font-size: 0.9rem;
+    transition: opacity 0.2s;
+  }
+  .gallery-cta-row a:hover { opacity: 0.88; }
+
+  /* SPORT STATS BAR */
+  .stats-bar {
+    background: var(--ocean);
+    padding: 2rem;
+  }
+  .stats-bar-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; gap: 3rem; justify-content: center; flex-wrap: wrap;
+  }
+  .stats-bar .stat { text-align: center; }
+  .stats-bar .stat-n { font-size: 2.2rem; font-weight: 900; display: block; }
+  .stats-bar .stat-l { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.85; }
 
   /* PRODUCT SECTION */
   .product { background: var(--navy); }
@@ -261,14 +337,15 @@
   .price-recurring strong { color: var(--gold); }
 
   .btn-buy {
-    display: block; width: 100%; padding: 1rem;
-    background: var(--gold); color: var(--navy);
+    display: block; width: 100%; padding: 1.1rem;
+    background: var(--ocean); color: var(--white);
     font-weight: 700; font-size: 1rem; border-radius: 100px;
     border: none; cursor: pointer; text-align: center;
     text-decoration: none; transition: all 0.2s;
-    box-shadow: 0 8px 24px rgba(201,168,76,0.25);
+    box-shadow: 0 8px 28px rgba(0,150,214,0.35);
+    letter-spacing: 0.02em;
   }
-  .btn-buy:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-buy:hover { background: var(--ocean-dark); transform: translateY(-2px); box-shadow: 0 12px 36px rgba(0,150,214,0.45); }
   .btn-buy:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
   .vipps-note {
@@ -580,6 +657,54 @@
     </div>
   </div>
 </section>
+
+<!-- ACTION GALLERY -->
+<section class="gallery">
+  <div class="gallery-strip">
+    <div class="gallery-img">
+      <!-- Bytt med ekte NBK-bilde -->
+      <img src="https://images.unsplash.com/photo-1560251180-a975a873d9ed?w=900&q=80&auto=format&fit=crop" alt="Brettseiling på havet">
+      <div class="img-overlay"></div>
+      <div class="img-caption">🌊 På vannet</div>
+    </div>
+    <div class="gallery-img">
+      <img src="https://images.unsplash.com/photo-1504276048855-f3d60e69632f?w=600&q=80&auto=format&fit=crop" alt="Vindsurfing action">
+      <div class="img-overlay"></div>
+      <div class="img-caption">💨 Full fart</div>
+    </div>
+    <div class="gallery-img">
+      <img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?w=600&q=80&auto=format&fit=crop" alt="Brettseilere på vannet">
+      <div class="img-overlay"></div>
+      <div class="img-caption">🏆 Norske legender</div>
+    </div>
+  </div>
+  <div class="gallery-cta-row">
+    <p>Koppen din støtter neste generasjon norske brettseilere 🇳🇴</p>
+    <a href="#bestill">Bestill nå →</a>
+  </div>
+</section>
+
+<!-- SPORT STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-bar-inner">
+    <div class="stat">
+      <span class="stat-n">🇳🇴</span>
+      <span class="stat-l">Norsk seilernummer</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">500 kr</span>
+      <span class="stat-l">Én gang — kopp + støttemedlem</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">300 kr/år</span>
+      <span class="stat-l">Vipps Recurring — avslutt fritt</span>
+    </div>
+    <div class="stat">
+      <span class="stat-n">100%</span>
+      <span class="stat-l">Til norske juniorer</span>
+    </div>
+  </div>
+</div>
 
 <!-- PRODUCT / ORDER SECTION -->
 <section class="product" id="bestill">
