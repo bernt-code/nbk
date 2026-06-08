@@ -141,8 +141,6 @@
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-12px); }
   }
-
-  /* SVG Mug */
   .mug-svg { filter: drop-shadow(0 24px 48px rgba(0,0,0,0.5)); }
 
   /* SECTION COMMON */
@@ -225,7 +223,7 @@
   }
   .prefix-option:hover { background: rgba(201,168,76,0.1); }
 
-  input[type="text"], input[type="number"], input[type="email"], select {
+  input[type="text"], input[type="number"], input[type="email"], textarea, select {
     width: 100%; padding: 0.8rem 1rem;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.1);
@@ -234,10 +232,11 @@
     transition: border-color 0.2s;
     -webkit-appearance: none;
   }
-  input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus {
+  input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus, textarea:focus {
     outline: none; border-color: rgba(201,168,76,0.5);
     background: rgba(201,168,76,0.04);
   }
+  textarea { resize: vertical; min-height: 80px; }
   .sail-number-input {
     border-radius: 0 12px 12px 0;
     font-size: 1.1rem; font-weight: 600; font-family: 'Courier New', monospace;
@@ -245,14 +244,21 @@
   }
 
   .price-row {
-    display: flex; align-items: baseline; gap: 0.5rem;
+    display: flex; align-items: flex-start; gap: 0.5rem;
     margin: 2rem 0;
     padding: 1.5rem; background: rgba(201,168,76,0.06);
     border: 1px solid rgba(201,168,76,0.2); border-radius: 16px;
+    flex-wrap: wrap;
   }
   .price-main { font-size: 2rem; font-weight: 700; color: var(--gold); }
-  .price-currency { font-size: 1rem; color: var(--muted); }
-  .price-note { font-size: 0.82rem; color: var(--muted); margin-left: auto; line-height: 1.4; }
+  .price-currency { font-size: 1rem; color: var(--muted); padding-top: 0.5rem; }
+  .price-note { font-size: 0.82rem; color: var(--muted); margin-left: auto; line-height: 1.6; }
+  .price-recurring {
+    width: 100%; margin-top: 0.8rem; padding-top: 0.8rem;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    font-size: 0.82rem; color: var(--muted); line-height: 1.5;
+  }
+  .price-recurring strong { color: var(--gold); }
 
   .btn-buy {
     display: block; width: 100%; padding: 1rem;
@@ -268,6 +274,65 @@
   .vipps-note {
     display: flex; align-items: center; justify-content: center; gap: 0.5rem;
     margin-top: 1rem; font-size: 0.82rem; color: var(--muted);
+  }
+
+  /* GIFT TOGGLE */
+  .gift-toggle-wrap {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1rem 1.2rem;
+    background: rgba(201,168,76,0.05);
+    border: 1px solid rgba(201,168,76,0.18);
+    border-radius: 14px; margin-bottom: 2rem;
+    cursor: pointer; user-select: none;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .gift-toggle-wrap:hover { background: rgba(201,168,76,0.08); }
+  .gift-toggle-wrap.active { background: rgba(201,168,76,0.1); border-color: rgba(201,168,76,0.35); }
+  .toggle-switch {
+    width: 44px; height: 24px; border-radius: 100px; flex-shrink: 0;
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+    position: relative; transition: background 0.2s, border-color 0.2s;
+  }
+  .toggle-switch::after {
+    content: ''; position: absolute; top: 3px; left: 3px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: white; transition: transform 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  }
+  .gift-toggle-wrap.active .toggle-switch { background: var(--gold); border-color: var(--gold); }
+  .gift-toggle-wrap.active .toggle-switch::after { transform: translateX(20px); }
+  .gift-toggle-text strong { display: block; font-size: 0.9rem; font-weight: 600; }
+  .gift-toggle-text span { font-size: 0.78rem; color: var(--muted); }
+
+  /* RECIPIENT SECTION IN FORM */
+  .recipient-fields {
+    display: none; margin-bottom: 1rem;
+    padding: 1.2rem; border-radius: 12px;
+    background: rgba(201,168,76,0.04);
+    border: 1px solid rgba(201,168,76,0.15);
+  }
+  .recipient-fields.visible { display: block; }
+  .field-section-label {
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--gold); margin-bottom: 1rem;
+  }
+
+  /* STØTTEMEDLEMSKAP OPT-OUT */
+  .stoette-box {
+    padding: 1.2rem 1.4rem; border-radius: 14px;
+    background: rgba(201,168,76,0.05);
+    border: 1px solid rgba(201,168,76,0.2);
+    margin: 1.5rem 0;
+  }
+  .stoette-box-header { font-size: 0.88rem; font-weight: 700; color: var(--gold); margin-bottom: 0.3rem; }
+  .stoette-box-desc { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.9rem; line-height: 1.5; }
+  .opt-out-label {
+    display: flex; align-items: center; gap: 0.7rem;
+    font-size: 0.83rem; cursor: pointer; color: var(--muted);
+  }
+  .opt-out-label input[type="checkbox"] {
+    width: 16px; height: 16px; flex-shrink: 0;
+    accent-color: var(--red); cursor: pointer;
   }
 
   /* STEPS */
@@ -324,11 +389,9 @@
     margin-bottom: 0.3rem;
   }
   .legend-year { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.5rem; }
-  .legend-years {
-    font-size: 0.78rem; color: var(--gold);
-    font-weight: 600;
-  }
+  .legend-years { font-size: 0.78rem; color: var(--gold); font-weight: 600; }
   .legend-flag { font-size: 1.2rem; margin-bottom: 0.5rem; }
+  .legend-gave { font-size: 0.72rem; color: var(--muted); margin-top: 0.4rem; font-style: italic; }
 
   .legend-card.empty {
     border-style: dashed; border-color: rgba(201,168,76,0.2);
@@ -350,7 +413,7 @@
     background: var(--navy-light);
     border: 1px solid rgba(201,168,76,0.2);
     border-radius: 24px; padding: 2.5rem;
-    max-width: 480px; width: 100%;
+    max-width: 500px; width: 100%;
     max-height: 90vh; overflow-y: auto;
   }
   .modal-close {
@@ -361,7 +424,24 @@
     font-family: 'Playfair Display', serif;
     font-size: 1.6rem; margin-bottom: 0.5rem; margin-top: 1rem;
   }
-  .modal p { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .modal > div > p { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+  .modal-section-label {
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--gold);
+    padding: 0.3rem 0.8rem;
+    background: rgba(201,168,76,0.08); border-radius: 6px;
+    display: inline-block; margin-bottom: 1rem;
+  }
+
+  .modal-divider {
+    border: none; border-top: 1px solid rgba(255,255,255,0.06);
+    margin: 1.2rem 0;
+  }
+
+  .modal-gift-section { margin-bottom: 1rem; }
+  .modal-gift-section.hidden { display: none; }
+
   .success-msg {
     display: none; text-align: center; padding: 2rem;
   }
@@ -452,37 +532,21 @@
       <div class="mug-glow"></div>
       <div class="mug-container">
         <svg class="mug-svg" width="280" height="320" viewBox="0 0 280 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Mug shadow -->
           <ellipse cx="140" cy="310" rx="90" ry="10" fill="rgba(0,0,0,0.4)"/>
-          <!-- Mug body -->
           <path d="M55 60 Q55 280 55 285 Q55 295 70 298 Q140 308 210 298 Q225 295 225 285 L225 60 Z" fill="#F8F6F3" stroke="#E0DDD8" stroke-width="1"/>
-          <!-- Mug top oval -->
           <ellipse cx="140" cy="60" rx="85" ry="22" fill="#F0EDE8" stroke="#E0DDD8" stroke-width="1"/>
-          <!-- Mug inner top (the liquid/rim) -->
           <ellipse cx="140" cy="62" rx="73" ry="17" fill="#E8E4DF"/>
-          <!-- Handle -->
           <path d="M225 110 Q270 110 270 160 Q270 210 225 210" stroke="#E0DDD8" stroke-width="14" fill="none" stroke-linecap="round"/>
           <path d="M225 110 Q260 110 260 160 Q260 210 225 210" stroke="#F5F2EF" stroke-width="6" fill="none" stroke-linecap="round"/>
-
-          <!-- Design area on mug -->
-          <!-- Norwegian flag thin stripe top -->
           <rect x="70" y="90" width="140" height="5" fill="#C41E3A" rx="0"/>
           <rect x="70" y="95" width="140" height="2" fill="#FFFFFF"/>
-
-          <!-- NBK anchor logo (simplified) -->
           <text x="140" y="135" text-anchor="middle" font-family="serif" font-size="22" font-weight="900" fill="#0D1B2A" opacity="0.8">⚓</text>
           <text x="140" y="155" text-anchor="middle" font-family="serif" font-size="10" font-weight="700" fill="#0D1B2A" letter-spacing="3" opacity="0.6">NBK</text>
-
-          <!-- Sail number - dynamic -->
           <text id="mug-sail-display" x="140" y="200" text-anchor="middle"
             font-family="'Georgia', serif" font-size="22" font-weight="700" fill="#0D2137"
             letter-spacing="2">NOR ___</text>
-
-          <!-- Year -->
           <text id="mug-year-display" x="140" y="228" text-anchor="middle"
             font-family="'Georgia', serif" font-size="13" fill="#555" letter-spacing="1">Siden ____</text>
-
-          <!-- Bottom Norwegian stripe -->
           <rect x="70" y="250" width="140" height="2" fill="#FFFFFF"/>
           <rect x="70" y="252" width="140" height="5" fill="#C41E3A" rx="0"/>
         </svg>
@@ -527,7 +591,7 @@
     <div class="product-grid">
       <!-- LEFT: PREVIEW -->
       <div class="mug-preview-card">
-        <p class="mug-preview-label">Din kopp — forhåndsvisning</p>
+        <p class="mug-preview-label" id="preview-label">Din kopp — forhåndsvisning</p>
         <svg width="200" height="230" viewBox="0 0 280 320" fill="none" xmlns="http://www.w3.org/2000/svg">
           <ellipse cx="140" cy="310" rx="90" ry="10" fill="rgba(0,0,0,0.3)"/>
           <path d="M55 60 Q55 280 55 285 Q55 295 70 298 Q140 308 210 298 Q225 295 225 285 L225 60 Z" fill="#F8F6F3" stroke="#E0DDD8" stroke-width="1"/>
@@ -545,25 +609,35 @@
           <rect x="70" y="252" width="140" height="5" fill="#C41E3A"/>
         </svg>
         <div style="text-align:center; margin-top:0.5rem;">
-          <p style="font-size:0.75rem; color:var(--muted);">Skriv inn dine detaljer →</p>
+          <p style="font-size:0.75rem; color:var(--muted);" id="preview-tip">Skriv inn dine detaljer →</p>
         </div>
       </div>
 
       <!-- RIGHT: FORM -->
       <div class="product-form">
+
+        <!-- GIFT TOGGLE -->
+        <div class="gift-toggle-wrap" id="gift-toggle" onclick="toggleGiftMode()">
+          <div class="toggle-switch"></div>
+          <div class="gift-toggle-text">
+            <strong>🎁 Dette er en gave</strong>
+            <span>Koppen personaliseres for mottakeren</span>
+          </div>
+        </div>
+
         <ol class="steps-list">
           <li class="step-item">
             <div class="step-num">1</div>
             <div class="step-text">
-              <strong>Velg ditt seilnummer</strong>
-              <span>Det unike nummeret som er ditt på vannet</span>
+              <strong id="step1-title">Velg ditt seilnummer</strong>
+              <span id="step1-sub">Det unike nummeret som er ditt på vannet</span>
             </div>
           </li>
           <li class="step-item">
             <div class="step-num">2</div>
             <div class="step-text">
-              <strong>Årstallet du begynte å seile</strong>
-              <span>Når startet din reise på vannet?</span>
+              <strong id="step2-title">Årstallet du begynte å seile</strong>
+              <span id="step2-sub">Når startet din reise på vannet?</span>
             </div>
           </li>
           <li class="step-item">
@@ -577,10 +651,10 @@
 
         <div style="margin-top: 2rem;">
           <div class="form-group">
-            <label class="form-label">Ditt seilnummer</label>
+            <label class="form-label" id="sail-label">Ditt seilnummer</label>
             <div class="sail-input-group">
               <div class="prefix-dropdown">
-                <div class="sail-prefix" id="prefix-btn" onclick="togglePrefix()">
+                <div class="sail-prefix" id="prefix-btn" onclick="togglePrefix(event)">
                   <span id="prefix-selected">NOR</span> ▾
                 </div>
                 <div class="prefix-options" id="prefix-options">
@@ -599,7 +673,7 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label">Årstall — når begynte du å seile?</label>
+            <label class="form-label" id="year-label">Årstall — når begynte du å seile?</label>
             <input type="number" id="sail-year"
               placeholder="1987" min="1960" max="2024"
               oninput="updatePreview()">
@@ -608,13 +682,18 @@
 
           <div class="price-row">
             <div>
-              <span class="price-main">399</span>
+              <span class="price-main">500</span>
               <span class="price-currency">kr</span>
               <p style="font-size:0.78rem; color:var(--muted); margin-top:0.2rem;">inkl. mva</p>
             </div>
             <div class="price-note">
               🚚 Frakt inkludert i Norge<br>
-              ♻️ Klimanøytral produksjon
+              ♻️ Klimanøytral produksjon<br>
+              🏄 Inkl. støttemedlemskap år 1
+            </div>
+            <div class="price-recurring">
+              <strong>+ 300 kr/år</strong> — Vi håper du vil fortsette å støtte norske juniorbrettseilere.<br>
+              Du kan enkelt avslutte når som helst i Vipps-appen.
             </div>
           </div>
 
@@ -627,7 +706,7 @@
               <rect width="24" height="24" rx="4" fill="#FF5B24"/>
               <text x="12" y="17" text-anchor="middle" fill="white" font-weight="900" font-size="14">V</text>
             </svg>
-            Betaling via Vipps og kort
+            Betaling via Vipps
           </div>
         </div>
       </div>
@@ -650,7 +729,6 @@
     </div>
 
     <div class="wall-grid" id="legend-wall">
-      <!-- Populated by JS -->
       <div class="legend-card empty" onclick="document.getElementById('bestill').scrollIntoView({behavior:'smooth'})">
         <div class="empty-icon">🏆</div>
         <strong>Bli den første!</strong>
@@ -666,49 +744,94 @@
     <button class="modal-close" onclick="closeModal()">×</button>
 
     <div id="form-section">
-      <h2>Bestill Legendekoppen</h2>
-      <p>Fyll inn dine detaljer. Koppen leveres til din dør, og du dukker opp på Legendeveggen!</p>
+      <h2 id="modal-title">Bestill Legendekoppen</h2>
+      <p id="modal-desc">Fyll inn dine detaljer. Koppen leveres til din dør, og du dukker opp på Legendeveggen!</p>
 
       <form name="legendekoppen-ordre" method="POST" data-netlify="true" onsubmit="handleOrder(event)">
         <input type="hidden" name="form-name" value="legendekoppen-ordre">
+        <input type="hidden" name="er-gave" id="hidden-er-gave" value="nei">
 
+        <!-- GAVE: MOTTAKER-SEKSJON -->
+        <div class="modal-gift-section hidden" id="modal-gift-section">
+          <div class="modal-section-label">🎁 Mottaker — koppen personaliseres for</div>
+          <div class="form-group">
+            <label class="form-label">Mottakerens navn</label>
+            <input type="text" name="mottaker-navn" id="modal-mottaker-navn" placeholder="Kari Nordmann">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mottakerens seilnummer</label>
+            <input type="text" name="mottaker-seilnummer" id="modal-mottaker-sail" placeholder="NOR 47">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Årstall mottaker begynte å seile</label>
+            <input type="number" name="mottaker-arstall" id="modal-mottaker-year" placeholder="1985" min="1960" max="2024">
+          </div>
+          <hr class="modal-divider">
+          <div class="modal-section-label">📦 Bestiller (deg)</div>
+        </div>
+
+        <!-- BESTILLER / EGET KJØP -->
         <div class="form-group">
-          <label class="form-label">Ditt navn</label>
+          <label class="form-label" id="modal-navn-label">Ditt navn</label>
           <input type="text" name="navn" placeholder="Ole Eriksen" required>
         </div>
         <div class="form-group">
           <label class="form-label">E-postadresse</label>
           <input type="email" name="epost" placeholder="ole@example.com" required>
         </div>
-        <div class="form-group">
-          <label class="form-label">Seilnummer</label>
-          <input type="text" name="seilnummer" id="modal-sail" placeholder="NOR 234" required>
+
+        <!-- EGET KJØP: SEILNUMMER OG ÅRSTALL -->
+        <div id="modal-own-sail-section">
+          <div class="form-group">
+            <label class="form-label" id="modal-sail-label">Ditt seilnummer</label>
+            <input type="text" name="seilnummer" id="modal-sail" placeholder="NOR 234" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" id="modal-year-label">Årstall du begynte å seile</label>
+            <input type="number" name="arstall" id="modal-year" placeholder="1987" min="1960" max="2024" required>
+          </div>
         </div>
+
         <div class="form-group">
-          <label class="form-label">Årstall du begynte å seile</label>
-          <input type="number" name="arstall" id="modal-year" placeholder="1987" min="1960" max="2024" required>
+          <label class="form-label">Leveringsadresse</label>
+          <textarea name="adresse" placeholder="Gateveien 1, 0123 Oslo" required></textarea>
         </div>
+
         <div class="form-group">
-          <label class="form-label">Vis meg på Legendeveggen som</label>
+          <label class="form-label">Vis mottakeren på Legendeveggen som</label>
           <select name="visningsnavn">
             <option value="seilnummer">Kun seilnummer (f.eks. NOR 234)</option>
             <option value="navn_og_nummer">Navn + seilnummer</option>
             <option value="anonym">Anonym legende 🏆</option>
           </select>
         </div>
+
+        <!-- STØTTEMEDLEMSKAP -->
+        <div class="stoette-box">
+          <div class="stoette-box-header">🤝 Støttemedlemskap — 300 kr/år</div>
+          <div class="stoette-box-desc">
+            Kjøpet inkluderer støttemedlemskap i NBK. Neste år spør Vipps om du vil fortsette å bidra med 300 kr — vi hadde blitt veldig glade. Du kan avslutte enkelt når som helst i Vipps-appen.
+          </div>
+          <label class="opt-out-label">
+            <input type="checkbox" name="opt_ut_stoette" id="opt-ut-stoette" value="ja">
+            Jeg vil ikke støtte NBK med 300 kr/år
+          </label>
+        </div>
+
         <div class="price-row" style="margin: 1.5rem 0;">
-          <span class="price-main">399</span>
+          <span class="price-main">500</span>
           <span class="price-currency">kr</span>
           <div class="price-note" style="margin-left:auto">
             ⚓ Personalisert kopp<br>
-            🚚 Frakt inkludert Norge
+            🚚 Frakt inkludert Norge<br>
+            🏄 Støttemedlem år 1
           </div>
         </div>
         <button type="submit" class="btn-buy">
           Gå til betaling med Vipps →
         </button>
         <p style="text-align:center; font-size:0.75rem; color:var(--muted); margin-top:0.8rem;">
-          Du blir videresendt til sikker betaling
+          Du blir videresendt til sikker betaling i Vipps
         </p>
       </form>
     </div>
@@ -736,15 +859,33 @@
 
 <script>
   // ---- LEGEND DATA ----
-  // This will be populated from Shopify/CMS over time
-  const legends = [
-    // Add real entries here as orders come in
-    // { sail: "NOR 555", year: 1992, prefix: "NOR" },
-  ];
+  const legends = [];
+
+  // ---- GIFT MODE ----
+  let isGift = false;
+
+  function toggleGiftMode() {
+    isGift = !isGift;
+    const toggle = document.getElementById('gift-toggle');
+    toggle.classList.toggle('active', isGift);
+
+    // Update labels in product form
+    document.getElementById('sail-label').textContent = isGift ? 'Mottakerens seilnummer' : 'Ditt seilnummer';
+    document.getElementById('year-label').textContent = isGift ? 'Årstall mottakeren begynte å seile' : 'Årstall — når begynte du å seile?';
+    document.getElementById('step1-title').textContent = isGift ? 'Mottakerens seilnummer' : 'Velg ditt seilnummer';
+    document.getElementById('step1-sub').textContent = isGift ? 'Nummeret som er mottakerens på vannet' : 'Det unike nummeret som er ditt på vannet';
+    document.getElementById('step2-title').textContent = isGift ? 'Årstall mottaker begynte å seile' : 'Årstallet du begynte å seile';
+    document.getElementById('step2-sub').textContent = isGift ? 'Når startet mottakerens reise på vannet?' : 'Når startet din reise på vannet?';
+    document.getElementById('preview-label').textContent = isGift ? 'Mottakerens kopp — forhåndsvisning' : 'Din kopp — forhåndsvisning';
+    document.getElementById('preview-tip').textContent = isGift ? 'Skriv inn mottakerens detaljer →' : 'Skriv inn dine detaljer →';
+
+    updatePreview();
+  }
 
   // ---- PREFIX HANDLING ----
-  let currentPrefix = "NOR";
-  function togglePrefix() {
+  let currentPrefix = 'NOR';
+  function togglePrefix(e) {
+    e.stopPropagation();
     document.getElementById('prefix-options').classList.toggle('open');
   }
   function setPrefix(p) {
@@ -766,18 +907,16 @@
     const sailText = num ? `${currentPrefix} ${num}` : `${currentPrefix} ___`;
     const yearText = year ? `Siden ${year}` : 'Siden ____';
 
-    // Update both hero and product preview
-    ['mug-sail-display','preview-sail'].forEach(id => {
+    ['mug-sail-display', 'preview-sail'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.textContent = sailText;
     });
-    ['mug-year-display','preview-year'].forEach(id => {
+    ['mug-year-display', 'preview-year'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.textContent = yearText;
     });
 
-    // Years on water hint
-    if (year && year >= 1960 && year <= 2024) {
+    if (year && year >= 1960 && year <= 2025) {
       const years = 2025 - parseInt(year);
       document.getElementById('years-sailing-hint').textContent =
         `🌊 ${years} år på vannet — imponerende!`;
@@ -793,11 +932,9 @@
     const wall = document.getElementById('legend-wall');
     const count = document.getElementById('wall-count');
     const statCount = document.getElementById('stat-legends');
-
     count.textContent = legends.length;
     statCount.textContent = legends.length;
 
-    // Keep the "bli den første" card if no legends
     const emptyCard = `
       <div class="legend-card empty" onclick="document.getElementById('bestill').scrollIntoView({behavior:'smooth'})">
         <div class="empty-icon">🏆</div>
@@ -805,17 +942,15 @@
         <p>Klikk her og bestill din Legendekopp</p>
       </div>`;
 
-    if (legends.length === 0) {
-      wall.innerHTML = emptyCard;
-      return;
-    }
+    if (legends.length === 0) { wall.innerHTML = emptyCard; return; }
 
     const cards = legends.map(l => {
       const years = 2025 - l.year;
-      const flag = l.prefix === 'NOR' || !l.prefix ? '🇳🇴' :
+      const flag = !l.prefix || l.prefix === 'NOR' ? '🇳🇴' :
                    l.prefix === 'GER' ? '🇩🇪' :
                    l.prefix === 'FRA' ? '🇫🇷' :
                    l.prefix === 'ESP' ? '🇪🇸' : '🏄';
+      const gaveText = l.gave ? `<div class="legend-gave">🎁 Gave fra en venn</div>` : '';
       return `
         <div class="legend-card">
           <div class="legend-flag">${flag}</div>
@@ -823,6 +958,7 @@
           <div class="legend-sail">${l.sail}</div>
           <div class="legend-year">Siden ${l.year}</div>
           <div class="legend-years">🌊 ${years} år på vannet</div>
+          ${gaveText}
         </div>`;
     }).join('');
 
@@ -831,14 +967,40 @@
 
   // ---- MODAL ----
   function openModal() {
-    // Pre-fill modal with entered values
+    // Pre-fill with product form values
     const num = document.getElementById('sail-number').value.trim();
     const year = document.getElementById('sail-year').value.trim();
-    if (num) document.getElementById('modal-sail').value = `${currentPrefix} ${num}`;
-    if (year) document.getElementById('modal-year').value = year;
+
+    // Handle gift mode
+    document.getElementById('hidden-er-gave').value = isGift ? 'ja' : 'nei';
+    const giftSection = document.getElementById('modal-gift-section');
+    const ownSailSection = document.getElementById('modal-own-sail-section');
+
+    if (isGift) {
+      giftSection.classList.remove('hidden');
+      // Pre-fill mottaker fields
+      if (num) document.getElementById('modal-mottaker-sail').value = `${currentPrefix} ${num}`;
+      if (year) document.getElementById('modal-mottaker-year').value = year;
+      // Own sail section is not needed for gift (sail is already on mottaker)
+      ownSailSection.style.display = 'none';
+      document.getElementById('modal-sail-label');
+      document.getElementById('modal-navn-label').textContent = 'Ditt navn (giver)';
+      document.getElementById('modal-title').textContent = '🎁 Gi bort Legendekoppen';
+      document.getElementById('modal-desc').textContent = 'Fyll inn mottakerens detaljer og din kontaktinfo. Koppen leveres til din adresse.';
+    } else {
+      giftSection.classList.add('hidden');
+      ownSailSection.style.display = 'block';
+      if (num) document.getElementById('modal-sail').value = `${currentPrefix} ${num}`;
+      if (year) document.getElementById('modal-year').value = year;
+      document.getElementById('modal-navn-label').textContent = 'Ditt navn';
+      document.getElementById('modal-title').textContent = 'Bestill Legendekoppen';
+      document.getElementById('modal-desc').textContent = 'Fyll inn dine detaljer. Koppen leveres til din dør, og du dukker opp på Legendeveggen!';
+    }
+
     document.getElementById('order-modal').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
+
   function closeModal() {
     document.getElementById('order-modal').classList.remove('open');
     document.body.style.overflow = '';
@@ -850,8 +1012,6 @@
   // ---- ORDER SUBMIT ----
   function handleOrder(e) {
     e.preventDefault();
-    // TODO: Replace with Shopify/Vipps redirect
-    // For now: Netlify form submission + success message
     const form = e.target;
     const data = new FormData(form);
 
@@ -860,11 +1020,16 @@
         document.getElementById('form-section').style.display = 'none';
         document.getElementById('success-msg').style.display = 'block';
 
-        // Add to legend wall (local preview)
-        const sail = data.get('seilnummer');
-        const year = parseInt(data.get('arstall'));
-        if (sail && year) {
-          legends.push({ sail, year, prefix: currentPrefix });
+        // Add to legend wall
+        const sail = isGift
+          ? (document.getElementById('modal-mottaker-sail').value || data.get('seilnummer'))
+          : data.get('seilnummer');
+        const yearRaw = isGift
+          ? parseInt(document.getElementById('modal-mottaker-year').value)
+          : parseInt(data.get('arstall'));
+
+        if (sail && yearRaw) {
+          legends.push({ sail, year: yearRaw, prefix: currentPrefix, gave: isGift });
           renderWall();
         }
       })
