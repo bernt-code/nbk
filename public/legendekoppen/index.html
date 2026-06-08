@@ -1111,17 +1111,18 @@
     const form = e.target;
     const data = new FormData(form);
 
-    // Hent skjemaverdier for å bygge bestillingsnotat
-    const navn = data.get('navn') || '';
+    // Hent skjemaverdier
+    const navn    = data.get('navn')       || '';
+    const epost   = data.get('epost')      || '';
     const seilnummer = data.get('seilnummer') || '';
-    const arstall = data.get('arstall') || '';
-    const adresse = data.get('leveringsadresse') || '';
+    const arstall = data.get('arstall')    || '';
+    const adresse = data.get('adresse')    || '';   // NB: feltet heter 'adresse'
     const visning = data.get('visningsnavn') || '';
 
     // Send skjemadata til Netlify for loggføring (best effort)
     fetch('/', { method: 'POST', body: data }).catch(() => {});
 
-    // Bygg cart-URL med produktet klart og ordredetaljer som notat
+    // Bygg ordrenotat som vises i Shopify-admin
     const note = [
       'Navn: ' + navn,
       'Seilnummer: ' + seilnummer,
@@ -1130,9 +1131,32 @@
       'Legendevegg: ' + visning
     ].join(' | ');
 
+    // Pre-fyll Shopify checkout med kontaktinfo
+    // Navn: split på siste mellomrom → fornavn / etternavn
+    const navnDeler  = navn.trim().split(/\s+/);
+    const etternavn  = navnDeler.length > 1 ? navnDeler.pop() : '';
+    const fornavn    = navnDeler.join(' ');
+
+    // Adresse: prøv å parse "Gateveien 1, 0123 Oslo"
+    const adresseDeler = adresse.split(',');
+    const gate   = (adresseDeler[0] || '').trim();
+    const zipBy  = (adresseDeler[1] || '').trim().split(/\s+/);
+    const postnr = zipBy[0] || '';
+    const by     = zipBy.slice(1).join(' ');
+
+    const params = new URLSearchParams({
+      note: note,
+      'checkout[email]': epost,
+      'checkout[shipping_address][first_name]': fornavn,
+      'checkout[shipping_address][last_name]':  etternavn,
+      'checkout[shipping_address][address1]':   gate,
+      'checkout[shipping_address][zip]':        postnr,
+      'checkout[shipping_address][city]':       by,
+      'checkout[shipping_address][country]':    'Norway'
+    });
+
     // Variant 51936344375582 = NBK Legendekoppen 500 kr
-    // /cart/VARIANT:ANTALL sender kunden rett til handlekurv med produktet
-    window.location.href = 'https://butikk.nbk.no/cart/51936344375582:1?note=' + encodeURIComponent(note);
+    window.location.href = 'https://butikk.nbk.no/cart/51936344375582:1?' + params.toString();
   }
 
   // ---- INIT ----
