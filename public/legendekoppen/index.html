@@ -69,7 +69,7 @@
     position: relative; overflow: hidden;
     background:
       linear-gradient(165deg, rgba(10,22,40,0.88) 0%, rgba(10,22,40,0.70) 50%, rgba(0,80,130,0.55) 100%),
-      url('https://images.unsplash.com/photo-1560251180-a975a873d9ed?w=1800&q=80&auto=format&fit=crop') center/cover no-repeat;
+      url('https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=1800&q=80&auto=format&fit=crop') center/cover no-repeat;
   }
   .hero::before {
     content: '';
@@ -663,7 +663,7 @@
   <div class="gallery-strip">
     <div class="gallery-img">
       <!-- Bytt med ekte NBK-bilde -->
-      <img src="https://images.unsplash.com/photo-1560251180-a975a873d9ed?w=900&q=80&auto=format&fit=crop" alt="Brettseiling på havet">
+      <img src="https://images.unsplash.com/photo-1541532713592-79a0317b6b77?w=900&q=80&auto=format&fit=crop" alt="Brettseiling på havet">
       <div class="img-overlay"></div>
       <div class="img-caption">🌊 På vannet</div>
     </div>
@@ -1140,27 +1140,11 @@
     const form = e.target;
     const data = new FormData(form);
 
-    fetch('/', { method: 'POST', body: data })
-      .then(() => {
-        document.getElementById('form-section').style.display = 'none';
-        document.getElementById('success-msg').style.display = 'block';
+    // Send skjemadata til Netlify for loggføring (best effort)
+    fetch('/', { method: 'POST', body: data }).catch(() => {});
 
-        // Add to legend wall
-        const sail = isGift
-          ? (document.getElementById('modal-mottaker-sail').value || data.get('seilnummer'))
-          : data.get('seilnummer');
-        const yearRaw = isGift
-          ? parseInt(document.getElementById('modal-mottaker-year').value)
-          : parseInt(data.get('arstall'));
-
-        if (sail && yearRaw) {
-          legends.push({ sail, year: yearRaw, prefix: currentPrefix, gave: isGift });
-          renderWall();
-        }
-      })
-      .catch(() => {
-        alert('Noe gikk galt. Send en e-post til post@nbk.no så hjelper vi deg!');
-      });
+    // Viderekoble til butikk for betaling
+    window.location.href = 'https://butikk.nbk.no';
   }
 
   // ---- INIT ----
