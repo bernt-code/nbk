@@ -438,6 +438,8 @@ async function submitFamilie(e) {
     phone: form.paymentPhone.value,
     members,
   };
+  const _claim = new URLSearchParams(window.location.search).get('claim');
+  if (_claim) data.claim = _claim;
 
   submit.disabled = true;
   submit.textContent = 'Sender til Vipps…';
@@ -512,6 +514,8 @@ async function submitSignup(e) {
       data.reserveNumber = pendingNumberReservation;
     }
   }
+  const _claim = new URLSearchParams(window.location.search).get('claim');
+  if (_claim) data.claim = _claim;
   submit.disabled = true;
   submit.textContent = 'Sender til Vipps…';
   status.textContent = '';

@@ -2,6 +2,28 @@
 // Støtter optional reserveNumber (aktiv) eller members[] (familie) for å koble
 // seilnummer-reservering til medlemskap.
 import { getStore } from "@netlify/blobs";
+import crypto from "node:crypto";
+
+// Verifiser en signert claim-token (utstedt av NBK-admin) som lar en eksisterende
+// nummer-eier re-tegne medlemskap paa sitt eget opptatte nummer. Returnerer Set av
+// numre token-en autoriserer, eller tomt Set. HMAC-noekkel = ADMIN_TOKEN.
+function verifyClaim(token) {
+  try {
+    if (!token || !process.env.ADMIN_TOKEN) return new Set();
+    const dot = token.lastIndexOf(".");
+    if (dot < 1) return new Set();
+    const p = token.slice(0, dot);
+    const sig = token.slice(dot + 1);
+    const expected = crypto.createHmac("sha256", process.env.ADMIN_TOKEN).update(p).digest("base64url");
+    const a = Buffer.from(sig), b = Buffer.from(expected);
+    if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return new Set();
+    const payload = JSON.parse(Buffer.from(p, "base64url").toString("utf8"));
+    if (!payload.exp || payload.exp < Math.floor(Date.now() / 1000)) return new Set();
+    return new Set((payload.n || []).map(Number));
+  } catch {
+    return new Set();
+  }
+}
 
 // Pris i øre. Familie regnes ut basert på antall familiemedlemmer.
 const FAMILIE_BASE = 35000;      // = aktiv-prisen
@@ -43,6 +65,7 @@ export default async (req) => {
   try {
     const body = await req.json();
     const { tier, name, email, phone, reserveNumber, members } = body;
+    const claimedNums = verifyClaim(body.claim);
 
     if (!tier || !TIERS[tier]) {
       return Response.json({ error: "Ugyldig tier (aktiv, stotte eller familie)" }, { status: 400 });
@@ -108,7 +131,7 @@ export default async (req) => {
           const entry = registry.numbers.find(n => n.number === m.number);
           if (!entry) {
             conflicts.push(`NOR ${m.number} finnes ikke i registeret`);
-          } else if (entry.status !== "available") {
+          } else if (entry.status !== "available" && !claimedNums.has(Number(m.number))) {
             conflicts.push(`NOR ${m.number} er ikke ledig (status: ${entry.status})`);
           }
         }
@@ -122,6 +145,12 @@ export default async (req) => {
         // DERETTER: reserver alle
         for (const m of numbersToReserve) {
           const entry = registry.numbers.find(n => n.number === m.number);
+          if (claimedNums.has(Number(m.number))) {
+            // Re-claim av eget opptatt nummer: rydd gammel eier foer ny reservasjon
+            entry.owner = null;
+            delete entry.ownerEmail;
+            delete entry.purchaseReference;
+          }
           entry.status = "reserved";
           entry.reservedBy = m.name; // person-navnet (familie), eller hovedperson (aktiv)
           entry.reservedEmail = email;
