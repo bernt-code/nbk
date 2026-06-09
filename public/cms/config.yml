@@ -141,6 +141,25 @@ collections:
               - { label: "Klubb", name: "klubb", widget: "string", required: false }
           - { label: "Footer-notat", name: "footer_note", widget: "text", required: false }
 
+
+  # Legendekoppen-siden
+  - name: "legendekoppen-page"
+    label: "Legendekoppen"
+    files:
+      - label: "Legendekoppen"
+        name: "legendekoppen"
+        file: "public/content/pages/legendekoppen.json"
+        fields:
+          - { label: "Sidetittel", name: "title", widget: "string", hint: "Vises som h2 i bestillingspanelet" }
+          - { label: "Badge / eyebrow", name: "badge", widget: "string", hint: "Liten tekst over tittelen" }
+          - { label: "Produktbeskrivelse", name: "subtitle", widget: "text", hint: "Materiale, mål, produsent" }
+          - { label: "Hero-tekst", name: "hero_tekst", widget: "text", hint: "Introduksjonsteksten øverst på siden" }
+          - { label: "Hvorfor — eyebrow", name: "why_label", widget: "string" }
+          - { label: "Hvorfor — tittel", name: "why_title", widget: "string" }
+          - { label: "Hvorfor — undertittel", name: "why_subtitle", widget: "text" }
+          - { label: "Juniortekst", name: "why_junior_tekst", widget: "text", hint: "Teksten om at inntektene går til juniorbrettseilere" }
+          - { label: "Legendevegg — tittel", name: "wall_title", widget: "string" }
+          - { label: "Legendevegg — undertittel", name: "wall_subtitle", widget: "text" }
   # News / Nyheter
   - name: "nyheter"
     label: "Nyheter"

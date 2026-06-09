@@ -45,3 +45,42 @@ console.log('Manifests generated successfully.');
   fs.writeFileSync(indexPath, html);
   console.log('Hero injected into index.html from home.json');
 })();
+
+// Inject legendekoppen content from legendekoppen.json
+(() => {
+  const lkPath = path.join(__dirname, 'public', 'content', 'pages', 'legendekoppen.json');
+  const lkHtmlPath = path.join(__dirname, 'public', 'legendekoppen', 'index.html');
+  if (!fs.existsSync(lkPath) || !fs.existsSync(lkHtmlPath)) {
+    console.log('Legendekoppen injection skipped: files not found');
+    return;
+  }
+  const lk = JSON.parse(fs.readFileSync(lkPath, 'utf8'));
+  let html = fs.readFileSync(lkHtmlPath, 'utf8');
+  const esc = (s) => String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const subSpan = (id, val) => {
+    if (!val) return;
+    html = html.replace(
+      new RegExp(`(<[^>]+id="${id}"[^>]*>)[\\s\\S]*?(<\/[^>]+>)`),
+      (m, open, close) => open + esc(val) + close
+    );
+  };
+  subSpan('lk-badge',        lk.badge);
+  subSpan('lk-title',        lk.title);
+  subSpan('lk-subtitle',     lk.subtitle);
+  subSpan('lk-why-label',    lk.why_label);
+  subSpan('lk-why-title',    lk.why_title);
+  subSpan('lk-why-subtitle', lk.why_subtitle);
+  subSpan('lk-why-junior',   lk.why_junior_tekst);
+  subSpan('lk-wall-title',   lk.wall_title);
+  subSpan('lk-wall-subtitle',lk.wall_subtitle);
+  // hero-tekst er i en span
+  if (lk.hero_tekst) {
+    html = html.replace(
+      /(<span id="lk-hero-tekst">)[\s\S]*?(<\/span>)/,
+      (m, o, cl) => o + esc(lk.hero_tekst) + cl
+    );
+  }
+  fs.writeFileSync(lkHtmlPath, html);
+  console.log('Legendekoppen content injected from legendekoppen.json');
+})();
