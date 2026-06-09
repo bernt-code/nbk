@@ -948,9 +948,9 @@
         <p style="color:var(--muted); font-size:0.9rem;">Koppen trykkes akkurat slik:</p>
       </div>
 
-      <div style="background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.3); border-radius:12px; padding:1.25rem; margin-bottom:1.5rem; text-align:center;">
-        <p id="confirm-seilnummer" style="font-size:1.6rem; font-weight:900; color:var(--gold); letter-spacing:2px; margin:0;">NOR ___</p>
-        <p id="confirm-arstall" style="font-size:1rem; color:var(--muted); margin:0.25rem 0 0;">Siden ____</p>
+      <div style="text-align:center; margin-bottom:1.5rem;">
+        <canvas id="cup-canvas" width="260" height="300"
+          style="max-width:100%; border-radius:12px; background:transparent;"></canvas>
       </div>
 
       <div style="background:rgba(255,255,255,0.04); border-radius:10px; padding:1rem; font-size:0.9rem; color:var(--text); margin-bottom:1.5rem;">
@@ -1211,12 +1211,14 @@
 
     // Vis bekreftelsesvisning
     document.getElementById('form-section').style.display = 'none';
-    document.getElementById('confirm-seilnummer').textContent = seilnummer || '—';
-    document.getElementById('confirm-arstall').textContent = arstall ? 'Siden ' + arstall : '—';
     document.getElementById('confirm-navn').textContent = navn || '—';
     document.getElementById('confirm-epost').textContent = epost || '—';
     document.getElementById('confirm-adresse').textContent = adresse || '—';
     document.getElementById('confirm-section').style.display = 'block';
+    // Tegn kopp-mockup med personalisert tekst
+    const sailDisplay = seilnummer || 'NOR ___';
+    const yearDisplay = arstall ? 'Siden ' + arstall : 'Siden ____';
+    drawCup(sailDisplay, yearDisplay);
   }
 
   function proceedToShopify() {
@@ -1226,6 +1228,134 @@
   function cancelConfirm() {
     document.getElementById('confirm-section').style.display = 'none';
     document.getElementById('form-section').style.display = 'block';
+  }
+
+  function drawCup(sailText, yearText) {
+    const canvas = document.getElementById('cup-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = 260, H = 300;
+    ctx.clearRect(0, 0, W, H);
+
+    // Skygge under koppen
+    ctx.save();
+    ctx.beginPath();
+    ctx.ellipse(130, 287, 72, 10, 0, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(0,0,0,0.35)';
+    ctx.fill();
+    ctx.restore();
+
+    // Kopp-kropp (trapez)
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(55, 55);
+    ctx.lineTo(205, 55);
+    ctx.lineTo(195, 270);
+    ctx.quadraticCurveTo(130, 280, 65, 270);
+    ctx.closePath();
+    const bodyGrad = ctx.createLinearGradient(55, 0, 205, 0);
+    bodyGrad.addColorStop(0,   '#E8E4DE');
+    bodyGrad.addColorStop(0.5, '#F8F5F0');
+    bodyGrad.addColorStop(1,   '#D8D4CE');
+    ctx.fillStyle = bodyGrad;
+    ctx.fill();
+    ctx.strokeStyle = '#C8C4BE';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.restore();
+
+    // Topp-ellipse
+    ctx.save();
+    ctx.beginPath();
+    ctx.ellipse(130, 55, 75, 18, 0, 0, Math.PI * 2);
+    const topGrad = ctx.createRadialGradient(130, 52, 10, 130, 55, 75);
+    topGrad.addColorStop(0, '#EDE9E2');
+    topGrad.addColorStop(1, '#D4CFC8');
+    ctx.fillStyle = topGrad;
+    ctx.fill();
+    ctx.strokeStyle = '#C4C0BA';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.restore();
+
+    // Hank (høyre side)
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(200, 110);
+    ctx.bezierCurveTo(250, 105, 252, 205, 200, 200);
+    ctx.strokeStyle = '#D0CCC5';
+    ctx.lineWidth = 13;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(200, 110);
+    ctx.bezierCurveTo(242, 105, 244, 205, 200, 200);
+    ctx.strokeStyle = '#E8E4DE';
+    ctx.lineWidth = 6;
+    ctx.stroke();
+    ctx.restore();
+
+    // Rød stripe øverst
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(58, 76);
+    ctx.lineTo(202, 76);
+    ctx.lineTo(201, 83);
+    ctx.lineTo(59, 83);
+    ctx.closePath();
+    ctx.fillStyle = '#C41E3A';
+    ctx.fill();
+    // Hvit linje
+    ctx.beginPath();
+    ctx.moveTo(58, 83); ctx.lineTo(202, 83);
+    ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.restore();
+
+    // Rød stripe nederst
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(66, 248); ctx.lineTo(194, 248);
+    ctx.lineTo(193, 255); ctx.lineTo(67, 255);
+    ctx.closePath();
+    ctx.fillStyle = '#C41E3A';
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(66, 248); ctx.lineTo(194, 248);
+    ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.restore();
+
+    // NBK ankersymbol
+    ctx.save();
+    ctx.font = 'bold 22px serif';
+    ctx.fillStyle = 'rgba(13,27,42,0.6)';
+    ctx.textAlign = 'center';
+    ctx.fillText('⚓', 130, 130);
+    ctx.font = '700 9px sans-serif';
+    ctx.letterSpacing = '3px';
+    ctx.fillStyle = 'rgba(13,27,42,0.45)';
+    ctx.fillText('NBK', 130, 148);
+    ctx.restore();
+
+    // Seilnummer — stor, mørk
+    ctx.save();
+    ctx.font = 'bold 26px "Georgia", serif';
+    ctx.fillStyle = '#0D2137';
+    ctx.textAlign = 'center';
+    ctx.letterSpacing = '2px';
+    ctx.fillText(sailText, 130, 192);
+    ctx.restore();
+
+    // Årstall
+    ctx.save();
+    ctx.font = '14px "Georgia", serif';
+    ctx.fillStyle = '#555';
+    ctx.textAlign = 'center';
+    ctx.fillText(yearText, 130, 218);
+    ctx.restore();
   }
 
   // ---- INIT ----
