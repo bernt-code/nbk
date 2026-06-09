@@ -608,25 +608,9 @@
     <div class="mug-showcase">
       <div class="mug-glow"></div>
       <div class="mug-container">
-        <svg class="mug-svg" width="280" height="320" viewBox="0 0 280 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="140" cy="310" rx="90" ry="10" fill="rgba(0,0,0,0.4)"/>
-          <path d="M55 60 Q55 280 55 285 Q55 295 70 298 Q140 308 210 298 Q225 295 225 285 L225 60 Z" fill="#F8F6F3" stroke="#E0DDD8" stroke-width="1"/>
-          <ellipse cx="140" cy="60" rx="85" ry="22" fill="#F0EDE8" stroke="#E0DDD8" stroke-width="1"/>
-          <ellipse cx="140" cy="62" rx="73" ry="17" fill="#E8E4DF"/>
-          <path d="M225 110 Q270 110 270 160 Q270 210 225 210" stroke="#E0DDD8" stroke-width="14" fill="none" stroke-linecap="round"/>
-          <path d="M225 110 Q260 110 260 160 Q260 210 225 210" stroke="#F5F2EF" stroke-width="6" fill="none" stroke-linecap="round"/>
-          <rect x="70" y="90" width="140" height="5" fill="#C41E3A" rx="0"/>
-          <rect x="70" y="95" width="140" height="2" fill="#FFFFFF"/>
-          <text x="140" y="135" text-anchor="middle" font-family="serif" font-size="22" font-weight="900" fill="#0D1B2A" opacity="0.8">⚓</text>
-          <text x="140" y="155" text-anchor="middle" font-family="serif" font-size="10" font-weight="700" fill="#0D1B2A" letter-spacing="3" opacity="0.6">NBK</text>
-          <text id="mug-sail-display" x="140" y="200" text-anchor="middle"
-            font-family="'Georgia', serif" font-size="22" font-weight="700" fill="#0D2137"
-            letter-spacing="2">NOR ___</text>
-          <text id="mug-year-display" x="140" y="228" text-anchor="middle"
-            font-family="'Georgia', serif" font-size="13" fill="#555" letter-spacing="1">Siden ____</text>
-          <rect x="70" y="250" width="140" height="2" fill="#FFFFFF"/>
-          <rect x="70" y="252" width="140" height="5" fill="#C41E3A" rx="0"/>
-        </svg>
+        <img class="mug-svg" src="https://cdn.shopify.com/s/files/1/1000/8526/8766/files/b017e480-384d-431c-a7ab-9cf61d18e770.webp?v=1780921551"
+             alt="NBK Legendekoppen — personalisert kaffekopp"
+             style="width:280px; height:auto; display:block;">
       </div>
     </div>
   </div>
@@ -717,22 +701,9 @@
       <!-- LEFT: PREVIEW -->
       <div class="mug-preview-card">
         <p class="mug-preview-label" id="preview-label">Din kopp — forhåndsvisning</p>
-        <svg width="200" height="230" viewBox="0 0 280 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="140" cy="310" rx="90" ry="10" fill="rgba(0,0,0,0.3)"/>
-          <path d="M55 60 Q55 280 55 285 Q55 295 70 298 Q140 308 210 298 Q225 295 225 285 L225 60 Z" fill="#F8F6F3" stroke="#E0DDD8" stroke-width="1"/>
-          <ellipse cx="140" cy="60" rx="85" ry="22" fill="#F0EDE8" stroke="#E0DDD8" stroke-width="1"/>
-          <ellipse cx="140" cy="62" rx="73" ry="17" fill="#E8E4DF"/>
-          <path d="M225 110 Q270 110 270 160 Q270 210 225 210" stroke="#E0DDD8" stroke-width="14" fill="none" stroke-linecap="round"/>
-          <path d="M225 110 Q260 110 260 160 Q260 210 225 210" stroke="#F5F2EF" stroke-width="6" fill="none" stroke-linecap="round"/>
-          <rect x="70" y="90" width="140" height="5" fill="#C41E3A"/>
-          <rect x="70" y="95" width="140" height="2" fill="#FFFFFF"/>
-          <text x="140" y="135" text-anchor="middle" font-family="serif" font-size="22" font-weight="900" fill="#0D1B2A" opacity="0.8">⚓</text>
-          <text x="140" y="155" text-anchor="middle" font-family="serif" font-size="10" font-weight="700" fill="#0D1B2A" letter-spacing="3" opacity="0.6">NBK</text>
-          <text id="preview-sail" x="140" y="200" text-anchor="middle" font-family="'Georgia', serif" font-size="22" font-weight="700" fill="#0D2137" letter-spacing="2">NOR ___</text>
-          <text id="preview-year" x="140" y="228" text-anchor="middle" font-family="'Georgia', serif" font-size="13" fill="#555" letter-spacing="1">Siden ____</text>
-          <rect x="70" y="250" width="140" height="2" fill="#FFFFFF"/>
-          <rect x="70" y="252" width="140" height="5" fill="#C41E3A"/>
-        </svg>
+        <img src="https://cdn.shopify.com/s/files/1/1000/8526/8766/files/b017e480-384d-431c-a7ab-9cf61d18e770.webp?v=1780921551"
+             alt="NBK Legendekoppen — personalisert kaffekopp"
+             style="width:200px; height:auto; display:block; margin:0 auto; border-radius:8px;">
         <div style="text-align:center; margin-top:0.5rem;">
           <p style="font-size:0.75rem; color:var(--muted);" id="preview-tip">Skriv inn dine detaljer →</p>
         </div>
@@ -1175,8 +1146,28 @@
     ].join(' | ');
 
     // Variant 51936344375582 = NBK Legendekoppen 500 kr
-    // /cart/VARIANT:ANTALL sender kunden rett til handlekurv med produktet
-    window.location.href = 'https://butikk.nbk.no/cart/51936344375582:1?note=' + encodeURIComponent(note);
+    const epost = data.get('epost') || '';
+    const navnDeler = navn.trim().split(/\s+/);
+    const etternavn = navnDeler.length > 1 ? navnDeler.pop() : '';
+    const fornavn   = navnDeler.join(' ');
+    const adresseDeler = adresse.split(',');
+    const gate   = (adresseDeler[0] || '').trim();
+    const zipBy  = (adresseDeler[1] || '').trim().split(/\s+/);
+    const postnr = zipBy[0] || '';
+    const by     = zipBy.slice(1).join(' ');
+
+    const params = new URLSearchParams({
+      note: note,
+      'checkout[email]': epost,
+      'checkout[shipping_address][first_name]': fornavn,
+      'checkout[shipping_address][last_name]':  etternavn,
+      'checkout[shipping_address][address1]':   gate,
+      'checkout[shipping_address][zip]':        postnr,
+      'checkout[shipping_address][city]':       by,
+      'checkout[shipping_address][country]':    'Norway'
+    });
+
+    window.location.href = 'https://butikk.nbk.no/cart/51936344375582:1?' + params.toString();
   }
 
   // ---- INIT ----
