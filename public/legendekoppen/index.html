@@ -1093,8 +1093,23 @@
   // ---- MODAL ----
   function openModal() {
     // Pre-fill with product form values
-    const num = document.getElementById('sail-number').value.trim();
-    const year = document.getElementById('sail-year').value.trim();
+    const sailInput = document.getElementById('sail-number');
+    const yearInput = document.getElementById('sail-year');
+    const num = sailInput.value.trim();
+    const year = yearInput.value.trim();
+
+    // Hvis seilnummer ikke er fylt inn: veiled brukeren til forhåndsvisnings-feltet
+    if (!num) {
+      sailInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      sailInput.focus();
+      sailInput.style.outline = '3px solid var(--accent, #e63946)';
+      sailInput.style.outlineOffset = '3px';
+      setTimeout(function() {
+        sailInput.style.outline = '';
+        sailInput.style.outlineOffset = '';
+      }, 2000);
+      return;
+    }
 
     // Handle gift mode
     document.getElementById('hidden-er-gave').value = isGift ? 'ja' : 'nei';
@@ -1104,7 +1119,7 @@
     if (isGift) {
       giftSection.classList.remove('hidden');
       // Pre-fill mottaker fields
-      if (num) document.getElementById('modal-mottaker-sail').value = `${currentPrefix} ${num}`;
+      document.getElementById('modal-mottaker-sail').value = `${currentPrefix} ${num}`;
       if (year) document.getElementById('modal-mottaker-year').value = year;
       // Own sail section is not needed for gift (sail is already on mottaker)
       ownSailSection.style.display = 'none';
@@ -1115,7 +1130,7 @@
     } else {
       giftSection.classList.add('hidden');
       ownSailSection.style.display = 'block';
-      if (num) document.getElementById('modal-sail').value = `${currentPrefix} ${num}`;
+      document.getElementById('modal-sail').value = `${currentPrefix} ${num}`;
       if (year) document.getElementById('modal-year').value = year;
       document.getElementById('modal-navn-label').textContent = 'Ditt navn';
       document.getElementById('modal-title').textContent = 'Bestill Legendekoppen';
@@ -1144,7 +1159,7 @@
     const navn = data.get('navn') || '';
     const seilnummer = data.get('seilnummer') || '';
     const arstall = data.get('arstall') || '';
-    const adresse = data.get('leveringsadresse') || '';
+    const adresse = data.get('adresse') || '';
     const visning = data.get('visningsnavn') || '';
 
     // Send skjemadata til Netlify for loggføring (best effort)
