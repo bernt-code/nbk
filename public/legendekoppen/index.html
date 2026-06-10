@@ -1168,64 +1168,83 @@
   });
 
   // ---- ORDER SUBMIT ----
-  function handleOrder(e) {
+  async function handleOrder(e) {
     e.preventDefault();
     const form = e.target;
     const data = new FormData(form);
-
-    // Hent skjemaverdier for å bygge bestillingsnotat
+    const isGift = (data.get('er-gave') === 'ja');
     const navn = data.get('navn') || '';
-    const seilnummer = data.get('seilnummer') || '';
-    const arstall = data.get('arstall') || '';
+    const epost = data.get('epost') || '';
     const adresse = data.get('adresse') || '';
     const visning = data.get('visningsnavn') || '';
+    const seilnummer = (isGift ? data.get('mottaker-seilnummer') : data.get('seilnummer')) || '';
+    const arstall = (isGift ? data.get('mottaker-arstall') : data.get('arstall')) || '';
+    const optOut = !!(document.getElementById('opt-ut-stoette') && document.getElementById('opt-ut-stoette').checked);
 
-    // Send skjemadata til Netlify for loggføring (best effort)
+    // Logg innsending til Netlify Forms (best effort)
     fetch('/', { method: 'POST', body: data }).catch(() => {});
 
-    // Bygg cart-URL med produktet klart og ordredetaljer som notat
-    const note = [
-      'Navn: ' + navn,
-      'Seilnummer: ' + seilnummer,
-      'Årstall: ' + arstall,
-      'Leveringsadresse: ' + adresse,
-      'Legendevegg: ' + visning
-    ].join(' | ');
-
-    // Variant 51936344375582 = NBK Legendekoppen 500 kr
-    const epost = data.get('epost') || '';
-    const navnDeler = navn.trim().split(/\s+/);
-    const etternavn = navnDeler.length > 1 ? navnDeler.pop() : '';
-    const fornavn   = navnDeler.join(' ');
-    const adresseDeler = adresse.split(',');
-    const gate   = (adresseDeler[0] || '').trim();
-    const zipBy  = (adresseDeler[1] || '').trim().split(/\s+/);
-    const postnr = zipBy[0] || '';
-    const by     = zipBy.slice(1).join(' ');
-
-    const params = new URLSearchParams({
-      note: note,
-      'checkout[email]': epost,
-      'checkout[shipping_address][first_name]': fornavn,
-      'checkout[shipping_address][last_name]':  etternavn,
-      'checkout[shipping_address][address1]':   gate,
-      'checkout[shipping_address][zip]':        postnr,
-      'checkout[shipping_address][city]':       by,
-      'checkout[shipping_address][country]':    'Norway'
-    });
-
-    // Lagre URL til bruk etter bekreftelse
-    window._shopifyURL = 'https://butikk.nbk.no/cart/51936344375582:1?' + params.toString();
-
-    // Vis bekreftelsesvisning
-    document.getElementById('form-section').style.display = 'none';
+    // Bekreftelsesvisning (felles)
     document.getElementById('confirm-navn').textContent = navn || '—';
     document.getElementById('confirm-epost').textContent = epost || '—';
     document.getElementById('confirm-adresse').textContent = adresse || '—';
-    document.getElementById('confirm-section').style.display = 'block';
-    // Oppdater tekst på produktbildet
     document.getElementById('confirm-seilnummer').textContent = seilnummer || 'NOR ___';
     document.getElementById('confirm-arstall').textContent = arstall ? 'Siden ' + arstall : 'Siden ____';
+
+    if (optOut) {
+      // Uten støtte → ren engangskopp via Shopify-kassen (som før)
+      const note = [
+        'Navn: ' + navn,
+        'Seilnummer: ' + seilnummer,
+        'Årstall: ' + arstall,
+        'Leveringsadresse: ' + adresse,
+        'Legendevegg: ' + visning
+      ].join(' | ');
+      const navnDeler = navn.trim().split(/\s+/);
+      const etternavn = navnDeler.length > 1 ? navnDeler.pop() : '';
+      const fornavn   = navnDeler.join(' ');
+      const adresseDeler = adresse.split(',');
+      const gate   = (adresseDeler[0] || '').trim();
+      const zipBy  = (adresseDeler[1] || '').trim().split(/\s+/);
+      const postnr = zipBy[0] || '';
+      const by     = zipBy.slice(1).join(' ');
+      const params = new URLSearchParams({
+        note: note,
+        'checkout[email]': epost,
+        'checkout[shipping_address][first_name]': fornavn,
+        'checkout[shipping_address][last_name]':  etternavn,
+        'checkout[shipping_address][address1]':   gate,
+        'checkout[shipping_address][zip]':        postnr,
+        'checkout[shipping_address][city]':       by,
+        'checkout[shipping_address][country]':    'Norway'
+      });
+      window._shopifyURL = 'https://butikk.nbk.no/cart/51936344375582:1?' + params.toString();
+    } else {
+      // Med støtte → Vipps Recurring-avtale (500 nå + 300/år)
+      try {
+        const res = await fetch('/api/legendekopp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            navn: navn, epost: epost, seilnummer: seilnummer, arstall: arstall,
+            adresse: adresse, visningsnavn: visning,
+            isGift: isGift, giverNavn: isGift ? navn : null
+          })
+        });
+        const out = await res.json();
+        if (!out || !out.redirectUrl) {
+          alert('Noe gikk galt ved oppstart av Vipps-avtalen. Prøv igjen, eller kontakt post@nbk.no.');
+          return;
+        }
+        window._shopifyURL = out.redirectUrl; // proceedToShopify() sender videre til Vipps
+      } catch (err) {
+        alert('Kunne ikke nå betalingstjenesten. Sjekk nettforbindelsen og prøv igjen.');
+        return;
+      }
+    }
+
+    document.getElementById('form-section').style.display = 'none';
+    document.getElementById('confirm-section').style.display = 'block';
   }
 
   function proceedToShopify() {

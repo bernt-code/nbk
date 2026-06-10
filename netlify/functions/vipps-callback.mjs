@@ -15,8 +15,8 @@ export default async (req) => {
   }
 
   try {
-    if (kind === "membership") {
-      // Recurring agreement-flow — sjekk status, redirect til velkomst eller feil
+    if (kind === "membership" || kind === "legendekopp") {
+      // Recurring agreement-flow (medlemskap + legendekopp) — sjekk status, redirect til velkomst eller feil
       return await handleMembershipCallback(reference, siteUrl);
     }
     return await handleEpaymentCallback(reference, siteUrl);
