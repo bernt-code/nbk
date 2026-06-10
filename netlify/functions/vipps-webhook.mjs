@@ -132,6 +132,17 @@ async function handleAgreementEvent(event) {
   if (!order) return Response.json({ received: true });
 
   if (eventName === "recurring.agreement-activated.v1") {
+    // Legendekopp-avtale: lag Shopify-ordre slik at Gelato-appen trykker koppen,
+    // og marker som aktiv. Ingen medlems-/nummerlogikk for denne typen.
+    if (order.type === "legendekopp") {
+      await createShopifyMugOrder(order, reference);
+      order.status = "active";
+      order.activatedAt = new Date().toISOString();
+      await orders.set(reference, JSON.stringify(order));
+      console.log(`Legendekopp-avtale aktivert: ${order.navn} (${reference})`);
+      return Response.json({ received: true });
+    }
+
     // Avtale aktivert — lagre som aktivt medlem
     const members = getStore("members");
     const memberData = {
@@ -318,5 +329,78 @@ async function handleShopOrderPayment(reference, order) {
     await orders.set(reference, JSON.stringify(order));
   } catch (err) {
     console.error("Failed to create Gelato order:", err);
+  }
+}
+
+
+// ─────────────────────────────────────────────
+// Legendekopp-fulfillment: opprett en betalt Shopify-ordre via Admin API.
+// Gelato-appen som er koblet til butikken plukker opp ordren og trykker koppen.
+// Personaliseringen (nummer + årstall) legges i ordre-notatet, akkurat som ved
+// et vanlig kasse-kjøp via cart-permalink.
+// ─────────────────────────────────────────────
+const LEGENDEKOPP_VARIANT_ID = 51936344375582;
+
+async function createShopifyMugOrder(order, reference) {
+  const token = process.env.SHOPIFY_ADMIN_TOKEN;
+  const shop = process.env.SHOPIFY_STORE_DOMAIN; // f.eks. ruju69-80.myshopify.com
+  if (!token || !shop) {
+    console.error("SHOPIFY_ADMIN_TOKEN/SHOPIFY_STORE_DOMAIN mangler — kan ikke lage kopp-ordre");
+    return;
+  }
+
+  const note = [
+    `Navn: ${order.navn}`,
+    `Seilnummer: ${order.seilnummer}`,
+    `Årstall: ${order.arstall || ""}`,
+    `Leveringsadresse: ${order.adresse}`,
+    `Legendevegg: ${order.visningsnavn || ""}`,
+    order.isGift ? `Gave fra: ${order.giverNavn || order.navn}` : "",
+  ].filter(Boolean).join(" | ");
+
+  // adresse "Gateveien 1, 0123 Oslo" → gate / postnr / by
+  const parts = (order.adresse || "").split(",");
+  const street = (parts[0] || "").trim();
+  const zipCity = (parts[1] || "").trim().split(/\s+/);
+  const zip = zipCity[0] || "";
+  const city = zipCity.slice(1).join(" ");
+  const nameParts = (order.navn || "").trim().split(/\s+/);
+  const lastName = nameParts.length > 1 ? nameParts.pop() : "";
+  const firstName = nameParts.join(" ");
+
+  const payload = {
+    order: {
+      line_items: [{ variant_id: LEGENDEKOPP_VARIANT_ID, quantity: 1 }],
+      email: order.email,
+      financial_status: "paid",
+      note,
+      tags: "legendekopp,vipps-recurring",
+      shipping_address: {
+        first_name: firstName,
+        last_name: lastName,
+        address1: street,
+        zip,
+        city,
+        country: "Norway",
+      },
+    },
+  };
+
+  try {
+    const res = await fetch(`https://${shop}/admin/api/2024-10/orders.json`, {
+      method: "POST",
+      headers: { "X-Shopify-Access-Token": token, "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const result = await res.json();
+    const orders = getStore("orders");
+    order.shopifyOrderId = result?.order?.id || null;
+    order.shopifyOrderName = result?.order?.name || null;
+    order.fulfillment = result?.order?.id ? "shopify-order-created" : "shopify-order-failed";
+    if (!result?.order?.id) console.error("Shopify ordre-opprettelse feilet:", JSON.stringify(result));
+    await orders.set(reference, JSON.stringify(order));
+    console.log(`Shopify kopp-ordre ${order.shopifyOrderName || "(ukjent)"} opprettet for ${reference}`);
+  } catch (err) {
+    console.error("createShopifyMugOrder error:", err);
   }
 }

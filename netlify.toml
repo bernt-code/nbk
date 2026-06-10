@@ -58,6 +58,11 @@
   to = "/.netlify/functions/membership/:splat"
   status = 200
 
+[[redirects]]
+  from = "/api/legendekopp"
+  to = "/.netlify/functions/legendekopp"
+  status = 200
+
 
 [[redirects]]
   from = "/api/setup-webhooks"
