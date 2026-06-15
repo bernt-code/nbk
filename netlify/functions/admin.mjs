@@ -458,6 +458,79 @@ export default async (req) => {
       });
     }
 
+    // ── POST /api/admin/stop-agreement ────────────────────────────────────
+    // Stopper ÉN gammel Vipps Recurring-avtale (de gamle 200-«NOR <n>»-abonnementene).
+    // SIKKERHETSSPERRE: stopper BARE avtaler med productName "NOR <n>" — ALDRI medlemskap.
+    // Body: { agreementId: "agr_xxx" }
+    if (req.method === "POST" && path.endsWith("/stop-agreement")) {
+      const body = await req.json().catch(() => ({}));
+      const { agreementId } = body;
+
+      if (!agreementId || typeof agreementId !== "string") {
+        return Response.json({ error: "Mangler agreementId" }, { status: 400 });
+      }
+
+      const vippsToken = await getVippsToken();
+
+      // 1. Hent avtalen først, så vi vet HVA vi stopper
+      const getRes = await fetch(
+        `https://api.vipps.no/recurring/v3/agreements/${encodeURIComponent(agreementId)}`,
+        { headers: vippsHeaders(vippsToken) }
+      );
+      const agreement = await getRes.json().catch(() => ({}));
+
+      if (!getRes.ok) {
+        console.error("stop-agreement: kunne ikke hente avtale", agreementId, JSON.stringify(agreement));
+        return Response.json(
+          { error: `Fant ikke avtale ${agreementId}`, details: agreement },
+          { status: getRes.status === 404 ? 404 : 502 }
+        );
+      }
+
+      // 2. SIKKERHETSSPERRE: kun gamle "NOR <n>"-avtaler, aldri medlemskap
+      const productName = (agreement.productName || "").trim();
+      const isOldNumberSub = /^NOR\s+\d+$/i.test(productName);
+      const isMembership = /medlemskap/i.test(productName);
+      if (!isOldNumberSub || isMembership) {
+        return Response.json(
+          {
+            error: "Avslått av sikkerhetssperre",
+            reason: `productName "${productName}" tillates ikke — stop-agreement stopper BARE gamle «NOR <n>»-avtaler, aldri medlemskap.`,
+            agreementId,
+            productName,
+          },
+          { status: 403 }
+        );
+      }
+
+      // 3. Allerede stoppet? Ingenting å gjøre.
+      if (agreement.status === "STOPPED") {
+        return Response.json({ success: true, alreadyStopped: true, agreementId, productName, status: "STOPPED" });
+      }
+
+      // 4. Stopp avtalen (PATCH status=STOPPED)
+      const patchRes = await fetch(
+        `https://api.vipps.no/recurring/v3/agreements/${encodeURIComponent(agreementId)}`,
+        {
+          method: "PATCH",
+          headers: { ...vippsHeaders(vippsToken), "Idempotency-Key": `stop-${agreementId}-${Date.now()}` },
+          body: JSON.stringify({ status: "STOPPED" }),
+        }
+      );
+
+      if (!patchRes.ok) {
+        const errText = await patchRes.text();
+        console.error("stop-agreement: PATCH feilet", agreementId, patchRes.status, errText.slice(0, 300));
+        return Response.json(
+          { error: `Kunne ikke stoppe avtale ${agreementId}`, vippsStatus: patchRes.status, details: errText.slice(0, 300) },
+          { status: 502 }
+        );
+      }
+
+      console.log(`Admin STOPPET avtale ${agreementId} (${productName})`);
+      return Response.json({ success: true, agreementId, productName, prevStatus: agreement.status, status: "STOPPED" });
+    }
+
     return Response.json({ error: "Not found" }, { status: 404 });
   } catch (err) {
     console.error("Admin API error:", err);
