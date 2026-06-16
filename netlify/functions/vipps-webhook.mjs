@@ -29,10 +29,15 @@ function verifyWebhookAuth(req) {
 export default async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { status: 204 });
 
-  // Verifiser at requesten kommer fra Vipps via shared secret
+  // EMERGENCY HOTFIX 2026-06-16: Log-only-mode for webhook secret-sjekk.
+  // VIPPS_WEBHOOK_SECRET er satt i env, men vi vet ikke om Vipps sender
+  // den i URL-en hos webhook-konfigurasjonen deres. Inntil verifisert,
+  // logger vi auth-status men avviser ikke (for å ikke brekke aktive
+  // medlemskaps-flyter).
+  // TODO: når vi har verifisert at Vipps sender ?secret=... korrekt,
+  // bytt console.warn tilbake til `return new Response("Forbidden", { status: 403 })`.
   if (!verifyWebhookAuth(req)) {
-    console.error("Webhook auth failed");
-    return new Response("Forbidden", { status: 403 });
+    console.warn("Webhook auth WOULD have failed — currently in log-only mode. Verify Vipps webhook config sends ?secret=...");
   }
 
   if (req.method !== "POST") {
