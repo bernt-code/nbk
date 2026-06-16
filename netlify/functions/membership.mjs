@@ -116,43 +116,52 @@ export default async (req) => {
     const siteUrl = process.env.SITE_URL || "https://nbk-no.netlify.app";
     const reference = `member-${tier}-${Date.now()}`;
 
-    // Reserver nummer(e) som pending-membership
+    // Reserver nummer(e) som pending-membership — med CAS-loop for race-protection
     if ((reserveNumber && tier === "aktiv") || (tier === "familie" && normalizedMembers)) {
       const sailStore = getStore("sail-numbers");
-      const registry = await sailStore.get("registry", { type: "json" });
-      if (registry) {
-        const numbersToReserve = tier === "familie"
-          ? normalizedMembers
-          : [{ number: Number(reserveNumber), name }];
+      const numbersToReserve = tier === "familie"
+        ? normalizedMembers
+        : [{ number: Number(reserveNumber), name }];
 
-        // FØRST: sjekk at alle er ledige (atomic validering)
+      // Hent hvilke numre denne brukeren allerede har (re-claim)
+      const claimedNums = new Set();
+      try {
+        const m = await getActiveMember(email);
+        if (m) {
+          if (Array.isArray(m.numbersReserved)) m.numbersReserved.forEach(n => claimedNums.add(Number(n)));
+          if (m.numberReserved) claimedNums.add(Number(m.numberReserved));
+        }
+      } catch {}
+
+      // SECURITY 2026-06-16: CAS-loop (Compare-And-Swap) for parallel reservation safety
+      const MAX_RETRIES = 5;
+      let racingConflicts = null;
+      let succeeded = false;
+      for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+        const blob = await sailStore.getWithMetadata("registry", { type: "json" });
+        if (!blob || !blob.data) break;
+        const registry = blob.data;
+
+        // Validate
         const conflicts = [];
         for (const m of numbersToReserve) {
           const entry = registry.numbers.find(n => n.number === m.number);
-          if (!entry) {
-            conflicts.push(`NOR ${m.number} finnes ikke i registeret`);
-          } else if (entry.status !== "available" && !claimedNums.has(Number(m.number))) {
+          if (!entry) conflicts.push(`NOR ${m.number} finnes ikke i registeret`);
+          else if (entry.status !== "available" && !claimedNums.has(Number(m.number)))
             conflicts.push(`NOR ${m.number} er ikke ledig (status: ${entry.status})`);
-          }
         }
-        if (conflicts.length > 0) {
-          return Response.json({
-            error: "Ett eller flere numre er ikke tilgjengelig",
-            conflicts,
-          }, { status: 409 });
-        }
+        if (conflicts.length > 0) { racingConflicts = conflicts; break; }
 
-        // DERETTER: reserver alle
+        // Mutate
         for (const m of numbersToReserve) {
           const entry = registry.numbers.find(n => n.number === m.number);
           if (claimedNums.has(Number(m.number))) {
-            // Re-claim av eget opptatt nummer: rydd gammel eier foer ny reservasjon
             entry.owner = null;
             delete entry.ownerEmail;
             delete entry.purchaseReference;
           }
           entry.status = "reserved";
-          entry.reservedBy = m.name; // person-navnet (familie), eller hovedperson (aktiv)
+          entry.reservedBy = m.name;
           entry.reservedEmail = email;
           entry.reservedPhone = phone || null;
           entry.reservedAt = new Date().toISOString();
@@ -160,7 +169,31 @@ export default async (req) => {
           entry.pendingMembershipReference = reference;
         }
         registry.lastUpdated = new Date().toISOString();
-        await sailStore.set("registry", JSON.stringify(registry));
+
+        try {
+          await sailStore.setJSON("registry", registry, { onlyIfMatch: blob.etag });
+          succeeded = true;
+          break;
+        } catch (err) {
+          const msg = String(err && err.message || err);
+          if (msg.includes("412") || msg.includes("Precondition") || msg.includes("etag")) {
+            console.warn(`CAS-konflikt (attempt ${attempt + 1}/${MAX_RETRIES})`);
+            continue;
+          }
+          throw err;
+        }
+      }
+
+      if (racingConflicts) {
+        return Response.json({
+          error: "Ett eller flere numre er ikke tilgjengelig",
+          conflicts: racingConflicts,
+        }, { status: 409 });
+      }
+      if (!succeeded) {
+        return Response.json({
+          error: "Kunne ikke reservere nummer pga. høy belastning, prøv igjen",
+        }, { status: 503 });
       }
     }
 
