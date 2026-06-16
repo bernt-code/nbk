@@ -44,7 +44,24 @@ export default async (req) => {
       let numbers = registry.numbers;
       if (status) numbers = numbers.filter(n => n.status === status);
 
-      const response = { lastUpdated: registry.lastUpdated, count: numbers.length, numbers };
+      // SECURITY FIX 2026-06-16: Filtrer ut sensitive felt (epost/telefon, reservasjon-detaljer)
+      // for offentlig API. Disse vises kun via admin-API som krever ADMIN_TOKEN.
+      const publicNumbers = numbers.map(n => ({
+        number: n.number,
+        status: n.status,
+        owner: n.owner || null,
+        isLegend: n.isLegend || false,
+        isJunior: n.isJunior || false,
+        legendHolder: n.legendHolder || null,
+        requiresApplication: n.requiresApplication || false,
+        // For reserved: vis kun reservedBy (navn), ikke email/phone/reference
+        reservedBy: n.status === "reserved" ? (n.reservedBy || null) : undefined,
+      }));
+      // Fjern undefined-felt fra hver entry
+      publicNumbers.forEach(n => {
+        Object.keys(n).forEach(k => n[k] === undefined && delete n[k]);
+      });
+      const response = { lastUpdated: registry.lastUpdated, count: publicNumbers.length, numbers: publicNumbers };
 
       if (checkMember) {
         const member = await getActiveMember(checkMember);

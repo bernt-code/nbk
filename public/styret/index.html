@@ -126,6 +126,17 @@
 const LS_KEY = 'nbk_admin_token';
 let TOKEN = localStorage.getItem(LS_KEY) || '';
 
+function escapeHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+
 if (TOKEN) {
   document.getElementById('login-view').classList.add('hidden');
   document.getElementById('dashboard').classList.remove('hidden');
@@ -199,7 +210,7 @@ function renderNumbers(d) {
   if (pending.length > 0) {
     warnEl.classList.remove('hidden');
     document.getElementById('reserved-list').innerHTML = pending.map(p =>
-      `<div>NOR ${p.number} — ${p.reservedBy || '?'} (${p.reservedEmail || '?'}) · ref: ${p.pendingMembershipReference || '?'}</div>`
+      `<div>NOR ${escapeHtml(p.number)} — ${escapeHtml(p.reservedBy || '?')} (${escapeHtml(p.reservedEmail || '?')}) · ref: ${escapeHtml(p.pendingMembershipReference || '?')}</div>`
     ).join('');
   } else {
     warnEl.classList.add('hidden');
@@ -209,7 +220,7 @@ function renderNumbers(d) {
   const recent = nums.filter(n => n.updatedAt && n.owner).sort((a,b) => (b.updatedAt || '').localeCompare(a.updatedAt || '')).slice(0, 8);
   document.getElementById('recent-list').innerHTML = recent.map(n =>
     `<div class="flex justify-between border-b border-gray-100 py-1">
-      <span><span class="font-mono font-bold text-primary">NOR ${n.number}</span> · ${n.owner}</span>
+      <span><span class="font-mono font-bold text-primary">NOR ${escapeHtml(n.number)}</span> · ${escapeHtml(n.owner)}</span>
       <span class="text-xs text-gray-500">${new Date(n.updatedAt).toLocaleDateString('no-NO')}</span>
     </div>`
   ).join('') || '<em>Ingen</em>';
@@ -236,10 +247,10 @@ function renderRecurring(d) {
   const sorted = [...agreements].sort((a,b) => (b.start || '').localeCompare(a.start || ''));
   document.getElementById('agreements-tbody').innerHTML = sorted.map(a => `
     <tr class="border-t hover:bg-gray-50">
-      <td class="py-2 font-mono font-bold text-primary">${a.norNumber ?? '—'}</td>
-      <td class="py-2 text-xs">${a.productName || ''}</td>
-      <td class="py-2">${a.owner || '<span class="text-gray-400 italic">(ikke registrert)</span>'}</td>
-      <td class="py-2 font-mono text-xs">${a.phone || ''}</td>
+      <td class="py-2 font-mono font-bold text-primary">${escapeHtml(a.norNumber ?? '—')}</td>
+      <td class="py-2 text-xs">${escapeHtml(a.productName || '')}</td>
+      <td class="py-2">${a.owner ? escapeHtml(a.owner) : '<span class="text-gray-400 italic">(ikke registrert)</span>'}</td>
+      <td class="py-2 font-mono text-xs">${escapeHtml(a.phone || '')}</td>
       <td class="py-2 text-right font-mono">${((a.amount || 0)/100).toLocaleString('no-NO')} kr</td>
       <td class="py-2 text-xs text-gray-500">${a.start ? new Date(a.start).toLocaleDateString('no-NO') : ''}</td>
     </tr>
