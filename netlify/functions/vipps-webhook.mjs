@@ -1,14 +1,48 @@
 import { getStore } from "@netlify/blobs";
 
+// SECURITY 2026-06-16: Webhook signaturverifisering.
+// Vi støtter to mekanismer:
+//   1. Shared secret som query-param ?secret=<VIPPS_WEBHOOK_SECRET>
+//      — enkel og pragmatisk, krever bare at Vipps Webhooks-konfigurasjon
+//      bruker URL'en med secret-paramet
+//   2. (Fremtidig) HMAC-signatur fra Vipps via Authorization header
+//      — krever at webhook registreres via Vipps Webhooks API
+function verifyWebhookAuth(req) {
+  const expected = process.env.VIPPS_WEBHOOK_SECRET;
+  if (!expected) {
+    // Backward-compat: hvis ikke konfigurert ennå, logg advarsel og slipp gjennom
+    // (vi vil aktivere strikt validering når Bernt har satt env-variabelen)
+    console.warn("VIPPS_WEBHOOK_SECRET ikke satt — webhook godtar alle requests");
+    return true;
+  }
+  const url = new URL(req.url);
+  const provided = url.searchParams.get("secret") || "";
+  if (provided.length !== expected.length) return false;
+  // Konstant-tids sammenligning
+  let diff = 0;
+  for (let i = 0; i < expected.length; i++) {
+    diff |= expected.charCodeAt(i) ^ provided.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
 export default async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { status: 204 });
+
+  // Verifiser at requesten kommer fra Vipps via shared secret
+  if (!verifyWebhookAuth(req)) {
+    console.error("Webhook auth failed");
+    return new Response("Forbidden", { status: 403 });
+  }
+
   if (req.method !== "POST") {
     return Response.json({ error: "Method not allowed" }, { status: 405 });
   }
 
   try {
     const event = await req.json();
-    console.log("Vipps webhook received:", JSON.stringify(event));
+    // Logg kun nøkkelfelt, ikke fullt payload (kan inneholde sensitiv brukerdata)
+  console.log("Vipps webhook received:", event.name, event.reference || event.agreementId || event.chargeId || "");
 
     // Vipps sender forskjellige event-typer.
     // ePayment: { reference, name: "epayments.payment.*" }

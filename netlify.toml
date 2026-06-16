@@ -91,8 +91,27 @@
 
 # CORS headers for API
 [[headers]]
-  for = "/api/*"
+  for = "/api/sail-numbers"
+  # Public GET-API — kan kalles fra alle origins (inkl. seilnummer-siden)
   [headers.values]
-    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Origin = "https://nbk.no"
     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type"
+
+[[headers]]
+  for = "/api/membership"
+  # Public POST fra medlemskap-siden
+  [headers.values]
+    Access-Control-Allow-Origin = "https://nbk.no"
+    Access-Control-Allow-Methods = "POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
+
+[[headers]]
+  for = "/api/feeds"
+  # Public GET
+  [headers.values]
+    Access-Control-Allow-Origin = "https://nbk.no"
+    Access-Control-Allow-Methods = "GET, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
+
+# Admin og webhook: INGEN CORS-åpning (samme-origin eller server-til-server)

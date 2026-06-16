@@ -255,7 +255,11 @@ export default async (req) => {
 
       await saveRegistry(store, registry);
 
-      console.log(`Admin ${isNew ? "inserted" : "updated"} NOR ${number}:`, JSON.stringify(body));
+      // Redact email/phone fra logg
+      const safeBody = { ...body };
+      if (safeBody.ownerEmail) safeBody.ownerEmail = "[REDACTED]";
+      if (safeBody.ownerPhone) safeBody.ownerPhone = "[REDACTED]";
+      console.log(`Admin ${isNew ? "inserted" : "updated"} NOR ${number}:`, JSON.stringify(safeBody));
       return Response.json({ success: true, entry, isNew });
     }
 
