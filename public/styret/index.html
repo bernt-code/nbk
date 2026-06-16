@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="no"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Styre-dashboard | NBK</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Plus+Jakarta+Sans:wght@200..800&family=Lexend:wght@100..900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    colors: { primary: "#1d5a90", secondary: "#ab3600", "secondary-container": "#ff6e39" },
+    fontFamily: { headline: ["Space Grotesk", "sans-serif"], body: ["Plus Jakarta Sans", "sans-serif"], label: ["Lexend", "sans-serif"] }
+  }}};
+</script>
+<style>
+  body { background: #f9f9ff; font-family: 'Plus Jakarta Sans', sans-serif; color: #161c27; }
+  .material-icons, .material-symbols-outlined { font-family: 'Material Symbols Outlined'; font-weight: normal; }
+  .kpi { background: white; border-radius: 1.25rem; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,.06); border: 1px solid #e5e7eb; }
+  .kpi-num { font-family: 'Space Grotesk'; font-weight: 900; font-style: italic; letter-spacing: -0.04em; line-height: 1; }
+  .pill { display: inline-flex; align-items: center; gap: .35rem; padding: .2rem .7rem; border-radius: 999px; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+</style>
+</head>
+<body>
+
+<nav class="bg-white sticky top-0 z-40 border-b">
+<div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+<a href="/" class="font-headline font-black italic uppercase text-2xl tracking-tighter text-primary">NBK</a>
+<div class="hidden md:flex items-center gap-6 font-headline font-bold uppercase text-sm tracking-tight">
+<a href="/" class="hover:text-primary">Tilbake til forsiden</a>
+</div>
+<button id="logout-btn" onclick="logout()" class="hidden px-4 py-2 rounded-full bg-gray-100 text-sm font-bold uppercase">Logg ut</button>
+</div>
+</nav>
+
+<!-- Login -->
+<section id="login-view" class="max-w-md mx-auto px-6 py-20">
+<div class="bg-white rounded-3xl p-8 border shadow">
+<h1 class="font-headline font-black italic uppercase text-3xl tracking-tighter">Styre-dashboard</h1>
+<p class="text-sm text-gray-600 mt-2">Krever ADMIN_TOKEN for å vise data. Lim inn under for å fortsette.</p>
+<form onsubmit="event.preventDefault(); login()" class="mt-6 space-y-4">
+<input id="token-input" type="password" placeholder="ADMIN_TOKEN" autocomplete="off" class="w-full px-4 py-3 rounded-lg border-2 border-transparent bg-gray-50 focus:border-primary focus:outline-none font-mono text-sm"/>
+<label class="flex items-center gap-2 text-sm">
+<input id="remember-token" type="checkbox" checked class="rounded"/>
+<span>Husk i denne nettleseren (lagres lokalt)</span>
+</label>
+<button type="submit" class="w-full px-6 py-3 rounded-full bg-primary text-white font-headline font-bold uppercase tracking-tight">Logg inn</button>
+</form>
+<div id="login-error" class="mt-3 text-sm text-red-600"></div>
+</div>
+</section>
+
+<!-- Dashboard -->
+<main id="dashboard" class="hidden max-w-7xl mx-auto px-6 py-8">
+
+<header class="mb-6">
+<div class="flex items-center justify-between flex-wrap gap-2">
+<h1 class="font-headline font-black italic uppercase text-4xl tracking-tighter">Styre-dashboard</h1>
+<div class="text-sm text-gray-600">Sist oppdatert <span id="updated-at">—</span> · <button onclick="loadAll()" class="text-primary underline">Oppdater nå</button></div>
+</div>
+<p class="text-sm text-gray-600 mt-1">Live tall fra Netlify-registry og Vipps Recurring. Refresh siden for ferskeste data.</p>
+</header>
+
+<!-- KPI grid -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+<div class="kpi"><div class="text-xs text-gray-500 font-label uppercase tracking-wider mb-1">Aktive medlemmer</div><div class="kpi-num text-4xl text-primary" id="kpi-members">—</div><div class="text-xs text-gray-500 mt-1" id="kpi-members-detail">via Vipps Recurring</div></div>
+<div class="kpi"><div class="text-xs text-gray-500 font-label uppercase tracking-wider mb-1">Numre i bruk</div><div class="kpi-num text-4xl text-primary" id="kpi-taken">—</div><div class="text-xs text-gray-500 mt-1">av <span id="kpi-total">—</span></div></div>
+<div class="kpi"><div class="text-xs text-gray-500 font-label uppercase tracking-wider mb-1">Ledige numre</div><div class="kpi-num text-4xl text-green-600" id="kpi-available">—</div><div class="text-xs text-gray-500 mt-1">i registeret</div></div>
+<div class="kpi"><div class="text-xs text-gray-500 font-label uppercase tracking-wider mb-1">Forventet inntekt 2026</div><div class="kpi-num text-4xl text-secondary" id="kpi-revenue">—</div><div class="text-xs text-gray-500 mt-1">årlig sum aktive Vipps-avtaler</div></div>
+</section>
+
+<!-- Vipps-status -->
+<section class="bg-white rounded-3xl p-6 border shadow mb-6">
+<h2 class="font-headline font-black italic uppercase text-xl tracking-tight">Vipps Recurring</h2>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+<div><div class="text-xs text-gray-500 uppercase font-label">Aktive avtaler</div><div class="kpi-num text-2xl mt-1" id="vipps-active">—</div></div>
+<div><div class="text-xs text-gray-500 uppercase font-label">Aktiv-medlemskap</div><div class="kpi-num text-2xl mt-1" id="vipps-aktiv">—</div></div>
+<div><div class="text-xs text-gray-500 uppercase font-label">Familie</div><div class="kpi-num text-2xl mt-1" id="vipps-familie">—</div></div>
+<div><div class="text-xs text-gray-500 uppercase font-label">Støtte</div><div class="kpi-num text-2xl mt-1" id="vipps-stotte">—</div></div>
+</div>
+</section>
+
+<!-- Æresmedlemmer / status -->
+<section class="grid md:grid-cols-2 gap-4 mb-6">
+<div class="bg-white rounded-3xl p-6 border shadow">
+<h2 class="font-headline font-black italic uppercase text-xl tracking-tight mb-3">Nummer-status</h2>
+<div class="space-y-2 text-sm">
+<div class="flex justify-between"><span>Taken</span><span class="font-mono font-bold" id="stat-taken">—</span></div>
+<div class="flex justify-between"><span>Reserved</span><span class="font-mono font-bold text-amber-600" id="stat-reserved">—</span></div>
+<div class="flex justify-between"><span>Available</span><span class="font-mono font-bold text-green-600" id="stat-available">—</span></div>
+<div class="flex justify-between border-t pt-2"><span class="font-bold">Total</span><span class="font-mono font-bold" id="stat-total">—</span></div>
+<div class="flex justify-between border-t pt-2 text-xs text-gray-500"><span>Æresmedlemmer</span><span class="font-mono" id="stat-aresmedlemmer">—</span></div>
+</div>
+</div>
+
+<div class="bg-white rounded-3xl p-6 border shadow">
+<h2 class="font-headline font-black italic uppercase text-xl tracking-tight mb-3">Nylige innmeldinger</h2>
+<div id="recent-list" class="space-y-2 text-sm">—</div>
+</div>
+</section>
+
+<!-- Reservasjoner som henger -->
+<section class="bg-amber-50 rounded-3xl p-6 border border-amber-200 mb-6 hidden" id="warn-reserved">
+<h2 class="font-headline font-black italic uppercase text-xl tracking-tight text-amber-900">⚠ Reservasjoner som henger (pending-membership)</h2>
+<p class="text-sm text-amber-800 mt-1">Disse er bestilt men ikke fullført. Følg opp eller frigjør.</p>
+<div id="reserved-list" class="mt-3 space-y-1 text-sm font-mono"></div>
+</section>
+
+<!-- Alle aktive avtaler -->
+<section class="bg-white rounded-3xl p-6 border shadow">
+<h2 class="font-headline font-black italic uppercase text-xl tracking-tight mb-3">Alle aktive Vipps-avtaler</h2>
+<div class="overflow-x-auto">
+<table class="w-full text-sm">
+<thead class="text-left text-xs uppercase text-gray-500 font-label">
+<tr><th class="py-2">NOR</th><th class="py-2">Produkt</th><th class="py-2">Eier</th><th class="py-2">Telefon</th><th class="py-2 text-right">Beløp</th><th class="py-2">Startet</th></tr>
+</thead>
+<tbody id="agreements-tbody"></tbody>
+</table>
+</div>
+</section>
+
+</main>
+
+<footer class="text-center py-8 text-xs text-gray-400">NBK Styre-dashboard · Live data fra Netlify + Vipps</footer>
+
+<script>
+const LS_KEY = 'nbk_admin_token';
+let TOKEN = localStorage.getItem(LS_KEY) || '';
+
+if (TOKEN) {
+  document.getElementById('login-view').classList.add('hidden');
+  document.getElementById('dashboard').classList.remove('hidden');
+  document.getElementById('logout-btn').classList.remove('hidden');
+  loadAll();
+}
+
+async function login() {
+  const input = document.getElementById('token-input').value.trim();
+  const remember = document.getElementById('remember-token').checked;
+  const err = document.getElementById('login-error');
+  err.textContent = '';
+  if (!input) { err.textContent = 'Token kan ikke være tom'; return; }
+  // Test mot API
+  try {
+    const test = await fetch('/api/admin/numbers', { headers: { Authorization: 'Bearer ' + input }});
+    if (test.status === 401) { err.textContent = 'Feil token'; return; }
+    if (!test.ok) { err.textContent = 'Feil ved test: HTTP ' + test.status; return; }
+    TOKEN = input;
+    if (remember) localStorage.setItem(LS_KEY, TOKEN);
+    document.getElementById('login-view').classList.add('hidden');
+    document.getElementById('dashboard').classList.remove('hidden');
+    document.getElementById('logout-btn').classList.remove('hidden');
+    loadAll();
+  } catch (e) { err.textContent = 'Nettverksfeil: ' + e.message; }
+}
+
+function logout() {
+  localStorage.removeItem(LS_KEY);
+  TOKEN = '';
+  document.getElementById('login-view').classList.remove('hidden');
+  document.getElementById('dashboard').classList.add('hidden');
+  document.getElementById('logout-btn').classList.add('hidden');
+  document.getElementById('token-input').value = '';
+}
+
+async function loadAll() {
+  try {
+    const [numbersRes, recurringRes] = await Promise.all([
+      fetch('/api/admin/numbers', { headers: { Authorization: 'Bearer ' + TOKEN }}),
+      fetch('/api/admin/recurring', { headers: { Authorization: 'Bearer ' + TOKEN }})
+    ]);
+    if (numbersRes.status === 401 || recurringRes.status === 401) { logout(); return; }
+    const numbers = await numbersRes.json();
+    const recurring = await recurringRes.json();
+
+    renderNumbers(numbers);
+    renderRecurring(recurring);
+    document.getElementById('updated-at').textContent = new Date().toLocaleString('no-NO');
+  } catch (e) {
+    console.error(e);
+    alert('Feil ved lasting: ' + e.message);
+  }
+}
+
+function renderNumbers(d) {
+  const stats = d.stats || {};
+  document.getElementById('kpi-taken').textContent = stats.taken || 0;
+  document.getElementById('kpi-total').textContent = stats.total || 0;
+  document.getElementById('kpi-available').textContent = stats.available || 0;
+  document.getElementById('stat-taken').textContent = stats.taken || 0;
+  document.getElementById('stat-reserved').textContent = stats.reserved || 0;
+  document.getElementById('stat-available').textContent = stats.available || 0;
+  document.getElementById('stat-total').textContent = stats.total || 0;
+  const nums = d.numbers || [];
+  document.getElementById('stat-aresmedlemmer').textContent = nums.filter(n => n.isLegend).length;
+
+  // Pending reservations
+  const pending = nums.filter(n => n.status === 'reserved' && n.reservedReason === 'pending-membership');
+  const warnEl = document.getElementById('warn-reserved');
+  if (pending.length > 0) {
+    warnEl.classList.remove('hidden');
+    document.getElementById('reserved-list').innerHTML = pending.map(p =>
+      `<div>NOR ${p.number} — ${p.reservedBy || '?'} (${p.reservedEmail || '?'}) · ref: ${p.pendingMembershipReference || '?'}</div>`
+    ).join('');
+  } else {
+    warnEl.classList.add('hidden');
+  }
+
+  // Recent — siste 8 oppdatert
+  const recent = nums.filter(n => n.updatedAt && n.owner).sort((a,b) => (b.updatedAt || '').localeCompare(a.updatedAt || '')).slice(0, 8);
+  document.getElementById('recent-list').innerHTML = recent.map(n =>
+    `<div class="flex justify-between border-b border-gray-100 py-1">
+      <span><span class="font-mono font-bold text-primary">NOR ${n.number}</span> · ${n.owner}</span>
+      <span class="text-xs text-gray-500">${new Date(n.updatedAt).toLocaleDateString('no-NO')}</span>
+    </div>`
+  ).join('') || '<em>Ingen</em>';
+}
+
+function renderRecurring(d) {
+  const agreements = (d.agreements || []).filter(a => a.status === 'ACTIVE');
+  document.getElementById('vipps-active').textContent = agreements.length;
+  // Klassifiser etter produktnavn
+  const aktiv = agreements.filter(a => /aktiv medlemskap/i.test(a.productName || '')).length;
+  const familie = agreements.filter(a => /familie/i.test(a.productName || '')).length;
+  const stotte = agreements.filter(a => /støtte|stotte/i.test(a.productName || '')).length;
+  document.getElementById('vipps-aktiv').textContent = aktiv;
+  document.getElementById('vipps-familie').textContent = familie;
+  document.getElementById('vipps-stotte').textContent = stotte;
+  document.getElementById('kpi-members').textContent = aktiv + familie + stotte;
+  document.getElementById('kpi-members-detail').textContent = `Aktiv ${aktiv} · Familie ${familie} · Støtte ${stotte}`;
+
+  // Total revenue forventet (sum av amount/100 i kr)
+  const totalKr = agreements.reduce((s, a) => s + (a.amount || 0) / 100, 0);
+  document.getElementById('kpi-revenue').textContent = Math.round(totalKr).toLocaleString('no-NO') + ' kr';
+
+  // Tabell
+  const sorted = [...agreements].sort((a,b) => (b.start || '').localeCompare(a.start || ''));
+  document.getElementById('agreements-tbody').innerHTML = sorted.map(a => `
+    <tr class="border-t hover:bg-gray-50">
+      <td class="py-2 font-mono font-bold text-primary">${a.norNumber ?? '—'}</td>
+      <td class="py-2 text-xs">${a.productName || ''}</td>
+      <td class="py-2">${a.owner || '<span class="text-gray-400 italic">(ikke registrert)</span>'}</td>
+      <td class="py-2 font-mono text-xs">${a.phone || ''}</td>
+      <td class="py-2 text-right font-mono">${((a.amount || 0)/100).toLocaleString('no-NO')} kr</td>
+      <td class="py-2 text-xs text-gray-500">${a.start ? new Date(a.start).toLocaleDateString('no-NO') : ''}</td>
+    </tr>
+  `).join('');
+}
+</script>
+</body></html>
