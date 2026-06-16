@@ -199,7 +199,7 @@ export default async (req) => {
     });
     const tokenData = await tokenRes.json();
     if (!tokenData.access_token) {
-      console.error("Vipps auth failed:", tokenData);
+      console.error("Vipps auth failed (token request did not return access_token)");
       return Response.json({ success: false, error: "Vipps autentisering feilet" }, { status: 502 });
     }
 
