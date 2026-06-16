@@ -542,6 +542,167 @@ export default async (req) => {
       return Response.json({ success: true, agreementId, productName, prevStatus: agreement.status, status: "STOPPED" });
     }
 
+    // ── POST /api/admin/reconcile-memberships ─────────────────────────────
+    // Selvhelbredende opprydning: fullfør medlemskap som henger i
+    // "pending-membership" fordi agreement-activated-webhooken aldri fullførte
+    // koblingen (order-blob borte / cannot-disambiguate / webhook avvist).
+    // For hver pending-reservasjon: finn den tilhørende AKTIVE Vipps-avtalen,
+    // og skriv medlemmet inn i registeret med NØYAKTIG samme felt som webhooken
+    // ville satt (status=taken, owner, memberEmail, purchaseReference, payments).
+    // Trygg å kjøre flere ganger (idempotent — hopper over alt som ikke er pending).
+    // Skriver ALDRI med mindre det finnes en matchende AKTIV avtale (aldri ubetalt).
+    // ?dryRun=true gir forhåndsvisning uten å skrive.
+    if (req.method === "POST" && path.endsWith("/reconcile-memberships")) {
+      const dryRun = url.searchParams.get("dryRun") === "true";
+
+      // 1. Hent AKTIVE Vipps Recurring-avtaler (kun medlemskap)
+      const vippsToken = await getVippsToken();
+      const agrRes = await fetch(
+        "https://api.vipps.no/recurring/v3/agreements?status=ACTIVE",
+        { headers: vippsHeaders(vippsToken) }
+      );
+      const agrData = await agrRes.json();
+      if (!agrRes.ok || !Array.isArray(agrData)) {
+        return Response.json({ error: "Kunne ikke hente Vipps-avtaler", details: agrData }, { status: 502 });
+      }
+      const memberAgreements = agrData.filter((a) =>
+        /medlemskap|st(ø|o)ttemedlem/i.test(a.productName || "")
+      );
+
+      // 2. Last registry + tilstøtende blobs
+      const { store, registry } = await loadRegistry();
+      const ordersStore = getStore("orders");
+      const membersStore = getStore("members");
+      const agreementsMap = getStore("agreements");
+
+      const tierFromProduct = (p) =>
+        /familie/i.test(p) ? "familie" : /st(ø|o)tte/i.test(p) ? "stotte" : "aktiv";
+
+      // 3. Grupper pending-reservasjoner på pendingMembershipReference
+      //    (familie deler én reference på tvers av flere numre)
+      const pendingEntries = registry.numbers.filter((n) =>
+        n.reservedReason === "pending-membership" && n.pendingMembershipReference
+      );
+      const groups = {};
+      for (const e of pendingEntries) {
+        (groups[e.pendingMembershipReference] ||= []).push(e);
+      }
+
+      const report = { dryRun, groups: Object.keys(groups).length, completed: [], skipped: [] };
+      let mutated = false;
+      const TOL_MS = 10000; // toleranse for created≈reservedAt-match
+
+      for (const [ref, entries] of Object.entries(groups)) {
+        // Autoritativ kilde hvis order-blob fortsatt finnes
+        let order = null;
+        try { order = await ordersStore.get(ref, { type: "json" }); } catch {}
+
+        // Finn matchende AKTIV avtale: via order.agreementId, ellers created≈reservedAt
+        let agreement = null;
+        if (order?.agreementId) {
+          agreement = memberAgreements.find((a) => a.id === order.agreementId) || null;
+        }
+        if (!agreement) {
+          const resTimes = entries.map((e) => Date.parse(e.reservedAt)).filter(Boolean);
+          const t0 = resTimes.length ? Math.min(...resTimes) : null;
+          if (t0 !== null) {
+            let best = null, bestD = Infinity;
+            for (const a of memberAgreements) {
+              const d = Math.abs(Date.parse(a.created) - t0);
+              if (d < bestD) { bestD = d; best = a; }
+            }
+            if (best && bestD <= TOL_MS) agreement = best;
+          }
+        }
+
+        if (!agreement) {
+          report.skipped.push({ ref, numbers: entries.map((e) => e.number), reason: "ingen matchende AKTIV Vipps-avtale" });
+          continue;
+        }
+
+        const email = (order?.email || entries[0].reservedEmail || "").toLowerCase();
+        if (!email) {
+          report.skipped.push({ ref, numbers: entries.map((e) => e.number), reason: "mangler e-post" });
+          continue;
+        }
+        const amount = order?.amount ?? agreement.pricing?.amount ?? null;
+        const tier = order?.tier || tierFromProduct(agreement.productName || "");
+        const year = String(new Date(agreement.created).getFullYear());
+
+        // Navn for hvert nummer: order.members[].name → order.name (aktiv) →
+        // eksisterende registrert eier → reservedBy
+        const nameForNumber = (entry) => {
+          const num = entry.number;
+          if (Array.isArray(order?.members)) {
+            const m = order.members.find((m) => Number(m.number) === Number(num));
+            if (m?.name) return m.name;
+          }
+          if (order?.name && order?.reserveNumber !== undefined &&
+              Number(order.reserveNumber) === Number(num)) return order.name;
+          if (entry.owner) return entry.owner;
+          return entry.reservedBy || null;
+        };
+
+        const completedNums = [];
+        for (const entry of entries) {
+          entry.status = "taken";
+          entry.owner = nameForNumber(entry) || entry.owner;
+          entry.memberEmail = email;
+          entry.purchasedAt = new Date().toISOString();
+          entry.purchaseReference = ref;
+          if (!entry.payments || typeof entry.payments !== "object") entry.payments = {};
+          entry.payments[year] = {
+            paid: true, amount, agreementId: agreement.id,
+            source: "reconcile", at: new Date().toISOString(),
+          };
+          delete entry.reservedBy;
+          delete entry.reservedEmail;
+          delete entry.reservedPhone;
+          delete entry.reservedAt;
+          delete entry.reservedReason;
+          delete entry.pendingMembershipReference;
+          completedNums.push(entry.number);
+        }
+
+        if (!dryRun) {
+          // Map agreementId → reference for fremtidige charge-webhooks
+          try { await agreementsMap.set(agreement.id, ref); } catch {}
+          // Skriv/oppdater medlemsrecord (parity med webhook)
+          try {
+            const memberData = {
+              email,
+              name: order?.name || entries[0].reservedBy || null,
+              phone: order?.phone || entries[0].reservedPhone || null,
+              tier,
+              agreementId: agreement.id,
+              activatedAt: new Date().toISOString(),
+              reference: ref,
+              numbersReserved: completedNums,
+              numbersReservedAt: new Date().toISOString(),
+              source: "reconcile",
+            };
+            if (completedNums.length === 1) memberData.numberReserved = completedNums[0];
+            await membersStore.set(email, JSON.stringify(memberData));
+          } catch (e) {
+            console.error("reconcile: kunne ikke lagre medlemsrecord:", e);
+          }
+          mutated = true;
+        }
+
+        report.completed.push({
+          ref, agreementId: agreement.id, productName: agreement.productName,
+          tier, email, amount, numbers: completedNums,
+        });
+      }
+
+      if (mutated && !dryRun) {
+        await saveRegistry(store, registry);
+      }
+
+      console.log(`reconcile-memberships: ${report.completed.length} fullført, ${report.skipped.length} hoppet over (dryRun=${dryRun})`);
+      return Response.json({ success: true, ...report });
+    }
+
     return Response.json({ error: "Not found" }, { status: 404 });
   } catch (err) {
     console.error("Admin API error:", err);
