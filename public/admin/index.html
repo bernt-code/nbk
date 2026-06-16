@@ -761,6 +761,12 @@ let allNumbers = [];
 let filterStatus = 'all';
 let sortKey = 'number';
 let sortDir = 1;
+
+function escapeHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 let activeReleaseNumber = null;
 let activeChargeNumber = null;
 let chargeUrl = '';
@@ -887,7 +893,7 @@ function renderTable() {
       : `<span class="badge ${n.status}">${statusLabel(n.status)}</span>`;
 
     const email = n.ownerEmail
-      ? `<span class="email-cell has-email">${n.ownerEmail}</span>`
+      ? `<span class="email-cell has-email">${escapeHtml(n.ownerEmail)}</span>`
       : `<span class="email-cell">–</span>`;
 
     const dateStr = n.purchasedAt
@@ -902,9 +908,9 @@ function renderTable() {
 
     const juniorTag = n.isJunior ? `<br><small style="color:#0ea5e9;font-weight:600">🧒 Junior</small>` : '';
     const ownerCell = n.isLegend
-      ? `<span class="owner-name">${n.owner || (n.reservedBy ? `<em style="color:var(--grey)">${n.reservedBy}</em>` : '–')}</span>` +
+      ? `<span class="owner-name">${n.owner ? escapeHtml(n.owner) : (n.reservedBy ? `<em style="color:var(--grey)">${escapeHtml(n.reservedBy)}</em>` : '–')}</span>` +
         (n.legendHolder ? `<br><small style="color:#9d174d;font-weight:600">♛ ${n.legendHolder}</small>` : `<br><small style="color:#9d174d;opacity:.6">Legend-holder ukjent</small>`)
-      : `<span class="owner-name">${n.owner || (n.reservedBy ? `<em style="color:var(--grey)">${n.reservedBy}</em>` : '–')}</span>${juniorTag}`;
+      : `<span class="owner-name">${n.owner ? escapeHtml(n.owner) : (n.reservedBy ? `<em style="color:var(--grey)">${escapeHtml(n.reservedBy)}</em>` : '–')}</span>${juniorTag}`;
 
     return `<tr>
       <td class="nor-num">NOR ${n.number}</td>

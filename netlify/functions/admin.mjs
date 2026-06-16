@@ -1,11 +1,18 @@
 import { getStore } from "@netlify/blobs";
 
 // ── Auth ──────────────────────────────────────────────────────────────────
+import { timingSafeEqual } from "crypto";
+
 function checkAuth(req) {
   const auth = req.headers.get("Authorization") || "";
   const token = auth.startsWith("Bearer ") ? auth.slice(7) : auth;
   const adminToken = process.env.ADMIN_TOKEN;
-  return adminToken && token === adminToken;
+  if (!adminToken || !token) return false;
+  // Konstant-tids sammenligning for å unngå timing-angrep
+  const a = Buffer.from(token);
+  const b = Buffer.from(adminToken);
+  if (a.length !== b.length) return false;
+  try { return timingSafeEqual(a, b); } catch { return false; }
 }
 
 // ── Vipps token ───────────────────────────────────────────────────────────

@@ -233,6 +233,17 @@ Bli medlem først
 <script>
 let allNumbers = [];
 
+function escapeHtml(s) {
+  if (s === null || s === undefined) return '';
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+
 async function loadSailNumbers() {
   try {
     const res = await fetch('/api/sail-numbers');
@@ -275,8 +286,8 @@ function renderNumbers(numbers) {
         ? 'bg-amber-100 text-amber-800'
         : 'bg-emerald-100 text-emerald-800';
       html += `<div class="grid grid-cols-1 md:grid-cols-12 items-center bg-surface-container-lowest hover:bg-white p-6 md:px-8 md:py-6 rounded-2xl shadow-sm hover:shadow-md transition-all">
-        <div class="col-span-3"><span class="text-3xl font-headline font-bold text-primary">NOR ${n.number}</span></div>
-        <div class="col-span-5"><span class="block font-headline text-lg font-bold text-on-surface">${displayName}</span></div>
+        <div class="col-span-3"><span class="text-3xl font-headline font-bold text-primary">NOR ${escapeHtml(n.number)}</span></div>
+        <div class="col-span-5"><span class="block font-headline text-lg font-bold text-on-surface">${escapeHtml(displayName)}</span></div>
         <div class="col-span-2 flex justify-center"><span class="px-4 py-1.5 rounded-full ${statusClass} text-[10px] font-bold uppercase tracking-wider">${statusLabel}</span></div>
         <div class="col-span-2"></div>
       </div>`;
