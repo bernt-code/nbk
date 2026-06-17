@@ -380,11 +380,44 @@ async function handleShopOrderPayment(reference, order) {
 // ─────────────────────────────────────────────
 const LEGENDEKOPP_VARIANT_ID = 51936344375582;
 
+async function getShopifyAccessToken(shop) {
+  // Dev Dashboard-apper gir ikke et statisk Admin API-token. Vi henter et ferskt
+  // token via client_credentials-grant (client_id + client_secret). Faller tilbake
+  // til statisk SHOPIFY_ADMIN_TOKEN hvis satt (bakoverkompatibelt).
+  if (process.env.SHOPIFY_ADMIN_TOKEN) return process.env.SHOPIFY_ADMIN_TOKEN;
+  const client_id = process.env.SHOPIFY_API_KEY;
+  const client_secret = process.env.SHOPIFY_API_SECRET;
+  if (!client_id || !client_secret) {
+    console.error("SHOPIFY_API_KEY/SHOPIFY_API_SECRET mangler — kan ikke hente Shopify-token");
+    return null;
+  }
+  try {
+    const res = await fetch(`https://${shop}/admin/oauth/access_token`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ client_id, client_secret, grant_type: "client_credentials" }),
+    });
+    const data = await res.json();
+    if (!data.access_token) {
+      console.error("Shopify client_credentials feilet:", JSON.stringify(data));
+      return null;
+    }
+    return data.access_token;
+  } catch (err) {
+    console.error("getShopifyAccessToken error:", err);
+    return null;
+  }
+}
+
 async function createShopifyMugOrder(order, reference) {
-  const token = process.env.SHOPIFY_ADMIN_TOKEN;
   const shop = process.env.SHOPIFY_STORE_DOMAIN; // f.eks. ruju69-80.myshopify.com
-  if (!token || !shop) {
-    console.error("SHOPIFY_ADMIN_TOKEN/SHOPIFY_STORE_DOMAIN mangler — kan ikke lage kopp-ordre");
+  if (!shop) {
+    console.error("SHOPIFY_STORE_DOMAIN mangler — kan ikke lage kopp-ordre");
+    return;
+  }
+  const token = await getShopifyAccessToken(shop);
+  if (!token) {
+    console.error("Kunne ikke skaffe Shopify Admin-token — kan ikke lage kopp-ordre");
     return;
   }
 
