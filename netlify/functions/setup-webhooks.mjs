@@ -8,7 +8,17 @@
 //
 // Trygg å kjøre flere ganger (idempotent — sjekker eksisterende først)
 
-const NETLIFY_WEBHOOK_URL = "https://nbk-no.netlify.app/api/vipps/webhook";
+const WEBHOOK_PATHNAME = "/api/vipps/webhook";
+const WEBHOOK_BASE = `https://nbk-no.netlify.app${WEBHOOK_PATHNAME}`;
+// SECURITY 2026-06-16: Når VIPPS_WEBHOOK_SECRET er satt, registrer webhooken MED
+// ?secret=... slik at vipps-webhook sin strikte secret-validering kan slås PÅ uten
+// å brekke flyten (Vipps kaller da URL-en inkl. secret). Uten env: bare-URL (uendret).
+// Merk: bytt en eksisterende bare-URL-webhook til secret ved å slette den og kjøre på nytt.
+const NETLIFY_WEBHOOK_URL = process.env.VIPPS_WEBHOOK_SECRET
+  ? `${WEBHOOK_BASE}?secret=${encodeURIComponent(process.env.VIPPS_WEBHOOK_SECRET)}`
+  : WEBHOOK_BASE;
+// Dedup på pathname (ignorer query) så vi ikke lager duplikate webhooks.
+const samePath = (u) => { try { return new URL(u).pathname === WEBHOOK_PATHNAME; } catch { return false; } };
 
 const RECURRING_EVENTS = [
   "recurring.agreement-activated.v1",
@@ -110,7 +120,7 @@ export default async (req) => {
 
     // 3. Sjekk om Recurring-webhook til Netlify allerede finnes
     const hasNetlifyRecurring = webhooks.some(w =>
-      w.url === NETLIFY_WEBHOOK_URL &&
+      samePath(w.url) &&
       w.events.some(e => e.startsWith("recurring."))
     );
 
@@ -143,7 +153,7 @@ export default async (req) => {
 
     // 4. Sjekk at ePayment-webhook også er der (skal være det)
     const hasNetlifyEpayment = webhooks.some(w =>
-      w.url === NETLIFY_WEBHOOK_URL &&
+      samePath(w.url) &&
       w.events.some(e => e.startsWith("epayments."))
     );
     if (!hasNetlifyEpayment) {
