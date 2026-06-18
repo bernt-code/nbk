@@ -68,6 +68,8 @@ console.log('Manifests generated successfully.');
   subSpan('lk-badge',        lk.badge);
   subSpan('lk-title',        lk.title);
   subSpan('lk-subtitle',     lk.subtitle);
+  subSpan('lk-hero-title',   lk.hero_title);
+  subSpan('lk-hero-accent',  lk.hero_title_accent);
   subSpan('lk-why-label',    lk.why_label);
   subSpan('lk-why-title',    lk.why_title);
   subSpan('lk-why-subtitle', lk.why_subtitle);

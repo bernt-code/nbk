@@ -153,6 +153,8 @@ collections:
           - { label: "Sidetittel", name: "title", widget: "string", hint: "Vises som h2 i bestillingspanelet" }
           - { label: "Badge / eyebrow", name: "badge", widget: "string", hint: "Liten tekst over tittelen" }
           - { label: "Produktbeskrivelse", name: "subtitle", widget: "text", hint: "Materiale, mål, produsent" }
+          - { label: "Hero-tittel linje 1", name: "hero_title", widget: "string", hint: "Liten linje øverst, f.eks. «Bli en»" }
+          - { label: "Hero-tittel linje 2 (uthevet/gull)", name: "hero_title_accent", widget: "string", hint: "Stor uthevet linje, f.eks. «Windsurfing legende»" }
           - { label: "Hero-tekst", name: "hero_tekst", widget: "text", hint: "Introduksjonsteksten øverst på siden" }
           - { label: "Hvorfor — eyebrow", name: "why_label", widget: "string" }
           - { label: "Hvorfor — tittel", name: "why_title", widget: "string" }
