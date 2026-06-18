@@ -828,7 +828,7 @@
     <div class="wall-grid" id="legend-wall">
       <div class="legend-card empty" onclick="document.getElementById('bestill').scrollIntoView({behavior:'smooth'})">
         <div class="empty-icon">🏆</div>
-        <strong>Bli den første!</strong>
+        <strong>${legends.length === 0 ? 'Bli den første!' : 'Bli den neste!'}</strong>
         <p>Klikk her og bestill din Legendekopp</p>
       </div>
     </div>
