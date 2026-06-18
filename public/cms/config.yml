@@ -156,6 +156,12 @@ collections:
           - { label: "Hero-tittel linje 1", name: "hero_title", widget: "string", hint: "Liten linje øverst, f.eks. «Bli en»" }
           - { label: "Hero-tittel linje 2 (uthevet/gull)", name: "hero_title_accent", widget: "string", hint: "Stor uthevet linje, f.eks. «Windsurfing legende»" }
           - { label: "Hero-tekst", name: "hero_tekst", widget: "text", hint: "Introduksjonsteksten øverst på siden" }
+          - { label: "Hero — eyebrow (liten tekst over tittel)", name: "hero_eyebrow", widget: "string" }
+          - { label: "Hero — knapp (primær)", name: "hero_cta", widget: "string", hint: "Ikonet vises foran automatisk" }
+          - { label: "Hero — knapp (sekundær)", name: "hero_cta_secondary", widget: "string", hint: "Pilen vises bak automatisk" }
+          - { label: "Hero — statistikk 1 (tekst)", name: "hero_stat1_label", widget: "string", hint: "Tallet telles opp automatisk" }
+          - { label: "Hero — statistikk 2 (tekst)", name: "hero_stat2_label", widget: "string" }
+          - { label: "Hero — statistikk 3 (tekst)", name: "hero_stat3_label", widget: "string" }
           - { label: "Hvorfor — eyebrow", name: "why_label", widget: "string" }
           - { label: "Hvorfor — tittel", name: "why_title", widget: "string" }
           - { label: "Hvorfor — undertittel", name: "why_subtitle", widget: "text" }
