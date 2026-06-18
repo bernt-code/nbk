@@ -1146,6 +1146,9 @@
       if (year) document.getElementById('modal-mottaker-year').value = year;
       // Own sail section is not needed for gift (sail is already on mottaker)
       ownSailSection.style.display = 'none';
+      // FIX: skjulte påkrevde felt blokkerer submit stille — fjern required i gave-modus
+      document.getElementById('modal-sail').required = false;
+      document.getElementById('modal-year').required = false;
       document.getElementById('modal-sail-label');
       document.getElementById('modal-navn-label').textContent = 'Ditt navn (giver)';
       document.getElementById('modal-title').textContent = '🎁 Gi bort Legendekoppen';
@@ -1153,6 +1156,8 @@
     } else {
       giftSection.classList.add('hidden');
       ownSailSection.style.display = 'block';
+      document.getElementById('modal-sail').required = true;
+      document.getElementById('modal-year').required = true;
       document.getElementById('modal-sail').value = `${currentPrefix} ${num}`;
       if (year) document.getElementById('modal-year').value = year;
       document.getElementById('modal-navn-label').textContent = 'Ditt navn';
