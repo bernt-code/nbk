@@ -1000,7 +1000,11 @@
 
 <script>
   // ---- LEGEND DATA ----
-  const legends = [];
+  let legends = [];
+  // Hent ekte kjøpere til Legendeveggen (fyller seg etter hvert som folk kjøper koppen)
+  fetch('/api/legends').then(r => r.json()).then(d => {
+    if (d && Array.isArray(d.legends)) { legends = d.legends; renderWall(); }
+  }).catch(() => {});
 
   // ---- GIFT MODE ----
   let isGift = false;
@@ -1087,20 +1091,25 @@
 
     if (legends.length === 0) { wall.innerHTML = emptyCard; return; }
 
+    const esc = (v) => String(v == null ? '' : v).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
     const cards = legends.map(l => {
-      const years = 2025 - l.year;
-      const flag = !l.prefix || l.prefix === 'NOR' ? '🇳🇴' :
+      const flag = l.anonymous ? '🏆' :
+                   (!l.prefix || l.prefix === 'NOR') ? '🇳🇴' :
                    l.prefix === 'GER' ? '🇩🇪' :
                    l.prefix === 'FRA' ? '🇫🇷' :
                    l.prefix === 'ESP' ? '🇪🇸' : '🏄';
+      const nameLine = l.name ? `<div class="legend-name" style="font-weight:600;margin-bottom:.15rem;">${esc(l.name)}</div>` : '';
+      const yearLine = l.year ? `<div class="legend-year">Siden ${esc(l.year)}</div>` : '';
+      const yearsLine = l.year ? `<div class="legend-years">🌊 ${2025 - Number(l.year)} år på vannet</div>` : '';
       const gaveText = l.gave ? `<div class="legend-gave">🎁 Gave fra en venn</div>` : '';
       return `
         <div class="legend-card">
           <div class="legend-flag">${flag}</div>
           <div class="legend-badge">Legende</div>
-          <div class="legend-sail">${l.sail}</div>
-          <div class="legend-year">Siden ${l.year}</div>
-          <div class="legend-years">🌊 ${years} år på vannet</div>
+          ${nameLine}
+          <div class="legend-sail">${esc(l.sail)}</div>
+          ${yearLine}
+          ${yearsLine}
           ${gaveText}
         </div>`;
     }).join('');

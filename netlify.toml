@@ -63,6 +63,11 @@
   to = "/.netlify/functions/legendekopp"
   status = 200
 
+[[redirects]]
+  from = "/api/legends"
+  to = "/.netlify/functions/legends"
+  status = 200
+
 
 [[redirects]]
   from = "/api/setup-webhooks"
