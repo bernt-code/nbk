@@ -380,7 +380,7 @@ async function handleShopOrderPayment(reference, order) {
 // ─────────────────────────────────────────────
 const LEGENDEKOPP_VARIANT_ID = 51936344375582;
 
-async function getShopifyAccessToken(shop) {
+export async function getShopifyAccessToken(shop) {
   // Dev Dashboard-apper gir ikke et statisk Admin API-token. Vi henter et ferskt
   // token via client_credentials-grant (client_id + client_secret). Faller tilbake
   // til statisk SHOPIFY_ADMIN_TOKEN hvis satt (bakoverkompatibelt).
@@ -409,7 +409,7 @@ async function getShopifyAccessToken(shop) {
   }
 }
 
-async function createShopifyMugOrder(order, reference) {
+export async function createShopifyMugOrder(order, reference) {
   const shop = process.env.SHOPIFY_STORE_DOMAIN; // f.eks. ruju69-80.myshopify.com
   if (!shop) {
     console.error("SHOPIFY_STORE_DOMAIN mangler — kan ikke lage kopp-ordre");

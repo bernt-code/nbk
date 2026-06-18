@@ -1,4 +1,5 @@
 import { getStore } from "@netlify/blobs";
+import { createShopifyMugOrder } from "./vipps-webhook.mjs";
 
 // Returns from Vipps — håndterer både ePayment og Recurring agreement-confirmation
 export default async (req) => {
@@ -65,6 +66,22 @@ async function handleMembershipCallback(reference, siteUrl) {
   }
 
   if (agreementStatus === "ACTIVE") {
+    // SIKKERHETSNETT: lag Shopify-ordren for legendekoppen hvis webhooken
+    // ikke (ennå) gjorde det — idempotent (kun hvis ingen shopifyOrderId).
+    if (order.type === "legendekopp" && !order.shopifyOrderId) {
+      try {
+        await createShopifyMugOrder(order, reference);
+        const fresh = await orders.get(reference, { type: "json" });
+        if (fresh?.shopifyOrderId) {
+          fresh.status = "active";
+          fresh.activatedAt = fresh.activatedAt || new Date().toISOString();
+          fresh.fulfillmentSource = fresh.fulfillmentSource || "callback";
+          await orders.set(reference, JSON.stringify(fresh));
+        }
+      } catch (e) {
+        console.error("Callback legendekopp-fulfillment feilet:", e);
+      }
+    }
     return new Response(null, {
       status: 302,
       headers: { Location: `${siteUrl}/betaling-ok/?reference=${reference}&kind=membership` },
