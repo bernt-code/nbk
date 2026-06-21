@@ -1,0 +1,30 @@
+{
+  "name": "Bølgeseiling",
+  "subtitle": "Sportsligste disiplin",
+  "description": "Hopps, loops og bølgeriding i verdensklasse. Bølgeseiling er der windsurfing møter surfing — og resultatet er spektakulært.",
+  "image": "",
+  "type": "Ekstrem",
+  "cta_text": "Les Mer",
+  "order": 5,
+  "long_description": "## Bølgeseiling — windsurf møter surfing\n\nBølgeseiling regnes av mange som den mest krevende og spektakulære disiplinen innen windsurfing. Her handler det om å utnytte naturkreftene maksimalt: ride bølger ned mot land mens du hopper, roterer og snurrer i luften. En fullstendig loop — der utøver, brett og seil roterer 360 grader — er et av de mest ikoniske øyeblikkene i hele sporten.\n\nDisiplinen krever presisjon, mot og unik kroppskontroll. Seilerene bedømmes på to elementer: wave riding (å surfe bølger ned) og jumping (å hoppe og utføre triks i luften). Standardmanøvre inkluderer tabletop, backloop, pushloop, aerial 360 og forward loop. De beste i verden kombinerer disse til sammenhengende sekvenser med flyt og stil.\n\n## PWA Wave World Tour\n\nDen profesjonelle bølgeseilingscenen administreres av **PWA (Professional Windsurfers Association)**, som siden 2024 driver felles turneringssystem med International Windsurfing Tour (IWT) under navnet **Unified Windsurf Wave Tour**. PWA har eksistert siden 1983 og er verdens fremste organisasjon for profesjonell windsurfing.\n\nTourneen besøker de råeste bølgestasjonene på kloden: Mauis Aloha Classic i Hawaii (sesongfinale), Cloudbreak i Fiji, Cape Verde, Topocalma i Chile og Pacasmayo i Peru. Over 40 waveeventer i 25 land er samlet under ett rankingsystem. Det er i disse forholdene de norske bølgeseilerne måler seg mot verdens beste.\n\n## Norske forhold og norske utøvere\n\nNorge har noen av Europas beste bølgeforhold for windsurfing. Jæren i Rogaland er et nasjonalt mekka — lange sandstrender, kraftige Nordsjøbølger og solid vind gir verdensklasseforhold fra oktober til april. Lofoten og Nordvestlandet byr på vakre og krevende bølger for de mer erfarne.\n\nNBK støtter norske bølgeseilere som deltar internasjonalt, og arrangerer bølgeleirer og workshops for å bygge kompetanse i disiplinen. Uansett om du vil konkurrere eller bare seile bølger for gleden skyld — bølgeseiling er en opplevelse for livet.\n\n## Utstyr\n\nBølgeseiling krever spesialisert utstyr tilpasset kraftige bølger og kuling. Brett er typisk 65–90 liter, kortere og tykkere enn freeride-brett. Seil er mellom 3,0 og 5,5 m² — store seil i bølger er upraktisk og farlig. Carbon-bom og lett rigg er standard for toppnivå.",
+  "equipment_text": "Bølgebrett (65–90 liter), Bølgeseil (3.0–5.5 m²), Carbon-mast og bom, Våtdrakt (5/4mm eller 6/5mm avhengig av sesong), Impact vest, Hjelm (anbefalt), Leash (sikkerhetsleine til brett)",
+  "getting_started": "Bølgeseiling krever at du allerede kan planseile i sterk vind. Starter du fra null, anbefaler vi å begynne med standard windsurfing og bygge deg opp. Når du kan seile trygt i 15–20 knop, er du klar for bølgekurs. NBK-tilknyttede klubber på Jæren og Vestlandet tilbyr bølgecoaching gjennom høst- og vintersesongen, da de beste bølgeforholdene er fra september til april.",
+  "key_facts": [
+    {
+      "label": "Vind",
+      "value": "12–35 knop"
+    },
+    {
+      "label": "Brett",
+      "value": "65–90 liter"
+    },
+    {
+      "label": "Topptour",
+      "value": "PWA / Unified Wave Tour"
+    },
+    {
+      "label": "Beste steder",
+      "value": "Jæren, Lofoten, Maui, Cape Verde"
+    }
+  ]
+}
