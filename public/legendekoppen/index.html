@@ -866,7 +866,12 @@
         <!-- BESTILLER / EGET KJØP -->
         <div class="form-group">
           <label class="form-label" id="modal-navn-label">Ditt navn</label>
-          <input type="text" name="navn" placeholder="Ole Eriksen" required>
+          <input type="text" id="modal-navn" name="navn" placeholder="Ole Eriksen" required>
+        </div>
+        <!-- GAVE: mottakerens navn (skjult til gave-modus slås på) -->
+        <div class="form-group" id="modal-mottaker-section" style="display:none;">
+          <label class="form-label">Mottakerens navn <span style="color:var(--gold); font-size:0.8em;">— vises på Legendeveggen</span></label>
+          <input type="text" id="modal-mottaker-navn" name="mottakerNavn" placeholder="Axel Eriksen">
         </div>
         <div class="form-group">
           <label class="form-label">E-postadresse</label>
@@ -1009,6 +1014,11 @@
     isGift = !isGift;
     const toggle = document.getElementById('gift-toggle');
     toggle.classList.toggle('active', isGift);
+
+    // Vis/skjul mottaker-felt og endre giver-label
+    document.getElementById('modal-mottaker-section').style.display = isGift ? 'block' : 'none';
+    document.getElementById('modal-mottaker-navn').required = isGift;
+    document.getElementById('modal-navn-label').textContent = isGift ? 'Ditt navn (giver)' : 'Ditt navn';
 
     // Update labels in product form
     document.getElementById('sail-label').textContent = isGift ? 'Mottakerens seilnummer' : 'Ditt seilnummer';
@@ -1236,7 +1246,8 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            navn: navn, epost: epost, seilnummer: seilnummer, arstall: arstall,
+            navn: isGift ? (document.getElementById('modal-mottaker-navn').value.trim() || navn) : navn,
+            epost: epost, seilnummer: seilnummer, arstall: arstall,
             adresse: adresse, visningsnavn: visning,
             isGift: isGift, giverNavn: isGift ? navn : null
           })

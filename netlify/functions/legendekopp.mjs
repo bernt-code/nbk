@@ -20,7 +20,7 @@ export default async (req) => {
       navn, epost, telefon,
       seilnummer, arstall,
       adresse, visningsnavn,
-      isGift, giverNavn,
+      isGift, giverNavn, mottakerNavn,
     } = body;
 
     if (!navn || !epost || !seilnummer || !adresse) {
@@ -47,6 +47,7 @@ export default async (req) => {
       visningsnavn: visningsnavn || null,
       isGift: !!isGift,
       giverNavn: giverNavn || null,
+      mottakerNavn: (isGift && mottakerNavn) ? mottakerNavn : null,
       koppAmount: KOPP_INITIAL,
       stotteAmount: STOTTE_AARLIG,
       status: "pending",
