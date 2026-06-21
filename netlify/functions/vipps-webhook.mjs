@@ -423,7 +423,7 @@ export async function createShopifyMugOrder(order, reference) {
   }
 
   const note = [
-    `Navn: ${order.navn}`,
+    `Navn: ${order.mottakerNavn || order.navn}`,
     `Seilnummer: ${order.seilnummer}`,
     `Årstall: ${order.arstall || ""}`,
     `Leveringsadresse: ${order.adresse}`,
