@@ -146,37 +146,6 @@
 </div>
 </section>
 
-<!-- Siste Nytt & Events -->
-<section class="py-28 px-8 max-w-7xl mx-auto">
-<div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-<div>
-<h2 class="font-headline font-black text-5xl md:text-6xl text-primary tracking-tighter uppercase italic leading-none">Siste Nytt <span class="text-outline-variant">&amp;</span> Events</h2>
-<p class="text-on-surface-variant mt-4 font-body text-lg">Hold deg oppdatert p&#229; de nyeste konkurransene og historiene fra kysten.</p>
-</div>
-<a class="text-primary font-headline font-bold uppercase tracking-tight border-b-2 border-primary-container pb-1 hover:text-secondary transition-colors" href="events/">Se alle nyheter</a>
-</div>
-<!-- Feed items will be loaded from /api/feeds -->
-<div id="feed-container" class="grid grid-cols-1 md:grid-cols-12 gap-6">
-<div class="md:col-span-12 text-center py-12 text-on-surface-variant">
-<p class="font-body">Laster nyheter...</p>
-</div>
-</div>
-</section>
-
-<!-- V&#229;re Grener -->
-<section class="bg-surface-container-low py-28 px-8 overflow-hidden">
-<div class="max-w-7xl mx-auto">
-<div class="mb-20 text-center">
-<h2 class="font-headline font-black text-5xl md:text-7xl text-primary tracking-tighter uppercase italic mb-6">V&#229;re Grener</h2>
-<p class="text-on-surface-variant max-w-2xl mx-auto font-body text-lg">Uansett om du s&#248;ker fart, b&#248;lger eller olympisk presisjon, har vi en gren for deg.</p>
-</div>
-<div id="grener-home" class="flex flex-wrap gap-6 justify-between">
-<!-- Loaded dynamically from CMS -->
-<div class="w-full text-center py-20 text-on-surface-variant">Laster grener...</div>
-</div>
-</div>
-</section>
-
 
 <!-- Legendekoppen Promo -->
 <section class="py-28 px-8 bg-slate-900 relative overflow-hidden">
@@ -225,7 +194,40 @@
       if(el && d.legends?.length>0) el.textContent=d.legends.length+' legendeer og teller';
     }).catch(()=>{});
   </script>
+
+
+<!-- Siste Nytt & Events -->
+<section class="py-28 px-8 max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+<div>
+<h2 class="font-headline font-black text-5xl md:text-6xl text-primary tracking-tighter uppercase italic leading-none">Siste Nytt <span class="text-outline-variant">&amp;</span> Events</h2>
+<p class="text-on-surface-variant mt-4 font-body text-lg">Hold deg oppdatert p&#229; de nyeste konkurransene og historiene fra kysten.</p>
+</div>
+<a class="text-primary font-headline font-bold uppercase tracking-tight border-b-2 border-primary-container pb-1 hover:text-secondary transition-colors" href="events/">Se alle nyheter</a>
+</div>
+<!-- Feed items will be loaded from /api/feeds -->
+<div id="feed-container" class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<div class="md:col-span-12 text-center py-12 text-on-surface-variant">
+<p class="font-body">Laster nyheter...</p>
+</div>
+</div>
 </section>
+
+<!-- V&#229;re Grener -->
+<section class="bg-surface-container-low py-28 px-8 overflow-hidden">
+<div class="max-w-7xl mx-auto">
+<div class="mb-20 text-center">
+<h2 class="font-headline font-black text-5xl md:text-7xl text-primary tracking-tighter uppercase italic mb-6">V&#229;re Grener</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto font-body text-lg">Uansett om du s&#248;ker fart, b&#248;lger eller olympisk presisjon, har vi en gren for deg.</p>
+</div>
+<div id="grener-home" class="flex flex-wrap gap-6 justify-between">
+<!-- Loaded dynamically from CMS -->
+<div class="w-full text-center py-20 text-on-surface-variant">Laster grener...</div>
+</div>
+</div>
+</section>
+
+
 
 <!-- CTA -->
 <section class="py-32 px-8 bg-surface">
