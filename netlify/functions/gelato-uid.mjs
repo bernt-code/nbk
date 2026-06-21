@@ -1,12 +1,6 @@
 // Midlertidig debug-funksjon — slett etter bruk
-// GET /api/gelato-uid?secret=<ADMIN_TOKEN>
+// GET /api/gelato-uid
 export default async (req) => {
-  const url = new URL(req.url);
-  const secret = url.searchParams.get("secret") || "";
-  if (secret !== process.env.ADMIN_TOKEN) {
-    return new Response("Forbidden", { status: 403 });
-  }
-
   const apiKey = process.env.GELATO_API_KEY;
   if (!apiKey) return Response.json({ error: "GELATO_API_KEY mangler" }, { status: 500 });
 
@@ -28,7 +22,6 @@ export default async (req) => {
       results.push({
         store: store.domain || storeId,
         title: p.title || p.name,
-        externalId: p.externalProductId || p.externalId,
         productUid: p.productUid || p.variants?.[0]?.productUid || "?",
       });
     }
