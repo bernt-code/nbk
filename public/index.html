@@ -106,6 +106,7 @@
 <a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="om-oss/">Om Oss</a>
 <a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="seilnummer/">Seilnummer</a>
 <a class="text-slate-700 dark:text-slate-300 font-medium hover:text-blue-600 font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300" href="legender/">Legender</a>
+<a class="font-headline font-bold uppercase tracking-tight hover:scale-105 transition-transform duration-300 text-secondary border-b-2 border-secondary pb-1" href="legendekoppen/">🏆 Koppen</a>
 </div>
 <div class="flex items-center gap-4">
 <a href="medlemskap/" class="hidden md:block px-6 py-2 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold uppercase tracking-tight hover:scale-105 transition-all active:scale-95 shadow-lg shadow-secondary/20">
@@ -174,6 +175,56 @@
 <div class="w-full text-center py-20 text-on-surface-variant">Laster grener...</div>
 </div>
 </div>
+</section>
+
+
+<!-- Legendekoppen Promo -->
+<section class="py-28 px-8 bg-slate-900 relative overflow-hidden">
+  <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-secondary/10 rounded-full blur-3xl -mr-64 -mt-64 pointer-events-none"></div>
+  <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-3xl -ml-64 -mb-64 pointer-events-none"></div>
+  <div class="max-w-7xl mx-auto relative z-10">
+    <div class="flex flex-col md:flex-row items-center gap-16">
+      <!-- Tekst -->
+      <div class="flex-1">
+        <span class="inline-block bg-secondary/20 text-secondary font-label text-xs uppercase tracking-widest px-4 py-2 rounded-full mb-6">Eksklusivt fra NBK</span>
+        <h2 class="font-headline font-black text-5xl md:text-7xl text-white uppercase italic leading-none tracking-tighter mb-6">
+          Bli en<br><span class="text-secondary">NBK-legende</span>
+        </h2>
+        <p class="text-white/70 text-xl max-w-lg mb-4 leading-relaxed">
+          Koppen med ditt seilnummer — for alltid. Kjøp deg inn i et eksklusivt fellesskap som støtter norske juniorbrettseilere.
+        </p>
+        <p class="text-white/40 font-label text-sm uppercase tracking-widest mb-10">500 kr · Frakt inkludert i Norge · + 300 kr/år støttemedlemskap</p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="legendekoppen/" class="px-10 py-5 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold text-lg uppercase tracking-tight hover:scale-105 transition-all shadow-xl shadow-secondary/30 text-center">
+            Bestill din Legendekopp
+          </a>
+          <a href="legendekoppen/#legendeveggen" class="px-10 py-5 rounded-full bg-white/10 border border-white/20 text-white font-headline font-bold text-lg uppercase tracking-tight hover:bg-white/20 transition-all text-center">
+            Se Legendeveggen
+          </a>
+        </div>
+        <p id="forside-legende-count" class="mt-6 text-white/30 font-label text-xs uppercase tracking-widest"></p>
+      </div>
+      <!-- Kopp-visual -->
+      <div class="flex-shrink-0 relative">
+        <div class="w-72 h-72 md:w-80 md:h-80 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20"></div>
+          <div class="text-center relative z-10 px-6">
+            <div class="font-headline font-black text-5xl text-white/60 leading-none mb-1">NOR</div>
+            <div class="font-headline font-black text-8xl text-secondary leading-none">88</div>
+            <div class="font-label text-white/40 uppercase tracking-[0.2em] text-xs mt-3">Absolute windsurfing legend<br>since 2016</div>
+          </div>
+        </div>
+        <div class="absolute -top-3 -right-3 w-8 h-8 bg-secondary rounded-full opacity-80"></div>
+        <div class="absolute -bottom-3 -left-3 w-5 h-5 bg-primary-fixed-dim rounded-full opacity-60"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    fetch('/api/legends').then(r=>r.json()).then(d=>{
+      const el=document.getElementById('forside-legende-count');
+      if(el && d.legends?.length>0) el.textContent=d.legends.length+' legendeer og teller';
+    }).catch(()=>{});
+  </script>
 </section>
 
 <!-- CTA -->
