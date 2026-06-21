@@ -442,7 +442,14 @@ export async function createShopifyMugOrder(order, reference) {
 
   const payload = {
     order: {
-      line_items: [{ variant_id: LEGENDEKOPP_VARIANT_ID, quantity: 1 }],
+      line_items: [{
+        variant_id: LEGENDEKOPP_VARIANT_ID,
+        quantity: 1,
+        properties: [
+          { name: "Seilnummer", value: order.seilnummer || "" },
+          { name: "Årstall", value: String(order.arstall || "") },
+        ],
+      }],
       email: order.email,
       financial_status: "paid",
       note,
