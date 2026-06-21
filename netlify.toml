@@ -8,6 +8,11 @@
 
 # API redirects — clean URLs for functions
 [[redirects]]
+  from = "/api/kopp-print"
+  to = "/.netlify/functions/kopp-print"
+  status = 200
+
+[[redirects]]
   from = "/api/sail-numbers/*"
   to = "/.netlify/functions/sail-numbers/:splat"
   status = 200
