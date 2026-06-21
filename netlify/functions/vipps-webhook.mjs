@@ -1,4 +1,5 @@
 import { getStore } from "@netlify/blobs";
+import { createHmac } from "crypto";
 
 // SECURITY 2026-06-16: Webhook signaturverifisering.
 // Vi støtter to mekanismer:
@@ -440,6 +441,20 @@ export async function createShopifyMugOrder(order, reference) {
   const lastName = nameParts.length > 1 ? nameParts.pop() : "";
   const firstName = nameParts.join(" ");
 
+  // ── Bygg artwork-URL for personalisert Gelato-trykk ──
+  const siteUrl = process.env.SITE_URL || "https://nbk.no";
+  const nrParam = encodeURIComponent(order.seilnummer || "NOR 0");
+  const arParam = encodeURIComponent(String(order.arstall || new Date().getFullYear()));
+  const adminSecret = process.env.ADMIN_TOKEN;
+  const artworkToken = adminSecret
+    ? createHmac("sha256", adminSecret)
+        .update(`${order.seilnummer || "NOR 0"}:${String(order.arstall || new Date().getFullYear())}`)
+        .digest("hex").slice(0, 16)
+    : "";
+  const artworkUrl = `${siteUrl}/api/kopp-print?nr=${nrParam}&ar=${arParam}&t=${artworkToken}`;
+
+  // ── Shopify-ordre (for historikk/regnskap).
+  //    Merker som "gelato-direct" slik at Gelato Shopify-appen ikke auto-fulfiller.
   const payload = {
     order: {
       line_items: [{
@@ -448,12 +463,14 @@ export async function createShopifyMugOrder(order, reference) {
         properties: [
           { name: "Seilnummer", value: order.seilnummer || "" },
           { name: "Årstall", value: String(order.arstall || "") },
+          { name: "_gelato_direct", value: "true" },
         ],
       }],
       email: order.email,
       financial_status: "paid",
+      fulfillment_status: "fulfilled",
       note,
-      tags: "legendekopp,vipps-recurring",
+      tags: "legendekopp,vipps-recurring,gelato-direct",
       shipping_address: {
         first_name: firstName,
         last_name: lastName,
@@ -481,5 +498,88 @@ export async function createShopifyMugOrder(order, reference) {
     console.log(`Shopify kopp-ordre ${order.shopifyOrderName || "(ukjent)"} opprettet for ${reference}`);
   } catch (err) {
     console.error("createShopifyMugOrder error:", err);
+  }
+
+  // ── Gelato API: send personalisert trykk-ordre direkte ──
+  await submitGelatoOrder(order, reference, artworkUrl);
+}
+
+// ─────────────────────────────────────────────
+// submitGelatoOrder: kaller Gelato Orders API direkte med personalisert artwork.
+// Omgår Gelato Shopify-appen (som bare kjenner til det statiske designet).
+//
+// Forutsetninger:
+//   GELATO_API_KEY        — Gelato API-nøkkel (finnes i Netlify-env)
+//   GELATO_PRODUCT_UID    — Gelato produkt-UID for 15oz hvit krus.
+//                           Finn den i Gelato dashboard → Products → copy UID.
+//                           Eksempel: "mug_product_msz_15-oz_mmat_ceramic-white_col_white"
+// ─────────────────────────────────────────────
+async function submitGelatoOrder(order, reference, artworkUrl) {
+  const apiKey = process.env.GELATO_API_KEY;
+  if (!apiKey) {
+    console.error("submitGelatoOrder: GELATO_API_KEY mangler — kan ikke sende til Gelato");
+    return;
+  }
+
+  const productUid = process.env.GELATO_PRODUCT_UID
+    || "mug_product_msz_15-oz_mmat_ceramic-white_col_white";
+
+  // Parse adresse "Gateveien 1, 0123 Oslo"
+  const parts    = (order.adresse || "").split(",");
+  const street   = (parts[0] || "").trim();
+  const zipCity  = (parts[1] || "").trim().split(/\s+/);
+  const zip      = zipCity[0] || "";
+  const city     = zipCity.slice(1).join(" ");
+  const nameParts = (order.navn || "").trim().split(/\s+/);
+  const lastName  = nameParts.length > 1 ? nameParts.pop() : "";
+  const firstName = nameParts.join(" ");
+
+  const gelatoPayload = {
+    orderReferenceId: `legendekopp-${reference}`,
+    customerReferenceId: order.email,
+    currency: "NOK",
+    items: [{
+      itemReferenceId: `mug-${reference}`,
+      productUid,
+      quantity: 1,
+      fileUrl: artworkUrl,
+    }],
+    shippingAddress: {
+      firstName,
+      lastName,
+      addressLine1: street,
+      postCode: zip,
+      city,
+      country: "NO",
+      email: order.email,
+    },
+  };
+
+  try {
+    const res = await fetch("https://order.gelatoapis.com/v4/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-KEY": apiKey,
+      },
+      body: JSON.stringify(gelatoPayload),
+    });
+    const result = await res.json();
+    const orders = getStore("orders");
+    const saved  = await orders.get(reference, { type: "json" }) || order;
+    if (result.id) {
+      saved.gelatoOrderId     = result.id;
+      saved.gelatoStatus      = result.status || "submitted";
+      saved.gelatoArtworkUrl  = artworkUrl;
+      console.log(`Gelato ordre ${result.id} opprettet for ${reference} (${order.seilnummer} / ${order.arstall})`);
+    } else {
+      console.error("submitGelatoOrder feilet:", JSON.stringify(result));
+      saved.gelatoStatus = "failed";
+      saved.gelatoError  = JSON.stringify(result);
+    }
+    await orders.set(reference, JSON.stringify(saved));
+    return result;
+  } catch (err) {
+    console.error("submitGelatoOrder exception:", err);
   }
 }
