@@ -1,0 +1,30 @@
+{
+  "name": "Speedseiling",
+  "subtitle": "Raskest på vannet",
+  "description": "500 meter på kortest mulig tid. Speedseiling på brett er verdens raskeste menneskepropulserte vannaktivitet — her handler alt om absolutt fart.",
+  "image": "",
+  "type": "Ekstrem",
+  "cta_text": "Les Mer",
+  "order": 6,
+  "long_description": "## Speedseiling — menneskeheten på absolutt fart\n\nSpeedseiling er den enkleste og mest brutale formen for windsurfing: seile 500 meter så fort som mulig i en rett linje. Det finnes ingen baner, ingen taktikk og ingen ventetid på vind. Alt handler om å optimalisere utstyr, teknikk og timing for å presse topphastigheten til det ytterste.\n\nVerdensrekorden for windsurfing på 500 meter holdes av franskmannen **Antoine Albeau** med svimlende **53,49 knop** (99 km/t) — satt 1. desember 2024 i Lüderitz, Namibia. Kvinnerekorden tilhører britiske **Jenna Gibson** med **48,03 knop**, også satt i Lüderitz i november 2024. Dette gjør windsurfers til noen av de raskeste menneskene i historien på vann — raskere enn de fleste motorbåter.\n\n## Lüderitz Speed Challenge — verdens raskeste kanal\n\nDe absolutt raskeste hastighetene oppnås i **Lüderitz, Namibia**, der en kunstig speedkanal er gravd ut i grunne laguner. Kanalen er 500 meter lang, smal og gjerne svært grunt — grunne kanaler etter at bølgeprofil kapper seg selv og gir helt flatt vann. Kombinert med den konstante og sterke vinden fra ørkenen gir dette de ideelle forholdene for å bryte grenser. Arrangementet *Lüderitz Speed Challenge* holdes hvert år i november–desember og samler verdens beste speedseilere.\n\n## WSSRC og IFCA\n\nOffisielle verdensrekorder på vann administreres av **WSSRC — World Sailing Speed Record Council**, grunnlagt av World Sailing i 1972. WSSRC krever uavhengige observatører, GPS-logging og datarevisjon for å godkjenne rekorder. Organisasjonen fører rekorder for alle kategorier: kitesurf, windsurfing, seilbåt og mer.\n\nFor regattaseiling på speed-brett administrerer **IFCA (International Funboard Class Association)** klasser som inkluderer speedkonkurranser internasjonalt. IFCA er en offisiell klasseorganisasjon under World Sailing og arrangerer verdensmesterskap og ungdomsmesterskap innen slalom og speed.\n\n## Speedseiling i Norge\n\nNorge har gode forutsetninger for speedseiling — spesielt steder som Jæren og Hardangerfjorden byr på sterk, stabil vind og flat sjø under de rette forholdene. NBK støtter norske utøvere som vil satse på speedseiling, og har kontakter i det internasjonale speedmiljøet for de som vil delta i store internasjonale speed-events.",
+  "equipment_text": "Speedbrett (45–70 liter, ultrasmal og flat), Speedseil (5.0–8.5 m² avhengig av vind), Korte, stive finner (for minimalt drag), Heldekkende neopren (mot slag ved fall), Hjelm og beskyttelsesbekledning (obligatorisk), GPS-klokke (Garmin eller Timex GPS for registrering)",
+  "getting_started": "Speedseiling er en avansert disiplin som krever solid grunnlag i windsurfing og planseiling. Starter du der, og er komfortabel i sterk vind (20+ knop), er neste steg å skaffe et speedbrett og prøve deg på en rask strekning. Mange speedseilere starter med å logge hastigheter på GPS under vanlig freerideseiling, og øker gradvis ambisjonen. Kontakt NBK for tips om utstyr og treningssted.",
+  "key_facts": [
+    {
+      "label": "Verdensrekord (menn)",
+      "value": "53,49 knop — Antoine Albeau (2024)"
+    },
+    {
+      "label": "Verdensrekord (kvinner)",
+      "value": "48,03 knop — Jenna Gibson (2024)"
+    },
+    {
+      "label": "Offisiell organisasjon",
+      "value": "WSSRC / IFCA"
+    },
+    {
+      "label": "Beste arena",
+      "value": "Lüderitz, Namibia"
+    }
+  ]
+}
