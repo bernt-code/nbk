@@ -8,6 +8,11 @@
 
 # API redirects — clean URLs for functions
 [[redirects]]
+  from = "/api/gelato-uid"
+  to = "/.netlify/functions/gelato-uid"
+  status = 200
+
+[[redirects]]
   from = "/api/kopp-print"
   to = "/.netlify/functions/kopp-print"
   status = 200
