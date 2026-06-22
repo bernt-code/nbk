@@ -85,7 +85,6 @@ function buildKoppSvg(nr, ar) {
   const legY    = numY + 80;
   const arY     = legY + 200;
 
-  const TX = 301, TY = 85, SC = 1.366;
 
   const logoBla = `
   <path fill="${BLA}" d="M184 265l-7 15.8c8.4-6.3 17.5-11 27.4-14.2 9.9-3.1 20.5-4.7 31.9-4.7 14.3 0 25.2 2.1 32.7 6.3 7.6 4.2 11.5 9.4 11.8 15.8.3 6.3-2.3 16.8-7.7 31.7L229.4 434.5H146.3l43.1-117.4c4.3-11.6 6.3-18.7 6-21.3-.3-2.6-3.2-3.9-8.9-3.9-5.9 0-10.2 1.5-12.8 4.4-2.6 3-6.3 10.8-11 23.6L120.6 434.5 37.5 434.4l62.2-169.4z"/>
@@ -103,10 +102,10 @@ function buildKoppSvg(nr, ar) {
 <!-- ═══════════════════════════════
      FORSIDE x=0–1712, senter x=856
      ═══════════════════════════════ -->
-<g transform="translate(${TX},${TY}) scale(${SC})">
+<svg x="150" y="20" width="1200" height="668" viewBox="30 83 782 436">
   ${logoBla}
   ${logoSeil}
-</g>
+</svg>
 
 <!-- Tynn linje under logo -->
 <line x1="281" y1="853" x2="1432" y2="853" stroke="${BLA}" stroke-width="3" opacity="0.22"/>
@@ -160,3 +159,4 @@ function buildKoppSvg(nr, ar) {
 
 </svg>`;
 }
+
