@@ -102,10 +102,10 @@ function buildKoppSvg(nr, ar) {
 <!-- ═══════════════════════════════
      FORSIDE x=0–1712, senter x=856
      ═══════════════════════════════ -->
-<svg x="150" y="20" width="1200" height="668" viewBox="30 83 782 436">
+<g transform="translate(104,-107) scale(1.5321)">
   ${logoBla}
   ${logoSeil}
-</svg>
+</g>
 
 <!-- Tynn linje under logo -->
 <line x1="281" y1="853" x2="1432" y2="853" stroke="${BLA}" stroke-width="3" opacity="0.22"/>
