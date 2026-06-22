@@ -10,7 +10,20 @@
 // Hvis ADMIN_TOKEN ikke er satt (dev-miljø), godtar endepunktet alle requests.
 
 import { createHmac } from "crypto";
+import { writeFileSync } from "fs";
+import { tmpdir } from "os";
+import { join } from "path";
 import { Resvg } from "@resvg/resvg-js";
+import { LORA_BOLD_ITALIC, OSWALD_BOLD } from "./kopp-fonts.mjs";
+
+// Skriv bundlede fonter til /tmp én gang per Lambda-instans (cold start).
+// Lora BoldItalic = erstatning for Georgia italic bold
+// Oswald Bold     = erstatning for Helvetica Neue Black
+const _tmp = tmpdir();
+const FONT_SERIF = join(_tmp, "nbk-Lora-BoldItalic.ttf");
+const FONT_SANS  = join(_tmp, "nbk-Oswald-Bold.ttf");
+writeFileSync(FONT_SERIF, Buffer.from(LORA_BOLD_ITALIC, "base64"));
+writeFileSync(FONT_SANS,  Buffer.from(OSWALD_BOLD, "base64"));
 
 export default async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { status: 204 });
@@ -38,7 +51,13 @@ export default async (req) => {
 
   if (fmt === "png") {
     try {
-      const resvg  = new Resvg(svgStr, { fitTo: { mode: "width", value: 3425 } });
+      const resvg  = new Resvg(svgStr, {
+        fitTo: { mode: "width", value: 3425 },
+        font: {
+          fontFiles: [FONT_SERIF, FONT_SANS],
+          loadSystemFonts: false,
+        }
+      });
       const png    = resvg.render().asPng();
       return new Response(png, {
         headers: {
@@ -110,17 +129,17 @@ function buildKoppSvg(nr, ar) {
 <!-- Tynn linje under logo -->
 <line x1="281" y1="853" x2="1432" y2="853" stroke="${BLA}" stroke-width="3" opacity="0.22"/>
 
-<!-- Windsurfers do it — bold kursiv oransje -->
+<!-- Windsurfers do it — bold kursiv oransje (Lora BoldItalic) -->
 <text x="856" y="963"
   text-anchor="middle"
-  font-family="Georgia,'Times New Roman',serif"
+  font-family="Lora"
   font-style="italic" font-weight="bold" font-size="108"
   fill="${ORANSJE}">Windsurfers do it</text>
 
-<!-- standing up — bold kursiv oransje -->
+<!-- standing up — bold kursiv oransje (Lora BoldItalic) -->
 <text x="856" y="1096"
   text-anchor="middle"
-  font-family="Georgia,'Times New Roman',serif"
+  font-family="Lora"
   font-style="italic" font-weight="bold" font-size="108"
   fill="${ORANSJE}">standing up</text>
 
@@ -129,34 +148,33 @@ function buildKoppSvg(nr, ar) {
      BAKSIDE x=1712–3425, senter x=2568
      ═══════════════════════════════ -->
 
-<!-- NOR — bold, stor -->
+<!-- NOR — bold, stor (Oswald Bold) -->
 <text x="2568" y="${norY}"
   text-anchor="middle"
-  font-family="'Helvetica Neue',Helvetica,Arial,sans-serif"
-  font-size="200" font-weight="900" letter-spacing="60"
+  font-family="Oswald"
+  font-size="200" font-weight="700" letter-spacing="60"
   fill="${BLA}">${prefix}</text>
 
-<!-- Seilnummer — dynamisk størrelse -->
+<!-- Seilnummer — dynamisk størrelse (Oswald Bold) -->
 <text x="2568" y="${numY}"
   text-anchor="middle"
-  font-family="'Helvetica Neue',Helvetica,Arial,sans-serif"
-  font-size="${numFontSize}" font-weight="900" letter-spacing="-10"
+  font-family="Oswald"
+  font-size="${numFontSize}" font-weight="700" letter-spacing="-10"
   fill="${BLA}">${numStr}</text>
 
-<!-- Absolute windsurfing legend since : -->
+<!-- Absolute windsurfing legend since : (Lora BoldItalic) -->
 <text x="2568" y="${legY}"
   text-anchor="middle"
-  font-family="Georgia,'Times New Roman',serif"
+  font-family="Lora"
   font-style="italic" font-size="64"
   fill="${BLA}">Absolute windsurfing legend since :</text>
 
-<!-- Årstall -->
+<!-- Årstall (Oswald Bold) -->
 <text x="2568" y="${arY}"
   text-anchor="middle"
-  font-family="'Helvetica Neue',Helvetica,Arial,sans-serif"
+  font-family="Oswald"
   font-size="170" font-weight="700" letter-spacing="20"
   fill="${ORANSJE}">${ar}</text>
 
 </svg>`;
 }
-
