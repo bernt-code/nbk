@@ -460,6 +460,7 @@ export async function createShopifyMugOrder(order, reference) {
       line_items: [{
         variant_id: LEGENDEKOPP_VARIANT_ID,
         quantity: 1,
+        fulfillment_service: "manual",
         properties: [
           { name: "Seilnummer", value: order.seilnummer || "" },
           { name: "Årstall", value: String(order.arstall || "") },
