@@ -451,7 +451,7 @@ export async function createShopifyMugOrder(order, reference) {
         .update(`${order.seilnummer || "NOR 0"}:${String(order.arstall || new Date().getFullYear())}`)
         .digest("hex").slice(0, 16)
     : "";
-  const artworkUrl = `${siteUrl}/api/kopp-print?nr=${nrParam}&ar=${arParam}&t=${artworkToken}`;
+  const artworkUrl = `${siteUrl}/api/kopp-print?nr=${nrParam}&ar=${arParam}&t=${artworkToken}&fmt=png`;
 
   // ── Shopify-ordre (for historikk/regnskap).
   //    Merker som "gelato-direct" slik at Gelato Shopify-appen ikke auto-fulfiller.
