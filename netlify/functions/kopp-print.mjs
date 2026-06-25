@@ -142,7 +142,7 @@ function buildKoppSvg(nr, ar) {
 <!-- ═══════════════════════════════
      FORSIDE x=0–1712, senter x=856
      ═══════════════════════════════ -->
-<g transform="translate(104,-107) scale(1.5321)">
+<g transform="translate(211,-107) scale(1.5321)">
   ${logoBla}
   ${logoSeil}
 </g>
@@ -183,7 +183,7 @@ function buildKoppSvg(nr, ar) {
   font-size="${numFontSize}" font-weight="700" letter-spacing="-10"
   fill="${BLA}">${numStr}</text>
 
-<!-- Absolute windsurfing legend since : (Lora BoldItalic) -->
+<!-- Absolute windsurfing legend since: (Lora BoldItalic) -->
 <text x="2568" y="${legY}"
   text-anchor="middle"
   font-family="Lora"
