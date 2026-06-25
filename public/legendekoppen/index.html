@@ -694,9 +694,14 @@
             <figcaption style="font-size:0.7rem; color:var(--muted); margin-top:0.35rem;">Forside</figcaption>
           </figure>
           <figure style="margin:0; text-align:center;">
-            <img src="https://cdn.shopify.com/s/files/1/1000/8526/8766/files/a3b5b8e4-cdd9-4e16-b306-b9a641b106a8.webp?v=1780921551"
-                 alt="NBK Legendekoppen — bakside med seilnummer og årstall"
-                 style="width:150px; height:auto; display:block; border-radius:8px;">
+            <div style="width:150px; height:52px; overflow:hidden; border-radius:8px; background:#f5f5f5; position:relative;">
+                <img id="preview-bakside-img"
+                     src="/api/kopp-preview?nr=NOR%20___%3F&ar=____"
+                     alt="NBK Legendekoppen — bakside med seilnummer og årstall"
+                     style="width:300px; max-width:none; height:auto; display:block; margin-left:-150px; transition:opacity 0.3s;"
+                     onerror="this.style.opacity='0.2'"
+                     onload="this.style.opacity='1'">
+              </div>
             <figcaption style="font-size:0.7rem; color:var(--muted); margin-top:0.35rem;">Bakside — ditt nummer</figcaption>
           </figure>
         </div>
@@ -1068,6 +1073,17 @@
     });
     const previewKopp = document.getElementById('preview-kopp-text');
     if (previewKopp) previewKopp.textContent = sailText + ' · ' + yearText;
+
+    // Live bakside-preview: oppdater bilde når nr+år er fylt inn
+    if (num && year && Number(year) >= 1960 && Number(year) <= new Date().getFullYear()) {
+      const previewImg = document.getElementById('preview-bakside-img');
+      if (previewImg) {
+        const nrFull = `${currentPrefix} ${num}`;
+        previewImg.style.opacity = '0.4';
+        previewImg.src =
+          `/api/kopp-preview?nr=${encodeURIComponent(nrFull)}&ar=${encodeURIComponent(year)}`;
+      }
+    }
 
     if (year && year >= 1960 && year <= 2025) {
       const years = 2025 - parseInt(year);
