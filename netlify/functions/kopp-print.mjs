@@ -10,7 +10,7 @@
 // Hvis ADMIN_TOKEN ikke er satt (dev-miljø), godtar endepunktet alle requests.
 
 import { createHmac } from "crypto";
-import { writeFileSync } from "fs";
+import { writeFileSync, existsSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
 import { Resvg } from "@resvg/resvg-js";
@@ -22,8 +22,19 @@ import { LORA_BOLD_ITALIC, OSWALD_BOLD } from "./kopp-fonts.mjs";
 const _tmp = tmpdir();
 const FONT_SERIF = join(_tmp, "nbk-Lora-BoldItalic.ttf");
 const FONT_SANS  = join(_tmp, "nbk-Oswald-Bold.ttf");
+const FONT_WIDE  = join(_tmp, "nbk-ArchivoBlack.ttf");
 writeFileSync(FONT_SERIF, Buffer.from(LORA_BOLD_ITALIC, "base64"));
 writeFileSync(FONT_SANS,  Buffer.from(OSWALD_BOLD, "base64"));
+
+// Hent Archivo Black fra CDN og cache i /tmp (kun ved cold start)
+if (!existsSync(FONT_WIDE)) {
+  try {
+    const r = await fetch("https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/archivoblack/ArchivoBlack-Regular.ttf");
+    if (r.ok) writeFileSync(FONT_WIDE, Buffer.from(await r.arrayBuffer()));
+  } catch (e) {
+    console.warn("kopp-print: kunne ikke laste Archivo Black:", e.message);
+  }
+}
 
 export default async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { status: 204 });
@@ -54,7 +65,7 @@ export default async (req) => {
       const resvg  = new Resvg(svgStr, {
         fitTo: { mode: "width", value: 3425 },
         font: {
-          fontFiles: [FONT_SERIF, FONT_SANS],
+          fontFiles: [FONT_SERIF, FONT_SANS, ...(existsSync(FONT_WIDE) ? [FONT_WIDE] : [])],
           loadSystemFonts: false,
         }
       });
@@ -172,14 +183,14 @@ function buildKoppSvg(nr, ar) {
 <!-- NOR — bold, stor (Oswald Bold) -->
 <text x="2568" y="${norY}"
   text-anchor="middle"
-  font-family="Oswald"
+  font-family="Archivo Black"
   font-size="200" font-weight="700" letter-spacing="60"
   fill="${BLA}">${prefix}</text>
 
 <!-- Seilnummer — dynamisk størrelse (Oswald Bold) -->
 <text x="2568" y="${numY}"
   text-anchor="middle"
-  font-family="Oswald"
+  font-family="Archivo Black"
   font-size="${numFontSize}" font-weight="700" letter-spacing="-10"
   fill="${BLA}">${numStr}</text>
 
@@ -188,12 +199,12 @@ function buildKoppSvg(nr, ar) {
   text-anchor="middle"
   font-family="Lora"
   font-style="italic" font-size="64"
-  fill="${BLA}">Absolute windsurfing legend since :</text>
+  fill="${BLA}">Absolute windsurfing legend since:</text>
 
 <!-- Årstall (Oswald Bold) -->
 <text x="2568" y="${arY}"
   text-anchor="middle"
-  font-family="Oswald"
+  font-family="Archivo Black"
   font-size="170" font-weight="700" letter-spacing="20"
   fill="${ORANSJE}">${ar}</text>
 
