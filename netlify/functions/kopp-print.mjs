@@ -97,12 +97,12 @@ function buildKoppSvg(nr, ar) {
   const numFontSize = numLen <= 1 ? 600 : numLen <= 2 ? 520 : numLen <= 3 ? 390 : 280;
 
   // Vertikal layout for bakside (sentrert i 1192px høy canvas)
-  const totalH  = 200 + 10 + numFontSize + 80 + 70 + 20 + 200;
+  const totalH  = 200 + 10 + numFontSize + 130 + 70 + 20 + 230;
   const topM    = Math.max(20, Math.round((1192 - totalH) / 2));
   const norY    = topM + 200;
   const numY    = norY + 10 + numFontSize;
-  const legY    = numY + 80;
-  const arY     = legY + 200;
+  const legY    = numY + 130;
+  const arY     = legY + 230;
 
 
   const logoBla = `
