@@ -108,9 +108,9 @@ function buildKoppSvg(nr, ar) {
   const numFontSize = numLen <= 1 ? 600 : numLen <= 2 ? 520 : numLen <= 3 ? 390 : 280;
 
   // Vertikal layout for bakside (sentrert i 1192px høy canvas)
-  const totalH  = 200 + 10 + numFontSize + 130 + 70 + 20 + 230;
+  const totalH  = 270 + 10 + numFontSize + 130 + 70 + 20 + 230;
   const topM    = Math.max(20, Math.round((1192 - totalH) / 2));
-  const norY    = topM + 200;
+  const norY    = topM + 270;
   const numY    = norY + 10 + numFontSize;
   const legY    = numY + 130;
   const arY     = legY + 230;
@@ -184,7 +184,7 @@ function buildKoppSvg(nr, ar) {
 <text x="2568" y="${norY}"
   text-anchor="middle"
   font-family="Archivo Black"
-  font-size="200" font-weight="700" letter-spacing="60"
+  font-size="270" font-weight="700" letter-spacing="60"
   fill="${BLA}">${prefix}</text>
 
 <!-- Seilnummer — dynamisk størrelse (Oswald Bold) -->
