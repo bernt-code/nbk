@@ -44,6 +44,21 @@ export default async (req) => {
   const skipGelato     = url.searchParams.get("skip_gelato") === "1";
   const skipShopify    = url.searchParams.get("skip_shopify") === "1";
   const shipMethodUid  = url.searchParams.get("ship") || null; // null = Gelato default
+  const listMethods    = url.searchParams.get("list_methods") === "1";
+
+  // ── Gelato: list available shipment methods ──
+  if (listMethods) {
+    const gelatoKey  = process.env.GELATO_API_KEY;
+    const productUid = process.env.GELATO_PRODUCT_UID || "mug_product_msz_15-oz_mmat_ceramic-white_col_white";
+    if (!gelatoKey) return Response.json({ error: "GELATO_API_KEY mangler" }, { status: 500 });
+    const res = await fetch(
+      `https://shipment.gelatoapis.com/v3/shipment-methods?productUids[]=${productUid}&country=NO`,
+      { headers: { "X-API-KEY": gelatoKey } }
+    );
+    const data = await res.json();
+    return Response.json({ status: res.status, methods: data }, { status: 200 });
+  }
+
 
   // Bygg artwork-URL (samme logikk som i vipps-webhook.mjs)
   const artworkToken = createHmac("sha256", adminSecret).update(`${nr}:${ar}`).digest("hex").slice(0, 16);
