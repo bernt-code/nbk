@@ -1,8 +1,9 @@
 import { createHmac } from "crypto";
 
-// /api/test-kopp?t=<token>&nr=NOR+111&ar=1980[&skip_gelato=1]
+// /api/test-kopp?t=<token>&nr=NOR+111&ar=1980[&skip_gelato=1][&ship=normal]
 // Simulerer full Legendekopp-bestilling: Shopify-ordre + Gelato-ordre.
 // skip_gelato=1: hopp over Gelato (nyttig for å teste kun Shopify-flyten uten ekte trykk-ordre)
+// ship=<uid>: overstyr Gelato shipmentMethodUid (f.eks. "normal", "express") — utelatt = Gelato default
 // Kun for admin-testing — fjern eller sperre etter verifisering.
 
 async function getShopifyAccessToken(shop) {
@@ -38,22 +39,26 @@ export default async (req) => {
   const expected = createHmac("sha256", adminSecret).update("test-kopp").digest("hex").slice(0, 16);
   if (t !== expected) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
-  const nr         = url.searchParams.get("nr") || "NOR 111";
-  const ar         = url.searchParams.get("ar") || "1980";
-  const skipGelato = url.searchParams.get("skip_gelato") === "1";
+  const nr             = url.searchParams.get("nr") || "NOR 111";
+  const ar             = url.searchParams.get("ar") || "1980";
+  const skipGelato     = url.searchParams.get("skip_gelato") === "1";
+  const skipShopify    = url.searchParams.get("skip_shopify") === "1";
+  const shipMethodUid  = url.searchParams.get("ship") || null; // null = Gelato default
 
   // Bygg artwork-URL (samme logikk som i vipps-webhook.mjs)
   const artworkToken = createHmac("sha256", adminSecret).update(`${nr}:${ar}`).digest("hex").slice(0, 16);
   const siteUrl = process.env.SITE_URL || "https://nbk.no";
   const artworkUrl = `${siteUrl}/api/kopp-print?nr=${encodeURIComponent(nr)}&ar=${encodeURIComponent(ar)}&t=${artworkToken}&fmt=png`;
 
-  const results = { nr, ar, artworkUrl, shopify: null, gelato: null };
+  const results = { nr, ar, shipMethodUid: shipMethodUid || "(gelato default)", artworkUrl, shopify: null, gelato: null };
 
   // ── Shopify ──
   const shop = process.env.SHOPIFY_STORE_DOMAIN;
   const LEGENDEKOPP_VARIANT_ID = 51936344375582;
 
-  if (!shop) {
+  if (skipShopify) {
+    results.shopify = { skipped: "skip_shopify=1" };
+  } else if (!shop) {
     results.shopify = { skipped: "SHOPIFY_STORE_DOMAIN mangler" };
   } else {
     const token_shopify = await getShopifyAccessToken(shop);
@@ -130,6 +135,7 @@ export default async (req) => {
             addressLine1: "Testgata 1", postCode: "0123", city: "Oslo",
             country: "NO", email: "berntblankholm@gmail.com",
           },
+          ...(shipMethodUid ? { shipmentMethodUid } : {}),
         };
         const res = await fetch("https://order.gelatoapis.com/v4/orders", {
           method: "POST",
@@ -138,10 +144,14 @@ export default async (req) => {
         });
         const data = await res.json();
         results.gelato = {
-          status:      res.status,
-          orderId:     data?.id,
-          orderStatus: data?.status,
-          error:       data?.message || null,
+          status:            res.status,
+          orderId:           data?.id,
+          orderStatus:       data?.status,
+          shipmentMethod:    data?.shipment?.shipmentMethodName || null,
+          shipmentPrice:     data?.shipment?.price             || null,
+          fulfillmentPrice:  data?.fulfillment?.price          || null,
+          rawResponse:       res.status !== 200 ? data : undefined,
+          error:             data?.message || null,
           ref,
         };
       } catch (err) {
