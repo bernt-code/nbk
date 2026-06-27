@@ -51,8 +51,10 @@ export default async (req) => {
     const gelatoKey  = process.env.GELATO_API_KEY;
     const productUid = process.env.GELATO_PRODUCT_UID || "mug_product_msz_15-oz_mmat_ceramic-white_col_white";
     if (!gelatoKey) return Response.json({ error: "GELATO_API_KEY mangler" }, { status: 500 });
+    // Hent Gelato ordre 1001 for å se faktisk shipmentMethodUid
+    const ORDER_ID = "1a4ba045-1563-4b18-8a4d-ed26e6a81e9a";
     const res = await fetch(
-      `https://shipment.gelatoapis.com/v3/shipment-methods?productUids[]=${productUid}&country=NO`,
+      `https://order.gelatoapis.com/v4/orders/${ORDER_ID}`,
       { headers: { "X-API-KEY": gelatoKey } }
     );
     const data = await res.json();
