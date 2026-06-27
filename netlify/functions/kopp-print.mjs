@@ -105,15 +105,18 @@ function buildKoppSvg(nr, ar) {
 
   // Dynamisk font-størrelse basert på antall sifre
   const numLen = numStr.length || 1;
-  const numFontSize = numLen <= 1 ? 600 : numLen <= 2 ? 520 : numLen <= 3 ? 390 : 280;
+  const numFontSize = numLen <= 1 ? 560 : numLen <= 2 ? 500 : numLen <= 3 ? 380 : 270;
+  // NOR er 2/3 av nummerstørrelse (ISAF-standard for seilmerking)
+  const norFontSize = Math.round(numFontSize * 0.67);
 
-  // Vertikal layout for bakside (sentrert i 1192px høy canvas)
-  const totalH  = 270 + 10 + numFontSize + 130 + 70 + 20 + 230;
-  const topM    = Math.max(20, Math.round((1192 - totalH) / 2));
-  const norY    = topM + 270;
-  const numY    = norY + 10 + numFontSize;
-  const legY    = numY + 130;
-  const arY     = legY + 230;
+  // Vertikal layout — bruker cap-height (0.72) for tett spacing mellom NOR og nummer
+  const CAP_H  = 0.72;
+  const totalH = norFontSize + 15 + Math.round(numFontSize * CAP_H) + 110 + 60 + 15 + 170;
+  const topM   = Math.max(20, Math.round((1192 - totalH) / 2));
+  const norY   = topM + norFontSize;
+  const numY   = norY + 15 + Math.round(numFontSize * CAP_H);
+  const legY   = numY + 110;
+  const arY    = legY + 190;
 
 
   const logoBla = `
@@ -184,7 +187,7 @@ function buildKoppSvg(nr, ar) {
 <text x="2568" y="${norY}"
   text-anchor="middle"
   font-family="Archivo Black"
-  font-size="270" font-weight="700" letter-spacing="60"
+  font-size="${norFontSize}" font-weight="700" letter-spacing="60"
   fill="${BLA}">${prefix}</text>
 
 <!-- Seilnummer — dynamisk størrelse (Oswald Bold) -->
@@ -210,3 +213,4 @@ function buildKoppSvg(nr, ar) {
 
 </svg>`;
 }
+
