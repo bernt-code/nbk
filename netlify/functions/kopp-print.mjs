@@ -58,7 +58,14 @@ export default async (req) => {
     }
   }
 
-  const svgStr = buildKoppSvg(nr, ar);
+  const side   = url.searchParams.get("side") || "full";
+  let svgStr = buildKoppSvg(nr, ar);
+  if (side === "back") {
+    // Vis kun baksiden (x=1712–3425) ved å endre viewBox
+    svgStr = svgStr
+      .replace('viewBox="0 0 3425 1192"', 'viewBox="1712 0 1713 1192"')
+      .replace('width="3425"', 'width="1713"');
+  }
 
   if (fmt === "png") {
     try {
