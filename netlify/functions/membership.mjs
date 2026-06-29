@@ -123,15 +123,18 @@ export default async (req) => {
         ? normalizedMembers
         : [{ number: Number(reserveNumber), name }];
 
-      // Hent hvilke numre denne brukeren allerede har (re-claim)
-      const claimedNums = new Set();
+      // Hent hvilke numre denne brukeren allerede har (re-claim).
+      // BUGFIX 2026-06-29: Bruker memberNums for å unngå å skygge ytre claimedNums (verifyClaim).
+      const memberNums = new Set();
       try {
         const m = await getActiveMember(email);
         if (m) {
-          if (Array.isArray(m.numbersReserved)) m.numbersReserved.forEach(n => claimedNums.add(Number(n)));
-          if (m.numberReserved) claimedNums.add(Number(m.numberReserved));
+          if (Array.isArray(m.numbersReserved)) m.numbersReserved.forEach(n => memberNums.add(Number(n)));
+          if (m.numberReserved) memberNums.add(Number(m.numberReserved));
         }
       } catch {}
+      // Slå sammen claim-token-numre og eksisterende membership-numre
+      memberNums.forEach(n => claimedNums.add(n));
 
       // SECURITY 2026-06-16: CAS-loop (Compare-And-Swap) for parallel reservation safety
       const MAX_RETRIES = 5;
