@@ -6,8 +6,9 @@ import { createHmac } from "crypto";
 // eksponere ADMIN_TOKEN på klienten.
 export default async (req) => {
   const url = new URL(req.url);
-  const nr  = url.searchParams.get("nr") || "";
-  const ar  = url.searchParams.get("ar") || "";
+  const nr   = url.searchParams.get("nr") || "";
+  const ar   = url.searchParams.get("ar") || "";
+  const side = url.searchParams.get("side") || "";
 
   if (!nr || !ar) {
     return new Response("Missing nr or ar", { status: 400 });
@@ -28,7 +29,8 @@ export default async (req) => {
     `${siteUrl}/api/kopp-print` +
     `?nr=${encodeURIComponent(nr)}` +
     `&ar=${encodeURIComponent(ar)}` +
-    `&t=${token}&fmt=png`;
+    `&t=${token}&fmt=png` +
+    (side ? `&side=${encodeURIComponent(side)}` : "");
 
   return Response.redirect(printUrl, 302);
 };
