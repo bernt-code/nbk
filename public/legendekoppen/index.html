@@ -960,16 +960,14 @@
       </div>
 
       <div style="text-align:center; margin-bottom:1.5rem;">
-        <div style="position:relative; display:inline-block;">
-          <img src="https://cdn.shopify.com/s/files/1/1000/8526/8766/files/b017e480-384d-431c-a7ab-9cf61d18e770.webp?v=1780921551"
-               alt="NBK Legendekoppen"
+        <div style="display:inline-block;">
+          <img id="confirm-mug-img" src=""
+               alt="NBK Legendekoppen — bakside"
                style="width:220px; height:auto; border-radius:12px; display:block;">
-          <div style="position:absolute; bottom:0; left:0; right:0; background:rgba(13,27,42,0.82); border-radius:0 0 12px 12px; padding:0.6rem 0.5rem; backdrop-filter:blur(4px);">
-            <p id="confirm-seilnummer" style="font-size:1.3rem; font-weight:900; color:#C9A84C; letter-spacing:2px; margin:0; line-height:1.2;">NOR ___</p>
-            <p id="confirm-arstall" style="font-size:0.85rem; color:rgba(255,255,255,0.7); margin:0.1rem 0 0;">Siden ____</p>
-          </div>
+          <p id="confirm-seilnummer" style="display:none;"></p>
+          <p id="confirm-arstall" style="display:none;"></p>
         </div>
-        <p style="font-size:0.72rem; color:var(--muted); margin:0.6rem 0 0;">← Seilnummer og årstall trykkes på koppen</p>
+        <p style="font-size:0.72rem; color:var(--muted); margin:0.6rem 0 0;">← Slik ser baksiden av koppen din ut</p>
       </div>
 
       <div style="background:rgba(255,255,255,0.04); border-radius:10px; padding:1rem; font-size:0.9rem; color:var(--text); margin-bottom:1.5rem;">
@@ -1235,6 +1233,10 @@
     document.getElementById('confirm-epost').textContent = epost || '—';
     document.getElementById('confirm-adresse').textContent = adresse || '—';
     document.getElementById('confirm-seilnummer').textContent = seilnummer || 'NOR ___';
+    const _mugImg = document.getElementById('confirm-mug-img');
+    if (_mugImg && seilnummer && arstall) {
+      _mugImg.src = '/api/kopp-preview?nr=' + encodeURIComponent(seilnummer) + '&ar=' + encodeURIComponent(arstall);
+    }
     document.getElementById('confirm-arstall').textContent = arstall ? 'Siden ' + arstall : 'Siden ____';
 
     if (optOut) {
