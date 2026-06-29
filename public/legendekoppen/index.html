@@ -1235,7 +1235,7 @@
     document.getElementById('confirm-seilnummer').textContent = seilnummer || 'NOR ___';
     const _mugImg = document.getElementById('confirm-mug-img');
     if (_mugImg && seilnummer && arstall) {
-      _mugImg.src = '/api/kopp-preview?nr=' + encodeURIComponent(seilnummer) + '&ar=' + encodeURIComponent(arstall);
+      _mugImg.src = '/api/kopp-preview?nr=' + encodeURIComponent(seilnummer) + '&ar=' + encodeURIComponent(arstall) + '&side=back';
     }
     document.getElementById('confirm-arstall').textContent = arstall ? 'Siden ' + arstall : 'Siden ____';
 
