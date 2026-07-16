@@ -63,7 +63,7 @@ export default async (req) => {
   if (side === "back") {
     // Vis kun baksiden (x=1712–3425) ved å endre viewBox
     svgStr = svgStr
-      .replace('viewBox="0 0 3425 1192"', 'viewBox="1712 0 1713 1192"')
+      .replace('viewBox="0 0 3425 1192"', `viewBox="${1712 - SKYV} 0 1713 1192"`)
       .replace('width="3425"', 'width="1713"');
   }
 
@@ -96,6 +96,32 @@ export default async (req) => {
     },
   });
 };
+
+// ─────────────────────────────────────────────
+// Hanksone-korreksjon (2026-07-16)
+//
+// Trykketest juli 2026 (NOR 111 / 1980): Gelato kuttet venstre del av
+// nbk-logoen og halen "since:" på baksiden. Topp/bunn var derimot fint.
+//
+// Årsak: canvaset (3425 px) dekker HELE omkretsen av koppen — også der
+// hanken sitter. Hanken spiser ca. 400 px i hver ytterkant (~22 % av
+// omkretsen på en 11oz-kopp). Designet var sentrert i hele canvaset
+// (forside 856, bakside 2568) som om hanken ikke fantes:
+//
+//   før:  marg 268 / 353 px ved hanken  ·  midtgap 616 px
+//
+// Begge kantene lå altså innenfor hanksonen, mens midtgapet hadde
+// rikelig plass til overs. Fiksen flytter panelene SKYV px inn mot
+// midten — luft flyttes fra midtgapet (der man aldri ser begge
+// motivene samtidig) til hanken:
+//
+//   etter: marg 468 / 553 px ved hanken  ·  midtgap 217 px
+//
+// Motivet beholder 100 % størrelse. Topp/bunn er urørt.
+// Canvas-størrelsen (3425×1192) må IKKE endres — Gelato krever den.
+// Skal margen justeres: endre kun SKYV.
+// ─────────────────────────────────────────────
+const SKYV = 200;
 
 // ─────────────────────────────────────────────
 // SVG-generator: wrap-around artwork 3425×1192
@@ -163,6 +189,7 @@ function buildKoppSvg(nr, ar) {
 <!-- ═══════════════════════════════
      FORSIDE x=0–1712, senter x=856
      ═══════════════════════════════ -->
+<g transform="translate(${SKYV},0)">
 <g transform="translate(211,-107) scale(1.5321)">
   ${logoBla}
   ${logoSeil}
@@ -186,9 +213,12 @@ function buildKoppSvg(nr, ar) {
   fill="${ORANSJE}">standing up</text>
 
 
+</g><!-- /forside-skyv -->
+
 <!-- ═══════════════════════════════
      BAKSIDE x=1712–3425, senter x=2568
      ═══════════════════════════════ -->
+<g transform="translate(${-SKYV},0)">
 
 <!-- NOR — bold, stor (Oswald Bold) -->
 <text x="2568" y="${norY}"
@@ -217,6 +247,7 @@ function buildKoppSvg(nr, ar) {
   font-family="Archivo Black"
   font-size="170" font-weight="700" letter-spacing="20"
   fill="${ORANSJE}">${ar}</text>
+</g><!-- /bakside-skyv -->
 
 </svg>`;
 }
