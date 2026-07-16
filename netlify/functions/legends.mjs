@@ -2,6 +2,7 @@
 // Henter betalte (ikke-kansellerte) ordrer med Legendekopp-varianten fra Shopify
 // (via client_credentials) og leser personaliseringen ut av ordrenotatet.
 // Eksponerer KUN: seilnummer/fornavn (etter kjøperens «vis som»-valg), årstall, gave.
+// «Legendevegg»-verdier: navn_og_nummer | kun_nummer (default) | anonym | skjul
 // ALDRI adresse, e-post eller fullt navn.
 const LEGENDEKOPP_VARIANT_ID = 51936344375582;
 
@@ -50,6 +51,11 @@ export default async (req) => {
       if (!hasMug || !/Seilnummer:/.test(note)) continue;
       const seil = field(note, "Seilnummer");
       const visning = field(note, "Legendevegg");
+      // «Legendevegg: skjul» holder ordren utenfor veggen uten å røre selve
+      // ordren. Brukes til vareprøver, interne testkjøp og duplikater — og
+      // hvis noen senere ber om å bli fjernet fra veggen. Ordren beholdes
+      // intakt i Shopify (regnskap, sporing, historikk). (2026-07-16)
+      if (visning === "skjul") continue;
       const navn = field(note, "Navn");
       const arstall = parseInt(field(note, "Årstall"), 10);
       const gave = /Gave fra:/.test(note);
