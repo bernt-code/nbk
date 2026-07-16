@@ -10,31 +10,28 @@
 // Hvis ADMIN_TOKEN ikke er satt (dev-miljø), godtar endepunktet alle requests.
 
 import { createHmac } from "crypto";
-import { writeFileSync, existsSync } from "fs";
+import { writeFileSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
 import { Resvg } from "@resvg/resvg-js";
-import { LORA_BOLD_ITALIC, OSWALD_BOLD } from "./kopp-fonts.mjs";
+import { LORA_BOLD_ITALIC, OSWALD_BOLD, ARCHIVO_BLACK } from "./kopp-fonts.mjs";
 
 // Skriv bundlede fonter til /tmp én gang per Lambda-instans (cold start).
 // Lora BoldItalic = erstatning for Georgia italic bold
 // Oswald Bold     = erstatning for Helvetica Neue Black
+// Archivo Black   = NOR, seilnummer og årstall på baksiden
+//
+// Alle tre er bundlet i kopp-fonts.mjs (SIL OFL). Archivo Black ble
+// tidligere hentet fra jsDelivr ved cold start — en feilet fetch ga da
+// stille fallback til feil font i trykkfila, uten at noen merket det.
+// Trykkfila skal aldri avhenge av en ekstern CDN. (2026-07-16)
 const _tmp = tmpdir();
 const FONT_SERIF = join(_tmp, "nbk-Lora-BoldItalic.ttf");
 const FONT_SANS  = join(_tmp, "nbk-Oswald-Bold.ttf");
 const FONT_WIDE  = join(_tmp, "nbk-ArchivoBlack.ttf");
 writeFileSync(FONT_SERIF, Buffer.from(LORA_BOLD_ITALIC, "base64"));
 writeFileSync(FONT_SANS,  Buffer.from(OSWALD_BOLD, "base64"));
-
-// Hent Archivo Black fra CDN og cache i /tmp (kun ved cold start)
-if (!existsSync(FONT_WIDE)) {
-  try {
-    const r = await fetch("https://cdn.jsdelivr.net/gh/google/fonts@main/ofl/archivoblack/ArchivoBlack-Regular.ttf");
-    if (r.ok) writeFileSync(FONT_WIDE, Buffer.from(await r.arrayBuffer()));
-  } catch (e) {
-    console.warn("kopp-print: kunne ikke laste Archivo Black:", e.message);
-  }
-}
+writeFileSync(FONT_WIDE,  Buffer.from(ARCHIVO_BLACK, "base64"));
 
 export default async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { status: 204 });
@@ -64,19 +61,24 @@ export default async (req) => {
   // hank. Med skyv=0 står baksiden i original posisjon (x=1712–3425), så
   // viewBox-croppet treffer den sentrert og forsiden lekker ikke inn.
   let svgStr = buildKoppSvg(nr, ar, side === "back" ? 0 : SKYV);
+  // Bredden PNG-en rendres i. Må følge viewBox-bredden, ellers blir
+  // bakside-previewet oppskalert 2x (3425 px bredt for et 1713 px
+  // viewBox) — samme bilde, 2,4 MB større. (2026-07-16)
+  let pngWidth = 3425;
   if (side === "back") {
     // Vis kun baksiden (x=1712–3425) ved å endre viewBox
     svgStr = svgStr
       .replace('viewBox="0 0 3425 1192"', 'viewBox="1712 0 1713 1192"')
       .replace('width="3425"', 'width="1713"');
+    pngWidth = 1713;
   }
 
   if (fmt === "png") {
     try {
       const resvg  = new Resvg(svgStr, {
-        fitTo: { mode: "width", value: 3425 },
+        fitTo: { mode: "width", value: pngWidth },
         font: {
-          fontFiles: [FONT_SERIF, FONT_SANS, ...(existsSync(FONT_WIDE) ? [FONT_WIDE] : [])],
+          fontFiles: [FONT_SERIF, FONT_SANS, FONT_WIDE],
           loadSystemFonts: false,
         }
       });
