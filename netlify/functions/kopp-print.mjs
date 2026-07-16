@@ -59,11 +59,15 @@ export default async (req) => {
   }
 
   const side   = url.searchParams.get("side") || "full";
-  let svgStr = buildKoppSvg(nr, ar);
+  // side=back rendres UTEN hanksone-skyv (skyv=0). SKYV finnes kun for å
+  // dodge den fysiske hanken på koppen — et flatt bakside-preview har ingen
+  // hank. Med skyv=0 står baksiden i original posisjon (x=1712–3425), så
+  // viewBox-croppet treffer den sentrert og forsiden lekker ikke inn.
+  let svgStr = buildKoppSvg(nr, ar, side === "back" ? 0 : SKYV);
   if (side === "back") {
     // Vis kun baksiden (x=1712–3425) ved å endre viewBox
     svgStr = svgStr
-      .replace('viewBox="0 0 3425 1192"', `viewBox="${1712 - SKYV} 0 1713 1192"`)
+      .replace('viewBox="0 0 3425 1192"', 'viewBox="1712 0 1713 1192"')
       .replace('width="3425"', 'width="1713"');
   }
 
@@ -127,7 +131,7 @@ const SKYV = 200;
 // SVG-generator: wrap-around artwork 3425×1192
 // Forside x=0–1712, bakside x=1712–3425
 // ─────────────────────────────────────────────
-function buildKoppSvg(nr, ar) {
+function buildKoppSvg(nr, ar, skyv = SKYV) {
   const BLA     = "#0052A1";
   const ORANSJE = "#F04729";
 
@@ -189,7 +193,7 @@ function buildKoppSvg(nr, ar) {
 <!-- ═══════════════════════════════
      FORSIDE x=0–1712, senter x=856
      ═══════════════════════════════ -->
-<g transform="translate(${SKYV},0)">
+<g transform="translate(${skyv},0)">
 <g transform="translate(211,-107) scale(1.5321)">
   ${logoBla}
   ${logoSeil}
@@ -218,7 +222,7 @@ function buildKoppSvg(nr, ar) {
 <!-- ═══════════════════════════════
      BAKSIDE x=1712–3425, senter x=2568
      ═══════════════════════════════ -->
-<g transform="translate(${-SKYV},0)">
+<g transform="translate(${-skyv},0)">
 
 <!-- NOR — bold, stor (Oswald Bold) -->
 <text x="2568" y="${norY}"
