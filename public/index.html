@@ -151,6 +151,21 @@
 <div class="w-px h-12 bg-gradient-to-b from-white to-transparent"></div>
 </div>
 </section>
+<!-- Legendeveggen -->
+<section id="legendeveggen" class="py-24 bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto px-8">
+<div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+<div>
+<p class="text-secondary font-label text-sm font-bold uppercase tracking-[0.2em] mb-3">Legendeveggen</p>
+<h2 class="font-headline font-black text-4xl md:text-5xl text-primary tracking-tighter uppercase italic leading-none">Disse har st&#248;ttet norske juniorer</h2>
+<p class="text-on-surface-variant mt-4 font-body text-lg max-w-2xl">Alle som kj&#248;per Legendekoppen er en del av dette fellesskapet &#8212; for alltid.</p>
+</div>
+<p class="text-on-surface-variant font-body shrink-0"><strong id="fv-wall-count" class="text-secondary text-2xl font-headline">0</strong> legender og teller</p>
+</div>
+<div id="fv-legend-wall" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4"></div>
+</div>
+</section>
+
 
 
 <!-- Legendekoppen Promo -->
@@ -200,8 +215,7 @@
       if(el && d.legends?.length>0) el.textContent=d.legends.length+' legendeer og teller';
     }).catch(()=>{});
   </script>
-
-
+</section>
 <!-- Siste Nytt & Events -->
 <section class="py-28 px-8 max-w-7xl mx-auto">
 <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
@@ -511,4 +525,46 @@ loadFooter();
   }
 </script>
 <script src="/js/bildekreditt.js"></script>
+<script>
+// Legendeveggen paa forsiden — samme kilde som /legendekoppen/
+(function () {
+  const grid = document.getElementById('fv-legend-wall');
+  const teller = document.getElementById('fv-wall-count');
+  if (!grid) return;
+  const esc = (v) => String(v == null ? '' : v).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const flagg = (l) => l.anonymous ? '\uD83C\uDFC6'
+    : (!l.prefix || l.prefix === 'NOR') ? '\uD83C\uDDF3\uD83C\uDDF4'
+    : l.prefix === 'GER' ? '\uD83C\uDDE9\uD83C\uDDEA'
+    : l.prefix === 'FRA' ? '\uD83C\uDDEB\uD83C\uDDF7'
+    : l.prefix === 'ESP' ? '\uD83C\uDDEA\uD83C\uDDF8' : '\uD83C\uDFC4';
+
+  const tomtKort = (forste) => `
+    <a href="legendekoppen/#bestill" class="flex flex-col items-center justify-center text-center gap-2 p-5 rounded-xl border-2 border-dashed border-outline-variant hover:border-secondary transition-colors min-h-[190px]">
+      <span class="text-3xl">\uD83C\uDFC6</span>
+      <strong class="font-headline uppercase text-secondary text-sm">${forste ? 'Bli den f\u00f8rste!' : 'Bli den neste!'}</strong>
+      <span class="text-on-surface-variant text-xs">Bestill din Legendekopp</span>
+    </a>`;
+
+  fetch('/api/legends')
+    .then(r => r.ok ? r.json() : { legends: [] })
+    .then(d => {
+      const legends = (d && Array.isArray(d.legends)) ? d.legends : [];
+      if (teller) teller.textContent = legends.length;
+      const kort = legends.map(l => {
+        const navn = l.name ? `<div class="font-body font-semibold text-on-surface text-sm">${esc(l.name)}</div>` : '';
+        const aar  = l.year ? `<div class="text-on-surface-variant text-xs mt-1">Siden ${esc(l.year)}</div>` : '';
+        const paa  = l.year ? `<div class="text-secondary text-xs font-label mt-2">\uD83C\uDF0A ${new Date().getFullYear() - Number(l.year)} \u00e5r p\u00e5 vannet</div>` : '';
+        return `
+          <div class="flex flex-col items-center text-center p-5 rounded-xl bg-surface-container-low border border-surface-container-high min-h-[190px] justify-center">
+            <div class="text-2xl mb-2">${flagg(l)}</div>
+            ${navn}
+            <div class="font-headline font-bold text-primary text-xl tracking-tight">${esc(l.sail)}</div>
+            ${aar}${paa}
+          </div>`;
+      }).join('');
+      grid.innerHTML = kort + tomtKort(legends.length === 0);
+    })
+    .catch(() => { grid.innerHTML = tomtKort(true); });
+})();
+</script>
 </body></html>
