@@ -1,0 +1,11 @@
+{
+  "name": "Lysakerfjorden Brettseilerklubb",
+  "abbreviation": "LBK",
+  "region": "Akershus",
+  "image": "/img/uploads/lbk-klubblogo.png",
+  "image_type": "Logo",
+  "description": "En av Nord-Europas største brettseilerklubber, stiftet 6. april 1981. Startet på Sollerud, flyttet til Rolfstangen i 1988 og fikk eget klubbhus i 2018. Miljøet spenner fra barn og nybegynnere til raceboard-regattaseilere og aktive godt over 80 år.",
+  "disciplines": ["Windsurfing", "Wingfoil", "Raceboard"],
+  "website": "https://www.lysakerfjorden.no",
+  "contact_email": "info@lysakerfjorden.no"
+}

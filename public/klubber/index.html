@@ -430,7 +430,11 @@ async function loadClubs() {
       return `
         <div class="group bg-surface-container-lowest rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 hover:-translate-y-2 border border-surface-container-high">
           <div class="relative aspect-[16/10] overflow-hidden">
-            ${club.image ? `<img alt="${club.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="${club.image}"/>` : '<div class="w-full h-full bg-primary-fixed"></div>'}
+            ${club.image
+              ? (club.image_type === 'Logo'
+                  ? `<div class="w-full h-full bg-white flex items-center justify-center p-6"><img alt="${club.name}" class="max-w-full max-h-full object-contain transition-transform duration-700 group-hover:scale-105" src="${club.image}"/></div>`
+                  : `<img alt="${club.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="${club.image}"/>`)
+              : '<div class="w-full h-full bg-primary-fixed"></div>'}
             <div class="absolute top-4 left-4">
               <span class="inline-flex items-center gap-1 bg-white/90 backdrop-blur-sm text-on-surface-variant font-label text-xs px-3 py-1 rounded-full">
                 <span class="material-symbols-outlined text-sm">location_on</span>
