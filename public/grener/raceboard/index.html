@@ -329,7 +329,7 @@ async function loadDiscipline() {
     document.title = 'NBK | ' + data.name;
 
     // Hero
-    const defaultHero = 'https://lh3.googleusercontent.com/aida-public/AB6AXuBfjEMzbDWs4iLDRJCo8-FyyF6YCZdcDPYX8LEF6xZ5PWY3ndcu70znf9SXN3YYZbwkkKS9OeZuno8S1nGW9iNxrfKXnw0DPBwzXwmjYGsMg7EO6YPVmh67BQsXKTKE8i9EGkQak1J0KOz81PTFZEnpdMsEA5wHA8azIeh5YVeKW3dGaaVNylkSXWNmg5XZQ1p23tU-jVQ0XtoHpwyeBg0S2jDwLXpqYVcFdXWLIMrPqrqnhhExZG3EYXGM6Hoe-sCSSDAFuLhqbqs';
+    const defaultHero = '/img/uploads/nbk-fjordpanorama-med-by.jpg';
     document.getElementById('hero-image').src = data.hero_image || data.image || defaultHero;
     document.getElementById('hero-image').alt = data.name;
     document.getElementById('hero-badge').textContent = data.subtitle || data.type || '';

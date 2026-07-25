@@ -122,20 +122,16 @@
 <!-- Hero Section -->
 <section class="relative min-h-screen flex items-center overflow-hidden">
 <div class="absolute inset-0 z-0">
-<img id="hero-image" alt="Windsurfing action" class="w-full h-full object-cover scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfjEMzbDWs4iLDRJCo8-FyyF6YCZdcDPYX8LEF6xZ5PWY3ndcu70znf9SXN3YYZbwkkKS9OeZuno8S1nGW9iNxrfKXnw0DPBwzXwmjYGsMg7EO6YPVmh67BQsXKTKE8i9EGkQak1J0KOz81PTFZEnpdMsEA5wHA8azIeh5YVeKW3dGaaVNylkSXWNmg5XZQ1p23tU-jVQ0XtoHpwyeBg0S2jDwLXpqYVcFdXWLIMrPqrqnhhExZG3EYXGM6Hoe-sCSSDAFuLhqbqs"/>
+<img id="hero-image" alt="Wingfoiler i hopp over Oslofjorden" class="w-full h-full object-cover scale-105" src="/img/uploads/dsc_1315.jpeg"/>
 <div class="absolute inset-0 bg-gradient-to-r from-on-surface/60 via-on-surface/20 to-transparent"></div>
 </div>
 <div class="relative z-10 max-w-7xl mx-auto px-8 w-full pt-20">
 <div class="max-w-2xl">
 <span id="hero-badge" class="inline-block bg-secondary text-on-secondary font-label text-xs uppercase tracking-widest px-4 py-1 rounded-full mb-6">Sesongen 2026 er i gang</span>
 <h1 id="hero-title" class="font-headline font-bold text-6xl md:text-8xl text-white leading-none tracking-tighter mb-8 italic">Life Begins at 20 Knots</h1>
-<p id="hero-subtitle" class="text-white/90 text-xl font-body mb-10 max-w-lg leading-relaxed">
-                        Opplev friheten, farten og fellesskapet. Bli en del av Norges fremste milj&#248; for brettseiling og wingfoil.
-                    </p>
+<p id="hero-subtitle" class="text-white/90 text-xl font-body mb-10 max-w-lg leading-relaxed">Opplev friheten, farten og fellesskapet. Vær en del av Norges fremste miljø for Brettseiling og Wingfoil.</p>
 <div class="flex flex-col sm:flex-row gap-4">
-<a id="hero-cta" href="medlemskap/" class="px-10 py-5 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold text-lg uppercase tracking-tight hover:scale-105 transition-all shadow-xl shadow-secondary/30 text-center">
-                            Bli Medlem N&#229;
-                        </a>
+<a id="hero-cta" href="medlemskap/" class="px-10 py-5 rounded-full bg-gradient-to-r from-secondary to-secondary-container text-on-secondary font-headline font-bold text-lg uppercase tracking-tight hover:scale-105 transition-all shadow-xl shadow-secondary/30 text-center">Bli Medlem Nå</a>
 <a id="hero-secondary-cta" href="grener/" class="px-10 py-5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white font-headline font-bold text-lg uppercase tracking-tight hover:bg-white/20 transition-all text-center">Se Klasser</a>
 </div>
 </div>
@@ -371,7 +367,7 @@ async function loadGrenerHome() {
     const container = document.getElementById('grener-home');
     if (!grener.length || !container) return;
 
-    const defaultImg = 'https://lh3.googleusercontent.com/aida-public/AB6AXuChjwlcgPP6p8EjUTqcIKvi9ITdLlER8kKJp_PTXCzu1VR7kVy9xj8gw0v7vsL5AzR2hJxrJ71Czz-SJmbgijtlCnepa9vYzexlmjjhy6j-1MVFbGYlSBUwnvmPm-mviiUc5BqAXmqosumQy135yHcPeS6gNmo5LyKpXurSuUOTrZ8K-TD_BJrWHNBSDmw_6ufN1fG_0AHer7qiKbxcWj5Gszn4MYRx_KyY4JpMdz77QGnE5RQ06rGhGIHgVgPoUf82ee3CjmR6t1E';
+    const defaultImg = '/img/uploads/nbk-fjordpanorama-med-by.jpg';
     let html = '';
     grener.forEach((g, i) => {
       const img = g.image || defaultImg;
