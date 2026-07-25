@@ -10,9 +10,25 @@
   "equipment_text": "Raceboard (290-320 cm lengde), Seil (7.8-9.5 m²), Mast (460-490 cm, karbon), Bom (justerbar), Seilnummer (påkrevd for regatta), Våtdrakt, Trapeskrok og harness",
   "getting_started": "Den beste måten å starte med raceboard er å delta på klubbregattaer. Her møter du erfarne seilere som gjerne deler kunnskap og tips. Mange klubber har låneutstyr tilgjengelig for nye utøvere. NBK arrangerer også klinikker spesifikt rettet mot raceboard-seiling, der du kan lære banestart, taktikk og trimming fra erfarne seilere og instruktører.",
   "key_facts": [
-    { "label": "Klasse", "value": "Internasjonal" },
-    { "label": "Vindkrav", "value": "5-25 knop" },
-    { "label": "Format", "value": "Fleet racing" },
-    { "label": "Seilstørrelse", "value": "7.8-9.5 m²" }
+    {
+      "label": "Klasse",
+      "value": "Internasjonal"
+    },
+    {
+      "label": "Vindkrav",
+      "value": "5-25 knop"
+    },
+    {
+      "label": "Format",
+      "value": "Fleet racing"
+    },
+    {
+      "label": "Seilstørrelse",
+      "value": "7.8-9.5 m²"
+    }
+  ],
+  "hero_image": "/img/uploads/nbk-fjordpanorama-med-by.jpg",
+  "gallery": [
+    "/img/uploads/nbk-rigger-paa-brygga.jpg"
   ]
 }

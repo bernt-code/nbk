@@ -2,7 +2,7 @@
   "name": "Bølgeseiling",
   "subtitle": "Sportsligste disiplin",
   "description": "Hopps, loops og bølgeriding i verdensklasse. Bølgeseiling er der windsurfing møter surfing — og resultatet er spektakulært.",
-  "image": "",
+  "image": "/img/uploads/nbk-bolgeseiling-over-stein.jpg",
   "type": "Ekstrem",
   "cta_text": "Les Mer",
   "order": 5,
@@ -26,5 +26,7 @@
       "label": "Beste steder",
       "value": "Jæren, Lofoten, Maui, Cape Verde"
     }
-  ]
+  ],
+  "hero_image": "/img/uploads/nbk-bolgeseiling-brenning.jpg",
+  "gallery": []
 }
