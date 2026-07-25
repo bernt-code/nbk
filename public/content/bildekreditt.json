@@ -13,16 +13,40 @@
       "lisens": "Internt — opphav ikke bekreftet"
     },
     {
-      "fil": "/img/uploads/dsc_3354.jpeg",
+      "fil": "/img/uploads/img_2707.jpeg",
       "fotograf": "Ukjent",
       "kreditt": "Foto: Norsk Brettseilerklubb",
-      "lisens": "Internt — opphav ikke bekreftet"
+      "lisens": "Opphav ikke bekreftet"
+    },
+    {
+      "fil": "/img/uploads/img_4096.jpeg",
+      "fotograf": "Ukjent",
+      "kreditt": "Foto: Norsk Brettseilerklubb",
+      "lisens": "Opphav ikke bekreftet"
+    },
+    {
+      "fil": "/img/uploads/img_6092.jpeg",
+      "fotograf": "Ukjent",
+      "kreditt": "Foto: Norsk Brettseilerklubb",
+      "lisens": "Opphav ikke bekreftet"
+    },
+    {
+      "fil": "/img/uploads/logo_nbk.png",
+      "fotograf": "NBK",
+      "kreditt": "",
+      "lisens": "Klubbens egen logo — ingen kreditt nødvendig"
     },
     {
       "fil": "/img/uploads/nbk-arrangement-flagg-molo.jpg",
       "fotograf": "Helge Rotnes",
       "kreditt": "Foto: Helge Rotnes",
       "lisens": "Brukstillatelse gitt til NBK"
+    },
+    {
+      "fil": "/img/uploads/nbk-bernt-blankholm-president.jpg",
+      "fotograf": "Ukjent",
+      "kreditt": "Foto: Norsk Brettseilerklubb",
+      "lisens": "Fra RAW-arkiv, fotograf ikke identifisert"
     },
     {
       "fil": "/img/uploads/nbk-bolgeseiling-brenning.jpg",
@@ -139,6 +163,12 @@
       "lisens": "Canon EOS 5D Mk III — opphav ikke bekreftet"
     },
     {
+      "fil": "/img/uploads/nbk-speedseiling-nor-30.jpg",
+      "fotograf": "Morten Knutsen",
+      "kreditt": "Foto: Morten Knutsen",
+      "lisens": "Brukstillatelse gitt til NBK"
+    },
+    {
       "fil": "/img/uploads/nbk-to-unge-paa-brett.jpg",
       "fotograf": "Helge Rotnes",
       "kreditt": "Foto: Helge Rotnes",
@@ -233,6 +263,12 @@
       "fotograf": "Helge Rotnes",
       "kreditt": "Foto: Helge Rotnes",
       "lisens": "Brukstillatelse gitt til NBK"
+    },
+    {
+      "fil": "/img/uploads/screenshot-2026-03-22-at-17.38.51.png",
+      "fotograf": "NBK",
+      "kreditt": "",
+      "lisens": "Skjermbilde — ingen kreditt nødvendig"
     }
   ]
 }
