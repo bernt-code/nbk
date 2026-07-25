@@ -2,7 +2,7 @@
   "name": "iQFOiL",
   "subtitle": "Olympisk",
   "description": "Den nye olympiske klassen. Vi satser tungt på utvikling av talenter som vil representere Norge internasjonalt.",
-  "image": "/img/uploads/nbk-foil-kvinne-by-seilbaater.jpg",
+  "image": "/img/uploads/nbk-iqfoil-starboard-arzachena.jpg",
   "type": "Olympisk",
   "cta_text": "Landslaget",
   "order": 4,
@@ -28,8 +28,5 @@
     }
   ],
   "hero_image": "/img/uploads/nbk-iqfoil-starboard-arzachena.jpg",
-  "gallery": [
-    "/img/uploads/nbk-windsurf-felt-oversikt.jpg",
-    "/img/uploads/nbk-wingfoil-hopp-fjord.jpg"
-  ]
+  "gallery": []
 }
