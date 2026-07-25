@@ -355,6 +355,24 @@ collections:
           - { label: "Sesongbadge", name: "season_badge", widget: "string" }
 
   # Dokumenter
+  # Bildekreditt — sentralt register. Krediteringen følger bildet, ikke siden.
+  - name: "bildekreditt"
+    label: "Bildekreditt"
+    files:
+      - label: "Fotografer og kreditering"
+        name: "bildekreditt"
+        file: "public/content/bildekreditt.json"
+        fields:
+          - label: "Bilder"
+            name: "bilder"
+            widget: "list"
+            summary: "{{fields.fil}} — {{fields.fotograf}}"
+            fields:
+              - { label: "Bildesti", name: "fil", widget: "string", hint: "F.eks. /img/uploads/nbk-wingfoil-hopp-rent-hav.jpg" }
+              - { label: "Fotograf", name: "fotograf", widget: "string" }
+              - { label: "Kreditt som vises på siden", name: "kreditt", widget: "string" }
+              - { label: "Vilkår / lisens", name: "lisens", widget: "string", required: false }
+
   - name: "dokumenter"
     label: "Dokumenter"
     folder: "public/content/dokumenter"

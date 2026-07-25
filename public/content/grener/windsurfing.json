@@ -2,7 +2,7 @@
   "name": "Windsurfing",
   "subtitle": "Originalen",
   "description": "Fra den råe kraften i bølgene til lynraske dragrace på flatt vann. Windsurfing er sjelen i NBK.",
-  "image": "",
+  "image": "/img/uploads/nbk-windsurf-sving-spray.jpg",
   "type": "Klassisk",
   "cta_text": "Les Mer",
   "order": 1,
@@ -10,9 +10,27 @@
   "equipment_text": "Brett (100-160 liter for nybegynnere, 60-120 liter for viderekomne), Seil (4.0-9.0 m² avhengig av vind og vekt), Mast (carbon eller glassfibermix), Bom (justerbar aluminium eller carbon), Våtdrakt (4/3mm eller 5/4mm for norske forhold), Trapeskrok og harness",
   "getting_started": "Windsurfing er lettere å komme i gang med enn mange tror. De fleste klubber tilknyttet NBK tilbyr nybegynnerkurs gjennom sommeren, typisk fra mai til september. Du trenger ingen erfaring — alt utstyr er inkludert i kurset. Etter et helgekurs vil de fleste kunne seile selvstendig i lett vind. Ta kontakt med din nærmeste klubb for kursinformasjon og utstyrsutlån.",
   "key_facts": [
-    { "label": "Aldersgruppe", "value": "Alle aldre" },
-    { "label": "Vindkrav", "value": "10-35 knop" },
-    { "label": "Disipliner", "value": "Slalom / Wave / Freestyle / Freeride" },
-    { "label": "NBK-medlemmer", "value": "Flest aktive" }
+    {
+      "label": "Aldersgruppe",
+      "value": "Alle aldre"
+    },
+    {
+      "label": "Vindkrav",
+      "value": "10-35 knop"
+    },
+    {
+      "label": "Disipliner",
+      "value": "Slalom / Wave / Freestyle / Freeride"
+    },
+    {
+      "label": "NBK-medlemmer",
+      "value": "Flest aktive"
+    }
+  ],
+  "hero_image": "/img/uploads/nbk-windsurf-ved-brygge.jpg",
+  "gallery": [
+    "/img/uploads/nbk-windsurf-felt-oversikt.jpg",
+    "/img/uploads/nbk-klubbliv-vinkende-seiler.jpg",
+    "/img/uploads/nbk-windsurf-fart-spray.jpg"
   ]
 }

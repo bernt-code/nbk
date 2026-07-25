@@ -2,7 +2,7 @@
   "name": "iQFOiL",
   "subtitle": "Olympisk",
   "description": "Den nye olympiske klassen. Vi satser tungt på utvikling av talenter som vil representere Norge internasjonalt.",
-  "image": "",
+  "image": "/img/uploads/nbk-foil-kvinne-by-seilbaater.jpg",
   "type": "Olympisk",
   "cta_text": "Landslaget",
   "order": 4,
@@ -10,9 +10,26 @@
   "equipment_text": "iQFOiL brett (standard one-design), iQFOiL seil (standard størrelse), Foil (standard one-design), Mast og bom (klasse-godkjent), Våtdrakt (4/3mm eller 5/4mm), Hjelm (påkrevd), Impact vest, GPS-sporing (for trening)",
   "getting_started": "iQFOiL er en klasse for deg som vil satse. Ta kontakt med NBK for informasjon om treningsgrupper i din region. Landslaget rekrutterer aktivt, og det finnes treningsgrupper i flere norske byer. Har du bakgrunn fra windsurfing, wingfoil eller annen seiling, har du et godt utgangspunkt. NBK arrangerer rekrutteringssamlinger der du kan prøve utstyret og møte trenere og utøvere.",
   "key_facts": [
-    { "label": "Olympisk", "value": "Ja (Paris 2024)" },
-    { "label": "Vindkrav", "value": "8-30 knop" },
-    { "label": "Toppfart", "value": "Opptil 35 knop" },
-    { "label": "Utstyr", "value": "One-design (standardisert)" }
+    {
+      "label": "Olympisk",
+      "value": "Ja (Paris 2024)"
+    },
+    {
+      "label": "Vindkrav",
+      "value": "8-30 knop"
+    },
+    {
+      "label": "Toppfart",
+      "value": "Opptil 35 knop"
+    },
+    {
+      "label": "Utstyr",
+      "value": "One-design (standardisert)"
+    }
+  ],
+  "hero_image": "/img/uploads/nbk-iqfoil-starboard-arzachena.jpg",
+  "gallery": [
+    "/img/uploads/nbk-windsurf-felt-oversikt.jpg",
+    "/img/uploads/nbk-wingfoil-hopp-fjord.jpg"
   ]
 }

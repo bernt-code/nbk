@@ -2,7 +2,7 @@
   "name": "Speedseiling",
   "subtitle": "Raskest på vannet",
   "description": "500 meter på kortest mulig tid. Speedseiling på brett er verdens raskeste menneskepropulserte vannaktivitet — her handler alt om absolutt fart.",
-  "image": "",
+  "image": "/img/uploads/nbk-raceboard-nor-75.jpg",
   "type": "Ekstrem",
   "cta_text": "Les Mer",
   "order": 6,
@@ -26,5 +26,7 @@
       "label": "Beste arena",
       "value": "Lüderitz, Namibia"
     }
-  ]
+  ],
+  "hero_image": "/img/uploads/nbk-windsurf-sving-spray.jpg",
+  "gallery": []
 }

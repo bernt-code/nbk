@@ -2,7 +2,7 @@
   "name": "Wingfoil",
   "subtitle": "Fremtiden",
   "description": "Lydløs flukt over vannoverflaten. Den raskest voksende brettsporten i verden.",
-  "image": "",
+  "image": "/img/uploads/nbk-wingfoil-naerbilde-duell.jpg",
   "type": "Fremtiden",
   "cta_text": "Les Mer",
   "order": 2,
@@ -10,9 +10,30 @@
   "equipment_text": "Wing (3.0-6.0 m² avhengig av vind og vekt), Foilbrett (80-130 liter for nybegynnere, 50-80 liter for erfarne), Foil (aluminium for nybegynnere, karbon for viderekomne), Våtdrakt (4/3mm eller 5/4mm), Hjelm (anbefalt), Impact vest",
   "getting_started": "Wingfoil er overraskende lett å lære. De fleste kan stå på brettet og seile med wingen etter bare noen timer med instruksjon. Foiling tar litt lengre tid, men med riktig utstyr og veiledning kan de fleste foile innen noen uker. Flere NBK-klubber tilbyr dedikerte wingfoil-kurs. Kurset inkluderer vanligvis teori, landtrening og vanntid med instruktør. Start med å kontakte din lokale klubb.",
   "key_facts": [
-    { "label": "Aldersgruppe", "value": "12+" },
-    { "label": "Vindkrav", "value": "8-25 knop" },
-    { "label": "Vekst", "value": "Raskest voksende vannsport" },
-    { "label": "Læretid", "value": "Kortere enn windsurfing" }
+    {
+      "label": "Aldersgruppe",
+      "value": "12+"
+    },
+    {
+      "label": "Vindkrav",
+      "value": "8-25 knop"
+    },
+    {
+      "label": "Vekst",
+      "value": "Raskest voksende vannsport"
+    },
+    {
+      "label": "Læretid",
+      "value": "Kortere enn windsurfing"
+    }
+  ],
+  "hero_image": "/img/uploads/nbk-wingfoil-hopp-rent-hav.jpg",
+  "gallery": [
+    "/img/uploads/nbk-wingfoil-duo-oslofjorden.jpg",
+    "/img/uploads/nbk-wingfoil-felt-regatta.jpg",
+    "/img/uploads/nbk-regatta-tre-om-merket.jpg",
+    "/img/uploads/nbk-wingfoil-color-line.jpg",
+    "/img/uploads/nbk-wingfoil-turkis-naer.jpg",
+    "/img/uploads/nbk-wingfoil-hopp-hoyt.jpg"
   ]
 }
