@@ -300,7 +300,9 @@ async function loadFeeds() {
     let html = '';
     data.items.slice(0, 4).forEach((item, i) => {
       if (i === 0) {
-        html += `<div class="md:col-span-8 group cursor-pointer overflow-hidden rounded-xl bg-surface-container-low transition-transform duration-500 hover:-translate-y-2">
+        const aapne = item.link ? `<a href="${item.link}" class="block">` : '';
+        const lukk  = item.link ? '</a>' : '';
+        html += `<div class="md:col-span-8 group cursor-pointer overflow-hidden rounded-xl bg-surface-container-low transition-transform duration-500 hover:-translate-y-2">${aapne}
           ${item.image ? `<div class="aspect-[16/9] overflow-hidden"><img alt="" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="${item.image}"/></div>` : ''}
           <div class="p-8">
             <div class="flex items-center gap-4 mb-4">
@@ -313,8 +315,10 @@ async function loadFeeds() {
           </div>
         </div>`;
       } else {
+        const aapne2 = item.link ? `<a href="${item.link}" class="block h-full">` : '';
+        const lukk2  = item.link ? '</a>' : '';
         html += `<div class="${i === 1 ? 'md:col-span-4 flex flex-col gap-6' : ''}">
-          <div class="flex-1 group cursor-pointer overflow-hidden rounded-xl bg-surface-container-low transition-transform duration-500 hover:-translate-y-2">
+          <div class="flex-1 group cursor-pointer overflow-hidden rounded-xl bg-surface-container-low transition-transform duration-500 hover:-translate-y-2">${aapne2}
             ${item.image ? `<div class="aspect-video overflow-hidden"><img alt="" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="${item.image}"/></div>` : ''}
             <div class="p-6">
               <span class="text-secondary font-label text-xs font-bold mb-2 block uppercase">${item.source}</span>
@@ -445,7 +449,7 @@ async function loadNews() {
             </div>
             <h3 class="font-headline font-bold text-3xl mb-4 group-hover:text-primary transition-colors uppercase">${item.title || ''}</h3>
             <p class="text-on-surface-variant line-clamp-2">${item.summary || ''}</p>
-          </div>
+          </div>${lukk}
         </div>`;
       } else {
         html += `<div class="${i === 1 ? 'md:col-span-4 flex flex-col gap-6' : 'md:col-span-4'}">
@@ -455,7 +459,7 @@ async function loadNews() {
               <span class="text-secondary font-label text-xs font-bold mb-2 block uppercase">${item.category || 'Nyhet'}</span>
               <h4 class="font-headline font-bold text-xl mb-2 uppercase italic">${item.title || ''}</h4>
               <p class="text-on-surface-variant text-sm line-clamp-1">${item.summary || ''}</p>
-            </div>
+            </div>${lukk2}
           </div>
         </div>`;
       }

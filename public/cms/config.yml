@@ -192,6 +192,7 @@ collections:
       - { label: "Sammendrag", name: "summary", widget: "text" }
       - { label: "Innhold", name: "body", widget: "markdown" }
       - { label: "Sted", name: "location", widget: "string", required: false }
+      - { label: "Lenke", name: "link", widget: "string", required: false, hint: "Valgfri. Gjør hele nyhetskortet klikkbart, f.eks. /legendekoppen/" }
 
   # Events
   - name: "events"
