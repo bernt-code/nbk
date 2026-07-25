@@ -1,13 +1,15 @@
 {
-  "hero_secondary_cta": "Se Klasser",
-  "hero_cta_text": "Bli Medlem Nå",
+  "hero_secondary_cta": "Se Legendeveggen",
+  "hero_cta_text": "Kjøp Legendekoppen",
   "plans": [],
-  "hero_title": "Life Begins at 20 Knots",
-  "hero_image": "/img/uploads/dsc_1315.jpeg",
+  "hero_title": "Bli en Windsurfing Legende",
+  "hero_image": "/img/uploads/nbk-asker-grand-prix-1981.jpg",
   "subtitle": "Kjenn Kraften fra Havet",
   "history_text": "NBK er klasseklubb under Norges Seilforbund og samler brettseilere og wingfoilere i Norge. Vi forvalter det offisielle NOR-seilnummerregisteret og bidrar til at norske utøvere kan delta i nasjonale og internasjonale regattaer.",
   "title": "Norsk Brettseilerklubb",
-  "hero_subtitle": "Opplev friheten, farten og fellesskapet. Vær en del av Norges fremste miljø for Brettseiling og Wingfoil.",
-  "hero_badge": "Sesongen 2026 er i gang",
-  "stats": []
+  "hero_subtitle": "Din egen kopp med ditt seilnummer og året du begynte å seile. Hele overskuddet går til norske juniorbrettseilere.",
+  "hero_badge": "Ny — Legendekoppen",
+  "stats": [],
+  "hero_cta_url": "legendekoppen/",
+  "hero_secondary_cta_url": "legendekoppen/#legendeveggen"
 }

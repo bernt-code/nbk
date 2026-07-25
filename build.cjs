@@ -42,6 +42,16 @@ console.log('Manifests generated successfully.');
   sub(/(<p id="hero-subtitle"[^>]*>)[\s\S]*?(<\/p>)/, home.hero_subtitle);
   sub(/(<a id="hero-cta"[^>]*>)[\s\S]*?(<\/a>)/, home.hero_cta_text);
   sub(/(<a id="hero-secondary-cta"[^>]*>)[\s\S]*?(<\/a>)/, home.hero_secondary_cta);
+  // CTA-lenkene kan overstyres fra home.json
+  const href = (id, val) => {
+    if (!val) return;
+    html = html.replace(
+      new RegExp(`(<a id="${id}"[^>]*\\shref=")[^"]*(")`),
+      (m, p1, p2) => p1 + esc(val) + p2
+    );
+  };
+  href('hero-cta', home.hero_cta_url);
+  href('hero-secondary-cta', home.hero_secondary_cta_url);
   fs.writeFileSync(indexPath, html);
   console.log('Hero injected into index.html from home.json');
 })();
