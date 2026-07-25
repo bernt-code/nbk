@@ -249,6 +249,12 @@ collections:
           - "Troms"
           - "Oslo"
       - { label: "Bilde", name: "image", widget: "image" }
+      - label: "Bildetype"
+        name: "image_type"
+        widget: "select"
+        default: "Foto"
+        hint: "Logo vises hel med luft rundt. Foto fyller hele kortet."
+        options: ["Foto", "Logo"]
       - { label: "Beskrivelse", name: "description", widget: "text" }
       - label: "Disipliner"
         name: "disciplines"
