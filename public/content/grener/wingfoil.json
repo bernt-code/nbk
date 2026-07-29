@@ -1,14 +1,5 @@
 {
-  "name": "Wingfoil",
-  "subtitle": "Fremtiden",
-  "description": "Lydløs flukt over vannoverflaten. Den raskest voksende brettsporten i verden.",
-  "image": "/img/uploads/nbk-wingfoil-naerbilde-duell.jpg",
-  "type": "Fremtiden",
-  "cta_text": "Les Mer",
-  "order": 2,
-  "long_description": "## Wingfoil — Fremtidens vannsport\n\nWingfoil kombinerer det beste fra windsurfing, kitesurfing og foiling i én og samme sport. Med en oppblåsbar wing i hendene og et foilbrett under føttene svever du lydløst over vannflaten — en følelse som er vanskelig å beskrive, men umulig å glemme.\n\n## Hvorfor wingfoil vokser så raskt\n\nDet er enklere å lære enn tradisjonell windsurfing, krever mindre vind for å komme i gang, og utstyret er kompakt og lett å transportere. En wing kan pakkes ned i en sekk, og du trenger ikke mast, bom eller store seil.\n\nI Norge har vi sett en eksplosiv vekst siden 2021. Stadig flere brettseilere supplerer sitt vanlige utstyr med wing og foil, og helt nye utøvere tiltrekkes av sportens tilgjengelighet.\n\n## Foiling-teknologien\n\nFoilen — en undervanns \"vinge\" festet til brettet — løfter deg opp over vannet ved fart. Dette eliminerer friksjon og gir en utrolig jevn og stille opplevelse selv i hakkete sjø. Moderne foiler er laget i karbon og aluminium og kan justeres for ulike ferdigheter og vindforhold.\n\n## Sporten i Norge\n\nNBK har tatt wingfoil inn som en fullverdig gren og jobber aktivt med å bygge opp et konkurransemiljø. Flere klubber tilbyr nå wingfoil-kurs, og vi ser allerede norske utøvere hevde seg i nordisk sammenheng.",
-  "equipment_text": "Wing (3.0-6.0 m² avhengig av vind og vekt), Foilbrett (80-130 liter for nybegynnere, 50-80 liter for erfarne), Foil (aluminium for nybegynnere, karbon for viderekomne), Våtdrakt (4/3mm eller 5/4mm), Hjelm (anbefalt), Impact vest",
-  "getting_started": "Wingfoil er overraskende lett å lære. De fleste kan stå på brettet og seile med wingen etter bare noen timer med instruksjon. Foiling tar litt lengre tid, men med riktig utstyr og veiledning kan de fleste foile innen noen uker. Flere NBK-klubber tilbyr dedikerte wingfoil-kurs. Kurset inkluderer vanligvis teori, landtrening og vanntid med instruktør. Start med å kontakte din lokale klubb.",
+  "getting_started": "Wingfoil er overraskende lett å lære. De fleste kan stå på brettet og seile med wingen etter bare noen timer med instruksjon. Foiling tar litt lengre tid, men med riktig utstyr og veiledning kan de fleste foile innen noen få dager med riktig utstyr. Flere NBK-klubber tilbyr dedikerte wingfoil-kurs. Kurset inkluderer vanligvis teori, landtrening og vanntid med instruktør. Start med å kontakte din lokale klubb.",
   "key_facts": [
     {
       "label": "Aldersgruppe",
@@ -27,7 +18,8 @@
       "value": "Kortere enn windsurfing"
     }
   ],
-  "hero_image": "/img/uploads/nbk-wingfoil-hopp-rent-hav.jpg",
+  "name": "Wingfoil",
+  "order": 2,
   "gallery": [
     "/img/uploads/nbk-wingfoil-duo-oslofjorden.jpg",
     "/img/uploads/nbk-wingfoil-felt-regatta.jpg",
@@ -36,5 +28,13 @@
     "/img/uploads/nbk-wingfoil-turkis-naer.jpg",
     "/img/uploads/nbk-wingfoil-hopp-hoyt.jpg",
     "/img/uploads/nbk-wingfoil-hopp-fjord.jpg"
-  ]
+  ],
+  "hero_image": "/img/uploads/nbk-wingfoil-hopp-rent-hav.jpg",
+  "subtitle": "Fremtidens windsurfing",
+  "long_description": "## Wingfoil — Fremtidens vannsport\n\nWingfoil kombinerer det beste fra windsurfing, kitesurfing og foiling i én og samme sport. Med en oppblåsbar wing i hendene og et foilbrett under føttene svever du neste lydløst over vannflaten — en følelse som er vanskelig å beskrive, men umulig å glemme. \n\n## Hvorfor wingfoil vokser så raskt\n\nDet er enklere å lære enn tradisjonell windsurfing, krever mindre vind for å virkelig få den fantastiske følelsen, og utstyret er kompakt og lett å transportere. En vinge kan pakkes ned i en liten sekk og veier bare noe få kg, og du trenger ikke stort brett, mast, bom eller store seil. \n\nI Norge har vi sett en eksplosiv vekst siden 2021. Stadig flere brettseilere og kitere supplerer sitt vanlige utstyr med wing og foil, og helt nye utøvere tiltrekkes av sportens tilgjengelighet. \n\n## Foiling-teknologien\n\nFoilen — en undervanns \"hydrofoil\" festet til brettet — løfter deg opp over vannet ved fart. Dette eliminerer friksjon og gir en utrolig jevn og stille opplevelse selv i hakkete sjø. Nesten uten motstand og er veldig lite kragt krevende, så dette passer perfekt for barn fra før skolealder. ( har sett 5 åringer fly rundt med billt liten vinge kon vare veier 2 kg ) Moderne foiler er laget i karbon og aluminium og kan justeres for ulike ferdigheter og vindforhold.\n\n## Sporten i Norge\n\nNBK gjennom Seilforbundet har tatt wingfoil inn som en fullverdig gren og jobber aktivt med å bygge opp et konkurransemiljø. Flere klubber tilbyr nå wingfoil-kurs, og vi ser allerede norske utøvere hevde seg i nordisk sammenheng.",
+  "type": "Fremtiden",
+  "image": "/img/uploads/nbk-wingfoil-naerbilde-duell.jpg",
+  "cta_text": "Les Mer",
+  "description": "Lydløs flukt over vannoverflaten. Den raskest voksende brettsporten i verden.",
+  "equipment_text": "Vinger (2.0-7.0 m² avhengig av vind og vekt), Foilbrett (90-140 liter for nybegynnere, 50-80 liter for erfarne), Foil (aluminium for nybegynnere, karbon for viderekomne)"
 }
