@@ -1,9 +1,9 @@
 backend:
   name: github
-  repo: bernt-code/nbk
+  repo: norsk-brettseilerklubb/nbk
   branch: main
 
-site_url: https://nbk-no.netlify.app
+site_url: https://nbk.no
 
 media_folder: "public/img/uploads"
 public_folder: "/img/uploads"
