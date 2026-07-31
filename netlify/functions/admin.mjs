@@ -241,6 +241,19 @@ export default async (req) => {
       if (body.requiresApplication !== undefined) entry.requiresApplication = body.requiresApplication;
       if (body.isJunior !== undefined) entry.isJunior = body.isJunior;
 
+      // 2026-07-31: Feltene medlemsflyten normalt setter via agreement-activated-
+      // webhooken. Uten disse teller ikke nummeret som BETALT MEDLEM i
+      // /api/admin/numbers (som krever purchaseReference "member-*" + memberEmail),
+      // og den daglige statussjekken ser ikke personen i det hele tatt.
+      // Trengs for å fullføre for hånd et medlemskap som ER betalt, men som aldri
+      // ble koblet — f.eks. avtale opprettet uten reserveNumber.
+      if (body.memberEmail !== undefined) entry.memberEmail = body.memberEmail;
+      if (body.purchaseReference !== undefined) entry.purchaseReference = body.purchaseReference;
+      if (body.purchasedAt !== undefined) entry.purchasedAt = body.purchasedAt;
+      if (body.payments !== undefined && body.payments && typeof body.payments === "object") {
+        entry.payments = { ...(entry.payments || {}), ...body.payments };
+      }
+
       // Rydd en fastlåst pending-reservasjon (f.eks. når webhooken ikke fullførte flippen)
       if (body.clearReservation === true) {
         delete entry.reservedBy;
@@ -259,6 +272,7 @@ export default async (req) => {
       const safeBody = { ...body };
       if (safeBody.ownerEmail) safeBody.ownerEmail = "[REDACTED]";
       if (safeBody.ownerPhone) safeBody.ownerPhone = "[REDACTED]";
+      if (safeBody.memberEmail) safeBody.memberEmail = "[REDACTED]";
       console.log(`Admin ${isNew ? "inserted" : "updated"} NOR ${number}:`, JSON.stringify(safeBody));
       return Response.json({ success: true, entry, isNew });
     }
@@ -540,6 +554,72 @@ export default async (req) => {
 
       console.log(`Admin STOPPET avtale ${agreementId} (${productName})`);
       return Response.json({ success: true, agreementId, productName, prevStatus: agreement.status, status: "STOPPED" });
+    }
+
+    // ── GET /api/admin/members ────────────────────────────────────────────
+    // Les medlemsregisteret ("members"-bloben) — det eneste stedet navn,
+    // e-post og telefon på en betalende finnes etter at avtalen er aktivert.
+    //
+    // Hvorfor dette trengs (2026-07-31): identiteten på en Vipps-avtale hentes
+    // i /api/admin/recurring fra en JWT inne i `vippsConfirmationUrl`, og det
+    // feltet returnerer Vipps KUN mens avtalen er PENDING. I det øyeblikket
+    // noen betaler forsvinner det, og avtalen står igjen uten navn og telefon.
+    // Vi samlet inn de samme opplysningene i skjemaet sekunder tidligere og
+    // lagret dem her — men det fantes ingen rute som leste dem.
+    //
+    // Krysser mot registeret slik at "betalt medlem uten seilnummer" (samme
+    // feil som ga agr_FuVbmYB 31.5 og agr_gYEuEbh 30.7) blir synlig av seg
+    // selv i stedet for å måtte graves fram i portal.vipps.no.
+    // Ren lesing — skriver ingenting.
+    if (req.method === "GET" && path.endsWith("/members")) {
+      const membersStore = getStore("members");
+      const { registry } = await loadRegistry();
+
+      // Hvilke numre peker på hvilken medlems-e-post
+      const numbersByEmail = {};
+      for (const n of registry.numbers) {
+        const em = (n.memberEmail || "").toLowerCase();
+        if (!em) continue;
+        (numbersByEmail[em] ||= []).push(n.number);
+      }
+
+      const list = await membersStore.list();
+      const members = [];
+      for (const item of (list.blobs || [])) {
+        let m = null;
+        try { m = await membersStore.get(item.key, { type: "json" }); } catch {}
+        if (!m) continue;
+        const em = (m.email || item.key || "").toLowerCase();
+        // Numre medlemsposten SELV mener den har (kan være utdatert)
+        const claimed = Array.isArray(m.numbersReserved)
+          ? m.numbersReserved.map(Number)
+          : (m.numberReserved != null ? [Number(m.numberReserved)] : []);
+        // Numre registeret faktisk har koblet til e-posten (fasit)
+        const actual = numbersByEmail[em] || [];
+        members.push({
+          email: em,
+          name: m.name ?? null,
+          phone: m.phone ?? null,
+          tier: m.tier ?? null,
+          agreementId: m.agreementId ?? null,
+          activatedAt: m.activatedAt ?? null,
+          reference: m.reference ?? null,
+          source: m.source ?? "webhook",
+          numbersClaimed: claimed,
+          numbersInRegistry: actual,
+          // Betalt medlemskap som ikke eier noe nummer i registeret.
+          // For tier=stotte er dette normalt — støttemedlemmer har ikke nummer.
+          missingNumber: actual.length === 0 && m.tier !== "stotte",
+        });
+      }
+
+      members.sort((a, b) => String(b.activatedAt || "").localeCompare(String(a.activatedAt || "")));
+      return Response.json({
+        success: true,
+        count: members.length,
+        missingNumber: members.filter((m) => m.missingNumber),
+        members,
+      });
     }
 
     // ── POST /api/admin/reconcile-memberships ─────────────────────────────

@@ -246,8 +246,17 @@ async function handleAgreementEvent(event) {
     await orders.set(reference, JSON.stringify(order));
     console.log(`Membership activated: ${order.name} (${order.tier})`);
   } else if (eventName === "recurring.agreement-rejected.v1" ||
-             eventName === "recurring.agreement-stopped.v1") {
-    // Avtale avvist/stoppet — frigi pending nummer hvis det finnes (ett eller flere)
+             eventName === "recurring.agreement-stopped.v1" ||
+             eventName === "recurring.agreement-expired.v1") {
+    // Avtale avvist/stoppet/utløpt — frigi pending nummer hvis det finnes (ett eller flere).
+    //
+    // BUGFIX 2026-07-31: "recurring.agreement-expired.v1" manglet her. Vi abonnerer
+    // på hendelsen (se setup-webhooks.mjs) men ignorerte den, så et nummer ble
+    // stående låst i "pending-membership" for alltid når noen startet innmelding og
+    // lot Vipps-avtalen løpe ut i stedet for å bekrefte den.
+    // Konkret tilfelle: NOR 18 (Sverre Riis Rasmussen) 30.7.2026 — avtale
+    // agr_KYWxncT opprettet 12:45:49, EXPIRED. Nummeret lå fortsatt reservert
+    // dagen etter, og ble feilrapportert som "webhook-feil" i den daglige sjekken.
     const expectedNums = [];
     if (order.reserveNumber) expectedNums.push(Number(order.reserveNumber));
     if (Array.isArray(order.members)) expectedNums.push(...order.members.map(m => Number(m.number)));

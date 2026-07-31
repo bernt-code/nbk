@@ -108,6 +108,21 @@ export default async (req) => {
       productName = TIERS.familie.productName;
       productDescription = `${TIERS.familie.productName} for ${normalizedMembers.length} personer (${normalizedMembers.length} numre)`;
     } else {
+      // BUGFIX 2026-07-31: Aktiv medlemskap MÅ ha et seilnummer.
+      // Bakgrunn: to personer betalte 350 kr for et Aktiv-medlemskap uten å få
+      // nummer (agr_FuVbmYB 31.5.2026, agr_gYEuEbh 30.7.2026). Begge hadde et
+      // avbrutt førsteforsøk bak seg og lot nummerfeltet stå tomt andre gang.
+      // Uten reserveNumber hopper reservasjons-blokken under over i sin helhet,
+      // avtalen opprettes og betales, og webhooken har ingenting å koble — så
+      // medlemmet ender som betalende uten nummer, usynlig i registeret.
+      // Støttemedlem (tier=stotte) skal fortsatt IKKE ha nummer.
+      if (tier === "aktiv" &&
+          (reserveNumber === undefined || reserveNumber === null || reserveNumber === "")) {
+        return Response.json({
+          error: "Aktiv medlemskap krever at du velger et seilnummer. " +
+                 "Velg nummer, eller tegn Støttemedlem hvis du ikke skal ha nummer.",
+        }, { status: 400 });
+      }
       amount = TIERS[tier].amount;
       productName = TIERS[tier].productName;
       productDescription = TIERS[tier].productDescription;
