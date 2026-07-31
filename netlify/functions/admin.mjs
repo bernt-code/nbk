@@ -134,12 +134,79 @@ export default async (req) => {
       entry.reservedEmail = undefined;
       entry.reservedPhone = undefined;
       entry.reservedAt = undefined;
+      // 2026-07-31: disse ble ikke ryddet før. Et nummer som ble frigitt mens det
+      // hang i pending-membership beholdt feltene og fortsatte å bli rapportert
+      // som "hengende" i den daglige sjekken.
+      entry.memberEmail = undefined;
+      entry.reservedReason = undefined;
+      entry.pendingMembershipReference = undefined;
       entry.releasedAt = new Date().toISOString();
 
       await saveRegistry(store, registry);
-
       console.log(`Admin released NOR ${number} (was: ${prevOwner})`);
-      return Response.json({ success: true, number, prevOwner });
+
+      // ── Varsle om løpende Vipps-avtale på nummeret ──────────────────────
+      // 2026-07-31: registeret og Vipps er ikke koblet. Å frigi et nummer her
+      // rører ikke betalingsavtalen, så folk har fortsatt å betale 200 kr/år
+      // for nummer de ikke lenger har. Batch-frigivelsen 31.5.2026 (seks numre
+      // på tolv minutter) etterlot fire slike; de ble først oppdaget 31.7.
+      //
+      // Vi VARSLER som standard og stopper ikke automatisk. Grunn: NOR 26 ble
+      // feilaktig fanget av den samme batchen, og eieren (som hadde tegnet tre
+      // uker før) fikk nummeret tilbake dagen etter. Hadde frigivelsen stoppet
+      // avtalen automatisk, ville et gyldig, betalt abonnement blitt drept.
+      // Send { stopAgreement: true } for å stoppe bevisst i samme kall.
+      const stopAgreement = body.stopAgreement === true;
+      let agreementCheck = null;
+      try {
+        const vToken = await getVippsToken();
+        const aRes = await fetch(
+          "https://api.vipps.no/recurring/v3/agreements?status=ACTIVE",
+          { headers: vippsHeaders(vToken) }
+        );
+        const aData = await aRes.json();
+        const wanted = `NOR ${number}`;
+        const treff = (Array.isArray(aData) ? aData : []).filter(
+          (a) => (a.productName || "").trim().toLowerCase() === wanted.toLowerCase()
+        );
+
+        agreementCheck = {
+          funnet: treff.length,
+          avtaler: treff.map((a) => ({
+            agreementId: a.id,
+            productName: a.productName,
+            amount: a.pricing?.amount ?? null,
+            start: a.start ?? null,
+          })),
+          stoppet: [],
+        };
+
+        if (treff.length > 0) {
+          if (stopAgreement) {
+            for (const a of treff) {
+              const sRes = await fetch(
+                `https://api.vipps.no/recurring/v3/agreements/${encodeURIComponent(a.id)}`,
+                { method: "PATCH", headers: vippsHeaders(vToken), body: JSON.stringify({ status: "STOPPED" }) }
+              );
+              agreementCheck.stoppet.push({ agreementId: a.id, ok: sRes.ok, status: sRes.status });
+              console.log(`release NOR ${number}: stoppet avtale ${a.id} (${sRes.status})`);
+            }
+          } else {
+            agreementCheck.advarsel =
+              `NOR ${number} er frigitt, men ${treff.length} aktiv Vipps-avtale løper fortsatt ` +
+              `(${treff.map((a) => a.id).join(", ")}). Vedkommende betaler for et nummer han/hun ikke lenger har. ` +
+              `Stopp den bevisst med POST /api/admin/stop-agreement, eller send stopAgreement:true her. ` +
+              `Sjekk FØRST at frigivelsen var tilsiktet — en gyldig eier kan ha blitt frigitt ved en feil.`;
+            console.warn(`release NOR ${number}: ${treff.length} aktiv avtale løper fortsatt`);
+          }
+        }
+      } catch (e) {
+        // Vipps-sjekken skal aldri velte selve frigivelsen
+        agreementCheck = { feilet: true, error: String(e && e.message || e) };
+        console.error(`release NOR ${number}: kunne ikke sjekke Vipps-avtaler:`, e);
+      }
+
+      return Response.json({ success: true, number, prevOwner, agreementCheck });
     }
 
     // ── POST /api/admin/charge ─────────────────────────────────────────────
@@ -554,6 +621,90 @@ export default async (req) => {
 
       console.log(`Admin STOPPET avtale ${agreementId} (${productName})`);
       return Response.json({ success: true, agreementId, productName, prevStatus: agreement.status, status: "STOPPED" });
+    }
+
+    // ── GET /api/admin/foreldrelose ───────────────────────────────────────
+    // Finn gamle «NOR n»-abonnement (200 kr/år) der nummeret ikke lenger er
+    // eierens. Gjør sveipen fra 31.7.2026 gjentakbar i stedet for et
+    // engangsskript.
+    //
+    // Flagger en avtale når ETT av disse er sant:
+    //   - nummeret finnes ikke i registeret
+    //   - nummeret står som "available"
+    //   - nummeret er frigitt ETTER at avtalen startet
+    //   - nummeret har fått et nytt betalt medlemskap (purchaseReference member-*)
+    //   - telefonen på avtalen avviker fra ownerPhone i registeret
+    //
+    // ⚠️ Et treff er en MISTANKE, ikke en dom. NOR 26 var falsk positiv 31.7:
+    // eieren ble feilaktig fanget av en batch-frigivelse og fikk nummeret
+    // tilbake dagen etter. Sjekk hvert tilfelle før noe stoppes.
+    // Ren lesing.
+    if (req.method === "GET" && path.endsWith("/foreldrelose")) {
+      const vToken = await getVippsToken();
+      const aRes = await fetch(
+        "https://api.vipps.no/recurring/v3/agreements?status=ACTIVE",
+        { headers: vippsHeaders(vToken) }
+      );
+      const aData = await aRes.json();
+      if (!aRes.ok || !Array.isArray(aData)) {
+        return Response.json({ error: "Kunne ikke hente Vipps-avtaler", details: aData }, { status: 502 });
+      }
+
+      const { registry } = await loadRegistry();
+      const reg = {};
+      for (const n of registry.numbers) reg[n.number] = n;
+
+      const sisteSiffer = (p) => {
+        const d = String(p || "").replace(/\D/g, "");
+        return d.length >= 8 ? d.slice(-8) : null;
+      };
+      const tlfFraJwt = (a) => {
+        try {
+          const jwt = a.vippsConfirmationUrl;
+          if (!jwt) return null;
+          const del = jwt.split("token=");
+          if (del.length < 2) return null;
+          const payload = JSON.parse(atob(del[1].split(".")[1]));
+          return payload.mob ? String(payload.mob) : null;
+        } catch { return null; }
+      };
+
+      const gamle = aData.filter((a) => /^NOR\s+\d+$/i.test((a.productName || "").trim()));
+      const mistenkelige = [];
+      for (const a of gamle) {
+        const nr = parseInt((a.productName || "").match(/\d+/)[0], 10);
+        const e = reg[nr];
+        const grunner = [];
+        if (!e) {
+          grunner.push("nummeret finnes ikke i registeret");
+        } else {
+          if (e.status === "available") grunner.push("nummeret står som ledig");
+          if (e.releasedAt && a.start && e.releasedAt > a.start) grunner.push(`frigitt ${String(e.releasedAt).slice(0, 10)}`);
+          if (String(e.purchaseReference || "").startsWith("member-")) grunner.push(`nytt medlemskap: ${e.owner || "?"}`);
+          const pa = sisteSiffer(tlfFraJwt(a)), pe = sisteSiffer(e.ownerPhone);
+          if (pa && pe && pa !== pe) grunner.push("telefon avviker fra registeret");
+        }
+        if (grunner.length) {
+          mistenkelige.push({
+            number: nr,
+            agreementId: a.id,
+            phone: tlfFraJwt(a),
+            amount: a.pricing?.amount ?? null,
+            start: a.start ?? null,
+            registerStatus: e?.status ?? null,
+            registerOwner: e?.owner ?? null,
+            grunner,
+          });
+        }
+      }
+      mistenkelige.sort((x, y) => x.number - y.number);
+      return Response.json({
+        success: true,
+        aktiveNummerAbonnement: gamle.length,
+        mistenkelige: mistenkelige.length,
+        merknad: "Et treff er en mistanke, ikke en dom — verifiser hvert tilfelle før noe stoppes.",
+        treff: mistenkelige,
+      });
     }
 
     // ── GET /api/admin/order ──────────────────────────────────────────────
