@@ -102,8 +102,19 @@ export default async (req) => {
     };
 
     // 2. Identifiser webhooks å slette (peker til gammel WooCommerce)
+    //
+    // BUGFIX 2026-07-31: filteret krevde vertsnavnet nbk.no og traff derfor IKKE
+    // de to webhookene som pekte på Hostingers midlertidige adresse
+    // (darkgray-mule-828623.hostingersite.com/wc-api/...). De sto igjen og fikk
+    // fortsatt levert avtale- og betalingshendelser fra Vipps lenge etter at den
+    // gamle siden var død — og hvis Hostinger gjenbruker adressen, havner NBKs
+    // betalingshendelser hos en fremmed.
+    //
+    // Nå matcher vi på selve WooCommerce-signaturen "/wc-api/" uansett vertsnavn.
+    // Det er entydig Woo og kan ikke treffe våre egne Netlify-endepunkter.
     const toDelete = webhooks.filter(w =>
-      w.url.includes("nbk.no/wc-api/") ||
+      w.url.includes("/wc-api/") ||
+      w.url.includes("/wp-json/") ||
       w.url.includes("www.nbk.no/wp-")
     );
 

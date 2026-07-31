@@ -679,7 +679,16 @@ export default async (req) => {
           grunner.push("nummeret finnes ikke i registeret");
         } else {
           if (e.status === "available") grunner.push("nummeret står som ledig");
-          if (e.releasedAt && a.start && e.releasedAt > a.start) grunner.push(`frigitt ${String(e.releasedAt).slice(0, 10)}`);
+            // Frigitt etter at avtalen startet — men hopp over hvis nummeret er
+          // TATT IGJEN etterpå. 2026-07-31: NOR 26 ga falskt utslag hver kjøring
+          // fordi eieren ble feilaktig fanget av en batch-frigivelse og fikk
+          // nummeret tilbake dagen etter. Et varsel som alltid inneholder ett
+          // falskt treff, er et varsel folk slutter å lese.
+          const tattIgjen = e.status === "taken" && e.updatedAt && e.releasedAt &&
+                            e.updatedAt > e.releasedAt;
+          if (e.releasedAt && a.start && e.releasedAt > a.start && !tattIgjen) {
+            grunner.push(`frigitt ${String(e.releasedAt).slice(0, 10)}`);
+          }
           if (String(e.purchaseReference || "").startsWith("member-")) grunner.push(`nytt medlemskap: ${e.owner || "?"}`);
           const pa = sisteSiffer(tlfFraJwt(a)), pe = sisteSiffer(e.ownerPhone);
           if (pa && pe && pa !== pe) grunner.push("telefon avviker fra registeret");
