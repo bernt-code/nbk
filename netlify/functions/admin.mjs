@@ -556,6 +556,81 @@ export default async (req) => {
       return Response.json({ success: true, agreementId, productName, prevStatus: agreement.status, status: "STOPPED" });
     }
 
+    // ── GET /api/admin/order ──────────────────────────────────────────────
+    // Slå opp den originale bestillingen bak en betaling. Dette er det ENESTE
+    // stedet som vet hvem som fylte ut skjemaet og hvilket nummer de valgte —
+    // Vipps-portalen viser kun beløp og produktnavn, ikke kjøper.
+    //
+    // Bruk:
+    //   ?agreementId=agr_xxx  → slår opp via "agreements"-mappingen
+    //   ?ref=member-aktiv-... → slår opp ordren direkte
+    //   (ingen params)        → lister medlemskaps-ordrer (prefiks "member-")
+    //
+    // Ren lesing. Skriver ingenting.
+    if (req.method === "GET" && path.endsWith("/order")) {
+      const ordersStore = getStore("orders");
+      const agreementId = url.searchParams.get("agreementId");
+      let ref = url.searchParams.get("ref");
+      const resolvedVia = [];
+
+      if (!ref && agreementId) {
+        try { ref = await getStore("agreements").get(agreementId); } catch {}
+        resolvedVia.push(ref ? "agreements-mapping" : "agreements-mapping (ingen treff)");
+
+        // Fallback: skann medlemskaps-ordrer etter agreementId. Mappingen ble
+        // først innført underveis, så eldre ordrer kan mangle den.
+        if (!ref) {
+          const list = await ordersStore.list({ prefix: "member-" });
+          for (const item of (list.blobs || [])) {
+            let o = null;
+            try { o = await ordersStore.get(item.key, { type: "json" }); } catch {}
+            if (o?.agreementId === agreementId) { ref = item.key; break; }
+          }
+          resolvedVia.push(ref ? "skann av member-ordrer" : "skann av member-ordrer (ingen treff)");
+        }
+      }
+
+      if (ref) {
+        let order = null;
+        try { order = await ordersStore.get(ref, { type: "json" }); } catch {}
+        if (!order) {
+          return Response.json({ success: false, ref, agreementId, resolvedVia, error: "Ingen ordre funnet" }, { status: 404 });
+        }
+        return Response.json({ success: true, ref, resolvedVia, order });
+      }
+
+      if (agreementId) {
+        return Response.json({ success: false, agreementId, resolvedVia, error: "Fant ingen ordre for denne avtalen" }, { status: 404 });
+      }
+
+      // Ingen params — list medlemskaps-ordrene
+      const list = await ordersStore.list({ prefix: "member-" });
+      const orders = [];
+      for (const item of (list.blobs || [])) {
+        let o = null;
+        try { o = await ordersStore.get(item.key, { type: "json" }); } catch {}
+        if (!o) continue;
+        orders.push({
+          ref: item.key,
+          name: o.name ?? null,
+          email: o.email ?? null,
+          phone: o.phone ?? null,
+          tier: o.tier ?? null,
+          amount: o.amount ?? null,
+          agreementId: o.agreementId ?? null,
+          status: o.status ?? null,
+          createdAt: o.createdAt ?? null,
+          activatedAt: o.activatedAt ?? null,
+          reserveNumber: o.reserveNumber ?? null,
+          members: Array.isArray(o.members) ? o.members : null,
+          // Signaturen på feilen fikset 31.7: aktiv-ordre uten valgt nummer
+          utenNummer: o.tier === "aktiv" && (o.reserveNumber === null || o.reserveNumber === undefined),
+        });
+      }
+      orders.sort((a, b) => String(b.createdAt || "").localeCompare(String(a.createdAt || "")));
+      return Response.json({ success: true, count: orders.length, orders });
+    }
+
     // ── GET /api/admin/members ────────────────────────────────────────────
     // Les medlemsregisteret ("members"-bloben) — det eneste stedet navn,
     // e-post og telefon på en betalende finnes etter at avtalen er aktivert.
