@@ -241,6 +241,19 @@ export default async (req) => {
       if (body.requiresApplication !== undefined) entry.requiresApplication = body.requiresApplication;
       if (body.isJunior !== undefined) entry.isJunior = body.isJunior;
 
+      // 2026-07-31: Feltene medlemsflyten normalt setter via agreement-activated-
+      // webhooken. Uten disse teller ikke nummeret som BETALT MEDLEM i
+      // /api/admin/numbers (som krever purchaseReference "member-*" + memberEmail),
+      // og den daglige statussjekken ser ikke personen i det hele tatt.
+      // Trengs for å fullføre for hånd et medlemskap som ER betalt, men som aldri
+      // ble koblet — f.eks. avtale opprettet uten reserveNumber.
+      if (body.memberEmail !== undefined) entry.memberEmail = body.memberEmail;
+      if (body.purchaseReference !== undefined) entry.purchaseReference = body.purchaseReference;
+      if (body.purchasedAt !== undefined) entry.purchasedAt = body.purchasedAt;
+      if (body.payments !== undefined && body.payments && typeof body.payments === "object") {
+        entry.payments = { ...(entry.payments || {}), ...body.payments };
+      }
+
       // Rydd en fastlåst pending-reservasjon (f.eks. når webhooken ikke fullførte flippen)
       if (body.clearReservation === true) {
         delete entry.reservedBy;
@@ -259,6 +272,7 @@ export default async (req) => {
       const safeBody = { ...body };
       if (safeBody.ownerEmail) safeBody.ownerEmail = "[REDACTED]";
       if (safeBody.ownerPhone) safeBody.ownerPhone = "[REDACTED]";
+      if (safeBody.memberEmail) safeBody.memberEmail = "[REDACTED]";
       console.log(`Admin ${isNew ? "inserted" : "updated"} NOR ${number}:`, JSON.stringify(safeBody));
       return Response.json({ success: true, entry, isNew });
     }
