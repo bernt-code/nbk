@@ -864,7 +864,11 @@ export default async (req) => {
     // For hver pending-reservasjon: finn den tilhørende AKTIVE Vipps-avtalen,
     // og skriv medlemmet inn i registeret med NØYAKTIG samme felt som webhooken
     // ville satt (status=taken, owner, memberEmail, purchaseReference, payments).
-    // Trygg å kjøre flere ganger (idempotent — hopper over alt som ikke er pending).
+    // Runde 2 (lagt til 2026-08-20): aktive medlemskaps-avtaler som mangler
+    // record i members-bloben backfilles fra ordre-bloben. Se kommentaren ved
+    // "Runde 2" lenger ned for hvorfor en manglende record har praktiske følger.
+    // Trygg å kjøre flere ganger (idempotent — hopper over alt som ikke er pending,
+    // og skriver aldri over en medlemsrecord som allerede finnes).
     // Skriver ALDRI med mindre det finnes en matchende AKTIV avtale (aldri ubetalt).
     // ?dryRun=true gir forhåndsvisning uten å skrive.
     if (req.method === "POST" && path.endsWith("/reconcile-memberships")) {
@@ -1010,11 +1014,130 @@ export default async (req) => {
         });
       }
 
+      // ── Runde 2: AKTIV avtale som mangler medlemsrecord ───────────────
+      // Runde 1 over fanger bare nummer som står i "pending-membership".
+      // Den fanger IKKE tilfellet der nummer-koblingen ble ordnet for hånd
+      // (eller aldri fantes, fordi personen meldte seg inn uten å velge
+      // nummer) mens medlemsrecorden aldri ble skrevet fordi
+      // agreement-activated-webhooken ikke fullførte.
+      //
+      // Konsekvensen av en manglende record er reell, ikke kosmetisk:
+      //   • getActiveMember() i sail-numbers.mjs slår opp i members-bloben.
+      //     Uten record blir et betalende medlem avvist med 402 "du må bli
+      //     medlem først" hvis hen prøver å reservere et nummer.
+      //   • handleChargeEvent() i vipps-webhook.mjs oppdaterer lastChargeAt/
+      //     lastChargeStatus på recorden. Uten record er årstrekket usynlig
+      //     i vår egen sporing selv om Vipps trekker som normalt.
+      //
+      // Konkret tilfelle: agr_gYEuEbh (NOR 18, Sverre Riis Rasmussen,
+      // 30.7.2026). Nummeret ble ryddet manuelt 31.7, men members-bloben
+      // hadde 9 records mot 10 aktive avtaler.
+      //
+      // Skriver ALDRI over en eksisterende record — kun der det ikke finnes
+      // noen. Alt bygges fra ordre-bloben, som er den samme kilden webhooken
+      // ville brukt. Idempotent.
+      report.missingRecords = { created: [], skipped: [] };
+
+      for (const agreement of memberAgreements) {
+        let ref = null;
+        try { ref = await agreementsMap.get(agreement.id); } catch {}
+        if (!ref) {
+          report.missingRecords.skipped.push({
+            agreementId: agreement.id, reason: "ingen agreements-mapping",
+          });
+          continue;
+        }
+
+        let order = null;
+        try { order = await ordersStore.get(ref, { type: "json" }); } catch {}
+        if (!order) {
+          report.missingRecords.skipped.push({
+            agreementId: agreement.id, ref, reason: "ingen ordre-blob",
+          });
+          continue;
+        }
+
+        // VIKTIG: memberAgreements-filteret over matcher også "st(ø|o)ttemedlem",
+        // og Legendekopp-avtalen heter "NBK Legendekopp + Støttemedlem".
+        // vipps-webhook.mjs returnerer bevisst TIDLIG for order.type ===
+        // "legendekopp" og skriver ingen medlemsrecord. Uten denne guarden ville
+        // backfillen laget records webhooken med vilje ikke lager — altså
+        // innføre et avvik i stedet for å tette ett.
+        if (order.type === "legendekopp") {
+          report.missingRecords.skipped.push({
+            agreementId: agreement.id, ref, reason: "legendekopp — ingen medlemsrecord by design",
+          });
+          continue;
+        }
+
+        const email = String(order.email || "").toLowerCase();
+        if (!email) {
+          report.missingRecords.skipped.push({
+            agreementId: agreement.id, ref, reason: "ordre mangler e-post",
+          });
+          continue;
+        }
+
+        let existing = null;
+        try { existing = await membersStore.get(email, { type: "json" }); } catch {}
+        if (existing) {
+          // Finnes allerede. Hvis den peker på en ANNEN avtale er det verdt å
+          // se på (f.eks. someone som har tegnet på nytt), men vi rører den ikke.
+          if (existing.agreementId !== agreement.id) {
+            report.missingRecords.skipped.push({
+              agreementId: agreement.id, ref, email,
+              reason: "record finnes, men peker på annen avtale",
+              existingAgreementId: existing.agreementId || null,
+            });
+          }
+          continue;
+        }
+
+        // Numre som allerede er koblet til denne referansen i registeret
+        const linked = registry.numbers
+          .filter((n) => n.purchaseReference === ref)
+          .map((n) => n.number)
+          .sort((a, b) => a - b);
+
+        const memberData = {
+          email,
+          name: order.name || null,
+          phone: order.phone || null,
+          tier: order.tier || tierFromProduct(agreement.productName || ""),
+          agreementId: agreement.id,
+          // Ekte aktiveringstidspunkt fra avtalen — ikke "nå" — slik at
+          // recorden forteller når medlemskapet faktisk startet.
+          activatedAt: agreement.start || agreement.created || new Date().toISOString(),
+          reference: ref,
+          numbersReserved: linked,
+          source: "reconcile-missing-record",
+          backfilledAt: new Date().toISOString(),
+        };
+        if (linked.length === 1) memberData.numberReserved = linked[0];
+
+        if (!dryRun) {
+          try {
+            await membersStore.set(email, JSON.stringify(memberData));
+          } catch (e) {
+            console.error("reconcile: kunne ikke backfille medlemsrecord:", e);
+            report.missingRecords.skipped.push({
+              agreementId: agreement.id, ref, email, reason: "skrivefeil: " + e.message,
+            });
+            continue;
+          }
+        }
+
+        report.missingRecords.created.push({
+          agreementId: agreement.id, ref, email,
+          name: memberData.name, tier: memberData.tier, numbers: linked,
+        });
+      }
+
       if (mutated && !dryRun) {
         await saveRegistry(store, registry);
       }
 
-      console.log(`reconcile-memberships: ${report.completed.length} fullført, ${report.skipped.length} hoppet over (dryRun=${dryRun})`);
+      console.log(`reconcile-memberships: ${report.completed.length} fullført, ${report.skipped.length} hoppet over, ${report.missingRecords.created.length} medlemsrecord backfilt (dryRun=${dryRun})`);
       return Response.json({ success: true, ...report });
     }
 
