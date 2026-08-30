@@ -109,6 +109,182 @@
   to = "/medlemskap/"
   status = 301
 
+
+# --- Gamle WP/WooCommerce-URL-er → nye sider (301) ---
+
+# Trailing-slash-varianter (Netlify matcher ikke begge automatisk)
+[[redirects]]
+  from = "/om-nbk/"
+  to = "/om-oss/"
+  status = 301
+
+[[redirects]]
+  from = "/bli-medlem/"
+  to = "/medlemskap/"
+  status = 301
+
+[[redirects]]
+  from = "/vilkar-og-betingelser/"
+  to = "/vilkar/"
+  status = 301
+
+# Sub-sider av bli-med og om-nbk
+[[redirects]]
+  from = "/bli-medlem/*"
+  to = "/medlemskap/"
+  status = 301
+
+[[redirects]]
+  from = "/om-nbk/*"
+  to = "/om-oss/"
+  status = 301
+
+# Arrangementer → Events
+[[redirects]]
+  from = "/arrangementer/"
+  to = "/events/"
+  status = 301
+
+[[redirects]]
+  from = "/arrangementer/*"
+  to = "/events/"
+  status = 301
+
+[[redirects]]
+  from = "/kalender/"
+  to = "/events/"
+  status = 301
+
+# Nyheter (ingen dedikert nyhetsside på ny plattform ennå)
+[[redirects]]
+  from = "/alle-nyheter/"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/alle-nyheter/*"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/nyheter/"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/nyheter/*"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/category/*"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/author/*"
+  to = "/"
+  status = 301
+
+# WooCommerce kjøpsflyt
+[[redirects]]
+  from = "/handlekurv/"
+  to = "/seilnummer/"
+  status = 301
+
+[[redirects]]
+  from = "/kasse/"
+  to = "/seilnummer/"
+  status = 301
+
+[[redirects]]
+  from = "/butikk/page/*"
+  to = "/butikk/"
+  status = 301
+
+[[redirects]]
+  from = "/nbk-shop/"
+  to = "/butikk/"
+  status = 301
+
+# Kontakt og min side
+[[redirects]]
+  from = "/kontakt-nbk/"
+  to = "/om-oss/"
+  status = 301
+
+[[redirects]]
+  from = "/min-side/"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/min-konto/"
+  to = "/"
+  status = 301
+
+# Gammel navngivning
+[[redirects]]
+  from = "/foreninger/"
+  to = "/klubber/"
+  status = 301
+
+[[redirects]]
+  from = "/linker/"
+  to = "/lenker/"
+  status = 301
+
+[[redirects]]
+  from = "/nyttige-lenker/"
+  to = "/lenker/"
+  status = 301
+
+[[redirects]]
+  from = "/diverse/"
+  to = "/lenker/"
+  status = 301
+
+# Div. gamle WP-sider uten ekvivalent → hjemmeside
+[[redirects]]
+  from = "/arkiv/"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/bilder/"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/nyhetsbrev/"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/hjem/"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/magasinet/"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/inngangsport/"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/passord-resett/"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/content-restricted/"
+  to = "/"
+  status = 301
+
 # CORS headers for API
 [[headers]]
   for = "/api/sail-numbers"
