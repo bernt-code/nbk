@@ -1,4 +1,6 @@
 import { getStore } from "@netlify/blobs";
+import { getShopifyAccessToken } from "./vipps-webhook.mjs";
+import { runReconcileLegendekopp } from "./reconcile-legendekopp.mjs";
 
 // ── Auth ──────────────────────────────────────────────────────────────────
 import { timingSafeEqual } from "crypto";
@@ -855,6 +857,174 @@ export default async (req) => {
         missingNumber: members.filter((m) => m.missingNumber),
         members,
       });
+    }
+
+
+    // ── GET /api/admin/kopp-status ────────────────────────────────────────
+    // Legendekopp-overvåking som spør SHOPIFY, ikke reconcile-funksjonen.
+    //
+    // Bakgrunn (2026-09-01): den daglige statussjekken kalte
+    // /api/reconcile-legendekopp?dryRun=true, men Netlify blokkerer HTTP-kall
+    // til scheduled functions — den svarte 403 hver eneste dag og ga null
+    // innsikt. Verre: reconcile ser bare BLOBEN (er det laget en Shopify-ordre?),
+    // ikke om koppen faktisk er riktig og på vei. Ordre som kom inn via
+    // «opt ut av støtte» i Shopify-kassen går aldri gjennom vår kode og var
+    // dermed usynlige for reconcile uansett.
+    //
+    // Dette endepunktet leser fasiten fra Shopify og flagger fire kjente feil:
+    //   mangler-personalisering  → ingen seilnummer/årstall på ordren.
+    //                              Gelato trykker da standarddesignet.
+    //                              Dette er opt-ut-hullet.
+    //   mangler-gelato-direct    → ordren er ikke tagget, så Gelato-appen kan
+    //                              auto-fulfille med feil (statisk) design.
+    //   fulfilled-uten-sporing   → merket sendt, men ingen tracking. «FULFILLED»
+    //                              settes automatisk av oss ved opprettelse og
+    //                              beviser IKKE at noe er sendt.
+    //   ikke-betalt / ikke-sendt → åpenbare hengere.
+    //
+    // I tillegg kjøres reconcile i dryRun for å fange opp betalte Vipps-avtaler
+    // som aldri fikk en Shopify-ordre i det hele tatt.
+    // Ren lesing — skriver ingenting.
+    if (req.method === "GET" && path.endsWith("/kopp-status")) {
+      const LEGENDEKOPP_VARIANT_ID = 51936344375582;
+      // Testkjøp fra utviklingen. De vil ligge som «pending» for alltid fordi
+      // avtalene bak dem aldri ble ACTIVE. Kjent støy — holdes utenfor.
+      const KJENTE_TESTREFERANSER = new Set([
+        "legendekopp-1781684340502",
+        "legendekopp-1781684367582",
+      ]);
+
+      const shop = process.env.SHOPIFY_STORE_DOMAIN;
+      const result = { success: true, shop: shop || null };
+
+      // Reconcile snakker med Vipps og lister hele orders-bloben. Den startes
+      // her og ventes på nederst, slik at den går parallelt med Shopify-kallet
+      // og ikke legger sekunder på toppen av det. ?skipReconcile=true dropper
+      // den helt hvis Vipps er treg og man bare vil ha Shopify-bildet.
+      const skipReconcile = url.searchParams.get("skipReconcile") === "true";
+      const reconcilePromise = skipReconcile
+        ? null
+        : runReconcileLegendekopp({ dryRun: true }).catch((e) => ({ error: "Reconcile feilet: " + (e?.message || e) }));
+
+      // ── 1. Shopify: hva finnes faktisk av kopp-ordre ────────────────────
+      let orders = [];
+      let shopifyError = null;
+      if (!shop) {
+        shopifyError = "SHOPIFY_STORE_DOMAIN mangler";
+      } else {
+        const token = await getShopifyAccessToken(shop);
+        if (!token) {
+          shopifyError = "Kunne ikke skaffe Shopify-token";
+        } else {
+          try {
+            const res = await fetch(
+              `https://${shop}/admin/api/2024-10/orders.json?status=any&limit=250` +
+              `&fields=id,name,note,tags,line_items,fulfillments,financial_status,` +
+              `fulfillment_status,cancelled_at,created_at`,
+              { headers: { "X-Shopify-Access-Token": token } }
+            );
+            if (!res.ok) {
+              shopifyError = `Shopify svarte ${res.status}`;
+            } else {
+              const data = await res.json();
+              orders = Array.isArray(data.orders) ? data.orders : [];
+            }
+          } catch (e) {
+            shopifyError = "Shopify-kall feilet: " + (e?.message || e);
+          }
+        }
+      }
+
+      const noteField = (note, label) => {
+        const m = String(note || "").match(new RegExp(label + ":\\s*([^|]+)"));
+        return m ? m[1].trim() : "";
+      };
+
+      const kopper = [];
+      for (const o of orders) {
+        const items = o.line_items || [];
+        if (!items.some((li) => Number(li.variant_id) === LEGENDEKOPP_VARIANT_ID)) continue;
+
+        const tags = String(o.tags || "").split(",").map((t) => t.trim()).filter(Boolean);
+        const props = {};
+        for (const li of items) {
+          for (const p of (li.properties || [])) props[p.name] = p.value;
+        }
+        // Seilnummer kan stå enten i ordrenotatet (vår flyt) eller som
+        // line-item-property (også vår flyt). Står det ingen av stedene har
+        // ordren gått utenom koden vår.
+        const seilnummer = noteField(o.note, "Seilnummer") || props["Seilnummer"] || null;
+        const arstall = noteField(o.note, "Årstall") || props["Årstall"] || null;
+
+        const tracking = [];
+        for (const f of (o.fulfillments || [])) {
+          for (const t of (f.tracking_numbers || (f.tracking_number ? [f.tracking_number] : []))) {
+            if (t) tracking.push(t);
+          }
+        }
+
+        const flags = [];
+        if (!o.cancelled_at) {
+          if (!seilnummer) flags.push("mangler-personalisering");
+          if (!tags.includes("gelato-direct")) flags.push("mangler-gelato-direct");
+          if (o.financial_status !== "paid") flags.push("ikke-betalt");
+          if (o.fulfillment_status !== "fulfilled") flags.push("ikke-sendt");
+          else if (tracking.length === 0) flags.push("fulfilled-uten-sporing");
+        }
+
+        kopper.push({
+          name: o.name,
+          created: o.created_at,
+          cancelled: o.cancelled_at || null,
+          seilnummer,
+          arstall,
+          tags,
+          financialStatus: o.financial_status || null,
+          fulfillmentStatus: o.fulfillment_status || null,
+          tracking,
+          flags,
+        });
+      }
+      kopper.sort((a, b) => String(b.created || "").localeCompare(String(a.created || "")));
+
+      // ── 2. Blob-siden: betalt avtale, men ingen Shopify-ordre ───────────
+      const pending = [];
+      let reconcileError = null;
+      if (reconcilePromise) {
+        const rep = (await reconcilePromise) || {};
+        if (rep.error) reconcileError = rep.error;
+        // Alt reconcile ville ha laget, pluss alt den hoppet over av andre
+        // grunner enn de to kjente testene.
+        for (const f of (rep.fulfilled || [])) {
+          if (!KJENTE_TESTREFERANSER.has(f.reference)) {
+            pending.push({ reference: f.reference, reason: "betalt avtale uten Shopify-ordre" });
+          }
+        }
+        for (const sk of (rep.skipped || [])) {
+          if (!KJENTE_TESTREFERANSER.has(sk.reference)) {
+            pending.push({ reference: sk.reference, reason: sk.reason });
+          }
+        }
+      }
+
+      const aktive = kopper.filter((k) => !k.cancelled);
+      const medAvvik = aktive.filter((k) => k.flags.length > 0);
+
+      result.summary = {
+        totalt: kopper.length,
+        aktive: aktive.length,
+        kansellert: kopper.length - aktive.length,
+        medAvvik: medAvvik.length,
+        utenShopifyOrdre: pending.length,
+        // Alt i orden når ingenting er flagget og ingenting henger igjen.
+        altOk: !shopifyError && !reconcileError && medAvvik.length === 0 && pending.length === 0,
+      };
+      if (shopifyError) result.shopifyError = shopifyError;
+      if (reconcileError) result.reconcileError = reconcileError;
+      result.avvik = medAvvik;
+      result.utenShopifyOrdre = pending;
+      result.kopper = kopper;
+      return Response.json(result);
     }
 
     // ── POST /api/admin/reconcile-memberships ─────────────────────────────
