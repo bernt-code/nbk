@@ -1268,7 +1268,10 @@
         'checkout[shipping_address][city]':       by,
         'checkout[shipping_address][country]':    'Norway'
       });
-      window._shopifyURL = 'https://butikk.nbk.no/cart/51936344375582:1?' + params.toString();
+      // Opt-ut bruker den PERSONALISERTE varianten (manuell fulfillment, ikke Gelato-synket).
+      // Shopify-webhooken /api/shopify/webhook leser seilnummer/årstall fra notatet og
+      // sender riktig trykkfil til Gelato. Den gamle varianten 51936344375582 ga standardkopp (#1011).
+      window._shopifyURL = 'https://butikk.nbk.no/cart/59932864971038:1?' + params.toString();
     } else {
       // Med støtte → Vipps Recurring-avtale (500 nå + 300/år)
       try {

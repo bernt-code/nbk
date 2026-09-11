@@ -85,6 +85,16 @@
 
 
 [[redirects]]
+  from = "/api/shopify/webhook"
+  to = "/.netlify/functions/shopify-order-webhook"
+  status = 200
+
+[[redirects]]
+  from = "/api/setup-shopify-webhook"
+  to = "/.netlify/functions/setup-shopify-webhook"
+  status = 200
+
+[[redirects]]
   from = "/api/setup-webhooks"
   to = "/.netlify/functions/setup-webhooks"
   status = 200

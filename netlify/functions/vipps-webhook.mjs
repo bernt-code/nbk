@@ -419,6 +419,19 @@ export async function getShopifyAccessToken(shop) {
   }
 }
 
+// buildArtworkUrl: HMAC-beskyttet URL til den personaliserte trykkfila.
+// Delt av Vipps-flyten (under) og shopify-order-webhook.mjs (opt-ut-kjøp).
+export function buildArtworkUrl(seilnummer, arstall) {
+  const siteUrl = process.env.SITE_URL || "https://nbk.no";
+  const nr = seilnummer || "NOR 0";
+  const ar = String(arstall || new Date().getFullYear());
+  const adminSecret = process.env.ADMIN_TOKEN;
+  const t = adminSecret
+    ? createHmac("sha256", adminSecret).update(`${nr}:${ar}`).digest("hex").slice(0, 16)
+    : "";
+  return `${siteUrl}/api/kopp-print?nr=${encodeURIComponent(nr)}&ar=${encodeURIComponent(ar)}&t=${t}&fmt=png`;
+}
+
 export async function createShopifyMugOrder(order, reference) {
   const shop = process.env.SHOPIFY_STORE_DOMAIN; // f.eks. ruju69-80.myshopify.com
   if (!shop) {
@@ -524,7 +537,7 @@ export async function createShopifyMugOrder(order, reference) {
 //                           Finn den i Gelato dashboard → Products → copy UID.
 //                           Eksempel: "mug_product_msz_15-oz_mmat_ceramic-white_col_white"
 // ─────────────────────────────────────────────
-async function submitGelatoOrder(order, reference, artworkUrl) {
+export async function submitGelatoOrder(order, reference, artworkUrl) {
   const apiKey = process.env.GELATO_API_KEY;
   if (!apiKey) {
     console.error("submitGelatoOrder: GELATO_API_KEY mangler — kan ikke sende til Gelato");
