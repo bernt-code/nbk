@@ -4,7 +4,10 @@
 // Eksponerer KUN: seilnummer/fornavn (etter kjøperens «vis som»-valg), årstall, gave.
 // «Legendevegg»-verdier: navn_og_nummer | kun_nummer (default) | anonym | skjul
 // ALDRI adresse, e-post eller fullt navn.
-const LEGENDEKOPP_VARIANT_ID = 51936344375582;
+// Begge kopp-variantene teller på veggen:
+//   51936344375582 = original (Gelato-synket, brukes av Vipps-flyten)
+//   59932864971038 = «personalisert» (manuell fulfillment, opt-ut-kassen fra 11.9.2026)
+const LEGENDEKOPP_VARIANT_IDS = new Set([51936344375582, 59932864971038]);
 
 async function getShopifyAccessToken(shop) {
   if (process.env.SHOPIFY_ADMIN_TOKEN) return process.env.SHOPIFY_ADMIN_TOKEN;
@@ -46,7 +49,7 @@ export default async (req) => {
     const legends = [];
     for (const o of orders) {
       if (o.cancelled_at) continue;
-      const hasMug = (o.line_items || []).some(li => Number(li.variant_id) === LEGENDEKOPP_VARIANT_ID);
+      const hasMug = (o.line_items || []).some(li => LEGENDEKOPP_VARIANT_IDS.has(Number(li.variant_id)));
       const note = o.note || "";
       if (!hasMug || !/Seilnummer:/.test(note)) continue;
       const seil = field(note, "Seilnummer");
