@@ -301,6 +301,7 @@
   .mug--back .mug-body::after {
     background: linear-gradient(-100deg, rgba(255,255,255,0) 26%, rgba(255,255,255,0.5) 33%, rgba(255,255,255,0) 40%);
   }
+  .mug--lg { zoom: 1.5; } /* bekreftelsessiden — samme kopp, 50 % større */
   .mug--back .mug-handle { left: 0; border-right: none; border-radius: 34px 0 0 34px;
     box-shadow: -5px 6px 10px -4px rgba(0,0,0,0.5), inset 5px -3px 6px -3px rgba(0,0,0,0.28), inset -3px 3px 4px -2px rgba(255,255,255,0.9); }
 
@@ -1011,9 +1012,12 @@
 
       <div style="text-align:center; margin-bottom:1.5rem;">
         <div style="display:inline-block;">
-          <img id="confirm-mug-img" src=""
-               alt="NBK Legendekoppen — bakside"
-               style="width:220px; height:auto; border-radius:12px; display:block;">
+          <div class="mug mug--back mug--lg">
+            <div class="mug-body">
+              <img id="confirm-mug-img" src="" alt="NBK Legendekoppen — bakside">
+            </div>
+            <div class="mug-handle"></div>
+          </div>
           <p id="confirm-seilnummer" style="display:none;"></p>
           <p id="confirm-arstall" style="display:none;"></p>
         </div>
