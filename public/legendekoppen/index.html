@@ -263,9 +263,9 @@
   /* ── Kopp-mockup (2026-09-12): ren CSS, ingen bilder. Trykkfila (side=front/back)
      legges i en hvit kopp-kropp; skygge/gloss ligger OVER bildet (multiply), så
      det hvite i trykkfila smelter sammen med koppen. ── */
-  .mug { position: relative; width: 190px; height: 128px; margin: 0 auto; }
+  .mug { position: relative; width: 190px; height: 166px; margin: 0 auto; }
   .mug-body {
-    position: absolute; top: 0; left: 0; width: 152px; height: 128px;
+    position: absolute; top: 0; left: 0; width: 152px; height: 166px; /* 30 % høyere (2026-09-12) */
     background: #fff;
     border-radius: 8px 8px 22px 22px / 8px 8px 28px 28px;
     overflow: hidden;
@@ -287,7 +287,7 @@
     background: linear-gradient(100deg, rgba(255,255,255,0) 26%, rgba(255,255,255,0.5) 33%, rgba(255,255,255,0) 40%);
   }
   .mug-handle {
-    position: absolute; top: 24px; width: 44px; height: 78px; box-sizing: border-box;
+    position: absolute; top: 33px; width: 44px; height: 100px; box-sizing: border-box;
     border: 13px solid #f4f4f4; border-radius: 0 34px 34px 0;
     box-shadow: 5px 6px 10px -4px rgba(0,0,0,0.5), inset -5px -3px 6px -3px rgba(0,0,0,0.28), inset 3px 3px 4px -2px rgba(255,255,255,0.9);
   }
