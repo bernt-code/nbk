@@ -148,6 +148,8 @@ export default async (req) => {
     type: "legendekopp",
     source: "shopify-optut",
     navn, email,
+    fornavn: sa.first_name || null,
+    etternavn: sa.last_name || null,
     seilnummer: seilnummer.replace(/\s+/g, " ").trim().toUpperCase(),
     arstall: arstall || null,
     adresse,

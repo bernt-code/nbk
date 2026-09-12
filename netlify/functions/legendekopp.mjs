@@ -20,6 +20,7 @@ export default async (req) => {
       navn, epost, telefon,
       seilnummer, arstall,
       adresse, visningsnavn,
+      fornavn, etternavn,
       isGift, giverNavn, mottakerNavn,
     } = body;
 
@@ -39,6 +40,8 @@ export default async (req) => {
     const orderPayload = {
       type: "legendekopp",
       navn,
+      fornavn: fornavn || null,
+      etternavn: etternavn || null,
       email: epost.toLowerCase(),
       phone: telefon || null,
       seilnummer,

@@ -925,9 +925,17 @@
         </div>
 
         <!-- BESTILLER / EGET KJØP -->
-        <div class="form-group">
-          <label class="form-label" id="modal-navn-label">Ditt navn</label>
-          <input type="text" id="modal-navn" name="navn" placeholder="Ole Eriksen" required>
+        <!-- Fornavn/etternavn hver for seg (2026-09-12): ett «Navn»-felt ble delt på
+             siste ord, og nettleser-autofyll la ofte inn bare etternavnet → feil i kassen. -->
+        <div class="form-group" style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+          <div>
+            <label class="form-label" id="modal-navn-label">Fornavn</label>
+            <input type="text" id="modal-fornavn" name="fornavn" placeholder="Ole" autocomplete="given-name" required>
+          </div>
+          <div>
+            <label class="form-label">Etternavn</label>
+            <input type="text" id="modal-etternavn" name="etternavn" placeholder="Eriksen" autocomplete="family-name" required>
+          </div>
         </div>
         <!-- GAVE: mottakerens navn (skjult til gave-modus slås på) -->
         <div class="form-group" id="modal-mottaker-section" style="display:none;">
@@ -1080,7 +1088,7 @@
     // Vis/skjul mottaker-felt og endre giver-label
     document.getElementById('modal-mottaker-section').style.display = isGift ? 'block' : 'none';
     document.getElementById('modal-mottaker-navn').required = isGift;
-    document.getElementById('modal-navn-label').textContent = isGift ? 'Ditt navn (giver)' : 'Ditt navn';
+    document.getElementById('modal-navn-label').textContent = isGift ? 'Fornavn (giver)' : 'Fornavn';
 
     // Update labels in product form
     document.getElementById('sail-label').textContent = isGift ? 'Mottakerens seilnummer' : 'Ditt seilnummer';
@@ -1240,7 +1248,7 @@
       document.getElementById('modal-sail').required = false;
       document.getElementById('modal-year').required = false;
       document.getElementById('modal-sail-label');
-      document.getElementById('modal-navn-label').textContent = 'Ditt navn (giver)';
+      document.getElementById('modal-navn-label').textContent = 'Fornavn (giver)';
       document.getElementById('modal-title').textContent = '🎁 Gi bort Legendekoppen';
       document.getElementById('modal-desc').textContent = 'Fyll inn mottakerens detaljer og din kontaktinfo. Koppen leveres til din adresse.';
     } else {
@@ -1250,7 +1258,7 @@
       document.getElementById('modal-year').required = true;
       document.getElementById('modal-sail').value = `${currentPrefix} ${num}`;
       if (year) document.getElementById('modal-year').value = year;
-      document.getElementById('modal-navn-label').textContent = 'Ditt navn';
+      document.getElementById('modal-navn-label').textContent = 'Fornavn';
       document.getElementById('modal-title').textContent = 'Bestill Legendekoppen';
       document.getElementById('modal-desc').textContent = 'Fyll inn dine detaljer. Koppen leveres til din dør, og du dukker opp på Legendeveggen!';
     }
@@ -1273,7 +1281,9 @@
     const form = e.target;
     const data = new FormData(form);
     const isGift = (data.get('er-gave') === 'ja');
-    const navn = data.get('navn') || '';
+    const fornavn   = (data.get('fornavn') || '').trim();
+    const etternavn = (data.get('etternavn') || '').trim();
+    const navn = (fornavn + ' ' + etternavn).trim();
     const epost = data.get('epost') || '';
     const adresse = data.get('adresse') || '';
     const visning = data.get('visningsnavn') || '';
@@ -1304,9 +1314,6 @@
         'Leveringsadresse: ' + adresse,
         'Legendevegg: ' + visning
       ].join(' | ');
-      const navnDeler = navn.trim().split(/\s+/);
-      const etternavn = navnDeler.length > 1 ? navnDeler.pop() : '';
-      const fornavn   = navnDeler.join(' ');
       const adresseDeler = adresse.split(',');
       const gate   = (adresseDeler[0] || '').trim();
       const zipBy  = (adresseDeler[1] || '').trim().split(/\s+/);
@@ -1336,6 +1343,7 @@
             navn: isGift ? (document.getElementById('modal-mottaker-navn').value.trim() || navn) : navn,
             epost: epost, seilnummer: seilnummer, arstall: arstall,
             adresse: adresse, visningsnavn: visning,
+            fornavn: fornavn, etternavn: etternavn,
             isGift: isGift, giverNavn: isGift ? navn : null
           })
         });
