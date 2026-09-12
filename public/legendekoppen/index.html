@@ -1306,21 +1306,21 @@
     document.getElementById('confirm-arstall').textContent = arstall ? 'Siden ' + arstall : 'Siden ____';
 
     if (optOut) {
-      // Uten støtte → ren engangskopp via Shopify-kassen (som før)
-      const note = [
-        'Navn: ' + navn,
-        'Seilnummer: ' + seilnummer,
-        'Årstall: ' + arstall,
-        'Leveringsadresse: ' + adresse,
-        'Legendevegg: ' + visning
-      ].join(' | ');
+      // Uten støtte → ren engangskopp via Shopify-kassen.
+      // Opt-ut bruker den PERSONALISERTE varianten 59932864971038 (manuell fulfillment,
+      // ikke Gelato-synket); den gamle varianten 51936344375582 ga standardkopp (#1011).
+      //
+      // Kjeden cart/clear → cart/add → checkout (2026-09-12): /cart/add tar
+      // linjeegenskaper, så «Seilnummer» og «Siden» vises under varen i kassen og
+      // ligger på ordrelinja (webhooken leser dem før notatet). Egenskaper med
+      // understrek er skjult for kunden. /cart/clear først, så et gammelt forsøk i
+      // handlekurven ikke gir to kopper.
       const adresseDeler = adresse.split(',');
       const gate   = (adresseDeler[0] || '').trim();
       const zipBy  = (adresseDeler[1] || '').trim().split(/\s+/);
       const postnr = zipBy[0] || '';
       const by     = zipBy.slice(1).join(' ');
-      const params = new URLSearchParams({
-        note: note,
+      const checkoutUrl = '/checkout?' + new URLSearchParams({
         'checkout[email]': epost,
         'checkout[shipping_address][first_name]': fornavn,
         'checkout[shipping_address][last_name]':  etternavn,
@@ -1328,11 +1328,19 @@
         'checkout[shipping_address][zip]':        postnr,
         'checkout[shipping_address][city]':       by,
         'checkout[shipping_address][country]':    'Norway'
+      }).toString();
+      const addParams = new URLSearchParams({
+        id: '59932864971038',
+        quantity: '1',
+        'properties[Seilnummer]': seilnummer,
+        'properties[Siden]': arstall,
+        'properties[_Navn]': isGift ? (document.getElementById('modal-mottaker-navn').value.trim() || navn) : navn,
+        'properties[_Legendevegg]': visning,
+        return_to: checkoutUrl
       });
-      // Opt-ut bruker den PERSONALISERTE varianten (manuell fulfillment, ikke Gelato-synket).
-      // Shopify-webhooken /api/shopify/webhook leser seilnummer/årstall fra notatet og
-      // sender riktig trykkfil til Gelato. Den gamle varianten 51936344375582 ga standardkopp (#1011).
-      window._shopifyURL = 'https://butikk.nbk.no/cart/59932864971038:1?' + params.toString();
+      if (isGift) addParams.set('properties[_Gave_fra]', navn);
+      const addUrl = '/cart/add?' + addParams.toString();
+      window._shopifyURL = 'https://butikk.nbk.no/cart/clear?' + new URLSearchParams({ return_to: addUrl }).toString();
     } else {
       // Med støtte → Vipps Recurring-avtale (500 nå + 300/år)
       try {

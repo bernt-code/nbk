@@ -110,12 +110,19 @@ export default async (req) => {
     return Response.json({ received: true, ignored: "already sent to Gelato", gelatoOrderId: existing.gelatoOrderId });
   }
 
+  // Personalisering: linjeegenskaper først (cart/add-kjeden fra 12.9.2026), notatet som
+  // fallback (eldre permalink-ordrer). Skjulte egenskaper (_Navn, _Legendevegg, _Gave_fra)
+  // vises ikke for kunden, men ligger på ordrelinja.
+  const props = {};
+  for (const li of mugItems) for (const pr of (li.properties || [])) if (pr && pr.name) props[pr.name] = String(pr.value || "").trim();
   const note = o.note || "";
-  const seilnummer = field(note, "Seilnummer");
-  const arstall = field(note, "Årstall");
+  const seilnummer = props.Seilnummer || field(note, "Seilnummer");
+  const arstall = props.Siden || props["Årstall"] || field(note, "Årstall");
   const sa = o.shipping_address || o.billing_address || {};
-  const navn = field(note, "Navn") || `${sa.first_name || ""} ${sa.last_name || ""}`.trim();
+  const navn = props._Navn || field(note, "Navn") || `${sa.first_name || ""} ${sa.last_name || ""}`.trim();
   const adresse = field(note, "Leveringsadresse") || `${sa.address1 || ""}, ${sa.zip || ""} ${sa.city || ""}`.trim();
+  const visningsnavn = props._Legendevegg || field(note, "Legendevegg") || null;
+  const isGift = !!props._Gave_fra || /Gave fra:/.test(note);
   const email = (o.email || o.contact_email || "").toLowerCase();
 
   const shop = process.env.SHOPIFY_STORE_DOMAIN;
@@ -127,7 +134,7 @@ export default async (req) => {
     console.error(`shopify-order-webhook: ${o.name} mangler seilnummer i notatet — IKKE sendt til Gelato`);
     await orders.set(reference, JSON.stringify({
       type: "legendekopp", source: "shopify-optut", status: "mangler-seilnummer",
-      shopifyOrderId: o.id, shopifyOrderName: o.name, navn, email, adresse, note,
+      shopifyOrderId: o.id, shopifyOrderName: o.name, navn, email, adresse, note, props,
       createdAt: new Date().toISOString(),
     }));
     if (shop && token) {
@@ -153,8 +160,9 @@ export default async (req) => {
     seilnummer: seilnummer.replace(/\s+/g, " ").trim().toUpperCase(),
     arstall: arstall || null,
     adresse,
-    visningsnavn: field(note, "Legendevegg") || null,
-    isGift: /Gave fra:/.test(note),
+    visningsnavn,
+    isGift,
+    giverNavn: props._Gave_fra || null,
     shopifyOrderId: o.id,
     shopifyOrderName: o.name,
     fulfillment: "shopify-order-created",
