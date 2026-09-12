@@ -260,6 +260,50 @@
   }
   .mug-preview-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; }
 
+  /* ── Kopp-mockup (2026-09-12): ren CSS, ingen bilder. Trykkfila (side=front/back)
+     legges i en hvit kopp-kropp; skygge/gloss ligger OVER bildet (multiply), så
+     det hvite i trykkfila smelter sammen med koppen. ── */
+  .mug { position: relative; width: 190px; height: 128px; margin: 0 auto; }
+  .mug-body {
+    position: absolute; top: 0; left: 0; width: 152px; height: 128px;
+    background: #fff;
+    border-radius: 8px 8px 22px 22px / 8px 8px 28px 28px;
+    overflow: hidden;
+    box-shadow: 0 12px 18px -8px rgba(0,0,0,0.6);
+  }
+  .mug-body img {
+    position: absolute; left: 0; top: 50%; width: 100%; height: auto; max-width: none;
+    transform: translateY(-50%); display: block;
+    mix-blend-mode: multiply; transition: opacity 0.3s;
+  }
+  .mug-body::before { /* sylinderskygge + rim/bunn */
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+    background:
+      linear-gradient(90deg, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.07) 11%, rgba(0,0,0,0) 38%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.09) 84%, rgba(0,0,0,0.36) 100%),
+      linear-gradient(180deg, rgba(0,0,0,0.07) 0%, rgba(0,0,0,0) 7%, rgba(0,0,0,0) 86%, rgba(0,0,0,0.20) 100%);
+  }
+  .mug-body::after { /* gloss */
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 3;
+    background: linear-gradient(100deg, rgba(255,255,255,0) 26%, rgba(255,255,255,0.5) 33%, rgba(255,255,255,0) 40%);
+  }
+  .mug-handle {
+    position: absolute; top: 24px; width: 44px; height: 78px; box-sizing: border-box;
+    border: 13px solid #f4f4f4; border-radius: 0 34px 34px 0;
+    box-shadow: 5px 6px 10px -4px rgba(0,0,0,0.5), inset -5px -3px 6px -3px rgba(0,0,0,0.28), inset 3px 3px 4px -2px rgba(255,255,255,0.9);
+  }
+  .mug--front .mug-handle { right: 0; border-left: none; }
+  .mug--back .mug-body { left: auto; right: 0; }
+  .mug--back .mug-body::before {
+    background:
+      linear-gradient(-90deg, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.07) 11%, rgba(0,0,0,0) 38%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.09) 84%, rgba(0,0,0,0.36) 100%),
+      linear-gradient(180deg, rgba(0,0,0,0.07) 0%, rgba(0,0,0,0) 7%, rgba(0,0,0,0) 86%, rgba(0,0,0,0.20) 100%);
+  }
+  .mug--back .mug-body::after {
+    background: linear-gradient(-100deg, rgba(255,255,255,0) 26%, rgba(255,255,255,0.5) 33%, rgba(255,255,255,0) 40%);
+  }
+  .mug--back .mug-handle { left: 0; border-right: none; border-radius: 34px 0 0 34px;
+    box-shadow: -5px 6px 10px -4px rgba(0,0,0,0.5), inset 5px -3px 6px -3px rgba(0,0,0,0.28), inset -3px 3px 4px -2px rgba(255,255,255,0.9); }
+
   .product-form { }
   .form-group { margin-bottom: 1.5rem; }
   .form-label {
@@ -711,26 +755,30 @@
         <p class="mug-preview-label" id="preview-label">Din kopp — forhåndsvisning</p>
         <div style="display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap;">
           <figure style="margin:0; text-align:center;">
-            <div style="width:150px; height:105px; overflow:hidden; border-radius:8px; background:#f5f5f5; position:relative;">
-              <img id="preview-forside-img"
-                   src="/api/kopp-preview?nr=NOR%20___%3F&ar=____&side=front"
-                   alt="NBK Legendekoppen — forside med NBK-logo"
-                   style="width:150px; height:auto; display:block; transition:opacity 0.3s;"
-                   onerror="this.style.opacity='0.2'"
-                   onload="this.style.opacity='1'">
-            </div>
-            <figcaption style="font-size:0.7rem; color:var(--muted); margin-top:0.35rem;">Forside</figcaption>
-          </figure>
-          <figure style="margin:0; text-align:center;">
-            <div style="width:150px; height:105px; overflow:hidden; border-radius:8px; background:#f5f5f5; position:relative;">
-                <img id="preview-bakside-img"
-                     src="/api/kopp-preview?nr=NOR%20___%3F&ar=____&side=back"
-                     alt="NBK Legendekoppen — bakside med seilnummer og årstall"
-                     style="width:150px; height:auto; display:block; transition:opacity 0.3s;"
+            <div class="mug mug--front">
+              <div class="mug-body">
+                <img id="preview-forside-img"
+                     src="/api/kopp-preview?nr=NOR%20___%3F&ar=____&side=front"
+                     alt="NBK Legendekoppen — forside med NBK-logo"
                      onerror="this.style.opacity='0.2'"
                      onload="this.style.opacity='1'">
               </div>
-            <figcaption style="font-size:0.7rem; color:var(--muted); margin-top:0.35rem;">Bakside — ditt nummer</figcaption>
+              <div class="mug-handle"></div>
+            </div>
+            <figcaption style="font-size:0.7rem; color:var(--muted); margin-top:0.5rem;">Forside</figcaption>
+          </figure>
+          <figure style="margin:0; text-align:center;">
+            <div class="mug mug--back">
+              <div class="mug-body">
+                <img id="preview-bakside-img"
+                     src="/api/kopp-preview?nr=NOR%20___%3F&ar=____&side=back"
+                     alt="NBK Legendekoppen — bakside med seilnummer og årstall"
+                     onerror="this.style.opacity='0.2'"
+                     onload="this.style.opacity='1'">
+              </div>
+              <div class="mug-handle"></div>
+            </div>
+            <figcaption style="font-size:0.7rem; color:var(--muted); margin-top:0.5rem;">Bakside — ditt nummer</figcaption>
           </figure>
         </div>
         <div style="text-align:center; margin-top:1rem; background:rgba(255,255,255,0.05); border-radius:8px; padding:0.75rem 1rem;">
