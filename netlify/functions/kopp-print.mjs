@@ -60,7 +60,10 @@ export default async (req) => {
   // dodge den fysiske hanken på koppen — et flatt bakside-preview har ingen
   // hank. Med skyv=0 står baksiden i original posisjon (x=1712–3425), så
   // viewBox-croppet treffer den sentrert og forsiden lekker ikke inn.
-  let svgStr = buildKoppSvg(nr, ar, side === "back" ? 0 : SKYV);
+  // side=front likeså (2026-09-12): forsiden lå 200 px for langt til høyre
+  // i previewet på /legendekoppen fordi siden klippet hele trykkfila med CSS.
+  const flat = side === "back" || side === "front";
+  let svgStr = buildKoppSvg(nr, ar, flat ? 0 : SKYV);
   // Bredden PNG-en rendres i. Må følge viewBox-bredden, ellers blir
   // bakside-previewet oppskalert 2x (3425 px bredt for et 1713 px
   // viewBox) — samme bilde, 2,4 MB større. (2026-07-16)
@@ -71,6 +74,12 @@ export default async (req) => {
       .replace('viewBox="0 0 3425 1192"', 'viewBox="1712 0 1713 1192"')
       .replace('width="3425"', 'width="1713"');
     pngWidth = 1713;
+  } else if (side === "front") {
+    // Vis kun forsiden (x=0–1712)
+    svgStr = svgStr
+      .replace('viewBox="0 0 3425 1192"', 'viewBox="0 0 1712 1192"')
+      .replace('width="3425"', 'width="1712"');
+    pngWidth = 1712;
   }
 
   if (fmt === "png") {
