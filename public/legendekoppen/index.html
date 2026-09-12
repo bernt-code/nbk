@@ -263,9 +263,9 @@
   /* ── Kopp-mockup (2026-09-12): ren CSS, ingen bilder. Trykkfila (side=front/back)
      legges i en hvit kopp-kropp; skygge/gloss ligger OVER bildet (multiply), så
      det hvite i trykkfila smelter sammen med koppen. ── */
-  .mug { position: relative; width: 190px; height: 128px; margin: 0 auto; }
+  .mug { position: relative; width: 190px; height: 166px; margin: 0 auto; }
   .mug-body {
-    position: absolute; top: 0; left: 0; width: 152px; height: 128px;
+    position: absolute; top: 0; left: 0; width: 152px; height: 166px; /* 30 % høyere (2026-09-12) */
     background: #fff;
     border-radius: 8px 8px 22px 22px / 8px 8px 28px 28px;
     overflow: hidden;
@@ -287,7 +287,7 @@
     background: linear-gradient(100deg, rgba(255,255,255,0) 26%, rgba(255,255,255,0.5) 33%, rgba(255,255,255,0) 40%);
   }
   .mug-handle {
-    position: absolute; top: 24px; width: 44px; height: 78px; box-sizing: border-box;
+    position: absolute; top: 33px; width: 44px; height: 100px; box-sizing: border-box;
     border: 13px solid #f4f4f4; border-radius: 0 34px 34px 0;
     box-shadow: 5px 6px 10px -4px rgba(0,0,0,0.5), inset -5px -3px 6px -3px rgba(0,0,0,0.28), inset 3px 3px 4px -2px rgba(255,255,255,0.9);
   }
@@ -301,6 +301,7 @@
   .mug--back .mug-body::after {
     background: linear-gradient(-100deg, rgba(255,255,255,0) 26%, rgba(255,255,255,0.5) 33%, rgba(255,255,255,0) 40%);
   }
+  .mug--lg { zoom: 1.5; } /* bekreftelsessiden — samme kopp, 50 % større */
   .mug--back .mug-handle { left: 0; border-right: none; border-radius: 34px 0 0 34px;
     box-shadow: -5px 6px 10px -4px rgba(0,0,0,0.5), inset 5px -3px 6px -3px rgba(0,0,0,0.28), inset -3px 3px 4px -2px rgba(255,255,255,0.9); }
 
@@ -924,9 +925,17 @@
         </div>
 
         <!-- BESTILLER / EGET KJØP -->
-        <div class="form-group">
-          <label class="form-label" id="modal-navn-label">Ditt navn</label>
-          <input type="text" id="modal-navn" name="navn" placeholder="Ole Eriksen" required>
+        <!-- Fornavn/etternavn hver for seg (2026-09-12): ett «Navn»-felt ble delt på
+             siste ord, og nettleser-autofyll la ofte inn bare etternavnet → feil i kassen. -->
+        <div class="form-group" style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+          <div>
+            <label class="form-label" id="modal-navn-label">Fornavn</label>
+            <input type="text" id="modal-fornavn" name="fornavn" placeholder="Ole" autocomplete="given-name" required>
+          </div>
+          <div>
+            <label class="form-label">Etternavn</label>
+            <input type="text" id="modal-etternavn" name="etternavn" placeholder="Eriksen" autocomplete="family-name" required>
+          </div>
         </div>
         <!-- GAVE: mottakerens navn (skjult til gave-modus slås på) -->
         <div class="form-group" id="modal-mottaker-section" style="display:none;">
@@ -1011,9 +1020,12 @@
 
       <div style="text-align:center; margin-bottom:1.5rem;">
         <div style="display:inline-block;">
-          <img id="confirm-mug-img" src=""
-               alt="NBK Legendekoppen — bakside"
-               style="width:220px; height:auto; border-radius:12px; display:block;">
+          <div class="mug mug--back mug--lg">
+            <div class="mug-body">
+              <img id="confirm-mug-img" src="" alt="NBK Legendekoppen — bakside">
+            </div>
+            <div class="mug-handle"></div>
+          </div>
           <p id="confirm-seilnummer" style="display:none;"></p>
           <p id="confirm-arstall" style="display:none;"></p>
         </div>
@@ -1076,7 +1088,7 @@
     // Vis/skjul mottaker-felt og endre giver-label
     document.getElementById('modal-mottaker-section').style.display = isGift ? 'block' : 'none';
     document.getElementById('modal-mottaker-navn').required = isGift;
-    document.getElementById('modal-navn-label').textContent = isGift ? 'Ditt navn (giver)' : 'Ditt navn';
+    document.getElementById('modal-navn-label').textContent = isGift ? 'Fornavn (giver)' : 'Fornavn';
 
     // Update labels in product form
     document.getElementById('sail-label').textContent = isGift ? 'Mottakerens seilnummer' : 'Ditt seilnummer';
@@ -1236,7 +1248,7 @@
       document.getElementById('modal-sail').required = false;
       document.getElementById('modal-year').required = false;
       document.getElementById('modal-sail-label');
-      document.getElementById('modal-navn-label').textContent = 'Ditt navn (giver)';
+      document.getElementById('modal-navn-label').textContent = 'Fornavn (giver)';
       document.getElementById('modal-title').textContent = '🎁 Gi bort Legendekoppen';
       document.getElementById('modal-desc').textContent = 'Fyll inn mottakerens detaljer og din kontaktinfo. Koppen leveres til din adresse.';
     } else {
@@ -1246,7 +1258,7 @@
       document.getElementById('modal-year').required = true;
       document.getElementById('modal-sail').value = `${currentPrefix} ${num}`;
       if (year) document.getElementById('modal-year').value = year;
-      document.getElementById('modal-navn-label').textContent = 'Ditt navn';
+      document.getElementById('modal-navn-label').textContent = 'Fornavn';
       document.getElementById('modal-title').textContent = 'Bestill Legendekoppen';
       document.getElementById('modal-desc').textContent = 'Fyll inn dine detaljer. Koppen leveres til din dør, og du dukker opp på Legendeveggen!';
     }
@@ -1269,7 +1281,9 @@
     const form = e.target;
     const data = new FormData(form);
     const isGift = (data.get('er-gave') === 'ja');
-    const navn = data.get('navn') || '';
+    const fornavn   = (data.get('fornavn') || '').trim();
+    const etternavn = (data.get('etternavn') || '').trim();
+    const navn = (fornavn + ' ' + etternavn).trim();
     const epost = data.get('epost') || '';
     const adresse = data.get('adresse') || '';
     const visning = data.get('visningsnavn') || '';
@@ -1300,9 +1314,6 @@
         'Leveringsadresse: ' + adresse,
         'Legendevegg: ' + visning
       ].join(' | ');
-      const navnDeler = navn.trim().split(/\s+/);
-      const etternavn = navnDeler.length > 1 ? navnDeler.pop() : '';
-      const fornavn   = navnDeler.join(' ');
       const adresseDeler = adresse.split(',');
       const gate   = (adresseDeler[0] || '').trim();
       const zipBy  = (adresseDeler[1] || '').trim().split(/\s+/);
@@ -1332,6 +1343,7 @@
             navn: isGift ? (document.getElementById('modal-mottaker-navn').value.trim() || navn) : navn,
             epost: epost, seilnummer: seilnummer, arstall: arstall,
             adresse: adresse, visningsnavn: visning,
+            fornavn: fornavn, etternavn: etternavn,
             isGift: isGift, giverNavn: isGift ? navn : null
           })
         });

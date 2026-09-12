@@ -421,6 +421,17 @@ export async function getShopifyAccessToken(shop) {
 
 // buildArtworkUrl: HMAC-beskyttet URL til den personaliserte trykkfila.
 // Delt av Vipps-flyten (under) og shopify-order-webhook.mjs (opt-ut-kjøp).
+// splitNavn: fornavn/etternavn til Shopify- og Gelato-adresse. Bruker eksplisitte
+// felt fra skjemaet når de finnes (2026-09-12); ellers deles navn på siste ord.
+export function splitNavn(order) {
+  if (!order.isGift && order.fornavn && order.etternavn) {
+    return { firstName: String(order.fornavn).trim(), lastName: String(order.etternavn).trim() };
+  }
+  const parts = String(order.navn || "").trim().split(/\s+/);
+  const lastName = parts.length > 1 ? parts.pop() : "";
+  return { firstName: parts.join(" "), lastName };
+}
+
 export function buildArtworkUrl(seilnummer, arstall) {
   const siteUrl = process.env.SITE_URL || "https://nbk.no";
   const nr = seilnummer || "NOR 0";
@@ -459,9 +470,7 @@ export async function createShopifyMugOrder(order, reference) {
   const zipCity = (parts[1] || "").trim().split(/\s+/);
   const zip = zipCity[0] || "";
   const city = zipCity.slice(1).join(" ");
-  const nameParts = (order.navn || "").trim().split(/\s+/);
-  const lastName = nameParts.length > 1 ? nameParts.pop() : "";
-  const firstName = nameParts.join(" ");
+  const { firstName, lastName } = splitNavn(order);
 
   // ── Bygg artwork-URL for personalisert Gelato-trykk ──
   const siteUrl = process.env.SITE_URL || "https://nbk.no";
@@ -553,9 +562,7 @@ export async function submitGelatoOrder(order, reference, artworkUrl) {
   const zipCity  = (parts[1] || "").trim().split(/\s+/);
   const zip      = zipCity[0] || "";
   const city     = zipCity.slice(1).join(" ");
-  const nameParts = (order.navn || "").trim().split(/\s+/);
-  const lastName  = nameParts.length > 1 ? nameParts.pop() : "";
-  const firstName = nameParts.join(" ");
+  const { firstName, lastName } = splitNavn(order);
 
   const gelatoPayload = {
     orderReferenceId: `legendekopp-${reference}`,
